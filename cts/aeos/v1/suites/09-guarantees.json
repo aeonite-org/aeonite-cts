@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "suite_id": "guarantees",
+    "source_id": "phase9-guarantees",
+    "spec_refs": [
+      "specs/03-releases/r4/appendix-aeos-charter.md#6",
+      "specs/03-releases/r4/appendix-validator-conformance.md#6"
+    ],
+    "constraint_primitives": [
+      "guarantee-emission"
+    ],
+    "requires": [
+      "baseline"
+    ]
+  },
+  "id": "guarantees",
+  "title": "Guarantee Assertions",
+  "requires": [
+    "baseline"
+  ],
+  "tests": [
+    {
+      "id": "number_literal_guarantees",
+      "description": "NumberLiteral should emit presence and integer/float guarantees",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "x"
+                }
+              ]
+            },
+            "key": "x",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "42",
+              "value": "42"
+            },
+            "span": [
+              1,
+              2
+            ]
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {
+          "$.x": [
+            "present",
+            "integer-representable",
+            "float-representable"
+          ]
+        }
+      }
+    },
+    {
+      "id": "string_literal_guarantees",
+      "description": "StringLiteral should emit presence and non-empty-string guarantee",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "name"
+                }
+              ]
+            },
+            "key": "name",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"Alice\"",
+              "value": "Alice"
+            },
+            "span": [
+              3,
+              4
+            ]
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {
+          "$.name": [
+            "present",
+            "non-empty-string"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "AEON Core parse/addressing CTS scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json"
+    },
+    {
+      "id": "addressing-and-syntax",
+      "file": "suites/02-addressing-and-syntax.json"
+    },
+    {
+      "id": "attributes-and-references",
+      "file": "suites/03-attributes-and-references.json"
+    },
+    {
+      "id": "fail-closed-semantics",
+      "file": "suites/04-fail-closed-semantics.json"
+    },
+    {
+      "id": "promoted-edge-rejections",
+      "file": "suites/05-promoted-edge-rejections.json"
+    },
+    {
+      "id": "promoted-domain-fixtures",
+      "file": "suites/06-promoted-domain-fixtures.json"
+    },
+    {
+      "id": "promoted-snippet-transport",
+      "file": "suites/07-promoted-snippet-transport.json"
+    },
+    {
+      "id": "promoted-strict-literals",
+      "file": "suites/08-promoted-strict-literals.json"
+    },
+    {
+      "id": "promoted-separator-literals",
+      "file": "suites/09-promoted-separator-literals.json"
+    },
+    {
+      "id": "promoted-numeric-and-encoding-literals",
+      "file": "suites/10-promoted-numeric-and-encoding-literals.json"
+    }
+  ]
+}

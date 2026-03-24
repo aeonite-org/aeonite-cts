@@ -1,0 +1,422 @@
+{
+  "meta": {
+    "suite_id": "addressing-and-syntax",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/AEON-spec-v1.md",
+      "specs/04-official/v1/appendices/appendix-addressing.md"
+    ]
+  },
+  "id": "addressing-and-syntax",
+  "title": "Core Addressing and Syntax Coverage",
+  "tests": [
+    {
+      "id": "core-addr-001-quoted-key",
+      "description": "Quoted key parses and emits canonical quoted member path",
+      "input": {
+        "source": "\"a.b\" = 2",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"a.b\"]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["addressing", "quoted-keys"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "core-addr-001b-empty-quoted-key-reject",
+      "description": "Empty quoted keys are rejected in binding position",
+      "input": {
+        "source": "\"\" = \"\"",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["addressing", "quoted-keys", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-001c-empty-quoted-path-segment-reject",
+      "description": "Empty quoted path segments are rejected",
+      "input": {
+        "source": "a = 1\nv = ~a.[\"\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["addressing", "quoted-keys", "reject"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "core-addr-002-indexed-list-paths",
+      "description": "List literal produces indexed canonical binding paths",
+      "input": {
+        "source": "a = [1]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a[0]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["addressing", "indexes"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "core-addr-003-separator-literal",
+      "description": "Separator literal parses in strict mode with datatype signature",
+      "input": {
+        "source": "sep:set[|] = ^0|0|0|",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.sep",
+              "datatype": "set[|]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["separators"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#6-type-system"]
+    },
+    {
+      "id": "core-addr-003b-separator-space-only-node-child-pass",
+      "description": "Separator literal accepts a spaces-only payload inside node children",
+      "input": {
+        "source": "n:node = <b(^    )>",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.n",
+              "datatype": "node",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["separators", "nodes"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#34-separator-literal"]
+    },
+    {
+      "id": "core-addr-003c-separator-unescaped-interior-space-reject",
+      "description": "Separator literal rejects unescaped interior spaces inside node children",
+      "input": {
+        "source": "n:node = <b(^a\\ b c)>",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["separators", "nodes", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#34-separator-literal"]
+    },
+    {
+      "id": "core-addr-004-node-introducer",
+      "description": "Introducer node syntax parses and emits node binding",
+      "input": {
+        "source": "n:node = <div(<span(\"hello\", <br()>, \"world\")>)>",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.n",
+              "datatype": "node",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["nodes"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-node-model.md"]
+    },
+    {
+      "id": "core-addr-005-invalid-node-reject",
+      "description": "Invalid non-introducer node syntax is rejected with deterministic syntax diagnostic",
+      "input": {
+        "source": "n = div < ()",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["nodes", "legacy-reject"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-node-model.md"]
+    },
+    {
+      "id": "core-addr-006-encoding-lexical-envelope",
+      "description": "Encoding literal accepts the shared lexical-envelope characters",
+      "input": {
+        "source": "payload = $abc-._==",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.payload",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["encoding", "lexer"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#37-encoding"]
+    },
+    {
+      "id": "core-addr-007-radix-lexical-envelope",
+      "description": "Radix literal rejects lexical-envelope characters outside the official radix grammar",
+      "input": {
+        "source": "bits = %10A1-._/=",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["radix", "lexer"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#36-radix"]
+    },
+    {
+      "id": "core-addr-008-leading-dot-decimal-pass",
+      "description": "Leading-dot decimals parse and normalize as ordinary numbers",
+      "input": {
+        "source": "half:number = .5\nnegative:number = -.5\npositive:number = +.5",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.half",
+              "datatype": "number",
+              "kind": "binding"
+            },
+            {
+              "path": "$.negative",
+              "datatype": "number",
+              "kind": "binding"
+            },
+            {
+              "path": "$.positive",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["numbers", "syntax"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#32-number"]
+    },
+    {
+      "id": "core-addr-009-leading-zero-integer-reject",
+      "description": "Leading-zero integers are rejected deterministically",
+      "input": {
+        "source": "a:number = 02",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["numbers", "syntax", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#32-number"]
+    },
+    {
+      "id": "core-addr-010-trimticks-pass",
+      "description": "Trimticks parse as multiline string values in strict mode",
+      "input": {
+        "source": "note:trimtick = >>`\n    one\n  two\n`",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.note",
+              "datatype": "trimtick",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["strings", "trimticks"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "core-addr-011-trimticks-split-marker-reject",
+      "description": "Split trimtick markers are rejected deterministically",
+      "input": {
+        "source": "note = > > ``",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["strings", "trimticks", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-012-invalid-separator-char-in-type-annotation-reject",
+      "description": "Separator type annotations reject reserved boundary characters such as comma",
+      "input": {
+        "source": "badSepType1:matrix[,][;] = ^1,2,3;4,5,6",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_SEPARATOR_CHAR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["separators", "syntax", "reject", "type-annotation"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    }
+  ]
+}

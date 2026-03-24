@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "suite_id": "container-kinds",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md#14", "specs/03-releases/r5/appendix-tuples.md"],
+    "constraint_primitives": ["TYPE_IS(list)", "TYPE_IS(tuple)"]
+  },
+  "id": "container-kinds",
+  "title": "Container Kind Constraints",
+  "tests": [
+    {
+      "id": "container_kind_list_pass",
+      "description": "TYPE_IS(list) accepts ListLiteral",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "x" }
+              ]
+            },
+            "key": "x",
+            "value": {
+              "type": "ListLiteral",
+              "elements": [
+                { "type": "NumberLiteral", "raw": "1", "value": "1" }
+              ],
+              "raw": "[1]"
+            },
+            "span": [0, 3]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.x",
+              "constraints": {
+                "type_is": "list"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "container_kind_tuple_fail",
+      "description": "TYPE_IS(tuple) rejects ListLiteral with WRONG_CONTAINER_KIND",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "x" }
+              ]
+            },
+            "key": "x",
+            "value": {
+              "type": "ListLiteral",
+              "elements": [
+                { "type": "NumberLiteral", "raw": "1", "value": "1" },
+                { "type": "NumberLiteral", "raw": "2", "value": "2" }
+              ],
+              "raw": "[1,2]"
+            },
+            "span": [5, 10]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.x",
+              "constraints": {
+                "type_is": "tuple"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.x",
+            "code": "WRONG_CONTAINER_KIND",
+            "phase": "schema_validation",
+            "span": [5, 10]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

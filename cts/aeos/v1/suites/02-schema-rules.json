@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "suite_id": "schema-rules",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["schema-rule-validation"]
+  },
+  "id": "schema-rules",
+  "title": "Schema Rule Validation",
+  "tests": [
+    {
+      "id": "schema-001",
+      "description": "Duplicate rule paths are rejected",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.a",
+              "constraints": {
+                "type": "StringLiteral"
+              }
+            },
+            {
+              "path": "$.a",
+              "constraints": {
+                "type": "IntegerLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.a",
+            "code": "duplicate_rule_path",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "schema-002",
+      "description": "Unknown constraint keys are rejected",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.a",
+              "constraints": {
+                "unknown_key": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.a",
+            "code": "unknown_constraint_key",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

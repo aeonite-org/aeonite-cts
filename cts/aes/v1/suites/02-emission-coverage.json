@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "suite_id": "emission-coverage",
+    "lane": "aes",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/appendices/appendix-aes.md",
+      "specs/04-official/v1/appendices/appendix-addressing.md"
+    ]
+  },
+  "id": "emission-coverage",
+  "title": "AES Emission Coverage",
+  "tests": [
+    {
+      "id": "aes-emission-001-quoted-key",
+      "description": "Quoted key emits canonical quoted event path",
+      "input": {
+        "source": "\"a.b\" = 2",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.[\"a.b\"]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["addressing", "quoted-keys"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "aes-emission-001b-empty-quoted-key-reject",
+      "description": "Empty quoted keys reject with syntax diagnostics and no emitted events",
+      "input": {
+        "source": "\"\" = \"\"",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["addressing", "quoted-keys", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "aes-emission-002-indexed-order",
+      "description": "List emission includes container event then indexed element event",
+      "input": {
+        "source": "a = [1]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "value_kind": "ListNode",
+              "reference": null
+            },
+            {
+              "path": "$.a[0]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["addressing", "indexes", "order"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md"]
+    },
+    {
+      "id": "aes-emission-003-separator-literal",
+      "description": "Separator literal emits datatype and literal kind",
+      "input": {
+        "source": "sep:set[|] = ^0|0|0|",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.sep",
+              "datatype": "set[|]",
+              "value_kind": "SeparatorLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["separators"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md"]
+    },
+    {
+      "id": "aes-emission-004-node-introducer",
+      "description": "Node introducer emits NodeLiteral in event payload",
+      "input": {
+        "source": "n:node = <div(<span(\"hello\", <br()>, \"world\")>)>",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.n",
+              "datatype": "node",
+              "value_kind": "NodeLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["nodes"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-node-model.md"]
+    },
+    {
+      "id": "aes-emission-005-invalid-node-reject",
+      "description": "Invalid non-introducer node syntax rejects with syntax diagnostic and no emitted events",
+      "input": {
+        "source": "n = div < ()",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["nodes", "legacy-reject"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-node-model.md"]
+    },
+    {
+      "id": "aes-emission-006-trimtick-string-value",
+      "description": "Trimticks emit StringLiteral values with trimmed semantics and preserved datatype",
+      "input": {
+        "source": "note:trimtick = >>`\n    one\n  two\n`",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.note",
+              "datatype": "trimtick",
+              "value_kind": "StringLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["strings", "trimticks"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md"]
+    }
+  ]
+}

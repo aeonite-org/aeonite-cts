@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "suite_id": "promoted-snippet-transport",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/addressing-references-v1.md",
+      "specs/04-official/v1/structure-syntax-v1.md"
+    ]
+  },
+  "id": "promoted-snippet-transport",
+  "title": "Promoted Deterministic Snippet Transport Cases",
+  "tests": [
+    {
+      "id": "core-snippet-transport-001-quoted-key-clone-reference",
+      "description": "Quoted-key clone references preserve single-key traversal rather than dotted descent",
+      "input": {
+        "source": "a = { \"b.c\" = 1 }\nv = ~a.[\"b.c\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a.[\"b.c\"]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "quoted-keys",
+        "references"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-002-quoted-attribute-segment-reference",
+      "description": "Quoted segments after attribute traversal remain valid clone-reference targets in transport mode",
+      "input": {
+        "source": "a@{ meta = { \"x.y\" = 1 } } = 3\nv = ~a@meta.[\"x.y\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "attributes",
+        "references"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-003-empty-quoted-keys-reject",
+      "description": "Empty quoted keys reject both as object keys and as quoted reference segments",
+      "input": {
+        "source": "a = { \"\" = 1 }\nv = ~a.[\"\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          },
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "references",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-004-attribute-segment-required",
+      "description": "Bare trailing attribute markers reject without a following attribute path segment",
+      "input": {
+        "source": "a = 1\nv = ~a@\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "attributes",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-005-leading-segment-required",
+      "description": "Quoted traversal segments reject when no leading path segment is present",
+      "input": {
+        "source": "a = 1\nv = ~.[\"a\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "references",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-006-attribute-depth-max-enforced",
+      "description": "Attribute traversal beyond the allowed depth rejects during reference validation",
+      "input": {
+        "source": "a@{ meta = 1 } = 3\nv = ~a@meta@[\"x\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "ATTRIBUTE_DEPTH_EXCEEDED",
+            "phaseLabel": "Reference Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "attributes",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-007-missing-reference-target-rejects",
+      "description": "Quoted traversal to a missing nested target rejects during reference validation",
+      "input": {
+        "source": "a = { b = 1 }\nv = ~a.[\"b\"].[\"c\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "phaseLabel": "Reference Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "references",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    }
+  ]
+}

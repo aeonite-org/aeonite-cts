@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "suite_id": "baseline",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/AEON-spec-v1.md"
+    ]
+  },
+  "id": "baseline",
+  "title": "Canonical Baseline Formatting",
+  "tests": [
+    {
+      "id": "canonical-baseline-001-header-binding-preservation",
+      "description": "Structured header bindings follow normal canonical binding rules",
+      "input": {
+        "source": "aeon:header = {\n  ':' = \"hello\"\n  mode:number = \"strict\"\n  a = { c:n = 0}\n  b@{a:n=2} = 2\n  n:node = <a(<a(<a@{g:string=\"h\"}()>)>)>\n}"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  \":\" = \"hello\"\n  a = {\n    c:n = 0\n  }\n  b@{a:n = 2} = 2\n  mode:number = \"strict\"\n  n:node = <a(\n    <a(\n      <a@{g:string = \"h\"}>\n    )>\n  )>\n}"
+        }
+      },
+      "tags": [
+        "baseline",
+        "header",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases"
+      ]
+    },
+    {
+      "id": "canonical-baseline-002-list-indentation",
+      "description": "Multiline list items retain canonical indentation",
+      "input": {
+        "source": "a = [\n  1,\n  { b = 2 },\n  [3, 4]\n]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\na = [\n  1,\n  {\n    b = 2\n  },\n  [\n    3,\n    4\n  ]\n]"
+        }
+      },
+      "tags": [
+        "baseline",
+        "lists",
+        "indentation"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases"
+      ]
+    },
+    {
+      "id": "canonical-baseline-003-nested-node-attribute-inline",
+      "description": "Nested node attribute values are not truncated in canonical output",
+      "input": {
+        "source": "d@{\n  n = <a(<a(<a()>)>)>\n}:string = \"hello\""
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nd@{n = <a(<a(<a>)>)>}:string = \"hello\""
+        }
+      },
+      "tags": [
+        "baseline",
+        "attributes",
+        "nodes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases"
+      ]
+    },
+    {
+      "id": "canonical-baseline-004-syntax-reject",
+      "description": "Malformed input fails with deterministic syntax diagnostics",
+      "input": {
+        "source": "a = {"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "baseline",
+        "reject"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases"
+      ]
+    },
+    {
+      "id": "canonical-baseline-005-late-structured-header-reject",
+      "description": "Structured headers must appear before body bindings and are rejected in canonical formatting when they appear later",
+      "input": {
+        "source": "app:object = {\n  name:string = \"playground\"\n}\naeon:header = {\n  mode:string = \"strict\"\n}"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "baseline",
+        "header",
+        "reject"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases"
+      ]
+    },
+    {
+      "id": "canonical-baseline-006-file-preamble-does-not-leak",
+      "description": "Shebang and host format directive are file-header trivia and do not appear in canonical output",
+      "input": {
+        "source": "#!/usr/bin/env aeon\n//! format:aeon.test.v1\nvalue:number = 1"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nvalue:number = 1"
+        }
+      },
+      "tags": [
+        "baseline",
+        "comments",
+        "shebang",
+        "format-directive"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
+        "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
+      ]
+    },
+    {
+      "id": "canonical-baseline-007-leading-bom-file-preamble-does-not-leak",
+      "description": "A single leading UTF BOM is ignored and does not appear in canonical output",
+      "input": {
+        "source": "﻿#!/usr/bin/env aeon\n//! format:aeon.test.v1\nvalue:number = 1"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nvalue:number = 1"
+        }
+      },
+      "tags": [
+        "baseline",
+        "comments",
+        "bom",
+        "shebang",
+        "format-directive"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
+        "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
+      ]
+    }
+  ]
+}

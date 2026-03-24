@@ -1,0 +1,962 @@
+{
+  "meta": {
+    "suite_id": "baseline",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/AEON-spec-v1.md"
+    ]
+  },
+  "id": "baseline",
+  "title": "Core Baseline Parse and Addressing",
+  "tests": [
+    {
+      "id": "core-baseline-001",
+      "description": "Simple strict parse succeeds with normalized binding projection",
+      "input": {
+        "source": "a:number = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "parse-pass"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases"
+      ]
+    },
+    {
+      "id": "core-baseline-002",
+      "description": "Invalid syntax fails with deterministic parse diagnostic shape",
+      "input": {
+        "source": "a = {",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "parse-fail"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases"
+      ]
+    },
+    {
+      "id": "core-baseline-003-strict-reserved-only-custom-datatype-reject",
+      "description": "Strict mode rejects custom datatype by default (reserved_only)",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ncolor:stroke = #ff00ff",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED",
+            "path": "$.color",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-004-strict-allow-custom-datatype-pass",
+      "description": "Strict mode accepts custom datatype when datatype policy is allow_custom",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ncolor:stroke = #ff00ff",
+        "mode": "strict",
+        "options": {
+          "datatype_policy": "allow_custom"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.color",
+              "datatype": "stroke",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-005-strict-rich-preset-allows-custom-datatype",
+      "description": "Strict mode accepts custom datatype when rich preset is enabled",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ncolor:stroke = #ff00ff",
+        "mode": "strict",
+        "options": {
+          "rich": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.color",
+              "datatype": "stroke",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "rich-preset"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-006-strict-reserved-datatype-literal-mismatch",
+      "description": "Strict mode rejects reserved datatype/literal mismatches",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nstroke:number = #ff00ff",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.stroke",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "reserved-datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-007-transport-explicit-reserved-datatype-literal-mismatch",
+      "description": "Transport mode still rejects explicit reserved datatype/literal mismatches",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nstate:switch = true",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.state",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "transport",
+        "reserved-datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-008-transport-explicit-reserved-datatype-match",
+      "description": "Transport mode allows explicit reserved datatype when literal matches",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nstate:switch = on",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.state",
+              "datatype": "switch",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "transport",
+        "reserved-datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy"
+      ]
+    },
+    {
+      "id": "core-baseline-008b-strict-header-payload-untyped-reject",
+      "description": "Strict mode applies typing requirements to structured header payload bindings",
+      "input": {
+        "source": "aeon:header = {\n  mode = \"strict\"\n  meta = {\n    document:string = \"public\"\n  }\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$[\"aeon:meta\"]",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "strict",
+        "header",
+        "typing"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-008c-strict-header-payload-typed-pass",
+      "description": "Strict mode accepts typed structured header payload bindings",
+      "input": {
+        "source": "aeon:header = {\n  mode = \"strict\"\n  meta:object = {\n    document:string = \"public\"\n  }\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$[\"aeon:meta\"].document",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "strict",
+        "header",
+        "typing"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-008d-late-structured-header-reject",
+      "description": "Structured headers are rejected when they appear after body bindings",
+      "input": {
+        "source": "app:object = {\n  name:string = \"playground\"\n}\naeon:header = {\n  mode:string = \"strict\"\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "header",
+        "ordering",
+        "reject"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#10-phase-boundaries",
+        "specs/04-official/v1/appendices/appendix-canonical-form.md"
+      ]
+    },
+    {
+      "id": "core-baseline-009-strict-envelope-alias-pass",
+      "description": "Strict mode accepts envelope as a reserved object alias",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nclose:envelope = { hash:string = \"abc\" }",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.close",
+              "datatype": "envelope",
+              "kind": "binding"
+            },
+            {
+              "path": "$.close.hash",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "reserved-datatype",
+        "envelope"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-baseline-010-strict-time-literal-pass",
+      "description": "Strict mode accepts typed time literals",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nopens:time = 09:30:00Z",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.opens",
+              "datatype": "time",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "reserved-datatype",
+        "time"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-baseline-010b-strict-radix12-alias-pass",
+      "description": "Strict mode accepts radix12 as a reserved radix alias",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nclock:radix12 = %AB10",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.clock",
+              "datatype": "radix12",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "reserved-datatype",
+        "radix"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/value-types-v1.md#36-radix"
+      ]
+    },
+    {
+      "id": "core-baseline-011-strict-removed-separator-alias-reject",
+      "description": "Strict mode treats removed separator aliases like dim[...] as custom datatypes",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nsize:dim[x] = ^1920x1080",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED",
+            "path": "$.size",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "removed-alias"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md#34-separator-literal"
+      ]
+    },
+    {
+      "id": "core-baseline-012-strict-removed-separator-alias-allow-custom-pass",
+      "description": "Strict mode accepts removed separator aliases when datatype policy is allow_custom",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nsize:dim[x] = ^1920x1080",
+        "mode": "strict",
+        "options": {
+          "datatype_policy": "allow_custom"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.size",
+              "datatype": "dim[x]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "removed-alias"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md#34-separator-literal"
+      ]
+    },
+    {
+      "id": "core-baseline-013-strict-object-short-alias-pass",
+      "description": "Strict mode accepts obj as a reserved object alias",
+      "input": {
+        "source": "aeon:mode = \"strict\"\npayload:obj = { a:number = 1 }",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.payload",
+              "datatype": "obj",
+              "kind": "binding"
+            },
+            {
+              "path": "$.payload.a",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "reserved-datatype",
+        "object"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-baseline-014-strict-separator-short-alias-pass",
+      "description": "Strict mode accepts sep as a reserved separator alias",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nparts:sep[|] = ^a|b",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.parts",
+              "datatype": "sep[|]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "reserved-datatype",
+        "separator"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/value-types-v1.md#34-separator-literal"
+      ]
+    },
+    {
+      "id": "core-baseline-015-strict-stale-radix-alias-reject",
+      "description": "Strict mode treats stale radix aliases like radix16 as custom datatypes",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nclock:radix16 = %BEEF",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED",
+            "path": "$.clock",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "removed-alias",
+        "radix"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md#36-radix"
+      ]
+    },
+    {
+      "id": "core-baseline-016-separator-depth-default-reject",
+      "description": "Default max_separator_depth rejects chained separator specs",
+      "input": {
+        "source": "matrix:grid[|][/] = ^1|2/3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SEPARATOR_DEPTH_EXCEEDED",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "depth-policy", "separator", "fail"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-017-separator-depth-override-pass",
+      "description": "Raised max_separator_depth accepts chained separator specs",
+      "input": {
+        "source": "matrix:grid[|][/] = ^1|2/3",
+        "mode": "strict",
+        "options": {
+          "max_separator_depth": 8
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.matrix",
+              "datatype": "grid[|][/]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "depth-policy", "separator", "override"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-018-generic-depth-default-reject",
+      "description": "Default max_generic_depth rejects nested generic datatype annotations",
+      "input": {
+        "source": "t:tuple<tuple<n, n>, tuple<n, n>> = ((1,2),(1,2))",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "GENERIC_DEPTH_EXCEEDED",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "depth-policy", "generic", "fail"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-019-generic-depth-override-pass",
+      "description": "Raised max_generic_depth accepts nested generic datatype annotations",
+      "input": {
+        "source": "t:tuple<tuple<n, n>, tuple<n, n>> = ((1,2),(1,2))",
+        "mode": "strict",
+        "options": {
+          "max_generic_depth": 8
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.t",
+              "datatype": "tuple<tuple<n, n>, tuple<n, n>>",
+              "kind": "binding"
+            },
+            {
+              "path": "$.t[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.t[0][0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.t[0][1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.t[1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.t[1][0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.t[1][1]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "depth-policy", "generic", "override"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-020-leading-shebang-and-host-directive-pass",
+      "description": "Leading shebang plus second-line host directive is accepted as file-header trivia",
+      "input": {
+        "source": "#!/usr/bin/env aeon\n//! format:aeon.test.v1\nvalue:number = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.value",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "comments", "shebang", "host-directive"],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
+        "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-021-late-shebang-reject",
+      "description": "Shebang syntax is only accepted at the start of the first line",
+      "input": {
+        "source": "value:number = 1\n#!/usr/bin/env aeon",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "comments", "shebang", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
+        "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-022-leading-bom-shebang-host-pass",
+      "description": "A single leading UTF BOM is ignored before shebang and host directive inspection",
+      "input": {
+        "source": "﻿#!/usr/bin/env aeon\n//! format:aeon.test.v1\nvalue:number = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.value",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "comments", "bom", "shebang", "host-directive"],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
+        "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
+      ]
+    },
+    {
+      "id": "core-baseline-023-transport-custom-datatype-pass",
+      "description": "Transport mode accepts custom datatype labels by default",
+      "input": {
+        "source": "aeon:mode = \"transport\"\ncolor:stroke = #ff00ff",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.color",
+              "datatype": "stroke",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "datatype-policy", "transport"],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#72-mode-driven-datatype-acceptance"
+      ]
+    },
+    {
+      "id": "core-baseline-024-custom-mode-custom-datatype-pass",
+      "description": "Custom mode requires types and accepts custom datatype labels",
+      "input": {
+        "source": "aeon:mode = \"custom\"\ncolor:stroke = #ff00ff",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.color",
+              "datatype": "stroke",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "datatype-policy", "custom"],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#72-mode-driven-datatype-acceptance"
+      ]
+    },
+    {
+      "id": "core-baseline-025-custom-mode-untyped-reject",
+      "description": "Custom mode rejects untyped non-header bindings",
+      "input": {
+        "source": "aeon:mode = \"custom\"\ncolor = #ff00ff",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$.color",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "datatype-policy", "custom"],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#71-explicit-datatype-compatibility"
+      ]
+    }
+  ]
+}

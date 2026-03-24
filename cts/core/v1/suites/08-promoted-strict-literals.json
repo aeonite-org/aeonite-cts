@@ -1,0 +1,243 @@
+{
+  "meta": {
+    "suite_id": "promoted-strict-literals",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/value-types-v1.md",
+      "specs/04-official/v1/structure-syntax-v1.md"
+    ]
+  },
+  "id": "promoted-strict-literals",
+  "title": "Promoted Deterministic Strict Literal Cases",
+  "tests": [
+    {
+      "id": "core-strict-001-time-utc-minutes-accepted",
+      "description": "UTC minute-precision time literals remain accepted in strict typed bindings",
+      "input": {
+        "source": "utcmin:time = 09:30Z\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.utcmin",
+              "datatype": "time",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "time",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-002-leap-day-date-accepted",
+      "description": "Valid leap-day date literals remain accepted in strict typed bindings",
+      "input": {
+        "source": "good:date = 2024-02-29\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.good",
+              "datatype": "date",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "date",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-003-offset-datetime-accepted",
+      "description": "Offset datetime literals remain accepted in strict typed bindings",
+      "input": {
+        "source": "dt4:datetime = 2025-01-01T09:30+02:00\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.dt4",
+              "datatype": "datetime",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "datetime",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-004-local-zrut-accepted",
+      "description": "ZRUT literals with the Local zone alias remain accepted in strict typed bindings",
+      "input": {
+        "source": "zdt8:zrut = 2025-01-01T09:30Z&Local\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.zdt8",
+              "datatype": "zrut",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "zrut",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-005-invalid-time-rejects",
+      "description": "Out-of-range time literals reject during parsing",
+      "input": {
+        "source": "at:time = 24:00\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_TIME",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "time",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-006-invalid-date-rejects",
+      "description": "Non-existent calendar dates reject during parsing",
+      "input": {
+        "source": "bad:date = 2025-02-29\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_DATE",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "date",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-007-invalid-zrut-datetime-rejects",
+      "description": "Malformed ZRUT zone suffixes reject as invalid datetime literals during parsing",
+      "input": {
+        "source": "dt:zrut = 2025-01-01T09:30Z&/\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_DATETIME",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "zrut",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-008-datatype-literal-mismatch-rejects",
+      "description": "Datatype declarations reject incompatible literal classes during core validation",
+      "input": {
+        "source": "a:number = Infinity\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "validation",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    }
+  ]
+}

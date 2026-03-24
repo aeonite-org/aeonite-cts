@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "suite_id": "envelope",
+    "spec_refs": ["cts/protocol/v1/sut-envelope.md"],
+    "constraint_primitives": ["result-envelope"]
+  },
+  "id": "envelope",
+  "title": "Envelope Conformance",
+  "tests": [
+    {
+      "id": "envelope-001",
+      "description": "Empty AES and schema returns passing envelope",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

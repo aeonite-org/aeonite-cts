@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "suite_id": "node-canonicalization",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/AEON-spec-v1.md",
+      "specs/04-official/v1/structure-syntax-v1.md",
+      "specs/04-official/v1/aeon-core-compliance-v1.md"
+    ]
+  },
+  "id": "node-canonicalization",
+  "title": "Canonical Node Introducer Normalization",
+  "tests": [
+    {
+      "id": "canonical-node-001-singleline-introducer-normalizes",
+      "description": "Dense introducer-only node syntax canonicalizes to the multiline canonical node form",
+      "input": {
+        "source": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\n\ncontent:node = <div(<span@{id=\"text\", class=\"dark\"}:node(\"hello\", <br()>, \"world\")>)>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\ncontent:node = <div(\n  <span@{class = \"dark\", id = \"text\"}:node(\n    \"hello\",\n    <br>,\n    \"world\"\n  )>\n)>"
+        }
+      },
+      "tags": [
+        "canonical",
+        "nodes",
+        "introducer"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/aeon-core-compliance-v1.md#113-canonical-rendering-requirements"
+      ]
+    },
+    {
+      "id": "canonical-node-002-multiline-introducer-normalizes",
+      "description": "Expanded multiline introducer-only node syntax canonicalizes identically",
+      "input": {
+        "source": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\n\ncontent:node = <div(\n  <span@{id=\"text\", class=\"dark\"}:node(\n    \"hello\",\n    <br()>,\n    \"world\"\n  )>\n)>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\ncontent:node = <div(\n  <span@{class = \"dark\", id = \"text\"}:node(\n    \"hello\",\n    <br>,\n    \"world\"\n  )>\n)>"
+        }
+      },
+      "tags": [
+        "canonical",
+        "nodes",
+        "introducer"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/aeon-core-compliance-v1.md#113-canonical-rendering-requirements"
+      ]
+    },
+    {
+      "id": "canonical-node-003-mixed-separators-normalize",
+      "description": "Mixed comma and newline separators in node children canonicalize to the same normalized node form",
+      "input": {
+        "source": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\n\ncontent:node = <div(\n  <span@{id=\"text\", class=\"dark\"}:node(\n    \"hello\"\n    <br()>,\n    \"world\"\n  )>\n)>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\ncontent:node = <div(\n  <span@{class = \"dark\", id = \"text\"}:node(\n    \"hello\",\n    <br>,\n    \"world\"\n  )>\n)>"
+        }
+      },
+      "tags": [
+        "canonical",
+        "nodes",
+        "separators"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "canonical-node-004-trailing-separators-normalize",
+      "description": "Trailing child separators in introducer-only node syntax canonicalize to the normalized node form",
+      "input": {
+        "source": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\n\ncontent:node = <div(\n  <span@{id=\"text\", class=\"dark\"}:node(\n    \"hello\",\n    <br()>,\n    \"world\",\n  )>,\n)>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\ncontent:node = <div(\n  <span@{class = \"dark\", id = \"text\"}:node(\n    \"hello\",\n    <br>,\n    \"world\"\n  )>\n)>"
+        }
+      },
+      "tags": [
+        "canonical",
+        "nodes",
+        "trailing-separators"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "canonical-node-005-legacy-node-syntax-rejects",
+      "description": "Legacy non-introducer node syntax is rejected deterministically",
+      "input": {
+        "source": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\n\ncontent:html = div < (\n  span@{id=\"text\", class=\"dark\"}:node < (\n    \"hello\",\n    br < (),\n    \"world\"\n  )\n)"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          },
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "canonical",
+        "nodes",
+        "reject"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    }
+  ]
+}

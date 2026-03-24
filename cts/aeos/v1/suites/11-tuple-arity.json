@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "suite_id": "tuple-arity",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md#14.3", "specs/03-releases/r5/AEOS-spec-r5.md#14.4"],
+    "constraint_primitives": ["LENGTH_EXACT", "TUPLE_ARITY_MISMATCH"]
+  },
+  "id": "tuple-arity",
+  "title": "Tuple Arity Constraints",
+  "tests": [
+    {
+      "id": "tuple_arity_exact_pass",
+      "description": "LENGTH_EXACT passes when tuple arity matches",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "pair" }
+              ]
+            },
+            "key": "pair",
+            "value": {
+              "type": "TupleLiteral",
+              "elements": [
+                { "type": "StringLiteral", "raw": "\"a\"", "value": "a" },
+                { "type": "StringLiteral", "raw": "\"b\"", "value": "b" }
+              ],
+              "raw": "(\"a\",\"b\")"
+            },
+            "span": [0, 11]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.pair",
+              "constraints": {
+                "type_is": "tuple",
+                "length_exact": 2
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "tuple_arity_exact_fail",
+      "description": "LENGTH_EXACT fails when tuple arity mismatches",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "pair" }
+              ]
+            },
+            "key": "pair",
+            "value": {
+              "type": "TupleLiteral",
+              "elements": [
+                { "type": "StringLiteral", "raw": "\"a\"", "value": "a" },
+                { "type": "StringLiteral", "raw": "\"b\"", "value": "b" },
+                { "type": "StringLiteral", "raw": "\"c\"", "value": "c" }
+              ],
+              "raw": "(\"a\",\"b\",\"c\")"
+            },
+            "span": [20, 35]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.pair",
+              "constraints": {
+                "type_is": "tuple",
+                "length_exact": 2
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.pair",
+            "code": "TUPLE_ARITY_MISMATCH",
+            "phase": "schema_validation",
+            "span": [20, 35]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "description": "AEON Annotation Stream Conformance Test Suite (orthogonal to AEOS envelope CTS)",
+    "scope": "source + emitted annotation stream only"
+  },
+  "suites": [
+    {
+      "id": "annotation-binding",
+      "title": "Annotation Binding and Ordering",
+      "specCitations": [
+        "specs/04-official/v1/comments-annotations-v1.md",
+        "specs/03-releases/r5/AEON-spec-r5.md"
+      ],
+      "testSpecMap": {
+        "annotations-001-inline-trailing": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-002-infix": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-003-standalone-forward": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-004-eof-unbound": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-005-multiple-runs": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-006-postfix-container": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-007-prefix-container": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-008-empty-container-fallback": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-009-reference-trivia": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-010-deterministic-source-order": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-011-shebang-and-host-are-not-annotation-records": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-012-bom-shebang-and-host-are-not-annotation-records": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-013-slash-channel-structured-comments-bind-deterministically": [
+          "specs/04-official/v1/comments-annotations-v1.md"
+        ]
+      },
+      "tests": [
+        {
+          "id": "annotations-001-inline-trailing",
+          "description": "Inline trailing line comment binds backward to same-line assignment",
+          "input": {
+            "source": "a = 1 //? x: number = [>0]"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "hint",
+              "form": "line",
+              "raw": "//? x: number = [>0]",
+              "target": { "kind": "path", "path": "$.a" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-002-infix",
+          "description": "Infix block comment binds to nearest indexed element inside a container",
+          "input": {
+            "source": "a = [1, /? in-list ?/ 2]"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "hint",
+              "form": "block",
+              "raw": "/? in-list ?/",
+              "target": { "kind": "path", "path": "$.a[1]" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-003-standalone-forward",
+          "description": "Standalone doc comment binds forward to next assignment",
+          "input": {
+            "source": "//# docs\na = 1"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "doc",
+              "form": "line",
+              "raw": "//# docs",
+              "target": { "kind": "path", "path": "$.a" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-004-eof-unbound",
+          "description": "EOF comment without a forward bindable emits unbound eof target",
+          "input": {
+            "source": "a = 1\n//? x"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "hint",
+              "form": "line",
+              "raw": "//? x",
+              "target": { "kind": "unbound", "reason": "eof" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-005-multiple-runs",
+          "description": "Multiple structured comments preserve source-order emission",
+          "input": {
+            "source": "//# one\n//@ two\na = 1 //? three"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "doc",
+              "form": "line",
+              "raw": "//# one",
+              "target": { "kind": "path", "path": "$.a" }
+            },
+            {
+              "kind": "annotation",
+              "form": "line",
+              "raw": "//@ two",
+              "target": { "kind": "path", "path": "$.a" }
+            },
+            {
+              "kind": "hint",
+              "form": "line",
+              "raw": "//? three",
+              "target": { "kind": "path", "path": "$.a" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-006-postfix-container",
+          "description": "Postfix container comment binds to first indexed element path",
+          "input": {
+            "source": "a = [1 /# post #/, 2]"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# post #/",
+              "target": { "kind": "path", "path": "$.a[0]" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-007-prefix-container",
+          "description": "Prefix container comment binds to following indexed element path",
+          "input": {
+            "source": "a = [1, /# pre #/ 2]"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# pre #/",
+              "target": { "kind": "path", "path": "$.a[1]" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-008-empty-container-fallback",
+          "description": "Empty container comment falls back to enclosing container path",
+          "input": {
+            "source": "a = [ /# empty #/ ]"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# empty #/",
+              "target": { "kind": "path", "path": "$.a" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-009-reference-trivia",
+          "description": "Trivia inside references remains legal and comment binds deterministically",
+          "input": {
+            "source": "a = [1, 2]\nb = ~ /? inside ?/ a[1]"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "hint",
+              "form": "block",
+              "raw": "/? inside ?/",
+              "target": { "kind": "path", "path": "$.b" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-010-deterministic-source-order",
+          "description": "Deterministic emission order is stable across runs and whitespace variants",
+          "input": {
+            "source": "//@ first\na = 1 /? second ?/\n//# third",
+            "whitespace_variant": "//@ first\na=1 /? second ?/\n//# third"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "annotation",
+              "form": "line",
+              "raw": "//@ first",
+              "target": { "kind": "path", "path": "$.a" }
+            },
+            {
+              "kind": "hint",
+              "form": "block",
+              "raw": "/? second ?/",
+              "target": { "kind": "path", "path": "$.a" }
+            },
+            {
+              "kind": "doc",
+              "form": "line",
+              "raw": "//# third",
+              "target": { "kind": "unbound", "reason": "eof" }
+            }
+          ],
+          "assert": {
+            "targets_invariant_whitespace_variant": true,
+            "stable_order": true
+          }
+        },
+        {
+          "id": "annotations-011-shebang-and-host-are-not-annotation-records",
+          "description": "Leading shebang and file-header host directive are ignored by the annotation stream",
+          "input": {
+            "source": "#!/usr/bin/env aeon\n//! format:aeon.test.v1\na = 1"
+          },
+          "expectedAnnotations": []
+        },
+        {
+          "id": "annotations-012-bom-shebang-and-host-are-not-annotation-records",
+          "description": "A leading UTF BOM is ignored and does not cause shebang or host directives to enter the annotation stream",
+          "input": {
+            "source": "﻿#!/usr/bin/env aeon\n//! format:aeon.test.v1\na = 1"
+          },
+          "expectedAnnotations": []
+        },
+        {
+          "id": "annotations-013-slash-channel-structured-comments-bind-deterministically",
+          "description": "Slash-channel structured comments and reserved channels bind to deterministic targets across bindings, containers, and references",
+          "input": {
+            "source": "//!/bin/aeon --profile=ts.object.v1\n\n/# Comment Stress (r5 target forms) #/\naeon:header = {\n  version = \"2.1\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n//# line doc\n/# block doc #/\na:int32 = 1 //? line hint\n/? block hint ?/\n\n//@ line annotation\n/@ block annotation @/\nb:int32 = 2\n\n//{ line structure\n/{ block structure }/\n\n//[ line profile\n/[ block profile ]/\n\n//( line instructions\n/( block instructions )/\n\n// plain line comment\n/* plain block comment */\n\nlist:list<int32> = [\n  1 /# postfix element doc #/\n  /# prefix element doc #/ 2\n  3\n]\n\nmixed = ~ /? reference hint ?/ list[1]\n\n/# block doc for container #/\nemptyList:list<int32> = [ /# container fallback #/ ]\n\n/? orphan eof ?/\n"
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# Comment Stress (r5 target forms) #/",
+              "target": { "kind": "path", "path": "$.[\"aeon:version\"]" }
+            },
+            {
+              "kind": "doc",
+              "form": "line",
+              "raw": "//# line doc",
+              "target": { "kind": "path", "path": "$.a" }
+            },
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# block doc #/",
+              "target": { "kind": "path", "path": "$.a" }
+            },
+            {
+              "kind": "hint",
+              "form": "line",
+              "raw": "//? line hint",
+              "target": { "kind": "path", "path": "$.a" }
+            },
+            {
+              "kind": "hint",
+              "form": "block",
+              "raw": "/? block hint ?/",
+              "target": { "kind": "path", "path": "$.b" }
+            },
+            {
+              "kind": "annotation",
+              "form": "line",
+              "raw": "//@ line annotation",
+              "target": { "kind": "path", "path": "$.b" }
+            },
+            {
+              "kind": "annotation",
+              "form": "block",
+              "raw": "/@ block annotation @/",
+              "target": { "kind": "path", "path": "$.b" }
+            },
+            {
+              "kind": "reserved",
+              "form": "line",
+              "raw": "//{ line structure",
+              "target": { "kind": "path", "path": "$.list" },
+              "subtype": "structure"
+            },
+            {
+              "kind": "reserved",
+              "form": "block",
+              "raw": "/{ block structure }/",
+              "target": { "kind": "path", "path": "$.list" },
+              "subtype": "structure"
+            },
+            {
+              "kind": "reserved",
+              "form": "line",
+              "raw": "//[ line profile",
+              "target": { "kind": "path", "path": "$.list" },
+              "subtype": "profile"
+            },
+            {
+              "kind": "reserved",
+              "form": "block",
+              "raw": "/[ block profile ]/",
+              "target": { "kind": "path", "path": "$.list" },
+              "subtype": "profile"
+            },
+            {
+              "kind": "reserved",
+              "form": "line",
+              "raw": "//( line instructions",
+              "target": { "kind": "path", "path": "$.list" },
+              "subtype": "instructions"
+            },
+            {
+              "kind": "reserved",
+              "form": "block",
+              "raw": "/( block instructions )/",
+              "target": { "kind": "path", "path": "$.list" },
+              "subtype": "instructions"
+            },
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# postfix element doc #/",
+              "target": { "kind": "path", "path": "$.list[0]" }
+            },
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# prefix element doc #/",
+              "target": { "kind": "path", "path": "$.list[1]" }
+            },
+            {
+              "kind": "hint",
+              "form": "block",
+              "raw": "/? reference hint ?/",
+              "target": { "kind": "path", "path": "$.mixed" }
+            },
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# block doc for container #/",
+              "target": { "kind": "path", "path": "$.emptyList" }
+            },
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# container fallback #/",
+              "target": { "kind": "path", "path": "$.emptyList" }
+            },
+            {
+              "kind": "hint",
+              "form": "block",
+              "raw": "/? orphan eof ?/",
+              "target": { "kind": "unbound", "reason": "eof" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,731 @@
+{
+  "meta": {
+    "suite_id": "baseline",
+    "lane": "aes",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/appendices/appendix-aes.md"
+    ]
+  },
+  "id": "baseline",
+  "title": "AES Baseline Emission",
+  "tests": [
+    {
+      "id": "aes-baseline-001",
+      "description": "Single assignment emits one normalized event",
+      "input": {
+        "source": "a:number = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "datatype": "number",
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md"
+      ]
+    },
+    {
+      "id": "aes-baseline-002",
+      "description": "Forward reference fails at AES validation boundary",
+      "input": {
+        "source": "b = ~a\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-fail"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#10-references"
+      ]
+    },
+    {
+      "id": "aes-baseline-003-envelope-alias-emits-object-node",
+      "description": "Strict mode emits envelope-typed bindings as ObjectNode values",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nclose:envelope = { hash:string = \"abc\" }",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.close",
+              "datatype": "envelope",
+              "value_kind": "ObjectNode",
+              "reference": null
+            },
+            {
+              "path": "$.close.hash",
+              "datatype": "string",
+              "value_kind": "StringLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "envelope"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "aes-baseline-004-time-literal-emits-time-value",
+      "description": "Strict mode emits typed time literals with reserved datatype",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nopens:time = 09:30:00Z",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.opens",
+              "datatype": "time",
+              "value_kind": "TimeLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "time"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "aes-baseline-004b-radix12-alias-emits-radix-value",
+      "description": "Strict mode emits radix12 as a reserved radix alias",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nclock:radix12 = %AB10",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.clock",
+              "datatype": "radix12",
+              "value_kind": "RadixLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "radix"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md#36-radix"
+      ]
+    },
+    {
+      "id": "aes-baseline-005-strict-removed-separator-alias-reject",
+      "description": "Strict mode treats removed separator aliases like dim[...] as custom datatypes at the AES boundary",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nsize:dim[x] = ^1920x1080",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED",
+            "path": "$.size",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-fail",
+        "removed-alias"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "aes-baseline-006-strict-removed-separator-alias-allow-custom-pass",
+      "description": "Strict mode emits removed separator aliases when datatype policy is allow_custom",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nsize:dim[x] = ^1920x1080",
+        "mode": "strict",
+        "options": {
+          "datatype_policy": "allow_custom"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.size",
+              "datatype": "dim[x]",
+              "value_kind": "SeparatorLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "removed-alias"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "aes-baseline-006b-strict-header-payload-untyped-reject",
+      "description": "Strict mode rejects untyped structured header payload bindings at the AES boundary",
+      "input": {
+        "source": "aeon:header = {\n  mode = \"strict\"\n  meta = {\n    document:string = \"public\"\n  }\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$[\"aeon:meta\"]",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-fail",
+        "header",
+        "typing"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-006c-strict-header-payload-typed-pass",
+      "description": "Strict mode emits typed structured header payload bindings and nested members",
+      "input": {
+        "source": "aeon:header = {\n  mode = \"strict\"\n  meta:object = {\n    document:string = \"public\"\n  }\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$[\"aeon:meta\"].document",
+              "datatype": "string",
+              "value_kind": "StringLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "header",
+        "typing"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-006d-late-structured-header-reject",
+      "description": "Structured headers are rejected when they appear after body bindings before AES emission",
+      "input": {
+        "source": "app:object = {\n  name:string = \"playground\"\n}\naeon:header = {\n  mode:string = \"strict\"\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-fail",
+        "header",
+        "ordering"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/AEON-spec-v1.md#10-phase-boundaries"
+      ]
+    },
+    {
+      "id": "aes-baseline-007-object-short-alias-emits-object-node",
+      "description": "Strict mode emits obj-typed bindings as ObjectNode values",
+      "input": {
+        "source": "aeon:mode = \"strict\"\npayload:obj = { a:number = 1 }",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.payload",
+              "datatype": "obj",
+              "value_kind": "ObjectNode",
+              "reference": null
+            },
+            {
+              "path": "$.payload.a",
+              "datatype": "number",
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "object"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "aes-baseline-008-separator-short-alias-emits-separator-value",
+      "description": "Strict mode emits sep as a reserved separator alias",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nparts:sep[|] = ^a|b",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.parts",
+              "datatype": "sep[|]",
+              "value_kind": "SeparatorLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "separator"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md#34-separator-literal"
+      ]
+    },
+    {
+      "id": "aes-baseline-009-stale-radix-alias-reject",
+      "description": "Strict mode treats stale radix aliases like radix16 as custom datatypes at the AES boundary",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nclock:radix16 = %BEEF",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED",
+            "path": "$.clock",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-fail",
+        "removed-alias",
+        "radix"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md#36-radix"
+      ]
+    },
+    {
+      "id": "aes-baseline-010-separator-depth-default-reject",
+      "description": "Default max_separator_depth rejects chained separator specs before AES emission",
+      "input": {
+        "source": "matrix:grid[|][/] = ^1|2/3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SEPARATOR_DEPTH_EXCEEDED",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["baseline", "depth-policy", "separator", "fail"],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-011-separator-depth-override-pass",
+      "description": "Raised max_separator_depth emits chained separator specs deterministically",
+      "input": {
+        "source": "matrix:grid[|][/] = ^1|2/3",
+        "mode": "strict",
+        "options": {
+          "max_separator_depth": 8
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.matrix",
+              "datatype": "grid[|][/]",
+              "value_kind": "SeparatorLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "depth-policy", "separator", "override"],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-012-generic-depth-default-reject",
+      "description": "Default max_generic_depth rejects nested generic datatype annotations before AES emission",
+      "input": {
+        "source": "t:tuple<tuple<n, n>, tuple<n, n>> = ((1,2),(1,2))",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "GENERIC_DEPTH_EXCEEDED",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["baseline", "depth-policy", "generic", "fail"],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-013-generic-depth-override-pass",
+      "description": "Raised max_generic_depth emits nested generic datatype annotations deterministically",
+      "input": {
+        "source": "t:tuple<tuple<n, n>, tuple<n, n>> = ((1,2),(1,2))",
+        "mode": "strict",
+        "options": {
+          "max_generic_depth": 8
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.t",
+              "datatype": "tuple<tuple<n, n>, tuple<n, n>>",
+              "value_kind": "TupleLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[0]",
+              "datatype": null,
+              "value_kind": "TupleLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[0][0]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[0][1]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[1]",
+              "datatype": null,
+              "value_kind": "TupleLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[1][0]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[1][1]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "depth-policy", "generic", "override"],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-014-leading-shebang-and-host-directive-pass",
+      "description": "Leading shebang plus second-line host directive is accepted as file-header trivia",
+      "input": {
+        "source": "#!/usr/bin/env aeon\n//! format:aeon.test.v1\nvalue:number = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.value",
+              "datatype": "number",
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "comments", "shebang", "host-directive"],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
+        "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-015-late-shebang-reject",
+      "description": "Shebang syntax is only accepted at the start of the first line",
+      "input": {
+        "source": "value:number = 1\n#!/usr/bin/env aeon",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["baseline", "comments", "shebang", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
+        "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-016-leading-bom-shebang-host-pass",
+      "description": "A single leading UTF BOM is ignored before shebang and host directive inspection",
+      "input": {
+        "source": "﻿#!/usr/bin/env aeon\n//! format:aeon.test.v1\nvalue:number = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.value",
+              "datatype": "number",
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "comments", "bom", "shebang", "host-directive"],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
+        "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
+      ]
+    },
+    {
+      "id": "aes-baseline-017-transport-custom-datatype-emits",
+      "description": "Transport mode emits custom datatype labels without an explicit allow_custom override",
+      "input": {
+        "source": "aeon:mode = \"transport\"\ncolor:stroke = #ff00ff",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.color",
+              "datatype": "stroke",
+              "value_kind": "HexLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "emission-pass", "transport", "datatype-policy"],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#72-mode-driven-datatype-acceptance"
+      ]
+    },
+    {
+      "id": "aes-baseline-018-custom-mode-custom-datatype-emits",
+      "description": "Custom mode emits custom datatype labels while still behaving as a typed mode",
+      "input": {
+        "source": "aeon:mode = \"custom\"\ncolor:stroke = #ff00ff",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.color",
+              "datatype": "stroke",
+              "value_kind": "HexLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["baseline", "emission-pass", "custom", "datatype-policy"],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#72-mode-driven-datatype-acceptance"
+      ]
+    }
+  ]
+}

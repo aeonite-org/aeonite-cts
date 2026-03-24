@@ -1,0 +1,250 @@
+{
+  "meta": {
+    "suite_id": "numeric-form",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["sign", "min_digits", "max_digits"]
+  },
+  "id": "numeric-form",
+  "title": "Numeric Form Constraints",
+  "requires": [
+    "type-constraints"
+  ],
+  "tests": [
+    {
+      "id": "numeric_signed_violation",
+      "description": "Unsigned integer constraint violated by negative literal",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "n"
+                }
+              ]
+            },
+            "key": "n",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "-1",
+              "value": "-1"
+            },
+            "span": [
+              20,
+              21
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.n",
+              "constraints": {
+                "type": "IntegerLiteral",
+                "sign": "unsigned"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.n",
+            "code": "numeric_form_violation",
+            "phase": "schema_validation",
+            "span": [
+              20,
+              21
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "numeric_min_digits_violation",
+      "description": "Integer literal shorter than min_digits",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "p"
+                }
+              ]
+            },
+            "key": "p",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "12",
+              "value": "12"
+            },
+            "span": [
+              22,
+              23
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.p",
+              "constraints": {
+                "type": "IntegerLiteral",
+                "min_digits": 3
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.p",
+            "code": "numeric_form_violation",
+            "phase": "schema_validation",
+            "span": [
+              22,
+              23
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "numeric_max_digits_violation",
+      "description": "Integer literal longer than max_digits",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "q"
+                }
+              ]
+            },
+            "key": "q",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "12345",
+              "value": "12345"
+            },
+            "span": [
+              24,
+              25
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.q",
+              "constraints": {
+                "type": "IntegerLiteral",
+                "max_digits": 2
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.q",
+            "code": "numeric_form_violation",
+            "phase": "schema_validation",
+            "span": [
+              24,
+              25
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "numeric_pass_case",
+      "description": "Integer literal meets sign and digit constraints",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "r"
+                }
+              ]
+            },
+            "key": "r",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "123",
+              "value": "123"
+            },
+            "span": [
+              26,
+              27
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.r",
+              "constraints": {
+                "type": "IntegerLiteral",
+                "sign": "unsigned",
+                "min_digits": 1,
+                "max_digits": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    }
+  ]
+}

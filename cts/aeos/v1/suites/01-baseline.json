@@ -1,0 +1,583 @@
+{
+  "meta": {
+    "suite_id": "baseline",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["baseline-invariants"]
+  },
+  "id": "baseline",
+  "title": "Baseline Invariants",
+  "tests": [
+    {
+      "id": "baseline-001",
+      "description": "Duplicate binding paths are rejected",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "x" }
+              ]
+            },
+            "key": "x",
+            "value": {
+              "type": "StringLiteral",
+              "value": "one",
+              "raw": "\"one\""
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 9 }
+            }
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "x" }
+              ]
+            },
+            "key": "x",
+            "value": {
+              "type": "StringLiteral",
+              "value": "two",
+              "raw": "\"two\""
+            },
+            "span": {
+              "start": { "offset": 10 },
+              "end": { "offset": 19 }
+            }
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.x",
+            "code": "duplicate_binding",
+            "phase": "schema_validation",
+            "span": [10, 19]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "baseline-002",
+      "description": "Missing reference targets are not validated by AEOS (Core-owned)",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "CloneReference",
+              "path": ["nope"],
+              "span": {
+                "start": { "offset": 4 },
+                "end": { "offset": 9 }
+              }
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 9 }
+            }
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "baseline-003",
+      "description": "Missing quoted-key reference targets are not validated by AEOS (Core-owned)",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "CloneReference",
+              "path": ["a.b"],
+              "span": {
+                "start": { "offset": 4 },
+                "end": { "offset": 12 }
+              }
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 12 }
+            }
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "baseline-004",
+      "description": "Missing attribute reference targets are not validated by AEOS (Core-owned)",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "CloneReference",
+              "path": ["a", { "type": "attr", "key": "meta" }],
+              "span": {
+                "start": { "offset": 4 },
+                "end": { "offset": 13 }
+              }
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 13 }
+            }
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "baseline-005",
+      "description": "Clone references to existing attribute targets pass",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "ObjectNode",
+              "bindings": [],
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "entries": [
+                    [
+                      "ns",
+                      {
+                        "value": {
+                          "type": "StringLiteral",
+                          "value": "alto.v1",
+                          "raw": "\"alto.v1\"",
+                          "delimiter": "\"",
+                          "span": {
+                            "start": { "offset": 2 },
+                            "end": { "offset": 3 }
+                          }
+                        },
+                        "datatype": null
+                      }
+                    ]
+                  ],
+                  "span": {
+                    "start": { "offset": 2 },
+                    "end": { "offset": 3 }
+                  }
+                }
+              ],
+              "span": {
+                "start": { "offset": 0 },
+                "end": { "offset": 3 }
+              }
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 3 }
+            }
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "v" }
+              ]
+            },
+            "key": "v",
+            "value": {
+              "type": "CloneReference",
+              "path": ["a", { "type": "attr", "key": "ns" }],
+              "span": {
+                "start": { "offset": 4 },
+                "end": { "offset": 8 }
+              }
+            },
+            "span": {
+              "start": { "offset": 4 },
+              "end": { "offset": 8 }
+            }
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "baseline-006",
+      "description": "Pointer references to existing attribute targets pass",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "ObjectNode",
+              "bindings": [],
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "entries": [
+                    [
+                      "ns",
+                      {
+                        "value": {
+                          "type": "StringLiteral",
+                          "value": "alto.v1",
+                          "raw": "\"alto.v1\"",
+                          "delimiter": "\"",
+                          "span": {
+                            "start": { "offset": 2 },
+                            "end": { "offset": 3 }
+                          }
+                        },
+                        "datatype": null
+                      }
+                    ]
+                  ],
+                  "span": {
+                    "start": { "offset": 2 },
+                    "end": { "offset": 3 }
+                  }
+                }
+              ],
+              "span": {
+                "start": { "offset": 0 },
+                "end": { "offset": 3 }
+              }
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 3 }
+            }
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "v" }
+              ]
+            },
+            "key": "v",
+            "value": {
+              "type": "PointerReference",
+              "path": ["a", { "type": "attr", "key": "ns" }],
+              "span": {
+                "start": { "offset": 4 },
+                "end": { "offset": 9 }
+              }
+            },
+            "span": {
+              "start": { "offset": 4 },
+              "end": { "offset": 9 }
+            }
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "baseline-007",
+      "description": "Forward references to attribute targets are not validated by AEOS (Core-owned)",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "v" }
+              ]
+            },
+            "key": "v",
+            "value": {
+              "type": "CloneReference",
+              "path": ["a", { "type": "attr", "key": "ns" }],
+              "span": {
+                "start": { "offset": 0 },
+                "end": { "offset": 4 }
+              }
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 4 }
+            }
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "ObjectNode",
+              "bindings": [],
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "entries": [
+                    [
+                      "ns",
+                      {
+                        "value": {
+                          "type": "StringLiteral",
+                          "value": "alto.v1",
+                          "raw": "\"alto.v1\"",
+                          "delimiter": "\"",
+                          "span": {
+                            "start": { "offset": 6 },
+                            "end": { "offset": 7 }
+                          }
+                        },
+                        "datatype": null
+                      }
+                    ]
+                  ],
+                  "span": {
+                    "start": { "offset": 6 },
+                    "end": { "offset": 7 }
+                  }
+                }
+              ],
+              "span": {
+                "start": { "offset": 5 },
+                "end": { "offset": 7 }
+              }
+            },
+            "span": {
+              "start": { "offset": 5 },
+              "end": { "offset": 7 }
+            }
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "baseline-008",
+      "description": "Missing attribute reference targets are not validated by AEOS (Core-owned)",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "StringLiteral",
+              "value": "x",
+              "raw": "\"x\"",
+              "delimiter": "\"",
+              "span": {
+                "start": { "offset": 0 },
+                "end": { "offset": 1 }
+              }
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 1 }
+            }
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "v" }
+              ]
+            },
+            "key": "v",
+            "value": {
+              "type": "PointerReference",
+              "path": ["a", { "type": "attr", "key": "ns" }],
+              "span": {
+                "start": { "offset": 2 },
+                "end": { "offset": 6 }
+              }
+            },
+            "span": {
+              "start": { "offset": 2 },
+              "end": { "offset": 6 }
+            }
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "baseline-009",
+      "description": "Closed-world schemas reject unexpected bindings",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "StringLiteral",
+              "value": "hello",
+              "raw": "\"hello\"",
+              "delimiter": "\"",
+              "span": {
+                "start": { "offset": 0 },
+                "end": { "offset": 7 }
+              }
+            },
+            "span": {
+              "start": { "offset": 0 },
+              "end": { "offset": 7 }
+            }
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "b" }
+              ]
+            },
+            "key": "b",
+            "value": {
+              "type": "StringLiteral",
+              "value": "extra",
+              "raw": "\"extra\"",
+              "delimiter": "\"",
+              "span": {
+                "start": { "offset": 8 },
+                "end": { "offset": 15 }
+              }
+            },
+            "span": {
+              "start": { "offset": 8 },
+              "end": { "offset": 15 }
+            }
+          }
+        ],
+        "schema": {
+          "world": "closed",
+          "rules": [
+            {
+              "path": "$.a",
+              "constraints": {
+                "required": true,
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.b",
+            "code": "unexpected_binding",
+            "phase": "schema_validation",
+            "span": [8, 15]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

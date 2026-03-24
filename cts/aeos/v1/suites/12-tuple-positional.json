@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "suite_id": "tuple-positional",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md#14.3", "specs/03-releases/r5/appendix-tuples.md#9"],
+    "constraint_primitives": ["indexed-position-type-check", "TUPLE_ELEMENT_TYPE_MISMATCH"]
+  },
+  "id": "tuple-positional",
+  "title": "Tuple Positional Constraints",
+  "tests": [
+    {
+      "id": "tuple_positional_types_pass",
+      "description": "Indexed tuple element type checks pass for matching positions",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "coords" }
+              ]
+            },
+            "key": "coords",
+            "value": {
+              "type": "TupleLiteral",
+              "elements": [
+                { "type": "NumberLiteral", "raw": "12", "value": "12" },
+                { "type": "NumberLiteral", "raw": "34", "value": "34" }
+              ],
+              "raw": "(12,34)"
+            },
+            "span": [0, 7]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.coords[0]",
+              "constraints": {
+                "type": "IntegerLiteral"
+              }
+            },
+            {
+              "path": "$.coords[1]",
+              "constraints": {
+                "type": "IntegerLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "tuple_positional_types_fail",
+      "description": "Indexed tuple element type checks fail with TUPLE_ELEMENT_TYPE_MISMATCH",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "coords" }
+              ]
+            },
+            "key": "coords",
+            "value": {
+              "type": "TupleLiteral",
+              "elements": [
+                { "type": "NumberLiteral", "raw": "12", "value": "12" },
+                { "type": "StringLiteral", "raw": "\"north\"", "value": "north" }
+              ],
+              "raw": "(12,\"north\")"
+            },
+            "span": [10, 22]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.coords[1]",
+              "constraints": {
+                "type": "IntegerLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.coords[1]",
+            "code": "TUPLE_ELEMENT_TYPE_MISMATCH",
+            "phase": "schema_validation",
+            "span": [10, 22]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

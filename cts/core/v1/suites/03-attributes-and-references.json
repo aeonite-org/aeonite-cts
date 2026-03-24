@@ -1,0 +1,279 @@
+{
+  "meta": {
+    "suite_id": "attributes-and-references",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/appendices/appendix-addressing.md",
+      "specs/04-official/v1/AEON-spec-v1.md#10-references"
+    ]
+  },
+  "id": "attributes-and-references",
+  "title": "Core Attributes and Reference Semantics",
+  "tests": [
+    {
+      "id": "core-attr-001-clone-reference-pass",
+      "description": "Attribute clone reference parses and emits binding in strict mode",
+      "input": {
+        "source": "a@{ns=\"alto.v1\"} = 1\nv = ~a@ns",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "core-attr-002-missing-target",
+      "description": "Missing attribute reference target is rejected deterministically",
+      "input": {
+        "source": "a = 1\nv = ~a@ns",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "references", "fail"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "core-attr-003-forward-target",
+      "description": "Forward attribute reference target is rejected",
+      "input": {
+        "source": "v = ~a@ns\na@{ns=\"alto.v1\"} = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "references", "fail"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "core-attr-004-depth-exceeded",
+      "description": "Chained attribute reference beyond default depth lock is rejected",
+      "input": {
+        "source": "a@{b=2} = 1\nv = ~a@b@c",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "ATTRIBUTE_DEPTH_EXCEEDED",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "references", "depth-policy", "fail"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "core-attr-004b-depth-override-pass",
+      "description": "Chained attribute reference is accepted when max_attribute_depth is raised",
+      "input": {
+        "source": "a@{b@{c=3}=2} = 1\nv = ~a@b@c",
+        "mode": "strict",
+        "options": {
+          "max_attribute_depth": 8
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "depth-policy", "override"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "core-attr-005-mixed-path-after-attribute-pass",
+      "description": "Quoted bracket member segment is accepted after attribute selector",
+      "input": {
+        "source": "a@{meta = { \"x.y\" = 1 }} = 0\nv = ~a@meta.[\"x.y\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "mixed-path"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "core-attr-006-nested-binding-attribute-reference-pass",
+      "description": "Nested binding attributes inside containers remain addressable",
+      "input": {
+        "source": "a = [{x@{b=0}=1}]\nv = ~a[0].x@b",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a[0].x",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "nested"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "core-attr-006b-nested-binding-same-object-reference-pass",
+      "description": "A nested binding may reference an earlier sibling within the same object without being treated as a parent forward reference",
+      "input": {
+        "source": "a:o = {\n  a:string = \"hello\"\n  b:string = ~a.a\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "o",
+              "kind": "binding"
+            },
+            {
+              "path": "$.a.a",
+              "datatype": "string",
+              "kind": "binding"
+            },
+            {
+              "path": "$.a.b",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "nested", "regression"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "core-attr-007-postfix-literal-attributes-reject",
+      "description": "Postfix literal attributes are not valid Core v1 syntax",
+      "input": {
+        "source": "a = [0]@{b=2}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "syntax", "fail"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    }
+  ]
+}

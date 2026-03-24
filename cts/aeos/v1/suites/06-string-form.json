@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "suite_id": "string-form",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["min_length", "max_length"]
+  },
+  "id": "string-form",
+  "title": "String Form Constraints",
+  "requires": [
+    "type-constraints"
+  ],
+  "tests": [
+    {
+      "id": "string_min_length_violation",
+      "description": "String shorter than min_length should fail",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "s"
+                }
+              ]
+            },
+            "key": "s",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"ab\"",
+              "value": "ab"
+            },
+            "span": [
+              30,
+              31
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.s",
+              "constraints": {
+                "type": "StringLiteral",
+                "min_length": 3
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.s",
+            "code": "string_length_violation",
+            "phase": "schema_validation",
+            "span": [
+              30,
+              31
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "string_max_length_violation",
+      "description": "String longer than max_length should fail",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "t"
+                }
+              ]
+            },
+            "key": "t",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"toolong\"",
+              "value": "toolong"
+            },
+            "span": [
+              32,
+              33
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.t",
+              "constraints": {
+                "type": "StringLiteral",
+                "max_length": 3
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.t",
+            "code": "string_length_violation",
+            "phase": "schema_validation",
+            "span": [
+              32,
+              33
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "string_pass_case",
+      "description": "String meets min/max length constraints",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "u"
+                }
+              ]
+            },
+            "key": "u",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"okay\"",
+              "value": "okay"
+            },
+            "span": [
+              34,
+              35
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.u",
+              "constraints": {
+                "type": "StringLiteral",
+                "min_length": 1,
+                "max_length": 10
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    }
+  ]
+}

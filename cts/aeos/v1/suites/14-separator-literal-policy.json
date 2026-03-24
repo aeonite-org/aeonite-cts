@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "suite_id": "separator-literal-policy",
+    "spec_refs": ["specs/03-releases/r7/AEOS-spec-r7.md", "specs/03-releases/r7/appendix-error-model.md"],
+    "constraint_primitives": ["separator_literal", "trailing_separator_delimiter"]
+  },
+  "id": "separator-literal-policy",
+  "title": "Separator Literal Policy",
+  "requires": [
+    "baseline"
+  ],
+  "tests": [
+    {
+      "id": "separator_trailing_delimiter_default_off",
+      "description": "Trailing separator delimiter is accepted by default (policy off).",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "line" }
+              ]
+            },
+            "key": "line",
+            "datatype": "set[|]",
+            "value": {
+              "type": "SeparatorLiteral",
+              "value": "0|0|0|",
+              "raw": "^0|0|0|"
+            },
+            "span": [1, 8]
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "separator_trailing_delimiter_warn",
+      "description": "Trailing separator delimiter emits warning when policy is warn.",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "line" }
+              ]
+            },
+            "key": "line",
+            "datatype": "set[|]",
+            "value": {
+              "type": "SeparatorLiteral",
+              "value": "0|0|0|",
+              "raw": "^0|0|0|"
+            },
+            "span": [1, 8]
+          }
+        ],
+        "schema": {
+          "rules": []
+        },
+        "options": {
+          "trailingSeparatorDelimiterPolicy": "warn"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [
+          {
+            "path": "$.line",
+            "code": "trailing_separator_delimiter",
+            "phase": "schema_validation",
+            "span": [1, 8]
+          }
+        ],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "separator_trailing_delimiter_error",
+      "description": "Trailing separator delimiter emits error when policy is error.",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "line" }
+              ]
+            },
+            "key": "line",
+            "datatype": "set[|]",
+            "value": {
+              "type": "SeparatorLiteral",
+              "value": "0|0|0|",
+              "raw": "^0|0|0|"
+            },
+            "span": [1, 8]
+          }
+        ],
+        "schema": {
+          "rules": []
+        },
+        "options": {
+          "trailingSeparatorDelimiterPolicy": "error"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.line",
+            "code": "trailing_separator_delimiter",
+            "phase": "schema_validation",
+            "span": [1, 8]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

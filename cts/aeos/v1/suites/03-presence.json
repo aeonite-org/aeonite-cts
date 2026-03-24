@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "suite_id": "presence",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["required", "forbid"]
+  },
+  "id": "presence",
+  "title": "Presence Constraints",
+  "requires": [
+    "baseline"
+  ],
+  "tests": [
+    {
+      "id": "presence_missing_required_1",
+      "description": "Missing required field should emit missing_required_field",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.port",
+              "constraints": {
+                "required": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.port",
+            "span": null,
+            "code": "missing_required_field",
+            "phase": "schema_validation"
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "presence_present_required_1",
+      "description": "Present required field passes",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "port"
+                }
+              ]
+            },
+            "key": "port",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "80",
+              "value": "80"
+            },
+            "span": [
+              10,
+              11
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.port",
+              "constraints": {
+                "required": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    }
+  ]
+}

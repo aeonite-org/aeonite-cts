@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "description": "AEOS v1 Conformance Test Suite - manifest references suites/*.json (source of truth)",
+    "source_of_truth": "cts/aeos/v1/suites/*.json",
+    "generated_by": "suite-reference-manifest (2026-03-06)"
+  },
+  "suites": [
+    {
+      "id": "envelope",
+      "title": "Envelope Conformance",
+      "file": "suites/00-envelope.json"
+    },
+    {
+      "id": "baseline",
+      "title": "Baseline Invariants",
+      "file": "suites/01-baseline.json"
+    },
+    {
+      "id": "schema-rules",
+      "title": "Schema Rule Validation",
+      "file": "suites/02-schema-rules.json"
+    },
+    {
+      "id": "presence",
+      "title": "Presence Constraints",
+      "file": "suites/03-presence.json"
+    },
+    {
+      "id": "type-constraints",
+      "title": "Type Constraints",
+      "file": "suites/04-type.json"
+    },
+    {
+      "id": "numeric-form",
+      "title": "Numeric Form Constraints",
+      "file": "suites/05-numeric-form.json"
+    },
+    {
+      "id": "string-form",
+      "title": "String Form Constraints",
+      "file": "suites/06-string-form.json"
+    },
+    {
+      "id": "pattern",
+      "title": "Pattern Constraints",
+      "file": "suites/07-pattern.json"
+    },
+    {
+      "id": "datatype-labels",
+      "title": "Datatype Label Constraints",
+      "file": "suites/08-datatype-labels.json"
+    },
+    {
+      "id": "guarantees",
+      "title": "Guarantee Assertions",
+      "file": "suites/09-guarantees.json"
+    },
+    {
+      "id": "container-kinds",
+      "title": "Container Kind Constraints",
+      "file": "suites/10-container-kinds.json"
+    },
+    {
+      "id": "tuple-arity",
+      "title": "Tuple Arity Constraints",
+      "file": "suites/11-tuple-arity.json"
+    },
+    {
+      "id": "tuple-positional",
+      "title": "Tuple Positional Constraints",
+      "file": "suites/12-tuple-positional.json"
+    },
+    {
+      "id": "indexed-path-validation",
+      "title": "Indexed Path Validation",
+      "file": "suites/13-indexed-path-validation.json"
+    },
+    {
+      "id": "separator-literal-policy",
+      "title": "Separator Literal Policy",
+      "file": "suites/14-separator-literal-policy.json"
+    },
+    {
+      "id": "structural-container-items",
+      "title": "Structural Container Items",
+      "file": "suites/15-structural-container-items.json"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "AEON canonical formatting CTS scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json"
+    },
+    {
+      "id": "node-canonicalization",
+      "file": "suites/02-node-canonicalization.json"
+    }
+  ]
+}

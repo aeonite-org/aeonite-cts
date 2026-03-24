@@ -1,0 +1,216 @@
+{
+  "meta": {
+    "suite_id": "structural-container-items",
+    "spec_refs": ["specs/03-releases/r7/AEON-spec-r7.md#7", "specs/03-releases/r7/AEOS-spec-r7.md#7"],
+    "constraint_primitives": ["indexed_paths", "typed_list_items", "type"]
+  },
+  "id": "structural-container-items",
+  "title": "Structural Container Items",
+  "requires": [
+    "container-kinds",
+    "tuple-positional"
+  ],
+  "tests": [
+    {
+      "id": "list_object_item_typed_path_pass",
+      "description": "List object item field with indexed path passes when type matches.",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "contacts" }
+              ]
+            },
+            "key": "contacts",
+            "value": {
+              "type": "ListNode",
+              "elements": [
+                {
+                  "type": "ObjectNode",
+                  "bindings": [
+                    {
+                      "type": "Binding",
+                      "key": "email",
+                      "value": {
+                        "type": "StringLiteral",
+                        "raw": "\"a@example.com\"",
+                        "value": "a@example.com"
+                      },
+                      "datatype": null,
+                      "attributes": [],
+                      "span": [10, 24]
+                    }
+                  ],
+                  "attributes": [],
+                  "span": [6, 26]
+                }
+              ],
+              "attributes": []
+            },
+            "span": [0, 26]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "contacts" },
+                { "type": "index", "index": 0 }
+              ]
+            },
+            "key": "0",
+            "value": {
+              "type": "ObjectNode",
+              "bindings": [
+                {
+                  "type": "Binding",
+                  "key": "email",
+                  "value": {
+                    "type": "StringLiteral",
+                    "raw": "\"a@example.com\"",
+                    "value": "a@example.com"
+                  },
+                  "datatype": null,
+                  "attributes": [],
+                  "span": [10, 24]
+                }
+              ],
+              "attributes": [],
+              "span": [6, 26]
+            },
+            "span": [6, 26]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "contacts" },
+                { "type": "index", "index": 0 },
+                { "type": "member", "key": "email" }
+              ]
+            },
+            "key": "email",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"a@example.com\"",
+              "value": "a@example.com"
+            },
+            "span": [10, 24]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.contacts",
+              "constraints": {
+                "type_is": "list"
+              }
+            },
+            {
+              "path": "$.contacts[0]",
+              "constraints": {
+                "type": "ObjectNode"
+              }
+            },
+            {
+              "path": "$.contacts[0].email",
+              "constraints": {
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "list_object_item_typed_path_fail",
+      "description": "List object item field fails when indexed field type mismatches.",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "contacts" }
+              ]
+            },
+            "key": "contacts",
+            "value": {
+              "type": "ListNode",
+              "elements": [
+                {
+                  "type": "ObjectNode",
+                  "bindings": [
+                    {
+                      "type": "Binding",
+                      "key": "email",
+                      "value": {
+                        "type": "NumberLiteral",
+                        "raw": "123",
+                        "value": "123"
+                      },
+                      "datatype": null,
+                      "attributes": [],
+                      "span": [10, 13]
+                    }
+                  ],
+                  "attributes": [],
+                  "span": [6, 15]
+                }
+              ],
+              "attributes": []
+            },
+            "span": [0, 15]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "contacts" },
+                { "type": "index", "index": 0 },
+                { "type": "member", "key": "email" }
+              ]
+            },
+            "key": "email",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "123",
+              "value": "123"
+            },
+            "span": [10, 13]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.contacts[0].email",
+              "constraints": {
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.contacts[0].email",
+            "code": "type_mismatch",
+            "phase": "schema_validation",
+            "span": [10, 13]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

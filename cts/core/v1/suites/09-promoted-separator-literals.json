@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "suite_id": "promoted-separator-literals",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/value-types-v1.md",
+      "specs/04-official/v1/structure-syntax-v1.md"
+    ]
+  },
+  "id": "promoted-separator-literals",
+  "title": "Promoted Deterministic Separator Literal Cases",
+  "tests": [
+    {
+      "id": "core-sep-001-root-path-literal-accepted",
+      "description": "Separator literals accept rooted path-like values in typed bindings",
+      "input": {
+        "source": "file1:sep[/] = ^root/main/file.aeon\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.file1",
+              "datatype": "sep[/]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-002-url-separator-literal-accepted",
+      "description": "Separator literals accept URL-like values in typed bindings",
+      "input": {
+        "source": "file3:sep[/] = ^http://www.aeonite.org\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.file3",
+              "datatype": "sep[/]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-003-nested-separator-literals-accepted",
+      "description": "Separator literals remain valid inside lists and nested object bindings",
+      "input": {
+        "source": "a:list = [^http://www.aeonite.org/*hello*/]\nb:o = {a:sep[/]=^http://www.aeonite.org/*hello*/}\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "list",
+              "kind": "binding"
+            },
+            {
+              "path": "$.a[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "datatype": "o",
+              "kind": "binding"
+            },
+            {
+              "path": "$.b.a",
+              "datatype": "sep[/]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "nesting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-004-unparameterized-sep-rejects-caret-literal",
+      "description": "Using a caret separator literal against an unparameterized sep datatype rejects lexically",
+      "input": {
+        "source": "blue:sep = ^ 200\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNEXPECTED_CHARACTER",
+            "phaseLabel": "Lexical Analysis"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-005-separator-datatype-rejects-list-node",
+      "description": "A sep-typed binding rejects list literals even when the list contains a separator literal",
+      "input": {
+        "source": "filex:sep[/] = [^root/main/file.aeon]\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "validation",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    }
+  ]
+}

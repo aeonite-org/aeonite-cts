@@ -1,0 +1,200 @@
+{
+  "meta": {
+    "suite_id": "promoted-numeric-and-encoding-literals",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/value-types-v1.md",
+      "specs/04-official/v1/structure-syntax-v1.md"
+    ]
+  },
+  "id": "promoted-numeric-and-encoding-literals",
+  "title": "Promoted Deterministic Numeric and Encoding Literal Cases",
+  "tests": [
+    {
+      "id": "core-numenc-001-underscored-exponent-number-accepted",
+      "description": "Underscored exponent number spellings remain accepted in strict typed bindings",
+      "input": {
+        "source": "a:number = 1_1_1e2_2\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "numbers",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-002-radix-literal-accepted",
+      "description": "Radix literals accept the reduced symbol alphabet used by the strict corpus",
+      "input": {
+        "source": "bits:radix = %+9&.!\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.bits",
+              "datatype": "radix",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-003-base64-forms-accepted",
+      "description": "Representative base64 literal spellings remain accepted in strict typed bindings",
+      "input": {
+        "source": "payload:base64 = $abc-_+/==\nblue:base64 = $FF_FF_FF_\na1:base64 = $F__F\na2:base64 = $_FF\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.payload",
+              "datatype": "base64",
+              "kind": "binding"
+            },
+            {
+              "path": "$.blue",
+              "datatype": "base64",
+              "kind": "binding"
+            },
+            {
+              "path": "$.a1",
+              "datatype": "base64",
+              "kind": "binding"
+            },
+            {
+              "path": "$.a2",
+              "datatype": "base64",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "base64",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-004-invalid-number-rejects",
+      "description": "Malformed underscored exponent number literals reject during parsing",
+      "input": {
+        "source": "a:number = 1e_2\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "numbers",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-005-invalid-base64-class-rejects",
+      "description": "Invalid base64 literal spellings reject as datatype and literal-class mismatches",
+      "input": {
+        "source": "payload:base64 = $abc.\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "base64",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-006-invalid-hex-class-rejects",
+      "description": "Invalid hex literal spellings reject as datatype and literal-class mismatches",
+      "input": {
+        "source": "a:hex = #F__F\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "hex",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    }
+  ]
+}

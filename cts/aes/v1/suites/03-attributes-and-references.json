@@ -1,0 +1,321 @@
+{
+  "meta": {
+    "suite_id": "attributes-and-references",
+    "lane": "aes",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/appendices/appendix-aes.md",
+      "specs/04-official/v1/appendices/appendix-addressing.md"
+    ]
+  },
+  "id": "attributes-and-references",
+  "title": "AES Attributes and Reference Emission",
+  "tests": [
+    {
+      "id": "aes-attr-001-clone-reference-pass",
+      "description": "Attribute clone reference emits deterministic event order",
+      "input": {
+        "source": "a@{ns=\"alto.v1\"} = 1\nv = ~a@ns",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "value_kind": "CloneReference",
+              "reference": [
+                "a",
+                {
+                  "type": "attr",
+                  "key": "ns"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "order"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md"]
+    },
+    {
+      "id": "aes-attr-002-missing-target",
+      "description": "Missing attribute reference target fails with deterministic diagnostic",
+      "input": {
+        "source": "a = 1\nv = ~a@ns",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["attributes", "references", "fail"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "aes-attr-003-forward-target",
+      "description": "Forward attribute reference target fails with forward-reference diagnostic",
+      "input": {
+        "source": "v = ~a@ns\na@{ns=\"alto.v1\"} = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["attributes", "references", "fail"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "aes-attr-004-depth-exceeded",
+      "description": "Chained attribute reference beyond default depth lock fails deterministically",
+      "input": {
+        "source": "a@{b=2} = 1\nv = ~a@b@c",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "ATTRIBUTE_DEPTH_EXCEEDED",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["attributes", "references", "depth-policy", "fail"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "aes-attr-004b-depth-override-pass",
+      "description": "Chained attribute reference emits when max_attribute_depth is raised",
+      "input": {
+        "source": "a@{b@{c=3}=2} = 1\nv = ~a@b@c",
+        "mode": "strict",
+        "options": {
+          "max_attribute_depth": 8
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "value_kind": "CloneReference",
+              "reference": [
+                "a",
+                {
+                  "type": "attr",
+                  "key": "b"
+                },
+                {
+                  "type": "attr",
+                  "key": "c"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "depth-policy", "override"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "aes-attr-005-mixed-path-after-attribute-pass",
+      "description": "Quoted bracket member segment is preserved after attribute selector in AES reference path",
+      "input": {
+        "source": "a@{meta = { \"x.y\" = 1 }} = 0\nv = ~a@meta.[\"x.y\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "value_kind": "CloneReference",
+              "reference": [
+                "a",
+                {
+                  "type": "attr",
+                  "key": "meta"
+                },
+                "x.y"
+              ]
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "mixed-path"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "aes-attr-006-nested-binding-attribute-reference-pass",
+      "description": "Nested binding attributes inside containers are preserved in AES reference paths",
+      "input": {
+        "source": "a = [{x@{b=0}=1}]\nv = ~a[0].x@b",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "value_kind": "ListNode",
+              "reference": null
+            },
+            {
+              "path": "$.a[0]",
+              "datatype": null,
+              "value_kind": "ObjectNode",
+              "reference": null
+            },
+            {
+              "path": "$.a[0].x",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "value_kind": "CloneReference",
+              "reference": [
+                "a",
+                0,
+                "x",
+                {
+                  "type": "attr",
+                  "key": "b"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "nested"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "aes-attr-006b-nested-binding-same-object-reference-pass",
+      "description": "A nested binding may reference an earlier sibling within the same object without being treated as a parent forward reference",
+      "input": {
+        "source": "a:o = {\n  a:string = \"hello\"\n  b:string = ~a.a\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "datatype": "o",
+              "value_kind": "ObjectNode",
+              "reference": null
+            },
+            {
+              "path": "$.a.a",
+              "datatype": "string",
+              "value_kind": "StringLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.a.b",
+              "datatype": "string",
+              "value_kind": "CloneReference",
+              "reference": [
+                "a",
+                "a"
+              ]
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "nested", "regression"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "aes-attr-007-postfix-literal-attributes-reject",
+      "description": "Postfix literal attributes fail before AES emission",
+      "input": {
+        "source": "a = [0]@{b=2}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["attributes", "syntax", "fail"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    }
+  ]
+}

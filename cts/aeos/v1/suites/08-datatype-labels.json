@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "suite_id": "datatype-labels",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["datatype"]
+  },
+  "id": "datatype-labels",
+  "title": "Datatype Label Constraints",
+  "requires": [
+    "schema-rules"
+  ],
+  "tests": [
+    {
+      "id": "datatype_present_declarative",
+      "description": "Datatype label present but not enforced (no capacity checks)",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "id"
+                }
+              ]
+            },
+            "key": "id",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"ABC123\"",
+              "value": "ABC123"
+            },
+            "span": [
+              10,
+              11
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.id",
+              "constraints": {
+                "datatype": "product-id"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "datatype_allowlist_reject",
+      "description": "Unknown datatype when allow-list provided should emit missing_reference_target (or specific code).",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.x",
+              "constraints": {
+                "datatype": "unknown-type"
+              }
+            }
+          ],
+          "datatype_allowlist": [
+            "product-id",
+            "user-id"
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.x",
+            "code": "datatype_allowlist_reject",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "datatype_pass_with_allowlist",
+      "description": "Known datatype in allow-list passes with no enforcement",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "id"
+                }
+              ]
+            },
+            "key": "id",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"U-1\"",
+              "value": "U-1"
+            },
+            "span": [
+              12,
+              13
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.id",
+              "constraints": {
+                "datatype": "user-id"
+              }
+            }
+          ],
+          "datatype_allowlist": [
+            "product-id",
+            "user-id"
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

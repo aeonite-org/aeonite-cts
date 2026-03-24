@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "suite_id": "indexed-path-validation",
+    "spec_refs": ["specs/03-releases/r7/AEON-spec-r7.md#2"],
+    "constraint_primitives": ["invalid_index_format"]
+  },
+  "id": "indexed-path-validation",
+  "title": "Indexed Path Validation",
+  "tests": [
+    {
+      "id": "tuple_allowed_single_language_line",
+      "description": "TupleLiteral is accepted under single active language-line policy",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "pair" }
+              ]
+            },
+            "key": "pair",
+            "value": {
+              "type": "TupleLiteral",
+              "elements": [
+                { "type": "NumberLiteral", "raw": "1", "value": "1" },
+                { "type": "NumberLiteral", "raw": "2", "value": "2" }
+              ],
+              "raw": "(1,2)"
+            },
+            "span": [0, 5]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.pair",
+              "constraints": {
+                "type_is": "tuple"
+              }
+            }
+          ]
+        },
+        "options": {
+          "mode": "v1"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "invalid_index_segment_format",
+      "description": "Malformed indexed path segment is rejected with invalid_index_format",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "x" },
+                { "type": "index", "index": "01" }
+              ]
+            },
+            "key": "x",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "1",
+              "value": "1"
+            },
+            "span": [8, 10]
+          }
+        ],
+        "schema": {
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.x[01]",
+            "code": "invalid_index_format",
+            "phase": "schema_validation",
+            "span": [8, 10]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

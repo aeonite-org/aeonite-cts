@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "suite_id": "pattern",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["pattern"]
+  },
+  "id": "pattern",
+  "title": "Pattern Constraints",
+  "requires": [
+    "string-form"
+  ],
+  "tests": [
+    {
+      "id": "pattern_match_pass",
+      "description": "String matches pattern -> pass",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "code"
+                }
+              ]
+            },
+            "key": "code",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"ABC-123\"",
+              "value": "ABC-123"
+            },
+            "span": [
+              60,
+              61
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.code",
+              "constraints": {
+                "type": "StringLiteral",
+                "pattern": "^[A-Z]{3}-\\d{3}$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "pattern_mismatch_fail",
+      "description": "String does not match pattern -> pattern_mismatch",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "code"
+                }
+              ]
+            },
+            "key": "code",
+            "value": {
+              "type": "StringLiteral",
+              "raw": "\"abc123\"",
+              "value": "abc123"
+            },
+            "span": [
+              62,
+              63
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.code",
+              "constraints": {
+                "type": "StringLiteral",
+                "pattern": "^[A-Z]{3}-\\d{3}$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.code",
+            "code": "pattern_mismatch",
+            "phase": "schema_validation",
+            "span": [
+              62,
+              63
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    }
+  ]
+}

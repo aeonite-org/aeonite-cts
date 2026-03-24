@@ -1,0 +1,274 @@
+{
+  "meta": {
+    "suite_id": "promoted-domain-fixtures",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/addressing-references-v1.md",
+      "specs/04-official/v1/structure-syntax-v1.md",
+      "specs/04-official/v1/value-types-v1.md"
+    ]
+  },
+  "id": "promoted-domain-fixtures",
+  "title": "Promoted Deterministic Domain Fixtures",
+  "tests": [
+    {
+      "id": "core-domain-001-escaped-quoted-keys-and-attrs",
+      "description": "Escaped quoted keys and attribute selectors parse and emit canonical escaped reference paths",
+      "input": {
+        "source": "//!/bin/aeon --profile=ts.object.v1\n\n//# Escaped quoted-key and attribute-segment stress (current candidate)\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"key\\\"quote\":int32 = 1\nrefKeyQuote = ~[\"key\\\"quote\"]\n\n'single\\'quote':int32 = 2\nrefSingleQuote = ~['single\\'quote']\n\n\"slash\\\\key\":int32 = 3\nrefSlashKey = ~[\"slash\\\\key\"]\n\nobj@{\n  \"a\\\"b\" = \"x\"\n  'c\\'d' = \"y\"\n} = 10\n\nrefAttrDouble = ~obj@[\"a\\\"b\"]\nrefAttrSingle = ~obj@['c\\'d']\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"key\\\"quote\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.refKeyQuote",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.[\"single'quote\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.refSingleQuote",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.[\"slash\\key\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.refSlashKey",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.obj",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.refAttrDouble",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.refAttrSingle",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "addressing",
+        "quoted-keys",
+        "attributes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "core-domain-002-namespace-and-quoted-key-disambiguation",
+      "description": "Namespace-like quoted keys remain single keys and quoted traversal stays disambiguated from dotted traversal",
+      "input": {
+        "source": "//!/bin/aeon --profile=ts.object.v1\n\n//# Namespace + quoted-key stress (current candidate)\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n// namespace-convention attribute on key\na@{ ns = \"alto.v1\" }:int32 = 3\n\n// quoted key carrying namespace-like text\n\"alto.v1#a\":int32 = 4\n\n// disambiguation target: this is one key, not traversal\n\"a.b\":int32 = 2\n\nobj = {\n  \"key with space\" = {\n    \"inner.dot\" = 7\n  }\n}\n\nviaQuoted = ~[\"a.b\"]\nviaTraversal = ~obj[\"key with space\"][\"inner.dot\"]\nviaNamespaceAttr = ~a@ns\nviaNamespaceAttrPtr = ~>a@ns\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.[\"alto.v1#a\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.[\"a.b\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.obj",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.obj.[\"key with space\"]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.obj.[\"key with space\"].[\"inner.dot\"]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.viaQuoted",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.viaTraversal",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.viaNamespaceAttr",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.viaNamespaceAttrPtr",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "addressing",
+        "quoted-keys",
+        "namespaces"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/appendices/appendix-addressing.md"
+      ]
+    },
+    {
+      "id": "core-domain-003-nested-indexed-addressing-paths",
+      "description": "Nested list and object structures emit distinct indexed canonical paths for nested bindings",
+      "input": {
+        "source": "//!/bin/aeon --profile=ts.object.v1\n\n//# Nesting + indexed addressing stress case\n//# Core v1 should emit distinct indexed paths: $.a.b[0].c and $.a.b[1].c.\n\na = {\n  b = [\n    { c = \"hello\" },\n    { c = \"world\" }\n  ]\n}\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a.b",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a.b[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a.b[0].c",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a.b[1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a.b[1].c",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "addressing",
+        "indexes",
+        "nesting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/appendices/appendix-addressing.md"
+      ]
+    },
+    {
+      "id": "core-domain-004-leading-dot-decimals-accepted",
+      "description": "Leading-dot decimal forms remain accepted and preserve distinct numeric literal spellings",
+      "input": {
+        "source": "metrics:o = {\n  half:number = .5\n  negative:number = -.5\n  positive:number = +.5\n  explicit:number = 0.5\n}\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.metrics",
+              "datatype": "o",
+              "kind": "binding"
+            },
+            {
+              "path": "$.metrics.half",
+              "datatype": "number",
+              "kind": "binding"
+            },
+            {
+              "path": "$.metrics.negative",
+              "datatype": "number",
+              "kind": "binding"
+            },
+            {
+              "path": "$.metrics.positive",
+              "datatype": "number",
+              "kind": "binding"
+            },
+            {
+              "path": "$.metrics.explicit",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "literals",
+        "numbers",
+        "decimals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    }
+  ]
+}

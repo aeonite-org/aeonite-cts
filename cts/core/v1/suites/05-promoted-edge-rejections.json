@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "suite_id": "promoted-edge-rejections",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/comments-annotations-v1.md",
+      "specs/04-official/v1/structure-syntax-v1.md",
+      "specs/04-official/v1/appendices/appendix-error-model.md"
+    ]
+  },
+  "id": "promoted-edge-rejections",
+  "title": "Promoted Deterministic Edge Rejections",
+  "tests": [
+    {
+      "id": "core-edge-001-unterminated-block-comment-rejects",
+      "description": "An unterminated block comment fails closed with a deterministic lexical error",
+      "input": {
+        "source": "//!/bin/aeon --profile=ts.object.v1\n\n/# Comment Stress (r5 target forms) #/\naeon:header = {\n  version = \"2.1\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n//# line doc\n/# block doc #/\na:int32 = 1 //? line hint\n/? block hint ?/\n\n//@ line annotation\n/@ block annotation @/\nb:int32 = 2\n\n//{ line structure\n/{ block structure }/\n\n//[ line profile\n/[ block profile ]/\n\n//( line instructions\n/( block instructions )/\n\n// plain line comment\n/* plain block comment */\n\nlist:list<int32> = [\n  1 /# postfix element doc #/\n  /# prefix element doc #/ 2\n  3\n]\n\nmixed = ~ /? reference hint ?/ list[1]\n\n/# block doc for container #/\nemptyList:list<int32> = [ /# container fallback #/ ]\n\n/? orphan eof\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_BLOCK_COMMENT",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "comments",
+        "lexical"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/comments-annotations-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-002-inline-array-separator-boundaries-reject",
+      "description": "Inline separator-literal boundary collisions fail closed with deterministic separator errors",
+      "input": {
+        "source": "//# Inline separator literal boundary failures.\n//# These cases document current lexer greediness and should fail until\n//# separator literal boundary rules are redesigned.\n\nbadInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\n\n//# Separator-char collisions that should be rejected by future policy.\nbadSepType1:matrix[,][;] = ^1,2,3;4,5,6\nbadSepType2:set[,] = ^0,0,0,\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_SEPARATOR_CHAR",
+            "path": "$",
+            "phase": null
+          },
+          {
+            "code": "INVALID_SEPARATOR_CHAR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "separators",
+        "inline-arrays"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "suite_id": "fail-closed-semantics",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/AEON-spec-v1.md",
+      "specs/04-official/v1/appendices/appendix-error-model.md",
+      "specs/04-official/v1/addressing-references-v1.md"
+    ]
+  },
+  "id": "fail-closed-semantics",
+  "title": "Core Fail-Closed Semantic Guarantees",
+  "tests": [
+    {
+      "id": "core-semantics-001-duplicate-canonical-path-fail-closed",
+      "description": "Duplicate canonical paths are rejected and emit no bindings in fail-closed mode",
+      "input": {
+        "source": "a = 1\na = 2",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_CANONICAL_PATH",
+            "path": "$.a",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "duplicates",
+        "canonical-path"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-semantics-002-header-conflict-fail-closed",
+      "description": "Structured header and shorthand header bindings cannot be mixed",
+      "input": {
+        "source": "aeon:header = { profile = \"core\" }\naeon:mode = \"strict\"\na:int32 = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "HEADER_CONFLICT",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "headers",
+        "strict"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-semantics-003-strict-untyped-switch-fail-closed",
+      "description": "Strict mode requires switch literals to be explicitly typed",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ndebug = yes",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_SWITCH_LITERAL",
+            "path": "$.debug",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "strict",
+        "switch"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-error-model.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "suite_id": "type-constraints",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["TYPE_IS"]
+  },
+  "id": "type-constraints",
+  "title": "Type Constraints",
+  "tests": [
+    {
+      "id": "type_match_listliteral",
+      "description": "ListLiteral satisfies TYPE_IS(list)",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "items" }
+              ]
+            },
+            "key": "items",
+            "value": {
+              "type": "ListLiteral",
+              "elements": [
+                { "type": "StringLiteral", "raw": "\"a\"", "value": "a" },
+                { "type": "StringLiteral", "raw": "\"b\"", "value": "b" }
+              ],
+              "raw": "[\"a\",\"b\"]"
+            },
+            "span": [12, 25]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.items",
+              "constraints": {
+                "type_is": "list"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "type_match_tupleliteral",
+      "description": "TupleLiteral satisfies TYPE_IS(tuple)",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "coord" }
+              ]
+            },
+            "key": "coord",
+            "value": {
+              "type": "TupleLiteral",
+              "elements": [
+                { "type": "NumberLiteral", "raw": "10", "value": "10" },
+                { "type": "NumberLiteral", "raw": "20", "value": "20" }
+              ],
+              "raw": "(10,20)"
+            },
+            "span": [30, 38]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.coord",
+              "constraints": {
+                "type_is": "tuple"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

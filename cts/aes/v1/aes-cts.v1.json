@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "aes",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "AEON AES emission CTS scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json"
+    },
+    {
+      "id": "emission-coverage",
+      "file": "suites/02-emission-coverage.json"
+    },
+    {
+      "id": "attributes-and-references",
+      "file": "suites/03-attributes-and-references.json"
+    }
+  ]
+}
