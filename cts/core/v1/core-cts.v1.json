@@ -45,6 +45,14 @@
     {
       "id": "promoted-numeric-and-encoding-literals",
       "file": "suites/10-promoted-numeric-and-encoding-literals.json"
+    },
+    {
+      "id": "promoted-custom-literals",
+      "file": "suites/11-promoted-custom-literals.json"
+    },
+    {
+      "id": "promoted-custom-rejections",
+      "file": "suites/12-promoted-custom-rejections.json"
     }
   ]
 }

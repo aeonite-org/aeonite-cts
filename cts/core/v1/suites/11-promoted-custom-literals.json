@@ -1,0 +1,229 @@
+{
+  "meta": {
+    "suite_id": "promoted-custom-literals",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/AEON-spec-v1.md",
+      "specs/04-official/v1/value-types-v1.md",
+      "specs/04-official/v1/structure-syntax-v1.md"
+    ]
+  },
+  "id": "promoted-custom-literals",
+  "title": "Promoted Deterministic Custom Literal Cases",
+  "tests": [
+    {
+      "id": "core-custom-001-custom-datatype-scalar-matrix-accepted",
+      "description": "Custom mode accepts typed custom datatypes across scalar literal families",
+      "input": {
+        "source": "widthText:unit = `3cm`\nwidthTrim:unit = >`\n  3cm\n`\nwidthNum:unit = 3\nwidthInf:unit = Infinity\nwidthSwitch:unit = yes\nwidthHex:unit = #FF32\nwidthRadix:unit = %1010111\nwidthEncoding:unit = $FFF\nlaunch:state = true\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.widthText",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.widthTrim",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.widthNum",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.widthInf",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.widthSwitch",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.widthHex",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.widthRadix",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.widthEncoding",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.launch",
+              "datatype": "state",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "custom",
+        "literals",
+        "datatype-policy"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#72-mode-driven-datatype-acceptance",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-custom-002-custom-datatype-temporal-and-separator-matrix-accepted",
+      "description": "Custom mode accepts typed custom datatypes over temporal and separator literal families",
+      "input": {
+        "source": "startDate:unit = 2025-01-01\nstartDatetime:unit = 2025-01-01T09:30:00Z\nstartTime:unit = 09:30:00\nstartZrut:unit = 2025-01-01T00:00:00Z&Australia/Melbourne\nsize:unit = ^400x200\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.startDate",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.startDatetime",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.startTime",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.startZrut",
+              "datatype": "unit",
+              "kind": "binding"
+            },
+            {
+              "path": "$.size",
+              "datatype": "unit",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "custom",
+        "literals",
+        "temporal",
+        "separator"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-custom-003-reserved-datatypes-remain-usable-in-custom-mode",
+      "description": "Custom mode still accepts reserved datatypes over the same literal families while remaining typed",
+      "input": {
+        "source": "widthText:string = `3cm`\nlaunch:boolean = true\nlimit:infinity = Infinity\ntoggle:switch = yes\nswatch:hex = #FF32\nbits:radix = %1010111\nblob:encode = $FFF\nstart:date = 2025-01-01\nat:time = 09:30:00\nstamp:datetime = 2025-01-01T09:30:00Z\nzone:zrut = 2025-01-01T00:00:00Z&Australia/Melbourne\npath:sep = ^400x200\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.widthText",
+              "datatype": "string",
+              "kind": "binding"
+            },
+            {
+              "path": "$.launch",
+              "datatype": "boolean",
+              "kind": "binding"
+            },
+            {
+              "path": "$.limit",
+              "datatype": "infinity",
+              "kind": "binding"
+            },
+            {
+              "path": "$.toggle",
+              "datatype": "switch",
+              "kind": "binding"
+            },
+            {
+              "path": "$.swatch",
+              "datatype": "hex",
+              "kind": "binding"
+            },
+            {
+              "path": "$.bits",
+              "datatype": "radix",
+              "kind": "binding"
+            },
+            {
+              "path": "$.blob",
+              "datatype": "encode",
+              "kind": "binding"
+            },
+            {
+              "path": "$.start",
+              "datatype": "date",
+              "kind": "binding"
+            },
+            {
+              "path": "$.at",
+              "datatype": "time",
+              "kind": "binding"
+            },
+            {
+              "path": "$.stamp",
+              "datatype": "datetime",
+              "kind": "binding"
+            },
+            {
+              "path": "$.zone",
+              "datatype": "zrut",
+              "kind": "binding"
+            },
+            {
+              "path": "$.path",
+              "datatype": "sep",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "custom",
+        "literals",
+        "reserved-datatypes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    }
+  ]
+}

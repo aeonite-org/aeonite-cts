@@ -32,6 +32,21 @@ If a stress or fuzz asset is implementation hardening work but not part of a pub
 
 The current anti-drift coverage map is tracked in `CONFORMANCE-COVERAGE.md`.
 
+## Validation
+
+For a lightweight repository-integrity check of the published CTS assets, run:
+
+```bash
+python3 runners/validate_cts_repo.py
+```
+
+This validates:
+
+- every JSON file parses
+- core/canonical/aeos-style manifests resolve to real suite files
+- inline suite manifests such as the annotations lane have valid test IDs
+- test IDs are unique within each manifest lane
+
 ## Licensing
 
 This repository is released under the MIT License. See `LICENSE`.

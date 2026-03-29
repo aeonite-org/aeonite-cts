@@ -52,6 +52,10 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 |                               |                                               |                       | `cts/aes/v1:suites/01-baseline.json`                          |
 |                               | strict fail-closed rejections                 | `core`, `aes`         | `cts/core/v1:suites/05-strict-fail-closed.json`               |
 |                               |                                               |                       | `cts/aes/v1:suites/04-strict-failure-envelope.json`           |
+|                               | custom typed-mode literal acceptance          | `core`                | `cts/core/v1:suites/01-baseline.json`                         |
+|                               |                                               |                       | `cts/core/v1:suites/11-promoted-custom-literals.json`         |
+|                               | custom typed-mode fail-closed rejections      | `core`                | `cts/core/v1:suites/01-baseline.json`                         |
+|                               |                                               |                       | `cts/core/v1:suites/12-promoted-custom-rejections.json`       |
 | `AEON-spec-v1.md` §10         | phase boundaries                              | `core`, `aeos`        | `cts/core/v1:suites/01-baseline.json`                         |
 |                               |                                               |                       | `cts/aeos/v1:suites/01-baseline.json`                         |
 | `AEON-spec-v1.md` §11         | canonical formatting determinism              | `canonical`           | `cts/canonical/v1/suites/01-baseline.json`                    |
@@ -71,6 +75,9 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 |                               |                                               |                       | `cts/core/v1:suites/05-strict-fail-closed.json`               |
 |                               |                                               |                       | `cts/aes/v1:suites/04-strict-failure-envelope.json`           |
 |                               |                                               |                       | `cts/aes/v1:suites/02-emission-coverage.json`                 |
+|                               | custom-mode datatype-policy boundaries        | `core`                | `cts/core/v1:suites/01-baseline.json`                         |
+|                               |                                               |                       | `cts/core/v1:suites/11-promoted-custom-literals.json`         |
+|                               |                                               |                       | `cts/core/v1:suites/12-promoted-custom-rejections.json`       |
 | `aeon-core-compliance-v1.md` §9    | node introducer behavior                      | `core`, `aes`         | `cts/core/v1:suites/02-addressing-and-syntax.json`            |
 |                               |                                               |                       | `cts/aes/v1:suites/02-emission-coverage.json`                 |
 |                               |                                               |                       | `cts/core/v1:suites/06-transport-acceptance.json`             |

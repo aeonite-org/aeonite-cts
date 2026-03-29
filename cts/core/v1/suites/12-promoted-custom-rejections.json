@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "suite_id": "promoted-custom-rejections",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/AEON-spec-v1.md",
+      "specs/04-official/v1/value-types-v1.md"
+    ]
+  },
+  "id": "promoted-custom-rejections",
+  "title": "Promoted Deterministic Custom Rejection Cases",
+  "tests": [
+    {
+      "id": "core-custom-reject-001-custom-mode-untyped-literal-matrix-rejects",
+      "description": "Custom mode still fails closed on untyped non-header bindings even when the literal families are otherwise accepted when typed",
+      "input": {
+        "source": "aeon:mode = \"custom\"\nwidth = `3cm`\nlaunch = true\nstart = 2025-01-01\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$.width",
+            "phase": null
+          },
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$.launch",
+            "phase": null
+          },
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$.start",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "custom",
+        "rejection",
+        "datatype-policy"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#71-explicit-datatype-compatibility"
+      ]
+    },
+    {
+      "id": "core-custom-reject-002-custom-mode-does-not-apply-strict-switch-rule",
+      "description": "Custom mode rejects untyped switch literals through typed-mode enforcement rather than the strict-only untyped-switch rule",
+      "input": {
+        "source": "aeon:mode = \"custom\"\nflag = yes\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$.flag",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "custom",
+        "rejection",
+        "switch"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#71-explicit-datatype-compatibility"
+      ]
+    },
+    {
+      "id": "core-custom-reject-003-custom-mode-still-enforces-reserved-datatype-match",
+      "description": "Custom mode still rejects reserved datatypes when the bound literal class is incompatible",
+      "input": {
+        "source": "aeon:mode = \"custom\"\nwidth:string = #FF32\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "custom",
+        "rejection",
+        "validation"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/AEON-v1-compliance.md#71-explicit-datatype-compatibility"
+      ]
+    },
+    {
+      "id": "core-custom-reject-004-custom-mode-still-enforces-reserved-infinity-match",
+      "description": "Custom mode rejects reserved numeric datatypes when the literal is an infinity value rather than a number literal",
+      "input": {
+        "source": "aeon:mode = \"custom\"\nwidth:number = Infinity\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "custom",
+        "rejection",
+        "validation"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    }
+  ]
+}
