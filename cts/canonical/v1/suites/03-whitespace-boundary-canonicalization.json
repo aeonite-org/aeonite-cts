@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "suite_id": "whitespace-boundary-canonicalization",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/structure-syntax-v1.md",
+      "specs/04-official/v1/appendices/appendix-whitespace-boundaries.md",
+      "specs/04-official/v1/appendices/appendix-canonical-form.md"
+    ]
+  },
+  "id": "whitespace-boundary-canonicalization",
+  "title": "Whitespace Boundary Canonicalization",
+  "tests": [
+    {
+      "id": "canonical-whitespace-001-structural-newlines-normalize",
+      "description": "Accepted structural-boundary newlines normalize to the same canonical strict form",
+      "input": {
+        "source": "a\n:\nlist\n<\n  n\n>\n=\n[\n  2\n  3\n]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n  profile:string = \"aeon.gp.profile.v1\"\n  version:string = \"1\"\n}\na:list<n> = [2, 3]\n"
+        }
+      },
+      "tags": [
+        "canonical",
+        "whitespace",
+        "strict"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#6-newline-rules",
+        "specs/04-official/v1/appendices/appendix-canonical-form.md"
+      ]
+    },
+    {
+      "id": "canonical-whitespace-002-node-and-attribute-boundaries-normalize",
+      "description": "Accepted structural-boundary node and attribute newlines normalize to canonical node form",
+      "input": {
+        "source": "value\n@{\n  meta\n  :\n  n\n  =\n  1\n}\n:\nnode\n=\n<tag\n@{\n  role = \"demo\"\n}\n>\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n  profile:string = \"aeon.gp.profile.v1\"\n  version:string = \"1\"\n}\nvalue@{meta:n = 1}:node = <tag@{role = \"demo\"}>\n"
+        }
+      },
+      "tags": [
+        "canonical",
+        "whitespace",
+        "nodes",
+        "attributes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#3-attributes",
+        "specs/04-official/v1/appendices/appendix-canonical-form.md"
+      ]
+    }
+  ]
+}

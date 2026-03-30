@@ -1,0 +1,24 @@
+{
+  "version": "example.sut-profiles.v1",
+  "description": "Illustrative SUT launch profiles for workspace-local CTS execution.",
+  "profiles": {
+    "typescript": {
+      "description": "TypeScript CTS adapter launched from the TypeScript implementation workspace.",
+      "cwd": "altopelago/aeon/implementations/typescript",
+      "command": ["pnpm", "test:cts:adapter"]
+    },
+    "rust": {
+      "description": "Rust CTS adapter launched from the Rust implementation workspace.",
+      "cwd": "altopelago/aeon/implementations/rust",
+      "command": ["cargo", "run", "-p", "aeon-cli", "--", "cts-adapter"]
+    },
+    "python": {
+      "description": "Python CTS adapter launched from the Python implementation workspace with local-package resolution.",
+      "cwd": "altopelago/aeon/implementations/python",
+      "env": {
+        "PYTHONPATH": "src"
+      },
+      "command": ["python3", "-m", "aeon.cts_adapter"]
+    }
+  }
+}

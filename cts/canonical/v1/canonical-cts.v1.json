@@ -13,6 +13,10 @@
     {
       "id": "node-canonicalization",
       "file": "suites/02-node-canonicalization.json"
+    },
+    {
+      "id": "whitespace-boundary-canonicalization",
+      "file": "suites/03-whitespace-boundary-canonicalization.json"
     }
   ]
 }
