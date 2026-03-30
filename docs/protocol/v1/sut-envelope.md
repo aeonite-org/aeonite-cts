@@ -35,6 +35,19 @@ The runner executes the SUT as a subprocess:
 - The runner writes the **input envelope** as a single JSON object to the SUT's **stdin**, followed by EOF.
 - The runner reads the **result envelope** as a single JSON object from the SUT's **stdout**.
 - The runner reads **stderr** for diagnostic logging only; stderr output does not affect test outcome.
+- The runner MAY supply SUT-specific working-directory and environment configuration when required for deterministic local package resolution.
+
+### 1.0.1 Working Directory and Environment
+
+Runner-owned invocation context is part of harness configuration, not test-case input.
+
+When an implementation depends on workspace-local package resolution, the runner SHOULD execute it from the implementation workspace and set any required environment variables explicitly.
+
+Python implementations are a common example:
+
+- if the implementation expects local imports from `src/`, the runner SHOULD invoke it from the Python implementation directory;
+- the runner SHOULD set `PYTHONPATH=src` when that is the implementation's documented resolution mode;
+- the runner SHOULD NOT rely on a globally installed package when the conformance target is the checked-out workspace implementation.
 
 ### 1.1 Exit Code Semantics (normative)
 
@@ -158,12 +171,14 @@ The runner MUST:
 - Treat a non-zero exit code as a harness failure with an error message indicating protocol violation.
 - Treat invalid or unparseable stdout JSON as a harness failure, not a test failure.
 - Record both `errors` and `warnings` from the result envelope in test output.
+- Honor documented SUT working-directory and environment requirements.
 
 The runner MUST NOT:
 
 - Share state between SUT invocations.
 - Modify the test case's input envelope before passing it to the SUT.
 - Interpret stderr content as structured output.
+- Substitute a different package resolution context than the one documented for the target implementation.
 
 ---
 

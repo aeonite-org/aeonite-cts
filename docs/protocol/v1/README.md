@@ -14,6 +14,7 @@ Normative protocol documents for CTS runner/SUT contracts.
 - `lane-aes.md` - AES emission lane payload contract.
 - `lane-canonical.md` - canonical formatting lane payload contract.
 - `sut-envelope.md` - AEOS compatibility contract retained for transition.
+- `sut-invocation-examples.md` - non-normative examples for working-directory and environment-aware SUT launches.
 
 ## Version Policy
 - Protocol-major changes require `cts.protocol.v2`.

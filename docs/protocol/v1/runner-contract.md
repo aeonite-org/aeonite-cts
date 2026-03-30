@@ -5,6 +5,16 @@
 - Runner writes one JSON input envelope to `stdin`, then EOF.
 - SUT writes one JSON output envelope to `stdout`.
 - `stderr` is log-only and non-normative.
+- Runner MUST support SUT-specific invocation context, including working directory and environment overrides, when an implementation requires them for deterministic dependency resolution.
+- Runner MUST treat those invocation-context settings as harness configuration, not as case data.
+
+### 1.1 Invocation Context
+- The SUT command alone is not always sufficient to identify the correct execution environment.
+- Runners SHOULD allow each SUT definition to specify:
+  - command and arguments;
+  - working directory;
+  - environment overrides.
+- This is especially important for Python implementations that resolve local packages via workspace-relative execution or `PYTHONPATH` rather than a globally installed package.
 
 ## 2. Exit Code Semantics
 - Exit `0`: protocol-complete execution (case can still fail by output content).
