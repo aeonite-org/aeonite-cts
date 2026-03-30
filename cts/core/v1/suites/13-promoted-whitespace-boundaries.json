@@ -108,31 +108,34 @@
       ]
     },
     {
-      "id": "core-whitespace-004-separator-spec-token-split-reject",
-      "description": "A newline inside a separator spec bracket is rejected as a compact-token split",
+      "id": "core-whitespace-004-separator-spec-boundary-newlines-pass",
+      "description": "Newlines around separator spec bracket boundaries are accepted when the separator character remains contiguous",
       "input": {
         "source": "size:sep\n[\nx\n]\n= ^300x250\n",
         "mode": "strict"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
-          }
-        ],
-        "warnings": []
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.size",
+              "datatype": "sep[x]",
+              "kind": "binding"
+            }
+          ]
+        }
       },
       "tags": [
         "whitespace",
         "strict",
-        "separator",
-        "reject"
+        "separator"
       ],
       "spec_refs": [
         "specs/04-official/v1/structure-syntax-v1.md#4-separator-specs",
-        "specs/04-official/v1/structure-syntax-v1.md#62-newline-forbidden-in-compact-tokens",
         "specs/04-official/v1/appendices/appendix-whitespace-boundaries.md"
       ]
     }
