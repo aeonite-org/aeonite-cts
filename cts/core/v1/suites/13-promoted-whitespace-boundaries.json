@@ -30,6 +30,16 @@
               "path": "$.a",
               "datatype": "list<n>",
               "kind": "binding"
+            },
+            {
+              "path": "$.a[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.a[1]",
+              "datatype": null,
+              "kind": "binding"
             }
           ]
         }

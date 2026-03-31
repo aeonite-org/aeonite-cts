@@ -122,7 +122,7 @@
     },
     {
       "id": "core-sep-004-unparameterized-sep-rejects-caret-literal",
-      "description": "Using a caret separator literal against an unparameterized sep datatype rejects lexically",
+      "description": "Using a caret separator literal against an unparameterized sep datatype rejects with a syntax error",
       "input": {
         "source": "blue:sep = ^ 200\n",
         "mode": "strict"
@@ -131,8 +131,8 @@
         "ok": false,
         "errors": [
           {
-            "code": "UNEXPECTED_CHARACTER",
-            "phaseLabel": "Lexical Analysis"
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
           }
         ],
         "warnings": []

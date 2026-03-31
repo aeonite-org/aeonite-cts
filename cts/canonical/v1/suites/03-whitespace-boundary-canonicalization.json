@@ -23,7 +23,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n  profile:string = \"aeon.gp.profile.v1\"\n  version:string = \"1\"\n}\na:list<n> = [2, 3]\n"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\na:list<n> = [2, 3]\n"
         }
       },
       "tags": [
@@ -47,7 +47,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n  profile:string = \"aeon.gp.profile.v1\"\n  version:string = \"1\"\n}\nvalue@{meta:n = 1}:node = <tag@{role = \"demo\"}>\n"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nvalue@{meta:n = 1}:node = <tag@{role = \"demo\"}>\n"
         }
       },
       "tags": [
