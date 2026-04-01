@@ -206,6 +206,30 @@
         "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
         "specs/04-official/v1/value-types-v1.md#37-radix"
       ]
+    },
+    {
+      "id": "canonical-baseline-009-encoding-literals-prefer-url-safe-base64",
+      "description": "Encoding literals canonicalize to the URL-safe base64 alphabet while preserving the rest of the payload",
+      "input": {
+        "source": "aeon:mode = \"transport\"\npayload:base64 = $+///"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\npayload:base64 = $-___"
+        }
+      },
+      "tags": [
+        "baseline",
+        "encoding",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/value-types-v1.md#38-encoding"
+      ]
     }
   ]
 }
