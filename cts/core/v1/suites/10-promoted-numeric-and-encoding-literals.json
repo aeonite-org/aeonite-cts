@@ -163,10 +163,166 @@
       ]
     },
     {
-      "id": "core-numenc-006-radix-invalid-base-brackets-reject",
-      "description": "Radix datatype bases reject empty, leading-zero, non-decimal, and out-of-range bracket forms",
+      "id": "core-numenc-006a-radix-empty-base-brackets-reject",
+      "description": "Radix datatype bases reject empty bracket forms",
       "input": {
-        "source": "empty:radix[] = %1\nleading:radix[03] = %1\nsplit:radix[ 2 0 ] = %1\nalpha:radix[a] = %1\nfloat:radix[.2] = %1\nlow:radix[1] = %1\nhigh:radix[65] = %1\n",
+        "source": "empty:radix[] = %1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-006b-radix-leading-zero-base-brackets-reject",
+      "description": "Radix datatype bases reject leading-zero bracket forms",
+      "input": {
+        "source": "leading:radix[03] = %1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-006c-radix-split-digit-base-brackets-reject",
+      "description": "Radix datatype bases reject bracket forms whose digits are split by internal whitespace",
+      "input": {
+        "source": "split:radix[ 2 0 ] = %1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-006d-radix-alpha-base-brackets-reject",
+      "description": "Radix datatype bases reject non-decimal bracket forms",
+      "input": {
+        "source": "alpha:radix[a] = %1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-006e-radix-float-base-brackets-reject",
+      "description": "Radix datatype bases reject fractional bracket forms",
+      "input": {
+        "source": "float:radix[.2] = %1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-006f-radix-low-base-brackets-reject",
+      "description": "Radix datatype bases reject values below 2",
+      "input": {
+        "source": "low:radix[1] = %1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-006g-radix-high-base-brackets-reject",
+      "description": "Radix datatype bases reject values above 64",
+      "input": {
+        "source": "high:radix[65] = %1\n",
         "mode": "strict"
       },
       "expected": {
