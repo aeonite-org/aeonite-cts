@@ -647,6 +647,76 @@
       ]
     },
     {
+      "id": "core-baseline-015b-strict-uppercase-number-alias-reject",
+      "description": "Strict mode treats uppercase reserved-looking names like N as custom datatypes",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nvalue:N = 3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED",
+            "path": "$.value",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "case-sensitive",
+        "number"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-baseline-015c-strict-uppercase-radix-name-allow-custom-pass",
+      "description": "Strict mode accepts uppercase reserved-looking radix names as custom datatypes when allow_custom is enabled",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nmask:Radix[10] = %19",
+        "mode": "strict",
+        "options": {
+          "datatype_policy": "allow_custom"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.mask",
+              "datatype": "Radix[10]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "case-sensitive",
+        "radix"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md#36-radix"
+      ]
+    },
+    {
       "id": "core-baseline-016-separator-depth-default-reject",
       "description": "Default max_separator_depth rejects chained separator specs",
       "input": {
