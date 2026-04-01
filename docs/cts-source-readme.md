@@ -31,3 +31,8 @@ pnpm test:cts:canonical
 pnpm test:cts:annotations
 pnpm test:cts:all
 ```
+
+## Implementation Invocation Notes
+- CTS runners must honor implementation-specific invocation context when local package resolution depends on it.
+- In particular, the Python implementation should be run from `implementations/python` in the `aeon` repo with `PYTHONPATH=src`, otherwise a global `aeon` install may be resolved instead of the checked-out implementation.
+- A concrete cross-language example profile lives in [`manifests/examples/sut-profiles.example.json`](../manifests/examples/sut-profiles.example.json).
