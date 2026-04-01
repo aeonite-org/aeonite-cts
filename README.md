@@ -38,6 +38,7 @@ For a lightweight repository-integrity check of the published CTS assets, run:
 
 ```bash
 python3 runners/validate_cts_repo.py
+bash ./scripts/pre-commit-check.sh
 ```
 
 This validates:
@@ -46,6 +47,9 @@ This validates:
 - core/canonical/aeos-style manifests resolve to real suite files
 - inline suite manifests such as the annotations lane have valid test IDs
 - test IDs are unique within each manifest lane
+
+The pre-commit check also rejects local filesystem path markers before they can
+land in the public CTS repo.
 
 ## Licensing
 
