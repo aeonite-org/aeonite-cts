@@ -182,6 +182,30 @@
         "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
         "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
       ]
+    },
+    {
+      "id": "canonical-baseline-008-radix-underscores-strip-in-canonical-output",
+      "description": "Radix literals canonicalize without underscore separators while preserving the remaining digit sequence",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nmask:radix = %101_0101"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nmask:radix = %1010101"
+        }
+      },
+      "tags": [
+        "baseline",
+        "radix",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/value-types-v1.md#37-radix"
+      ]
     }
   ]
 }

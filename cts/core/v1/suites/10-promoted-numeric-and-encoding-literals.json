@@ -74,7 +74,122 @@
       ]
     },
     {
-      "id": "core-numenc-003-base64-forms-accepted",
+      "id": "core-numenc-003-radix-leading-zero-payload-accepted",
+      "description": "Radix payloads may preserve leading zeroes even though number literals do not",
+      "input": {
+        "source": "bits:radix[2] = %00100101\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.bits",
+              "datatype": "radix[2]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-004-radix-base-bracket-whitespace-accepted",
+      "description": "Radix base brackets allow surrounding whitespace while keeping the integer contiguous",
+      "input": {
+        "source": "bits:radix[ 10 ] = %19\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.bits",
+              "datatype": "radix[10]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "literals",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-005-radix-generic-base-syntax-rejects",
+      "description": "Radix datatype bases reject generic syntax and require bracket metadata",
+      "input": {
+        "source": "bits:radix<10> = %19\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-006-radix-invalid-base-brackets-reject",
+      "description": "Radix datatype bases reject empty, leading-zero, non-decimal, and out-of-range bracket forms",
+      "input": {
+        "source": "empty:radix[] = %1\nleading:radix[01] = %1\nsplit:radix[ 1 0 ] = %1\nalpha:radix[a] = %1\nfloat:radix[.2] = %1\nlow:radix[1] = %1\nhigh:radix[65] = %1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-007-base64-forms-accepted",
       "description": "Representative base64 literal spellings remain accepted in strict typed bindings",
       "input": {
         "source": "payload:base64 = $abc-_+/==\nblue:base64 = $FF_FF_FF_\na1:base64 = $F__F\na2:base64 = $_FF\n",
@@ -120,7 +235,7 @@
       ]
     },
     {
-      "id": "core-numenc-004-invalid-number-rejects",
+      "id": "core-numenc-008-invalid-number-rejects",
       "description": "Malformed underscored exponent number literals reject during parsing",
       "input": {
         "source": "a:number = 1e_2\n",
@@ -145,7 +260,7 @@
       ]
     },
     {
-      "id": "core-numenc-005-invalid-base64-class-rejects",
+      "id": "core-numenc-009-invalid-base64-class-rejects",
       "description": "Invalid base64 literal spellings reject as datatype and literal-class mismatches",
       "input": {
         "source": "payload:base64 = $abc.\n",
@@ -171,7 +286,7 @@
       ]
     },
     {
-      "id": "core-numenc-006-invalid-hex-class-rejects",
+      "id": "core-numenc-010-invalid-hex-class-rejects",
       "description": "Invalid hex literal spellings reject as datatype and literal-class mismatches",
       "input": {
         "source": "a:hex = #F__F\n",
