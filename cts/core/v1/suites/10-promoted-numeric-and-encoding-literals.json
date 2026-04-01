@@ -345,6 +345,32 @@
       ]
     },
     {
+      "id": "core-numenc-006h-radix-multiple-base-brackets-reject",
+      "description": "Radix datatype bases reject extra bracket specifiers after the base metadata",
+      "input": {
+        "source": "extra:radix[2][2] = %1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "radix",
+        "rejection",
+        "datatype"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
       "id": "core-numenc-007-base64-forms-accepted",
       "description": "Representative base64 literal spellings remain accepted in strict typed bindings",
       "input": {
