@@ -75,7 +75,7 @@
     },
     {
       "id": "core-numenc-003-radix-leading-zero-payload-accepted",
-      "description": "Radix payloads may preserve leading zeroes even though number literals do not",
+      "description": "Radix payloads may use leading zeroes even though number literals do not",
       "input": {
         "source": "bits:radix[2] = %00100101\n",
         "mode": "strict"
@@ -166,7 +166,7 @@
       "id": "core-numenc-006-radix-invalid-base-brackets-reject",
       "description": "Radix datatype bases reject empty, leading-zero, non-decimal, and out-of-range bracket forms",
       "input": {
-        "source": "empty:radix[] = %1\nleading:radix[01] = %1\nsplit:radix[ 1 0 ] = %1\nalpha:radix[a] = %1\nfloat:radix[.2] = %1\nlow:radix[1] = %1\nhigh:radix[65] = %1\n",
+        "source": "empty:radix[] = %1\nleading:radix[03] = %1\nsplit:radix[ 2 0 ] = %1\nalpha:radix[a] = %1\nfloat:radix[.2] = %1\nlow:radix[1] = %1\nhigh:radix[65] = %1\n",
         "mode": "strict"
       },
       "expected": {
