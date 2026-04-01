@@ -209,9 +209,9 @@
     },
     {
       "id": "canonical-baseline-009-encoding-literals-prefer-url-safe-base64",
-      "description": "Encoding literals canonicalize to the URL-safe base64 alphabet while preserving the rest of the payload",
+      "description": "Encoding literals canonicalize to the URL-safe base64 alphabet and omit trailing padding",
       "input": {
-        "source": "aeon:mode = \"transport\"\npayload:base64 = $+///"
+        "source": "aeon:mode = \"transport\"\npayload:base64 = $+///=="
       },
       "expected": {
         "ok": true,
