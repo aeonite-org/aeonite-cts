@@ -647,6 +647,76 @@
       ]
     },
     {
+      "id": "core-baseline-015b-strict-uppercase-number-alias-reject",
+      "description": "Strict mode treats uppercase reserved-looking names like N as custom datatypes",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nvalue:N = 3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED",
+            "path": "$.value",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "case-sensitive",
+        "number"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-baseline-015c-strict-uppercase-radix-name-allow-custom-pass",
+      "description": "Strict mode accepts uppercase reserved-looking radix names as custom datatypes when allow_custom is enabled",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nmask:Radix[10] = %19",
+        "mode": "strict",
+        "options": {
+          "datatype_policy": "allow_custom"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.mask",
+              "datatype": "Radix[10]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "case-sensitive",
+        "radix"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-strictness-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md#36-radix"
+      ]
+    },
+    {
       "id": "core-baseline-016-separator-depth-default-reject",
       "description": "Default max_separator_depth rejects chained separator specs",
       "input": {
@@ -956,6 +1026,164 @@
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
         "specs/04-official/v1/AEON-v1-compliance.md#71-explicit-datatype-compatibility"
+      ]
+    },
+    {
+      "id": "core-baseline-026-transport-meaningless-reserved-generic-reject",
+      "description": "Transport mode rejects meaningless generic adornments on reserved scalar datatypes",
+      "input": {
+        "source": "aeon:mode = \"transport\"\na:number<number> = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "transport", "datatype", "generics", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy"
+      ]
+    },
+    {
+      "id": "core-baseline-027-transport-meaningless-reserved-bracket-reject",
+      "description": "Transport mode rejects meaningless bracket adornments on reserved scalar datatypes",
+      "input": {
+        "source": "aeon:mode = \"transport\"\na:number[2] = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "transport", "datatype", "brackets", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy"
+      ]
+    },
+    {
+      "id": "core-baseline-028-transport-fixed-radix-alias-bracket-reject",
+      "description": "Transport mode rejects bracket adornments on fixed radix aliases",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nr:radix2[2] = %10101",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "transport", "datatype", "radix", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md#37-radix"
+      ]
+    },
+    {
+      "id": "core-baseline-029-transport-node-head-generic-reject",
+      "description": "Transport mode rejects generic datatype adornments inside node heads",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nbadNodeHead1:node = <tag:pair<int32,string>(\"x\")>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "transport", "nodes", "generics", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-node-model.md"
+      ]
+    },
+    {
+      "id": "core-baseline-030-transport-node-head-bracket-reject",
+      "description": "Transport mode rejects bracket datatype adornments inside node heads",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nbadNodeHead2:node = <tag:contact[x](\"x\")>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "transport", "nodes", "brackets", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-node-model.md"
+      ]
+    },
+    {
+      "id": "core-baseline-031-transport-multichar-reserved-separator-reject",
+      "description": "Transport mode rejects multi-character separator specs on reserved separator datatypes",
+      "input": {
+        "source": "aeon:mode = \"transport\"\ns:sep[22] = ^300x200",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "transport", "separators", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md#34-separator-literal"
       ]
     }
   ]
