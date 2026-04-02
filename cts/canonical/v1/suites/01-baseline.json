@@ -194,7 +194,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nmask:radix = %1010101"
+          "canonical_text": "aeon:header = {\n  mode = \"transport\"\n}\nmask:radix = %1010101"
         }
       },
       "tags": [
@@ -218,7 +218,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\npayload:base64 = $-___"
+          "canonical_text": "aeon:header = {\n  mode = \"transport\"\n}\npayload:base64 = $-___"
         }
       },
       "tags": [
