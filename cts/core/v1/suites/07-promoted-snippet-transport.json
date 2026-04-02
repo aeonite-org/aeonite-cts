@@ -229,6 +229,98 @@
       "spec_refs": [
         "specs/04-official/v1/addressing-references-v1.md"
       ]
+    },
+    {
+      "id": "core-snippet-transport-008-typed-generic-custom-containers-pass",
+      "description": "Transport mode still accepts explicitly typed generic custom datatypes over list and tuple containers",
+      "input": {
+        "source": "b:custom<custom> = [2]\nc:custom<custom> = (2)\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.b",
+              "datatype": "custom<custom>",
+              "kind": "binding"
+            },
+            {
+              "path": "$.b[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.c",
+              "datatype": "custom<custom>",
+              "kind": "binding"
+            },
+            {
+              "path": "$.c[0]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "custom-datatypes",
+        "containers"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-009-typed-bracketed-custom-literals-pass",
+      "description": "Transport mode still accepts explicitly typed bracketed custom datatypes over valid radix and separator literal families",
+      "input": {
+        "source": "f:custom[2] = %10101\ng:custom[.] = ^1.1.1\nh:custom[1] = ^1.1.1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.f",
+              "datatype": "custom[2]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.g",
+              "datatype": "custom[.]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.h",
+              "datatype": "custom[1]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "custom-datatypes",
+        "separator",
+        "radix"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }

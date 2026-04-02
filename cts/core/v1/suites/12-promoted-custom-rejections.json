@@ -135,6 +135,70 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-custom-reject-005-generic-custom-scalar-binding-rejects",
+      "description": "Generic custom datatypes reject scalar values in custom mode",
+      "input": {
+        "source": "aeon:mode = \"custom\"\na:custom<custom> = 0\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "custom",
+        "rejection",
+        "containers",
+        "validation"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-custom-reject-006-bracketed-custom-scalar-bindings-reject",
+      "description": "Bracketed custom datatypes reject plain scalar numbers when no separator or radix literal is present",
+      "input": {
+        "source": "aeon:mode = \"custom\"\nd:custom[3] = 3\ne:custom[.] = 3\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          },
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "custom",
+        "rejection",
+        "separator",
+        "radix",
+        "validation"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }
