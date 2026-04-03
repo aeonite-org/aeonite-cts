@@ -148,6 +148,40 @@
         "specs/04-official/v1/structure-syntax-v1.md#4-separator-specs",
         "specs/04-official/v1/appendices/appendix-whitespace-boundaries.md"
       ]
+    },
+    {
+      "id": "core-whitespace-005-separator-tab-before-comment-pass",
+      "description": "A tab before a trailing line comment still ends a separator literal payload rather than becoming part of it",
+      "input": {
+        "source": "g:sep = ^1\t// d\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.g",
+              "datatype": "sep",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "whitespace",
+        "strict",
+        "separator",
+        "comments"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-whitespace-boundaries.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
     }
   ]
 }

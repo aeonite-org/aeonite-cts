@@ -224,6 +224,98 @@
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-custom-004-generic-custom-container-bindings-accepted",
+      "description": "Generic custom datatypes in custom mode accept list and tuple container values",
+      "input": {
+        "source": "listCase:custom<custom> = [2]\ntupleCase:custom<custom> = (2)\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.listCase",
+              "datatype": "custom<custom>",
+              "kind": "binding"
+            },
+            {
+              "path": "$.listCase[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.tupleCase",
+              "datatype": "custom<custom>",
+              "kind": "binding"
+            },
+            {
+              "path": "$.tupleCase[0]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "custom",
+        "literals",
+        "containers",
+        "datatype-policy"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-custom-005-bracketed-custom-separator-matrix-accepted",
+      "description": "Bracketed custom datatypes in custom mode accept valid separator and radix literal combinations",
+      "input": {
+        "source": "radixCase:custom[2] = %10101\nseparatorCase:custom[.] = ^1.1.1\nambiguousCase:custom[1] = ^1.1.1\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.radixCase",
+              "datatype": "custom[2]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.separatorCase",
+              "datatype": "custom[.]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.ambiguousCase",
+              "datatype": "custom[1]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "custom",
+        "literals",
+        "separator",
+        "radix",
+        "datatype-policy"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }
