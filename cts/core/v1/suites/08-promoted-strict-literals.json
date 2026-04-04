@@ -238,6 +238,60 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-strict-009-invalid-zrut-zone-punctuation-rejects",
+      "description": "Malformed ZRUT named-zone suffixes with punctuation reject during parsing",
+      "input": {
+        "source": "dt:zrut = 2025-01-01T09:30Z&Area/City!\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "zrut",
+        "rejection",
+        "regression"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-010-lowercase-temporal-markers-reject",
+      "description": "Lowercase datetime marker variants reject as syntax-class errors during parsing",
+      "input": {
+        "source": "dt:datetime = 2025-01-01t09:30z\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "datetime",
+        "rejection",
+        "regression"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }
