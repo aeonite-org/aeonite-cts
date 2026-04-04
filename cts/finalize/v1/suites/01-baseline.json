@@ -309,6 +309,37 @@
         "specs/04-official/v1/value-types-v1.md",
         "specs/04-official/v1/appendices/appendix-json-profile.md"
       ]
+    },
+    {
+      "id": "finalize-json-009-switch-materializes-as-boolean",
+      "description": "Finalized JSON materializes switch literals as booleans even though inspect-style surfaced values remain lexical",
+      "input": {
+        "source": "flag:switch = on\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "flag": true
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "switch"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
     }
   ]
 }

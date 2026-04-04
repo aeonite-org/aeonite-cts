@@ -316,6 +316,39 @@
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-custom-004-custom-mode-allows-custom-switch-aliases",
+      "description": "Custom mode allows switch literals under custom datatype aliases as part of the ordinary custom-datatype model",
+      "input": {
+        "source": "aeon:mode = \"custom\"\ns:toggle = on\n",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.s",
+              "datatype": "toggle",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "custom",
+        "literals",
+        "switch"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-typed-mode-requirements",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }

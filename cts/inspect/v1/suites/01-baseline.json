@@ -180,6 +180,38 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "inspect-json-005-switch-surfaced-value-stays-lexical",
+      "description": "Inspect JSON keeps surfaced switch values lexical even though finalized JSON materializes them as booleans",
+      "input": {
+        "source": "flag:switch = on\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.flag",
+              "value": {
+                "type": "SwitchLiteral",
+                "value": "on"
+              }
+            }
+          ]
+        }
+      },
+      "tags": [
+        "inspect",
+        "switch",
+        "metadata"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }
