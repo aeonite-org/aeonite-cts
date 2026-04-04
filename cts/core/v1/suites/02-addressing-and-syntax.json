@@ -317,27 +317,26 @@
     },
     {
       "id": "core-addr-006-encoding-lexical-envelope",
-      "description": "Encoding literal accepts the shared lexical-envelope characters",
+      "description": "Encoding literal rejects dotted payload characters outside the shared encoding alphabet",
       "input": {
         "source": "payload = $abc-._==",
         "mode": "transport"
       },
       "expected": {
-        "ok": true,
-        "errors": [],
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
         "warnings": [],
         "result": {
-          "parse_ok": true,
-          "bindings": [
-            {
-              "path": "$.payload",
-              "datatype": null,
-              "kind": "binding"
-            }
-          ]
+          "parse_ok": false
         }
       },
-      "tags": ["encoding", "lexer"],
+      "tags": ["encoding", "lexer", "reject"],
       "spec_refs": ["specs/04-official/v1/value-types-v1.md#37-encoding"]
     },
     {
@@ -483,7 +482,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "INVALID_SEPARATOR_CHAR",
+            "code": "SEPARATOR_DEPTH_EXCEEDED",
             "path": "$",
             "phase": null
           }

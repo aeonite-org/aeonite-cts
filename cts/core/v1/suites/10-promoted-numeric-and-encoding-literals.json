@@ -199,7 +199,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "SYNTAX_ERROR"
+            "code": "INVALID_NUMBER"
           }
         ],
         "warnings": []
@@ -443,7 +443,7 @@
     },
     {
       "id": "core-numenc-009-invalid-base64-class-rejects",
-      "description": "Invalid base64 literal spellings reject as datatype and literal-class mismatches",
+      "description": "Invalid base64 literal spellings reject lexically before datatype validation",
       "input": {
         "source": "payload:base64 = $abc.\n",
         "mode": "strict"
@@ -452,8 +452,9 @@
         "ok": false,
         "errors": [
           {
-            "code": "DATATYPE_LITERAL_MISMATCH",
-            "phaseLabel": "Core Validation"
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
           }
         ],
         "warnings": []
@@ -469,7 +470,7 @@
     },
     {
       "id": "core-numenc-010-invalid-hex-class-rejects",
-      "description": "Invalid hex literal spellings reject as datatype and literal-class mismatches",
+      "description": "Invalid hex literal spellings reject lexically before datatype validation",
       "input": {
         "source": "a:hex = #F__F\n",
         "mode": "strict"
@@ -478,8 +479,9 @@
         "ok": false,
         "errors": [
           {
-            "code": "DATATYPE_LITERAL_MISMATCH",
-            "phaseLabel": "Core Validation"
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
           }
         ],
         "warnings": []
