@@ -408,6 +408,66 @@
       "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
     },
     {
+      "id": "core-attr-011a-typed-sequence-item-backward-pass",
+      "description": "Typed list and tuple items may reference earlier sibling items by index",
+      "input": {
+        "source": "c:list = [1, 1, ~c[0]]\nd:tuple = (1, 1, ~d[0])",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.c",
+              "datatype": "list",
+              "kind": "binding"
+            },
+            {
+              "path": "$.c[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.c[1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.c[2]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.d",
+              "datatype": "tuple",
+              "kind": "binding"
+            },
+            {
+              "path": "$.d[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.d[1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.d[2]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["references", "lists", "tuples", "typed", "regression"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
       "id": "core-attr-012-direct-sequence-item-forward-reject",
       "description": "Direct sequence items may not reference later sibling items by index",
       "input": {
