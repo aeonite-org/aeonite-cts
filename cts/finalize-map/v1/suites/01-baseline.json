@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "suite_id": "finalize-map-baseline",
+    "lane": "finalize-map",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/addressing-references-v1.md",
+      "specs/04-official/v1/appendices/appendix-aes.md"
+    ]
+  },
+  "id": "finalize-map-baseline",
+  "title": "Finalize Map Baseline",
+  "tests": [
+    {
+      "id": "finalize-map-001-top-level-attribute-path-preserves-binding-chain",
+      "description": "Projected finalize-map preserves the enclosing top-level binding for attribute-path selections",
+      "input": {
+        "source": "title@{lang = \"en\", meta = { keep = 2 }} = \"Hello\"\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "projected",
+          "include_paths": [
+            "$.title@lang",
+            "$.title@meta.keep"
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "entries": [
+            {
+              "path": "$.title"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "finalize",
+        "map",
+        "projection",
+        "attributes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "finalize-map-002-nested-attribute-path-preserves-assignment-chain",
+      "description": "Projected finalize-map preserves the enclosing nested assignment chain for attribute descendant selections",
+      "input": {
+        "source": "card = { label@{meta = { keep = 3, \"x.y\" = 4 }} = \"Hi\" }\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "projected",
+          "include_paths": [
+            "$.card.label@meta.keep",
+            "$.card.label@meta.[\"x.y\"]"
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "entries": [
+            {
+              "path": "$.card"
+            },
+            {
+              "path": "$.card.label"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "finalize",
+        "map",
+        "projection",
+        "attributes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "finalize-map-003-node-head-attribute-path-preserves-node-chain",
+      "description": "Projected finalize-map preserves the enclosing node binding for node-head attribute-path selections",
+      "input": {
+        "source": "rich = <pill@{id = \"main\", meta = { keep = 5 }}(\"new\")>\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "projected",
+          "include_paths": [
+            "$.rich@@id",
+            "$.rich@@meta.keep"
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "entries": [
+            {
+              "path": "$.rich"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "finalize",
+        "map",
+        "projection",
+        "nodes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/appendices/appendix-node-model.md"
+      ]
+    }
+  ]
+}

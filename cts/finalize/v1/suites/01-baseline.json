@@ -1,0 +1,245 @@
+{
+  "meta": {
+    "suite_id": "finalize-json-baseline",
+    "lane": "finalize-json",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/value-types-v1.md",
+      "specs/04-official/v1/appendices/appendix-json-profile.md"
+    ]
+  },
+  "id": "finalize-json-baseline",
+  "title": "Finalize JSON Baseline",
+  "tests": [
+    {
+      "id": "finalize-json-001-unsafe-float-preserves-lexeme-and-errors",
+      "description": "Unsafe floating numbers finalize fail-closed as preserved strings with a finalize diagnostic",
+      "input": {
+        "source": "n = 9007199254740993.0\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FINALIZE_UNSAFE_NUMBER",
+            "path": "$.n",
+            "phaseLabel": "Finalization"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "document": {
+            "n": "9007199254740993.0"
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "numbers",
+        "regression"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
+    },
+    {
+      "id": "finalize-json-002-top-level-quoted-keys-preserved",
+      "description": "Legal top-level quoted keys survive JSON finalization unchanged",
+      "input": {
+        "source": "\"a.b\" = 1\n\"two words\" = 2\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "a.b": 1,
+            "two words": 2
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "quoted-keys"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "finalize-json-003-radix-normalizes-underscores-and-reports-base-violation",
+      "description": "Finalized radix strings strip visual separators and report declared-base violations",
+      "input": {
+        "source": "mask:radix[10] = %1_A\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FINALIZE_INVALID_RADIX_BASE",
+            "path": "$.mask",
+            "phaseLabel": "Finalization"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "document": {
+            "mask": "1A"
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "radix",
+        "regression"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "finalize-json-004-exact-top-level-attribute-selection",
+      "description": "Projected finalized JSON keeps the enclosing binding and only the selected top-level attribute entry",
+      "input": {
+        "source": "title@{lang=\"en\", tone=\"warm\"} = \"Hello\"\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "projected",
+          "include_paths": [
+            "$.title@lang"
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "title": "Hello",
+            "@": {
+              "title": {
+                "lang": "en"
+              }
+            }
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "projection",
+        "attributes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "finalize-json-005-attribute-descendant-selection",
+      "description": "Projected finalized JSON keeps only the selected descendant under an attribute namespace",
+      "input": {
+        "source": "card = { title@{meta={ keep=2, \"x.y\"=1 }, tone=\"warm\"} = \"Hello\" }\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "projected",
+          "include_paths": [
+            "$.card.title@meta.keep"
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "card": {
+              "title": "Hello",
+              "@": {
+                "title": {
+                  "meta": {
+                    "keep": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "projection",
+        "attributes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "finalize-json-006-node-head-attribute-selection",
+      "description": "Projected finalized JSON keeps the enclosing node and only the selected node-head attribute entry",
+      "input": {
+        "source": "badge = <pill@{id=\"main\", class=\"hero\"}(\"new\")>\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "projected",
+          "include_paths": [
+            "$.badge@@[\"id\"]"
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "badge": {
+              "$node": "pill",
+              "@": {
+                "id": "main"
+              },
+              "$children": [
+                "new"
+              ]
+            }
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "projection",
+        "nodes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/appendices/appendix-node-model.md"
+      ]
+    }
+  ]
+}

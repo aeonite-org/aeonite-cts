@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "finalize-map",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "AEON finalized map CTS scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "finalize-map-baseline",
+      "file": "suites/01-baseline.json"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "inspect-json",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "AEON inspect JSON CTS scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "inspect-json-baseline",
+      "file": "suites/01-baseline.json"
+    }
+  ]
+}
