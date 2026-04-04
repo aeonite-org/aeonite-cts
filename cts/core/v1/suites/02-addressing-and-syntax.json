@@ -85,6 +85,36 @@
       "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
     },
     {
+      "id": "core-addr-001d-explicit-root-quoted-member-traversal-pass",
+      "description": "Explicit root quoted-member traversal parses and resolves as a legal reference form",
+      "input": {
+        "source": "\"a.b\" = 1\nv = ~$. [\"a.b\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"a.b\"]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["addressing", "quoted-keys", "references"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
       "id": "core-addr-002-indexed-list-paths",
       "description": "List literal produces indexed canonical binding paths",
       "input": {
@@ -113,6 +143,54 @@
       },
       "tags": ["addressing", "indexes"],
       "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
+      "id": "core-addr-002b-space-only-top-level-separator-reject",
+      "description": "Plain spaces are not valid top-level binding separators",
+      "input": {
+        "source": "a = 1 b = 2",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["addressing", "separators", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-002c-comment-only-top-level-separator-reject",
+      "description": "Comments alone do not create a top-level binding separator",
+      "input": {
+        "source": "a = 1 /* gap */ b = 2",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["addressing", "separators", "comments", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
     },
     {
       "id": "core-addr-003-separator-literal",

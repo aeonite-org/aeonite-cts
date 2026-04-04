@@ -114,6 +114,30 @@
       "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
     },
     {
+      "id": "core-attr-004a-nested-attribute-head-depth-exceeded",
+      "description": "Nested attribute heads count against the default max_attribute_depth limit",
+      "input": {
+        "source": "a@{b@{c=3}=2} = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "ATTRIBUTE_DEPTH_EXCEEDED",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "depth-policy", "fail"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
       "id": "core-attr-004b-depth-override-pass",
       "description": "Chained attribute reference is accepted when max_attribute_depth is raised",
       "input": {

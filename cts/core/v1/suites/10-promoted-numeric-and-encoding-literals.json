@@ -492,6 +492,60 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-numenc-011-untyped-invalid-hex-rejects",
+      "description": "Untyped invalid hex literal spellings fail closed instead of compiling as plain scalars",
+      "input": {
+        "source": "a = #F__F\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "transport",
+        "hex",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-012-untyped-invalid-encoding-rejects",
+      "description": "Untyped invalid encoding literal spellings fail closed instead of bypassing encoding validation",
+      "input": {
+        "source": "e = $QmF.zZTY0IQ==\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "transport",
+        "encoding",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }

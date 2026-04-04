@@ -61,6 +61,39 @@
       "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
     },
     {
+      "id": "aes-emission-001c-explicit-root-quoted-member-traversal-pass",
+      "description": "Explicit root quoted-member traversal is preserved in AES reference paths",
+      "input": {
+        "source": "\"a.b\" = 1\nv = ~$. [\"a.b\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.[\"a.b\"]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.v",
+              "datatype": null,
+              "value_kind": "CloneReference",
+              "reference": [
+                "a.b"
+              ]
+            }
+          ]
+        }
+      },
+      "tags": ["addressing", "quoted-keys", "references"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
       "id": "aes-emission-002-indexed-order",
       "description": "List emission includes container event then indexed element event",
       "input": {
@@ -90,6 +123,54 @@
       },
       "tags": ["addressing", "indexes", "order"],
       "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md"]
+    },
+    {
+      "id": "aes-emission-002b-space-only-top-level-separator-reject",
+      "description": "Plain spaces are not valid top-level binding separators for AES emission",
+      "input": {
+        "source": "a = 1 b = 2",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["addressing", "separators", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "aes-emission-002c-comment-only-top-level-separator-reject",
+      "description": "Comments alone do not create a top-level binding separator for AES emission",
+      "input": {
+        "source": "a = 1 /* gap */ b = 2",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["addressing", "separators", "comments", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
     },
     {
       "id": "aes-emission-003-separator-literal",
@@ -189,6 +270,54 @@
       },
       "tags": ["strings", "trimticks"],
       "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md"]
+    },
+    {
+      "id": "aes-emission-007-untyped-invalid-hex-rejects",
+      "description": "Untyped invalid hex literal spellings emit no AES events",
+      "input": {
+        "source": "a = #F__F\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["hex", "transport", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md"]
+    },
+    {
+      "id": "aes-emission-008-untyped-invalid-encoding-rejects",
+      "description": "Untyped invalid encoding literal spellings emit no AES events",
+      "input": {
+        "source": "e = $QmF.zZTY0IQ==\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["encoding", "transport", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md"]
     }
   ]
 }
