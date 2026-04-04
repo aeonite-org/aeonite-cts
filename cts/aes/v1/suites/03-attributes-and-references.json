@@ -461,6 +461,52 @@
       "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
     },
     {
+      "id": "aes-attr-011b-initial-quoted-member-shorthand-pass",
+      "description": "Initial quoted member shorthand emits the same reference target as bracketed quoted-member traversal",
+      "input": {
+        "source": "\"a.b\":list = [1, 2]\nb:n = ~\"a.b\"[1]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.[\"a.b\"]",
+              "datatype": "list",
+              "value_kind": "ListNode",
+              "reference": null
+            },
+            {
+              "path": "$.[\"a.b\"][0]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.[\"a.b\"][1]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.b",
+              "datatype": "n",
+              "value_kind": "CloneReference",
+              "reference": [
+                "a.b",
+                1
+              ]
+            }
+          ]
+        }
+      },
+      "tags": ["references", "quoted-keys", "indexes", "regression"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
       "id": "aes-attr-011a-typed-sequence-item-backward-pass",
       "description": "Typed list and tuple items may reference earlier sibling items by index before AES emission",
       "input": {

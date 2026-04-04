@@ -408,6 +408,46 @@
       "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
     },
     {
+      "id": "core-attr-011b-initial-quoted-member-shorthand-pass",
+      "description": "Initial quoted member shorthand is equivalent to bracketed quoted-member traversal",
+      "input": {
+        "source": "\"a.b\":list = [1, 2]\nb:n = ~\"a.b\"[1]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"a.b\"]",
+              "datatype": "list",
+              "kind": "binding"
+            },
+            {
+              "path": "$.[\"a.b\"][0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.[\"a.b\"][1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "datatype": "n",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["references", "quoted-keys", "indexes", "regression"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
       "id": "core-attr-011a-typed-sequence-item-backward-pass",
       "description": "Typed list and tuple items may reference earlier sibling items by index",
       "input": {
