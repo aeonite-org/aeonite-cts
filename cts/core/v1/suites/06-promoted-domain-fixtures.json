@@ -47,7 +47,7 @@
               "kind": "binding"
             },
             {
-              "path": "$.[\"slash\\key\"]",
+              "path": "$.[\"slash\\\\key\"]",
               "datatype": "int32",
               "kind": "binding"
             },
