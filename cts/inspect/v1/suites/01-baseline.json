@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "suite_id": "inspect-json-baseline",
+    "lane": "inspect-json",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/value-types-v1.md",
+      "specs/04-official/v1/appendices/appendix-aes.md"
+    ]
+  },
+  "id": "inspect-json-baseline",
+  "title": "Inspect JSON Baseline",
+  "tests": [
+    {
+      "id": "inspect-json-001-string-metadata-preserved",
+      "description": "Inspect JSON preserves delimiter choice, raw payload, and trimtick metadata for surfaced strings",
+      "input": {
+        "source": "single:string = 'alpha'\nraw:string = `beta`\ntrim:trimtick = >`\n\tone\n\ttwo\n`\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.single",
+              "value": {
+                "type": "StringLiteral",
+                "delimiter": "'",
+                "raw": "alpha",
+                "value": "alpha"
+              }
+            },
+            {
+              "path": "$.raw",
+              "value": {
+                "type": "StringLiteral",
+                "delimiter": "`",
+                "raw": "beta",
+                "value": "beta"
+              }
+            },
+            {
+              "path": "$.trim",
+              "value": {
+                "type": "StringLiteral",
+                "delimiter": "`",
+                "trimticks": {
+                  "markerWidth": 1,
+                  "rawValue": "\n\tone\n\ttwo\n"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "tags": [
+        "inspect",
+        "strings",
+        "metadata"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "inspect-json-002-number-radix-and-encoding-values-normalized",
+      "description": "Inspect JSON preserves raw lexemes while surfacing normalized or payload-only semantic values",
+      "input": {
+        "source": "num = 1_000_000\nenc = $QmFzZTY0IQ==\nrad = %+A_!_&z\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.num",
+              "value": {
+                "type": "NumberLiteral",
+                "raw": "1_000_000",
+                "value": "1000000"
+              }
+            },
+            {
+              "path": "$.enc",
+              "value": {
+                "type": "EncodingLiteral",
+                "raw": "$QmFzZTY0IQ==",
+                "value": "QmFzZTY0IQ=="
+              }
+            },
+            {
+              "path": "$.rad",
+              "value": {
+                "type": "RadixLiteral",
+                "raw": "%+A_!_&z",
+                "value": "+A_!_&z"
+              }
+            }
+          ]
+        }
+      },
+      "tags": [
+        "inspect",
+        "numbers",
+        "encoding",
+        "radix"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "inspect-json-003-control-bytes-remain-json-safe",
+      "description": "Inspect JSON remains parseable and preserves control-byte string content via JSON-safe escapes",
+      "input": {
+        "source": "note:string = `\talpha\t`\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.note",
+              "value": {
+                "type": "StringLiteral",
+                "raw": "\talpha\t",
+                "value": "\talpha\t"
+              }
+            }
+          ]
+        }
+      },
+      "tags": [
+        "inspect",
+        "json",
+        "control-bytes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "inspect-json-004-hex-value-is-payload-only",
+      "description": "Inspect JSON preserves raw hex spelling while surfacing payload-only semantic value without the sigil",
+      "input": {
+        "source": "color:hex = #Ff_00_Aa\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.color",
+              "value": {
+                "type": "HexLiteral",
+                "raw": "#Ff_00_Aa",
+                "value": "Ff_00_Aa"
+              }
+            }
+          ]
+        }
+      },
+      "tags": [
+        "inspect",
+        "hex",
+        "metadata"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "inspect-json-005-switch-surfaced-value-stays-lexical",
+      "description": "Inspect JSON keeps surfaced switch values lexical even though finalized JSON materializes them as booleans",
+      "input": {
+        "source": "flag:switch = on\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.flag",
+              "value": {
+                "type": "SwitchLiteral",
+                "value": "on"
+              }
+            }
+          ]
+        }
+      },
+      "tags": [
+        "inspect",
+        "switch",
+        "metadata"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    }
+  ]
+}

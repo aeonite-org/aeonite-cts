@@ -44,7 +44,7 @@
     },
     {
       "id": "core-edge-002-inline-array-separator-boundaries-reject",
-      "description": "Inline separator-literal boundary collisions fail closed with deterministic separator errors",
+      "description": "Inline separator-literal boundary collisions fail closed with deterministic parser errors",
       "input": {
         "source": "//# Inline separator literal boundary failures.\n//# These cases document current lexer greediness and should fail until\n//# separator literal boundary rules are redesigned.\n\nbadInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\n\n//# Separator-char collisions that should be rejected by future policy.\nbadSepType1:matrix[,][;] = ^1,2,3;4,5,6\nbadSepType2:set[,] = ^0,0,0,\n"
       },
@@ -52,7 +52,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "INVALID_SEPARATOR_CHAR",
+            "code": "SEPARATOR_DEPTH_EXCEEDED",
             "path": "$",
             "phase": null
           },

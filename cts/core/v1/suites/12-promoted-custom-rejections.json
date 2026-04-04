@@ -53,6 +53,42 @@
       ]
     },
     {
+      "id": "core-custom-reject-002-strict-allow-custom-still-rejects-switch-aliases",
+      "description": "Strict mode keeps the dedicated switch-type requirement even when general custom datatypes are enabled",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ns:toggle = on\n",
+        "mode": "strict",
+        "options": {
+          "datatype_policy": "allow_custom"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_SWITCH_ALIAS_NOT_ALLOWED",
+            "path": "$.s",
+            "phase": "Mode Enforcement"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "strict",
+        "rejection",
+        "switch",
+        "datatype-policy"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/AEON-v1-compliance.md#7-typed-mode-requirements",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
       "id": "core-custom-reject-002-custom-mode-does-not-apply-strict-switch-rule",
       "description": "Custom mode rejects untyped switch literals through typed-mode enforcement rather than the strict-only untyped-switch rule",
       "input": {

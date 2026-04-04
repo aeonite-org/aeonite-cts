@@ -114,6 +114,30 @@
       "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
     },
     {
+      "id": "core-attr-004a-nested-attribute-head-depth-exceeded",
+      "description": "Nested attribute heads count against the default max_attribute_depth limit",
+      "input": {
+        "source": "a@{b@{c=3}=2} = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "ATTRIBUTE_DEPTH_EXCEEDED",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "depth-policy", "fail"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
+    },
+    {
       "id": "core-attr-004b-depth-override-pass",
       "description": "Chained attribute reference is accepted when max_attribute_depth is raised",
       "input": {
@@ -274,6 +298,238 @@
       },
       "tags": ["attributes", "syntax", "fail"],
       "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-attr-008-binding-payload-may-reference-own-attribute-pass",
+      "description": "A binding payload may reference one of its own attached attributes",
+      "input": {
+        "source": "a@{x=1} = ~a@x",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "regression"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "core-attr-009-attribute-payload-self-payload-reject",
+      "description": "An attribute payload may not reference the payload of its own binding",
+      "input": {
+        "source": "a@{x=~a} = 1",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "references", "fail", "regression"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "core-attr-010-attribute-payload-forward-binding-reject",
+      "description": "An attribute payload may not reference a later payload binding",
+      "input": {
+        "source": "a@{x=~b} = 1\nb = 2",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "references", "fail", "regression"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "core-attr-011-direct-sequence-item-backward-pass",
+      "description": "Direct sequence items may reference earlier sibling items by index",
+      "input": {
+        "source": "items = [1, ~items[0]]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.items",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.items[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.items[1]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["references", "lists", "tuples", "regression"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "core-attr-011b-initial-quoted-member-shorthand-pass",
+      "description": "Initial quoted member shorthand is equivalent to bracketed quoted-member traversal",
+      "input": {
+        "source": "\"a.b\":list = [1, 2]\nb:n = ~\"a.b\"[1]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"a.b\"]",
+              "datatype": "list",
+              "kind": "binding"
+            },
+            {
+              "path": "$.[\"a.b\"][0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.[\"a.b\"][1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "datatype": "n",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["references", "quoted-keys", "indexes", "regression"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "core-attr-011a-typed-sequence-item-backward-pass",
+      "description": "Typed list and tuple items may reference earlier sibling items by index",
+      "input": {
+        "source": "c:list = [1, 1, ~c[0]]\nd:tuple = (1, 1, ~d[0])",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.c",
+              "datatype": "list",
+              "kind": "binding"
+            },
+            {
+              "path": "$.c[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.c[1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.c[2]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.d",
+              "datatype": "tuple",
+              "kind": "binding"
+            },
+            {
+              "path": "$.d[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.d[1]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.d[2]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["references", "lists", "tuples", "typed", "regression"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "core-attr-012-direct-sequence-item-forward-reject",
+      "description": "Direct sequence items may not reference later sibling items by index",
+      "input": {
+        "source": "items = [~items[1], 1]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["references", "lists", "tuples", "fail", "regression"],
+      "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
     }
   ]
 }

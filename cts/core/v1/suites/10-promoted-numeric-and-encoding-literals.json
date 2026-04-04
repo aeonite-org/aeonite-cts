@@ -199,7 +199,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "SYNTAX_ERROR"
+            "code": "INVALID_NUMBER"
           }
         ],
         "warnings": []
@@ -443,7 +443,7 @@
     },
     {
       "id": "core-numenc-009-invalid-base64-class-rejects",
-      "description": "Invalid base64 literal spellings reject as datatype and literal-class mismatches",
+      "description": "Invalid base64 literal spellings reject lexically before datatype validation",
       "input": {
         "source": "payload:base64 = $abc.\n",
         "mode": "strict"
@@ -452,8 +452,9 @@
         "ok": false,
         "errors": [
           {
-            "code": "DATATYPE_LITERAL_MISMATCH",
-            "phaseLabel": "Core Validation"
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
           }
         ],
         "warnings": []
@@ -469,7 +470,7 @@
     },
     {
       "id": "core-numenc-010-invalid-hex-class-rejects",
-      "description": "Invalid hex literal spellings reject as datatype and literal-class mismatches",
+      "description": "Invalid hex literal spellings reject lexically before datatype validation",
       "input": {
         "source": "a:hex = #F__F\n",
         "mode": "strict"
@@ -478,8 +479,9 @@
         "ok": false,
         "errors": [
           {
-            "code": "DATATYPE_LITERAL_MISMATCH",
-            "phaseLabel": "Core Validation"
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
           }
         ],
         "warnings": []
@@ -487,6 +489,60 @@
       "tags": [
         "strict",
         "hex",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-011-untyped-invalid-hex-rejects",
+      "description": "Untyped invalid hex literal spellings fail closed instead of compiling as plain scalars",
+      "input": {
+        "source": "a = #F__F\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "transport",
+        "hex",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-012-untyped-invalid-encoding-rejects",
+      "description": "Untyped invalid encoding literal spellings fail closed instead of bypassing encoding validation",
+      "input": {
+        "source": "e = $QmF.zZTY0IQ==\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "transport",
+        "encoding",
         "rejection"
       ],
       "spec_refs": [

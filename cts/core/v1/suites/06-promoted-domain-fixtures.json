@@ -16,7 +16,7 @@
       "id": "core-domain-001-escaped-quoted-keys-and-attrs",
       "description": "Escaped quoted keys and attribute selectors parse and emit canonical escaped reference paths",
       "input": {
-        "source": "//!/bin/aeon --profile=ts.object.v1\n\n//# Escaped quoted-key and attribute-segment stress (current candidate)\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"key\\\"quote\":int32 = 1\nrefKeyQuote = ~[\"key\\\"quote\"]\n\n'single\\'quote':int32 = 2\nrefSingleQuote = ~['single\\'quote']\n\n\"slash\\\\key\":int32 = 3\nrefSlashKey = ~[\"slash\\\\key\"]\n\nobj@{\n  \"a\\\"b\" = \"x\"\n  'c\\'d' = \"y\"\n} = 10\n\nrefAttrDouble = ~obj@[\"a\\\"b\"]\nrefAttrSingle = ~obj@['c\\'d']\n",
+        "source": "//!/bin/aeon --profile=ts.object.v1\n\n//# Escaped quoted-key and attribute-segment stress (current candidate)\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"key\\\"quote\":int32 = 1\nrefKeyQuote = ~$.[\"key\\\"quote\"]\n\n'single\\'quote':int32 = 2\nrefSingleQuote = ~$.[\"single'quote\"]\n\n\"slash\\\\key\":int32 = 3\nrefSlashKey = ~$.[\"slash\\\\key\"]\n\nobj@{\n  \"a\\\"b\" = \"x\"\n  'c\\'d' = \"y\"\n} = 10\n\nrefAttrDouble = ~obj@[\"a\\\"b\"]\nrefAttrSingle = ~obj@[\"c'd\"]\n",
         "mode": "transport"
       },
       "expected": {
@@ -88,7 +88,7 @@
       "id": "core-domain-002-namespace-and-quoted-key-disambiguation",
       "description": "Namespace-like quoted keys remain single keys and quoted traversal stays disambiguated from dotted traversal",
       "input": {
-        "source": "//!/bin/aeon --profile=ts.object.v1\n\n//# Namespace + quoted-key stress (current candidate)\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n// namespace-convention attribute on key\na@{ ns = \"alto.v1\" }:int32 = 3\n\n// quoted key carrying namespace-like text\n\"alto.v1#a\":int32 = 4\n\n// disambiguation target: this is one key, not traversal\n\"a.b\":int32 = 2\n\nobj = {\n  \"key with space\" = {\n    \"inner.dot\" = 7\n  }\n}\n\nviaQuoted = ~[\"a.b\"]\nviaTraversal = ~obj[\"key with space\"][\"inner.dot\"]\nviaNamespaceAttr = ~a@ns\nviaNamespaceAttrPtr = ~>a@ns\n",
+        "source": "//!/bin/aeon --profile=ts.object.v1\n\n//# Namespace + quoted-key stress (current candidate)\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n// namespace-convention attribute on key\na@{ ns = \"alto.v1\" }:int32 = 3\n\n// quoted key carrying namespace-like text\n\"alto.v1#a\":int32 = 4\n\n// disambiguation target: this is one key, not traversal\n\"a.b\":int32 = 2\n\nobj = {\n  \"key with space\" = {\n    \"inner.dot\" = 7\n  }\n}\n\nviaQuoted = ~$.[\"a.b\"]\nviaTraversal = ~obj[\"key with space\"][\"inner.dot\"]\nviaNamespaceAttr = ~a@ns\nviaNamespaceAttrPtr = ~>a@ns\n",
         "mode": "transport"
       },
       "expected": {
