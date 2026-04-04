@@ -240,6 +240,75 @@
         "specs/04-official/v1/addressing-references-v1.md",
         "specs/04-official/v1/appendices/appendix-node-model.md"
       ]
+    },
+    {
+      "id": "finalize-json-007-infinity-fails-strict-json-profile",
+      "description": "Strict finalized JSON preserves the infinity lexeme but emits a JSON-profile finalize error",
+      "input": {
+        "source": "limit:infinity = Infinity\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FINALIZE_JSON_PROFILE_INFINITY",
+            "path": "$.limit",
+            "phaseLabel": "Finalization"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "document": {
+            "limit": "Infinity"
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "infinity",
+        "profile"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
+    },
+    {
+      "id": "finalize-json-008-hex-strips-separators-and-preserves-case",
+      "description": "Finalized hex strings drop the sigil and visual separators while preserving source letter case",
+      "input": {
+        "source": "color:hex = #Ff_00_Aa\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "color": "Ff00Aa"
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "hex"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
     }
   ]
 }

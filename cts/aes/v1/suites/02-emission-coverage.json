@@ -94,6 +94,30 @@
       "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
     },
     {
+      "id": "aes-emission-001d-bare-root-bracket-member-reject",
+      "description": "Bare root-bracket quoted-member traversal rejects and emits no AES events",
+      "input": {
+        "source": "\"a.b\" = 1\nv = ~$[\"a.b\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["addressing", "quoted-keys", "references", "reject"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
       "id": "aes-emission-002-indexed-order",
       "description": "List emission includes container event then indexed element event",
       "input": {

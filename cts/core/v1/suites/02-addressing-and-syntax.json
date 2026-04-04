@@ -115,6 +115,30 @@
       "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
     },
     {
+      "id": "core-addr-001e-bare-root-bracket-member-reject",
+      "description": "Bare root-bracket quoted-member traversal is not part of the Core v1 grammar",
+      "input": {
+        "source": "\"a.b\" = 1\nv = ~$[\"a.b\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["addressing", "quoted-keys", "references", "reject"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
       "id": "core-addr-002-indexed-list-paths",
       "description": "List literal produces indexed canonical binding paths",
       "input": {

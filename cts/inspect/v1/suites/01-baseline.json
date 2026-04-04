@@ -147,6 +147,39 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "inspect-json-004-hex-value-is-payload-only",
+      "description": "Inspect JSON preserves raw hex spelling while surfacing payload-only semantic value without the sigil",
+      "input": {
+        "source": "color:hex = #Ff_00_Aa\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.color",
+              "value": {
+                "type": "HexLiteral",
+                "raw": "#Ff_00_Aa",
+                "value": "Ff_00_Aa"
+              }
+            }
+          ]
+        }
+      },
+      "tags": [
+        "inspect",
+        "hex",
+        "metadata"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }
