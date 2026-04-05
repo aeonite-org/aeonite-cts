@@ -43,21 +43,16 @@
       ]
     },
     {
-      "id": "core-edge-002-inline-array-separator-boundaries-reject",
-      "description": "Inline separator-literal boundary collisions fail closed with deterministic parser errors",
+      "id": "core-edge-002-separator-invalid-raw-chars-reject",
+      "description": "Separator literals fail closed when raw payloads rely on characters that are only legal inside quoted segments",
       "input": {
-        "source": "//# Inline separator literal boundary failures.\n//# These cases document current lexer greediness and should fail until\n//# separator literal boundary rules are redesigned.\n\nbadInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\n\n//# Separator-char collisions that should be rejected by future policy.\nbadSepType1:matrix[,][;] = ^1,2,3;4,5,6\nbadSepType2:set[,] = ^0,0,0,\n"
+        "source": "badSlash:sep[/] = ^root/main/file.aeon\nbadSpace:sep[|] = ^aaa bbb\n"
       },
       "expected": {
         "ok": false,
         "errors": [
           {
-            "code": "SEPARATOR_DEPTH_EXCEEDED",
-            "path": "$",
-            "phase": null
-          },
-          {
-            "code": "INVALID_SEPARATOR_CHAR",
+            "code": "SYNTAX_ERROR",
             "path": "$",
             "phase": null
           }
@@ -70,10 +65,40 @@
       "tags": [
         "fail-closed",
         "separators",
-        "inline-arrays"
+        "lexical"
       ],
       "spec_refs": [
-        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-003-separator-unterminated-quoted-segment-rejects",
+      "description": "Separator literals fail closed on unterminated quoted payload segments",
+      "input": {
+        "source": "badQuote:sep[|] = ^\"hello\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_STRING",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "separators",
+        "lexical"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
         "specs/04-official/v1/appendices/appendix-error-model.md"
       ]
     }
