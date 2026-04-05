@@ -440,7 +440,7 @@
       "id": "aes-baseline-010-separator-depth-default-reject",
       "description": "Default max_separator_depth rejects chained separator specs before AES emission",
       "input": {
-        "source": "matrix:grid[|][/] = ^1|2/3",
+        "source": "matrix:grid[|][>] = ^1|2>3",
         "mode": "strict"
       },
       "expected": {
@@ -467,7 +467,7 @@
       "id": "aes-baseline-011-separator-depth-override-pass",
       "description": "Raised max_separator_depth emits chained separator specs deterministically",
       "input": {
-        "source": "matrix:grid[|][/] = ^1|2/3",
+        "source": "matrix:grid[|][>] = ^1|2>3",
         "mode": "strict",
         "options": {
           "max_separator_depth": 8
@@ -481,7 +481,7 @@
           "events": [
             {
               "path": "$.matrix",
-              "datatype": "grid[|][/]",
+              "datatype": "grid[|][>]",
               "value_kind": "SeparatorLiteral",
               "reference": null
             }
