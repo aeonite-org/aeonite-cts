@@ -333,8 +333,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "INVALID_NUMBER",
-            "phaseLabel": "Parsing"
+            "code": "INVALID_NUMBER"
           }
         ],
         "warnings": []
@@ -361,16 +360,13 @@
         "ok": false,
         "errors": [
           {
-            "code": "INVALID_NUMBER",
-            "phaseLabel": "Lexing"
+            "code": "INVALID_NUMBER"
           },
           {
-            "code": "INVALID_NUMBER",
-            "phaseLabel": "Lexing"
+            "code": "INVALID_NUMBER"
           },
           {
-            "code": "INVALID_NUMBER",
-            "phaseLabel": "Lexing"
+            "code": "INVALID_NUMBER"
           }
         ],
         "warnings": []
@@ -428,7 +424,7 @@
         "errors": [
           {
             "code": "INVALID_TIME",
-            "phaseLabel": "Lexing"
+            "phaseLabel": "Parsing"
           }
         ],
         "warnings": []

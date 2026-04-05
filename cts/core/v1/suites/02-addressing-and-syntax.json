@@ -243,9 +243,9 @@
     },
     {
       "id": "core-addr-003b-separator-space-only-node-child-pass",
-      "description": "Separator literal accepts a spaces-only payload inside node children",
+      "description": "Separator literal accepts a quoted spaces-only payload inside node children",
       "input": {
-        "source": "n:node = <b(^    )>",
+        "source": "n:node = <b(^\"    \")>",
         "mode": "strict"
       },
       "expected": {

@@ -747,7 +747,7 @@
       "id": "core-baseline-017-separator-depth-override-pass",
       "description": "Raised max_separator_depth accepts chained separator specs",
       "input": {
-        "source": "matrix:grid[|][/] = ^1|2/3",
+        "source": "matrix:grid[|][>] = ^1|2>3",
         "mode": "strict",
         "options": {
           "max_separator_depth": 8
@@ -762,7 +762,7 @@
           "bindings": [
             {
               "path": "$.matrix",
-              "datatype": "grid[|][/]",
+              "datatype": "grid[|][>]",
               "kind": "binding"
             }
           ]
