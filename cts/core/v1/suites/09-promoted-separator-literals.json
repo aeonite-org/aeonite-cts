@@ -77,7 +77,7 @@
       "id": "core-sep-003-raw-slash-payload-rejects",
       "description": "Raw separator payloads reject slash characters unless they appear inside quoted segments",
       "input": {
-        "source": "file:sep[/] = ^root/main/file.aeon\n",
+        "source": "file:sep[|] = ^root/main/file.aeon\n",
         "mode": "strict"
       },
       "expected": {
@@ -124,26 +124,31 @@
       ]
     },
     {
-      "id": "core-sep-005-unparameterized-sep-rejects-caret-literal",
-      "description": "Using a caret separator literal against an unparameterized sep datatype rejects with a syntax error",
+      "id": "core-sep-005-unparameterized-sep-accepts-caret-literal",
+      "description": "Unparameterized sep datatypes may bind separator literals without an explicit bracket spec",
       "input": {
         "source": "blue:sep = ^200\n",
         "mode": "strict"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
-          }
-        ],
-        "warnings": []
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.blue",
+              "datatype": "sep",
+              "kind": "binding"
+            }
+          ]
+        }
       },
       "tags": [
         "strict",
         "separator",
-        "rejection"
+        "literals"
       ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
@@ -153,7 +158,7 @@
       "id": "core-sep-006-separator-datatype-rejects-list-node",
       "description": "A sep-typed binding rejects list literals even when the list contains a separator literal",
       "input": {
-        "source": "filex:sep[/] = [^\"root/main/file.aeon\"]\n",
+        "source": "filex:sep[|] = [^\"root/main/file.aeon\"]\n",
         "mode": "strict"
       },
       "expected": {
@@ -188,6 +193,74 @@
         "errors": [
           {
             "code": "UNTERMINATED_STRING"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-008-angle-and-caret-separator-specs-accepted",
+      "description": "Reserved sep and set datatypes accept bracket specs drawn from the explicit separator whitelist, including <, >, and ^",
+      "input": {
+        "source": "left:set[<] = ^a<b\nright:set[>] = ^a>b\nup:sep[^] = ^a^b\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.left",
+              "datatype": "set[<]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.right",
+              "datatype": "set[>]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.up",
+              "datatype": "sep[^]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-009-invalid-separator-spec-char-rejects",
+      "description": "Reserved separator datatypes reject bracket specs outside the explicit separator whitelist",
+      "input": {
+        "source": "bad:sep[/] = ^root/main\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_SEPARATOR_CHAR"
           }
         ],
         "warnings": []
