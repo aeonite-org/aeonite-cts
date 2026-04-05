@@ -150,10 +150,10 @@
       ]
     },
     {
-      "id": "core-whitespace-005-separator-tab-before-comment-pass",
-      "description": "A tab before a trailing line comment still ends a separator literal payload rather than becoming part of it",
+      "id": "core-whitespace-005-separator-space-before-comment-pass",
+      "description": "A space before a trailing line comment ends a separator literal payload cleanly outside quoted segments",
       "input": {
-        "source": "g:sep = ^1\t// d\n",
+        "source": "g:sep[|] = ^aaa // d\n",
         "mode": "strict"
       },
       "expected": {
@@ -165,7 +165,7 @@
           "bindings": [
             {
               "path": "$.g",
-              "datatype": "sep",
+              "datatype": "sep[|]",
               "kind": "binding"
             }
           ]
@@ -176,6 +176,34 @@
         "strict",
         "separator",
         "comments"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-whitespace-boundaries.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-whitespace-006-separator-raw-space-reject",
+      "description": "An unquoted interior space ends a separator payload and leaves trailing raw text as a syntax error",
+      "input": {
+        "source": "g:sep[|] = ^aaa bbb\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "whitespace",
+        "strict",
+        "separator",
+        "reject"
       ],
       "spec_refs": [
         "specs/04-official/v1/structure-syntax-v1.md",

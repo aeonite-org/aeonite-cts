@@ -12,10 +12,10 @@
   "title": "Promoted Deterministic Separator Literal Cases",
   "tests": [
     {
-      "id": "core-sep-001-root-path-literal-accepted",
-      "description": "Separator literals accept rooted path-like values in typed bindings",
+      "id": "core-sep-001-raw-whitelist-payload-accepted",
+      "description": "Separator literals accept raw payloads built only from the separator raw-character whitelist",
       "input": {
-        "source": "file1:sep[/] = ^root/main/file.aeon\n",
+        "source": "size:sep[x] = ^300x250\n",
         "mode": "strict"
       },
       "expected": {
@@ -26,8 +26,8 @@
           "parse_ok": true,
           "bindings": [
             {
-              "path": "$.file1",
-              "datatype": "sep[/]",
+              "path": "$.size",
+              "datatype": "sep[x]",
               "kind": "binding"
             }
           ]
@@ -43,10 +43,10 @@
       ]
     },
     {
-      "id": "core-sep-002-url-separator-literal-accepted",
-      "description": "Separator literals accept URL-like values in typed bindings",
+      "id": "core-sep-002-quoted-segments-accepted",
+      "description": "Separator literals accept ordinary quoted string segments for payload content that falls outside the raw whitelist",
       "input": {
-        "source": "file3:sep[/] = ^http://www.aeonite.org\n",
+        "source": "parts:sep[|] = ^\"hello world\"|\"this, [is] fine\"\n",
         "mode": "strict"
       },
       "expected": {
@@ -57,8 +57,8 @@
           "parse_ok": true,
           "bindings": [
             {
-              "path": "$.file3",
-              "datatype": "sep[/]",
+              "path": "$.parts",
+              "datatype": "sep[|]",
               "kind": "binding"
             }
           ]
@@ -74,57 +74,60 @@
       ]
     },
     {
-      "id": "core-sep-003-nested-separator-literals-accepted",
-      "description": "Separator literals remain valid inside lists and nested object bindings",
+      "id": "core-sep-003-raw-slash-payload-rejects",
+      "description": "Raw separator payloads reject slash characters unless they appear inside quoted segments",
       "input": {
-        "source": "a:list = [^http://www.aeonite.org/*hello*/]\nb:o = {a:sep[/]=^http://www.aeonite.org/*hello*/}\n",
+        "source": "file:sep[/] = ^root/main/file.aeon\n",
         "mode": "strict"
       },
       "expected": {
-        "ok": true,
-        "errors": [],
-        "warnings": [],
-        "result": {
-          "parse_ok": true,
-          "bindings": [
-            {
-              "path": "$.a",
-              "datatype": "list",
-              "kind": "binding"
-            },
-            {
-              "path": "$.a[0]",
-              "datatype": null,
-              "kind": "binding"
-            },
-            {
-              "path": "$.b",
-              "datatype": "o",
-              "kind": "binding"
-            },
-            {
-              "path": "$.b.a",
-              "datatype": "sep[/]",
-              "kind": "binding"
-            }
-          ]
-        }
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
       },
       "tags": [
         "strict",
         "separator",
-        "nesting"
+        "rejection"
       ],
       "spec_refs": [
-        "specs/04-official/v1/value-types-v1.md",
-        "specs/04-official/v1/structure-syntax-v1.md"
+        "specs/04-official/v1/value-types-v1.md"
       ]
     },
     {
-      "id": "core-sep-004-unparameterized-sep-rejects-caret-literal",
+      "id": "core-sep-004-raw-comma-payload-rejects",
+      "description": "Raw separator payloads reject comma characters unless they appear inside quoted segments",
+      "input": {
+        "source": "coords:sep[|] = ^1,2,3\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-005-unparameterized-sep-rejects-caret-literal",
       "description": "Using a caret separator literal against an unparameterized sep datatype rejects with a syntax error",
       "input": {
-        "source": "blue:sep = ^ 200\n",
+        "source": "blue:sep = ^200\n",
         "mode": "strict"
       },
       "expected": {
@@ -147,10 +150,10 @@
       ]
     },
     {
-      "id": "core-sep-005-separator-datatype-rejects-list-node",
+      "id": "core-sep-006-separator-datatype-rejects-list-node",
       "description": "A sep-typed binding rejects list literals even when the list contains a separator literal",
       "input": {
-        "source": "filex:sep[/] = [^root/main/file.aeon]\n",
+        "source": "filex:sep[/] = [^\"root/main/file.aeon\"]\n",
         "mode": "strict"
       },
       "expected": {
@@ -171,6 +174,32 @@
       ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-007-unterminated-quoted-segment-rejects",
+      "description": "Separator literals reject quoted payload segments that do not terminate before the line ends",
+      "input": {
+        "source": "bad:sep[|] = ^\"hello\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_STRING"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
       ]
     }
   ]
