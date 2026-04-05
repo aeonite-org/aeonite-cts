@@ -321,6 +321,127 @@
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-snippet-transport-010-malformed-bare-number-tail-rejects",
+      "description": "Bare transport literals that continue with a hyphen-digit tail reject as invalid numbers rather than reaching finalize",
+      "input": {
+        "source": "a = 1-1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "numbers",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-011-incomplete-exponent-number-rejects",
+      "description": "Incomplete exponent spellings reject as invalid numbers in transport mode",
+      "input": {
+        "source": "a = 1e\nb = 1e+\nc = 1e-\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER",
+            "phaseLabel": "Lexing"
+          },
+          {
+            "code": "INVALID_NUMBER",
+            "phaseLabel": "Lexing"
+          },
+          {
+            "code": "INVALID_NUMBER",
+            "phaseLabel": "Lexing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "numbers",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-012-non-zero-padded-date-candidates-reject",
+      "description": "Transport mode rejects date-like literals whose month or day segments are not zero-padded",
+      "input": {
+        "source": "a = 0000-1-20\nb = 0000-02-1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_DATE",
+            "phaseLabel": "Parsing"
+          },
+          {
+            "code": "INVALID_DATE",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "dates",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-013-single-digit-hour-time-candidate-rejects",
+      "description": "Transport mode rejects single-digit hour time candidates with a temporal-specific invalid-time diagnostic",
+      "input": {
+        "source": "a = 9:00\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_TIME",
+            "phaseLabel": "Lexing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "time",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }
