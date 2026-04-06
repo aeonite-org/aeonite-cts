@@ -50,7 +50,7 @@ The status labels used here are:
 | separator/path literal handling | baseline | `cts/core/v1/suites/09-promoted-separator-literals.json` | includes rooted path, URL-like, nested-list/object, lexical reject, and datatype mismatch behavior | `Aeon/stress-tests/snippets/positive-strict.aeon-cases`, `Aeon/stress-tests/snippets/negative-strict.aeon-cases` |
 | datatype-to-literal validation behavior | baseline | `cts/core/v1/suites/08-promoted-strict-literals.json`, `cts/core/v1/suites/09-promoted-separator-literals.json`, `cts/core/v1/suites/10-promoted-numeric-and-encoding-literals.json` | covers datatype/literal mismatch behavior for number, sep, base64, and hex classes | `Aeon/cts/core`, `Aeon/stress-tests/snippets/negative-strict.aeon-cases` |
 | custom-mode typed literal acceptance and fail-closed boundaries | baseline | `cts/core/v1/suites/01-baseline.json`, `cts/core/v1/suites/11-promoted-custom-literals.json`, `cts/core/v1/suites/12-promoted-custom-rejections.json` | baseline custom-datatype policy plus promoted custom-mode value-family acceptance, untyped fail-closed behavior, and reserved-datatype mismatch checks | `Aeon/stress-tests/snippets/positive-custom.aeon-cases`, `Aeon/stress-tests/snippets/negative-custom.aeon-cases` |
-| AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/15-structural-container-items.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
+| AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
 
 ## Promotion rule
 
@@ -93,6 +93,7 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 - indexed-path validation and tuple positional checks
 - separator-literal policy enforcement
 - structural container item validation
+- reference-form constraints and schema-owned reference policy
 - Core-versus-AEOS authority boundary preservation
 
 ## AEOS coverage map
@@ -110,7 +111,8 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 | indexed-path validation and tuple positional checks | baseline | `cts/aeos/v1/suites/12-tuple-positional.json`, `cts/aeos/v1/suites/13-indexed-path-validation.json` | covers indexed tuple element validation and malformed indexed path rejection |
 | separator-literal policy enforcement | baseline | `cts/aeos/v1/suites/14-separator-literal-policy.json` | covers trailing separator delimiter policy behavior across pass, warn, and fail modes |
 | structural container item validation | baseline | `cts/aeos/v1/suites/15-structural-container-items.json` | covers typed indexed paths into structural list/object content |
-| Core-versus-AEOS authority boundary preservation | partial | `cts/aeos/v1/suites/01-baseline.json` | correctly preserves that missing reference targets and related legality checks remain Core-owned, but this boundary should be called out more explicitly in future AEOS review material |
+| reference-form constraints and schema-owned reference policy | baseline | `cts/aeos/v1/suites/16-reference-forms.json` | covers schema-owned reference require/forbid behavior, clone-vs-pointer distinction, invalid schema combinations, and schema-wide reference policy while keeping materialization behavior out of AEOS conformance |
+| Core-versus-AEOS authority boundary preservation | baseline | `cts/aeos/v1/suites/01-baseline.json`, `cts/aeos/v1/suites/16-reference-forms.json` | preserves that missing reference targets and related legality checks remain Core-owned even when AEOS constrains reference form |
 
 ## AEOS review note
 

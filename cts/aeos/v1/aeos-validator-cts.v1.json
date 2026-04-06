@@ -85,6 +85,11 @@
       "id": "structural-container-items",
       "title": "Structural Container Items",
       "file": "suites/15-structural-container-items.json"
+    },
+    {
+      "id": "reference-forms",
+      "title": "Reference Form Constraints",
+      "file": "suites/16-reference-forms.json"
     }
   ]
 }
