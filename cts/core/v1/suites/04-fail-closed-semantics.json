@@ -104,6 +104,38 @@
         "specs/04-official/v1/appendices/appendix-error-model.md",
         "specs/04-official/v1/AEON-v1-compliance.md#7-strict-mode-requirements"
       ]
+    },
+    {
+      "id": "core-semantics-004-escaped-decoded-identity-duplicate-fail-closed",
+      "description": "Escaped and decoded-equivalent keys that resolve to the same canonical path are rejected fail closed",
+      "input": {
+        "source": "aA = 1\n\"a\\u0041\" = 2\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_CANONICAL_PATH",
+            "path": "$.aA",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "duplicates",
+        "canonical-path",
+        "unicode"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
     }
   ]
 }

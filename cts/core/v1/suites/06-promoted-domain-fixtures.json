@@ -269,6 +269,41 @@
         "specs/04-official/v1/value-types-v1.md",
         "specs/04-official/v1/structure-syntax-v1.md"
       ]
+    },
+    {
+      "id": "core-domain-005-normalization-distinct-keys-pass",
+      "description": "Escaped NFC and NFD spellings remain distinct key identities unless the language explicitly normalizes them",
+      "input": {
+        "source": "\"caf\\u00E9\" = 1\n\"cafe\\u0301\" = 2\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "addressing",
+        "unicode",
+        "normalization"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }
