@@ -52,7 +52,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "SYNTAX_ERROR",
+            "code": "INVALID_SEPARATOR_CHAR",
             "path": "$",
             "phase": null
           }
@@ -96,6 +96,371 @@
         "fail-closed",
         "separators",
         "lexical"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-004-trailing-garbage-after-number-rejects",
+      "description": "Trailing raw text after a number literal fails closed",
+      "input": {
+        "source": "a = 1 tail\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "syntax",
+        "trailing-garbage"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-005-trailing-garbage-after-string-rejects",
+      "description": "Trailing raw text after a quoted string fails closed",
+      "input": {
+        "source": "a = \"ok\" raw\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "syntax",
+        "trailing-garbage"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-006-trailing-garbage-after-node-rejects",
+      "description": "Trailing raw text after a node literal fails closed",
+      "input": {
+        "source": "a:node = <tag()> tail\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "syntax",
+        "trailing-garbage"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-007-trailing-garbage-after-object-rejects",
+      "description": "Trailing raw text after an object literal fails closed",
+      "input": {
+        "source": "a = { b = 1 } tail\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "syntax",
+        "trailing-garbage"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-008-trailing-garbage-after-list-rejects",
+      "description": "Trailing raw text after a list literal fails closed",
+      "input": {
+        "source": "a = [1] tail\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "syntax",
+        "trailing-garbage"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-009-trailing-garbage-after-reference-rejects",
+      "description": "Trailing raw text after a reference expression fails closed",
+      "input": {
+        "source": "a = ~target tail\ntarget = 1\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "syntax",
+        "trailing-garbage"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-010-invalid-escape-rejects",
+      "description": "Malformed quoted escapes fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "a = \"x\\q\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_ESCAPE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "unicode",
+        "escapes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-011-braced-unicode-incomplete-rejects",
+      "description": "Incomplete braced Unicode escapes fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "a = \"\\u{\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_ESCAPE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "unicode",
+        "escapes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-012-braced-unicode-missing-close-rejects",
+      "description": "Unterminated braced Unicode escapes fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "a = \"\\u{41\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_ESCAPE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "unicode",
+        "escapes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-013-braced-unicode-nonhex-rejects",
+      "description": "Non-hex braced Unicode escapes fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "a = \"\\u{4G}\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_ESCAPE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "unicode",
+        "escapes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-014-braced-unicode-out-of-range-rejects",
+      "description": "Out-of-range Unicode escapes fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "a = \"x\\u{110000}\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_ESCAPE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "unicode",
+        "escapes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-015-unpaired-surrogates-reject",
+      "description": "Lone surrogate Unicode escapes fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "high = \"\\uD800\"\nlow = \"\\uDC00\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_ESCAPE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "unicode",
+        "escapes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-016-raw-newline-in-quoted-string-rejects",
+      "description": "Raw newlines inside double-quoted strings fail closed with UNTERMINATED_STRING",
+      "input": {
+        "source": "a = \"line1\nline2\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_STRING"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "strings",
+        "unicode"
       ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md",

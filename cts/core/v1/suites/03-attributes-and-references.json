@@ -530,6 +530,126 @@
       },
       "tags": ["references", "lists", "tuples", "fail", "regression"],
       "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "core-attr-013-escaped-decoded-identity-pointers-pass",
+      "description": "Pointer references resolve through escaped-decoded quoted member and attribute traversal",
+      "input": {
+        "source": "#!/bin/aeon --profile=ts.object.v1\n\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"aA\":int32 = 1\nptrTop = ~>[\"a\\u0041\"]\n\nobj = {\n  \"bA\":int32 = 2\n}\nptrNested = ~>obj.[\"b\\u0041\"]\n\nhost@{\n  \"xA\":int32 = 3\n} = 4\nptrAttr = ~>host@[\"x\\u0041\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"aA\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.ptrTop",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.obj",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.obj.[\"bA\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.ptrNested",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.host",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.ptrAttr",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "unicode", "pointers"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
+      "id": "core-attr-014-escaped-decoded-identity-rooted-clones-pass",
+      "description": "Rooted and chained clone references resolve through escaped-decoded quoted traversal",
+      "input": {
+        "source": "#!/bin/aeon --profile=ts.object.v1\n\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"aA\":int32 = 1\nrootClone = ~$.[\"a\\u0041\"]\n\nobj = {\n  \"bA\":int32 = 2\n}\nrootNested = ~$.obj.[\"b\\u0041\"]\n\nhost@{\n  \"xA\":int32 = 3\n} = 4\nrootAttr = ~$.host@[\"x\\u0041\"]\n\nchain1 = ~[\"a\\u0041\"]\nchain2 = ~chain1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"aA\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.rootClone",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.obj",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.obj.[\"bA\"]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.rootNested",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.host",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.rootAttr",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.chain1",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.chain2",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "references", "unicode", "rooted"],
+      "spec_refs": ["specs/04-official/v1/addressing-references-v1.md"]
     }
   ]
 }

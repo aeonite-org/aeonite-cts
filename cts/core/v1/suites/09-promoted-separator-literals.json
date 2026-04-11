@@ -274,6 +274,34 @@
         "specs/04-official/v1/value-types-v1.md",
         "specs/04-official/v1/structure-syntax-v1.md"
       ]
+    },
+    {
+      "id": "core-sep-010-inline-boundary-collision-rejects",
+      "description": "Inline separator-literal boundary collisions fail closed and surface at least INVALID_SEPARATOR_CHAR",
+      "input": {
+        "source": "badInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\nbadSepType1:matrix[,][;] = ^1,2,3;4,5,6\nbadSepType2:set[,] = ^0,0,0,\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_SEPARATOR_CHAR"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "rejection",
+        "boundaries"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
     }
   ]
 }

@@ -210,6 +210,56 @@
         "specs/04-official/v1/appendices/appendix-whitespace-boundaries.md",
         "specs/04-official/v1/appendices/appendix-error-model.md"
       ]
+    },
+    {
+      "id": "core-whitespace-007-word-joiner-structural-reject",
+      "description": "U+2060 WORD JOINER is not structural whitespace and fails closed when inserted into a binding seam",
+      "input": {
+        "source": "a⁠= 1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "whitespace",
+        "unicode",
+        "reject"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#4-separator-specs",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-whitespace-008-line-separator-structural-reject",
+      "description": "U+2028 LINE SEPARATOR is not a Core v1 structural newline token and fails closed in binding position",
+      "input": {
+        "source": "a = \u2028\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "whitespace",
+        "unicode",
+        "reject"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#4-separator-specs",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
     }
   ]
 }
