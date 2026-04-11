@@ -52,7 +52,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "SYNTAX_ERROR",
+            "code": "INVALID_SEPARATOR_CHAR",
             "path": "$",
             "phase": null
           }
