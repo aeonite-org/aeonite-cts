@@ -230,6 +230,82 @@
         "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
         "specs/04-official/v1/value-types-v1.md#38-encoding"
       ]
+    },
+    {
+      "id": "canonical-baseline-010-number-family-normalization",
+      "description": "Number canonicalization is value-normalizing while preserving integer, decimal, and exponent families",
+      "input": {
+        "source": "plain:number = +10\nfraction:number = 10.00\nhalf:number = +.5\nscientific:number = 1.0E+03"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nfraction:number = 10.0\nhalf:number = 0.5\nplain:number = 10\nscientific:number = 1e3"
+        }
+      },
+      "tags": [
+        "baseline",
+        "numbers",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/value-types-v1.md#33-number",
+        "specs/04-official/v1/appendices/appendix-canonical-form-v1.md#scalars"
+      ]
+    },
+    {
+      "id": "canonical-baseline-011-zero-family-normalization",
+      "description": "Zero canonicalization follows the same integer, decimal, and exponent family model",
+      "input": {
+        "source": "a:number = +0\nb:number = -.0\nc:number = 0.0e+0\nd:number = -0.0E-0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\na:number = 0\nb:number = -0.0\nc:number = 0e0\nd:number = -0e0"
+        }
+      },
+      "tags": [
+        "baseline",
+        "numbers",
+        "zero",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/value-types-v1.md#33-number",
+        "specs/04-official/v1/appendices/appendix-canonical-form-v1.md#scalars"
+      ]
+    },
+    {
+      "id": "canonical-baseline-012-radix-representation-preserving",
+      "description": "Radix canonicalization strips separators but otherwise preserves the represented digit sequence and decimal layout",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nmask:radix[10] = %10.00\nwidth:radix[10] = %0010.00\nbits:radix[2] = %10_10"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"transport\"\n}\nbits:radix[2] = %1010\nmask:radix[10] = %10.00\nwidth:radix[10] = %0010.00"
+        }
+      },
+      "tags": [
+        "baseline",
+        "radix",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/value-types-v1.md#37-radix",
+        "specs/04-official/v1/appendices/appendix-canonical-form-v1.md#scalars"
+      ]
     }
   ]
 }
