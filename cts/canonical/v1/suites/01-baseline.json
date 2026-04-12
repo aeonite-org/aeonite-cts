@@ -306,6 +306,30 @@
         "specs/04-official/v1/value-types-v1.md#37-radix",
         "specs/04-official/v1/appendices/appendix-canonical-form-v1.md#scalars"
       ]
+    },
+    {
+      "id": "canonical-baseline-013-nan-preserves-lexeme",
+      "description": "NaN literals canonically preserve NaN and -NaN exactly",
+      "input": {
+        "source": "top:nan = NaN\nbottom:nan = -NaN"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nbottom:nan = -NaN\ntop:nan = NaN"
+        }
+      },
+      "tags": [
+        "baseline",
+        "nan",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/value-types-v1.md#332-nan"
+      ]
     }
   ]
 }

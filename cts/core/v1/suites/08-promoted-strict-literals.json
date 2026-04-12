@@ -339,6 +339,53 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-strict-009-typed-nan-pass",
+      "description": "Strict mode accepts typed NaN literals",
+      "input": {
+        "source": "a:nan = NaN\nb:nan = -NaN\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "nan",
+        "accept"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-010-number-rejects-nan-literal",
+      "description": "Strict mode rejects NaN literals bound to :number",
+      "input": {
+        "source": "a:number = NaN\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "nan",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }

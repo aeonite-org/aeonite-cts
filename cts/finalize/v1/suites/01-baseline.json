@@ -340,6 +340,44 @@
         "specs/04-official/v1/value-types-v1.md",
         "specs/04-official/v1/appendices/appendix-json-profile.md"
       ]
+    },
+    {
+      "id": "finalize-json-008-nan-fails-strict-json-profile",
+      "description": "Strict finalized JSON preserves the NaN lexeme but emits a JSON-profile finalize error",
+      "input": {
+        "source": "limit:nan = NaN\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FINALIZE_JSON_PROFILE_NAN",
+            "path": "$.limit",
+            "phaseLabel": "Finalization"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "document": {
+            "limit": "NaN"
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "nan",
+        "profile"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
     }
   ]
 }
