@@ -330,6 +330,30 @@
         "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
         "specs/04-official/v1/value-types-v1.md#332-nan"
       ]
+    },
+    {
+      "id": "canonical-baseline-014-null-preserves-family-boundary",
+      "description": "Null canonicalization preserves the reserved-sentinel versus quoted-reason family distinction",
+      "input": {
+        "source": "top:null = !none\nbottom:null = !'postponed'"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nbottom:null = !\"postponed\"\ntop:null = !none"
+        }
+      },
+      "tags": [
+        "baseline",
+        "null",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/value-types-v1.md#333-null"
+      ]
     }
   ]
 }
