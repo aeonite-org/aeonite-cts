@@ -217,6 +217,30 @@
       "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
     },
     {
+      "id": "core-addr-002d-preprocessor-placeholder-reject",
+      "description": "Asterisk-delimited preprocessor placeholders remain invalid Core syntax if they reach parsing unchanged",
+      "input": {
+        "source": "password = *secret-key*",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["addressing", "syntax", "preprocessor", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
       "id": "core-addr-003-separator-literal",
       "description": "Separator literal parses in strict mode with datatype signature",
       "input": {

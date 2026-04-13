@@ -553,28 +553,22 @@
         "ok": false,
         "errors": [
           {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
+            "code": "INVALID_NULL_REASON_EMPTY"
           },
           {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
+            "code": "INVALID_NULL_REASON_WHITESPACE"
           },
           {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
+            "code": "INVALID_NULL_REASON_COLLISION"
           },
           {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
+            "code": "INVALID_NULL_REASON_COLLISION"
           },
           {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
+            "code": "INVALID_NULL_SENTINEL"
           },
           {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
+            "code": "INVALID_NULL_SENTINEL"
           }
         ],
         "warnings": []
