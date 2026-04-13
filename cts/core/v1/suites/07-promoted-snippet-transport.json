@@ -588,6 +588,55 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-snippet-transport-017-reference-whitespace-after-sigil-pass",
+      "description": "Transport mode accepts ASCII inter-token whitespace between clone or pointer sigils and the following reference path",
+      "input": {
+        "source": "order:o = {\n  total:n = 2\n}\nclone:n = ~ order.total\npointer:n = ~> order.total\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.order",
+              "datatype": "o",
+              "kind": "binding"
+            },
+            {
+              "path": "$.order.total",
+              "datatype": "n",
+              "kind": "binding"
+            },
+            {
+              "path": "$.clone",
+              "datatype": "n",
+              "kind": "binding"
+            },
+            {
+              "path": "$.pointer",
+              "datatype": "n",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "references",
+        "whitespace"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
     }
   ]
 }

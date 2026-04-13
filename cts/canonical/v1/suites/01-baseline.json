@@ -380,6 +380,32 @@
         "specs/04-official/v1/value-types-v1.md#333-null",
         "specs/04-official/v1/structure-syntax-v1.md"
       ]
+    },
+    {
+      "id": "canonical-baseline-016-reference-whitespace-after-sigil-normalized",
+      "description": "Canonicalization removes inter-token whitespace between clone or pointer sigils and the following reference path",
+      "input": {
+        "source": "order:o = {\n  total:n = 2\n}\nclone:n = ~ order.total\npointer:n = ~> order.total"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nclone:n = ~order.total\norder:o = {\n  total:n = 2\n}\npointer:n = ~>order.total"
+        }
+      },
+      "tags": [
+        "baseline",
+        "references",
+        "whitespace",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases",
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }
