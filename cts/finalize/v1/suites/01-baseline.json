@@ -311,7 +311,76 @@
       ]
     },
     {
-      "id": "finalize-json-009-switch-materializes-as-boolean",
+      "id": "finalize-json-009-null-none-materializes-as-json-null",
+      "description": "Strict finalized JSON materializes !none as a JSON null without profile diagnostics",
+      "input": {
+        "source": "limit:null = !none\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "limit": null
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "null"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
+    },
+    {
+      "id": "finalize-json-010-null-reason-fails-strict-json-profile",
+      "description": "Strict finalized JSON preserves non-none null lexemes as strings and emits a JSON-profile finalize error",
+      "input": {
+        "source": "limit:null = !\"postponed\"\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FINALIZE_JSON_PROFILE_NULL",
+            "path": "$.limit",
+            "phaseLabel": "Finalization"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "document": {
+            "limit": "!\"postponed\""
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "null",
+        "profile"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
+    },
+    {
+      "id": "finalize-json-011-switch-materializes-as-boolean",
       "description": "Finalized JSON materializes switch literals as booleans even though inspect-style surfaced values remain lexical",
       "input": {
         "source": "flag:switch = on\n",
@@ -335,6 +404,44 @@
         "finalize",
         "json",
         "switch"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
+    },
+    {
+      "id": "finalize-json-012-nan-fails-strict-json-profile",
+      "description": "Strict finalized JSON preserves the NaN lexeme but emits a JSON-profile finalize error",
+      "input": {
+        "source": "limit:nan = NaN\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FINALIZE_JSON_PROFILE_NAN",
+            "path": "$.limit",
+            "phaseLabel": "Finalization"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "document": {
+            "limit": "NaN"
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "nan",
+        "profile"
       ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md",

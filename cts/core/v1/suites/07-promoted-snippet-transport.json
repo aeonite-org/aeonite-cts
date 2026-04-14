@@ -438,6 +438,199 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-snippet-transport-014-bare-nan-and-null-literals-pass",
+      "description": "Transport mode accepts bare NaN and null literal families without requiring explicit datatypes",
+      "input": {
+        "source": "a = NaN\nb = -NaN\nc = !none\nd = !notSet\ne = !\"postponed\"\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.c",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.d",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.e",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "nan",
+        "null",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-015-comment-boundary-special-literals-pass",
+      "description": "Transport mode accepts inline comments immediately following NaN and null bare literals",
+      "input": {
+        "source": "n1:null = !none// comment\nn2:null = !notSet/* comment */\nn3:nan = NaN// comment\nn4:nan = -NaN/# comment #/\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.n1",
+              "datatype": "null",
+              "kind": "binding"
+            },
+            {
+              "path": "$.n2",
+              "datatype": "null",
+              "kind": "binding"
+            },
+            {
+              "path": "$.n3",
+              "datatype": "nan",
+              "kind": "binding"
+            },
+            {
+              "path": "$.n4",
+              "datatype": "nan",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "comments",
+        "nan",
+        "null",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-016-invalid-null-reasons-and-stale-sentinels-reject",
+      "description": "Transport mode rejects empty or colliding null reasons and outdated null sentinel spellings",
+      "input": {
+        "source": "a:null = !\"\"\nb:null = !\"   \"\nc:null = !\"none\"\nd:null = !\"notSet\"\ne:null = !uninitialised\nf:null = !uninitialized\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NULL_REASON_EMPTY"
+          },
+          {
+            "code": "INVALID_NULL_REASON_WHITESPACE"
+          },
+          {
+            "code": "INVALID_NULL_REASON_COLLISION"
+          },
+          {
+            "code": "INVALID_NULL_REASON_COLLISION"
+          },
+          {
+            "code": "INVALID_NULL_SENTINEL"
+          },
+          {
+            "code": "INVALID_NULL_SENTINEL"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "null",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-017-reference-whitespace-after-sigil-pass",
+      "description": "Transport mode accepts ASCII inter-token whitespace between clone or pointer sigils and the following reference path",
+      "input": {
+        "source": "order:o = {\n  total:n = 2\n}\nclone:n = ~ order.total\npointer:n = ~> order.total\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.order",
+              "datatype": "o",
+              "kind": "binding"
+            },
+            {
+              "path": "$.order.total",
+              "datatype": "n",
+              "kind": "binding"
+            },
+            {
+              "path": "$.clone",
+              "datatype": "n",
+              "kind": "binding"
+            },
+            {
+              "path": "$.pointer",
+              "datatype": "n",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "references",
+        "whitespace"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/structure-syntax-v1.md"
+      ]
     }
   ]
 }

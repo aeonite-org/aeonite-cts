@@ -339,6 +339,114 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-strict-009-typed-nan-pass",
+      "description": "Strict mode accepts typed NaN literals",
+      "input": {
+        "source": "a:nan = NaN\nb:nan = -NaN\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "nan",
+        "accept"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-010-number-rejects-nan-literal",
+      "description": "Strict mode rejects NaN literals bound to :number",
+      "input": {
+        "source": "a:number = NaN\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "nan",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-011-typed-null-pass",
+      "description": "Typed null bindings accept reserved and reason-bearing null literals in strict mode",
+      "input": {
+        "source": "a:null = !none\nb:null = !\"postponed\"\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "null",
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "datatype": "null",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "null",
+        "literals"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-012-number-rejects-null-datatype-mismatch",
+      "description": "Strict typed null bindings reject ordinary numbers as datatype/literal mismatches",
+      "input": {
+        "source": "a:null = 0\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "null",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
     }
   ]
 }

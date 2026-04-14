@@ -121,11 +121,6 @@
             "code": "SYNTAX_ERROR",
             "path": "$",
             "phase": null
-          },
-          {
-            "code": "SYNTAX_ERROR",
-            "path": "$",
-            "phase": null
           }
         ],
         "warnings": [],
