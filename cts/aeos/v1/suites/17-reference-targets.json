@@ -1,0 +1,203 @@
+{
+  "meta": {
+    "suite_id": "reference-targets",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["reference-target-constraints", "core-vs-aeos-boundary"]
+  },
+  "id": "reference-targets",
+  "title": "Reference Target Constraints",
+  "tests": [
+    {
+      "id": "reference-target-001",
+      "description": "Clone reference target path matching reference_target_pattern passes",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcode" }
+              ]
+            },
+            "key": "postcode",
+            "value": {
+              "type": "CloneReference",
+              "path": ["postcodes", 1],
+              "span": [10, 24]
+            },
+            "span": [0, 24]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "reference": "require",
+                "reference_kind": "clone",
+                "reference_target_pattern": "^\\$\\.postcodes\\[\\d+\\]$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "reference-target-002",
+      "description": "Clone reference target path outside the allowed domain fails",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcode" }
+              ]
+            },
+            "key": "postcode",
+            "value": {
+              "type": "CloneReference",
+              "path": ["ages", 3],
+              "span": [10, 18]
+            },
+            "span": [0, 18]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "reference": "require",
+                "reference_kind": "clone",
+                "reference_target_pattern": "^\\$\\.postcodes\\[\\d+\\]$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.postcode",
+            "code": "reference_target_mismatch",
+            "phase": "schema_validation",
+            "span": [0, 18]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "reference-target-003",
+      "description": "Attribute reference targets are matched against canonical attribute syntax",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "ref" }
+              ]
+            },
+            "key": "ref",
+            "value": {
+              "type": "PointerReference",
+              "path": ["a", { "type": "attr", "key": "ns" }],
+              "span": [6, 16]
+            },
+            "span": [0, 16]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.ref",
+              "constraints": {
+                "reference": "require",
+                "reference_kind": "pointer",
+                "reference_target_pattern": "^\\$\\.a@ns$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "reference-target-004",
+      "description": "Invalid reference_target_pattern regex is rejected as invalid schema",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "reference": "require",
+                "reference_target_pattern": "["
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.postcode",
+            "code": "invalid_reference_constraint",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "reference-target-005",
+      "description": "reference_target_pattern conflicts with reference=forbid",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "reference": "forbid",
+                "reference_target_pattern": "^\\$\\.postcodes\\[\\d+\\]$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.postcode",
+            "code": "invalid_reference_constraint",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

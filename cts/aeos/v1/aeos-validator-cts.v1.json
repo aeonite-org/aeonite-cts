@@ -90,6 +90,11 @@
       "id": "reference-forms",
       "title": "Reference Form Constraints",
       "file": "suites/16-reference-forms.json"
+    },
+    {
+      "id": "reference-targets",
+      "title": "Reference Target Constraints",
+      "file": "suites/17-reference-targets.json"
     }
   ]
 }
