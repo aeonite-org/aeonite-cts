@@ -95,6 +95,16 @@
       "id": "reference-targets",
       "title": "Reference Target Constraints",
       "file": "suites/17-reference-targets.json"
+    },
+    {
+      "id": "resolved-reference-form",
+      "title": "Resolved Reference Form Constraints",
+      "file": "suites/18-resolved-reference-form.json"
+    },
+    {
+      "id": "reference-security",
+      "title": "Reference Security Hardening",
+      "file": "suites/19-reference-security.json"
     }
   ]
 }

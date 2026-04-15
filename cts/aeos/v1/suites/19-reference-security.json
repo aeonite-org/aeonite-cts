@@ -1,0 +1,257 @@
+{
+  "meta": {
+    "suite_id": "reference-security",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["reference-target-constraints", "resolved-reference-form", "core-vs-aeos-boundary"]
+  },
+  "id": "reference-security",
+  "title": "Reference Security Hardening",
+  "tests": [
+    {
+      "id": "reference-security-001",
+      "description": "Quoted member target paths are canonicalized before reference_target_pattern matching",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcode" }
+              ]
+            },
+            "key": "postcode",
+            "value": {
+              "type": "CloneReference",
+              "path": ["safe keys", "postcode"],
+              "span": [0, 12]
+            },
+            "span": [0, 12]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "reference": "require",
+                "reference_kind": "clone",
+                "reference_target_pattern": "^\\$\\.\\[\"safe keys\"\\]\\.postcode$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "reference-security-002",
+      "description": "Allowed target paths cannot launder invalid terminal values when resolve_reference_form is enabled",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "ages" },
+                { "type": "index", "index": 0 }
+              ]
+            },
+            "key": "0",
+            "value": {
+              "type": "NumberLiteral",
+              "value": "42",
+              "raw": "42",
+              "span": [0, 2]
+            },
+            "span": [0, 2]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcodes" },
+                { "type": "index", "index": 0 }
+              ]
+            },
+            "key": "0",
+            "value": {
+              "type": "CloneReference",
+              "path": ["ages", 0],
+              "span": [3, 10]
+            },
+            "span": [3, 10]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcode" }
+              ]
+            },
+            "key": "postcode",
+            "value": {
+              "type": "CloneReference",
+              "path": ["postcodes", 0],
+              "span": [11, 22]
+            },
+            "span": [11, 22]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "reference_target_pattern": "^\\$\\.postcodes\\[\\d+\\]$",
+                "type": "IntegerLiteral",
+                "min_value": "1000",
+                "max_value": "9999",
+                "resolve_reference_form": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.postcode",
+            "code": "numeric_form_violation",
+            "phase": "schema_validation",
+            "span": [11, 22]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "reference-security-003",
+      "description": "reference_kind is still enforced even when resolve_reference_form would yield a valid literal",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "source" }
+              ]
+            },
+            "key": "source",
+            "value": {
+              "type": "NumberLiteral",
+              "value": "2000",
+              "raw": "2000",
+              "span": [0, 4]
+            },
+            "span": [0, 4]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcode" }
+              ]
+            },
+            "key": "postcode",
+            "value": {
+              "type": "CloneReference",
+              "path": ["source"],
+              "span": [5, 13]
+            },
+            "span": [5, 13]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "reference": "require",
+                "reference_kind": "pointer",
+                "resolve_reference_form": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.postcode",
+            "code": "reference_kind_mismatch",
+            "phase": "schema_validation",
+            "span": [5, 13]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "reference-security-004",
+      "description": "Cyclic reference chains remain Core-owned when resolve_reference_form is enabled",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "CloneReference",
+              "path": ["b"],
+              "span": [0, 4]
+            },
+            "span": [0, 4]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "b" }
+              ]
+            },
+            "key": "b",
+            "value": {
+              "type": "CloneReference",
+              "path": ["a"],
+              "span": [5, 9]
+            },
+            "span": [5, 9]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.a",
+              "constraints": {
+                "reference_target_pattern": "^\\$\\.b$",
+                "type": "IntegerLiteral",
+                "min_value": "1000",
+                "max_value": "9999",
+                "resolve_reference_form": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}
