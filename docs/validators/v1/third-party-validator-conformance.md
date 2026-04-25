@@ -248,7 +248,7 @@ Result Envelope
  │
  │  guarantees observed (optional)
  ▼
-Interpreter / Elixir
+Interpreter / Tonic
  │
  │  performs coercion & meaning
  ▼
