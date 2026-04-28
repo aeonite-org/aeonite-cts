@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "suite_id": "resolved-reference-form",
+    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
+    "constraint_primitives": ["resolved-reference-form", "core-vs-aeos-boundary"]
+  },
+  "id": "resolved-reference-form",
+  "title": "Resolved Reference Form Constraints",
+  "tests": [
+    {
+      "id": "resolved-reference-form-001",
+      "description": "Resolved integer endpoint satisfies referencing-path constraints",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "source" }
+              ]
+            },
+            "key": "source",
+            "value": {
+              "type": "NumberLiteral",
+              "value": "2000",
+              "raw": "2000",
+              "span": [0, 4]
+            },
+            "span": [0, 4]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcode" }
+              ]
+            },
+            "key": "postcode",
+            "value": {
+              "type": "CloneReference",
+              "path": ["source"],
+              "span": [5, 13]
+            },
+            "span": [5, 13]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "type": "IntegerLiteral",
+                "min_value": "1000",
+                "max_value": "9999",
+                "resolve_reference_form": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resolved-reference-form-002",
+      "description": "Resolved endpoint violating referencing-path numeric constraints fails",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcodes" },
+                { "type": "index", "index": 3 }
+              ]
+            },
+            "key": "3",
+            "value": {
+              "type": "NumberLiteral",
+              "value": "4000",
+              "raw": "4000",
+              "span": [0, 4]
+            },
+            "span": [0, 4]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "age" }
+              ]
+            },
+            "key": "age",
+            "value": {
+              "type": "CloneReference",
+              "path": ["postcodes", 3],
+              "span": [5, 17]
+            },
+            "span": [5, 17]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.age",
+              "constraints": {
+                "type": "IntegerLiteral",
+                "min_value": "0",
+                "max_value": "120",
+                "resolve_reference_form": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.age",
+            "code": "numeric_form_violation",
+            "phase": "schema_validation",
+            "span": [5, 17]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resolved-reference-form-003",
+      "description": "Transitive reference chains resolve to terminal literal form",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "a" }
+              ]
+            },
+            "key": "a",
+            "value": {
+              "type": "StringLiteral",
+              "value": "ok",
+              "raw": "\"ok\""
+            },
+            "span": [0, 4]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "b" }
+              ]
+            },
+            "key": "b",
+            "value": {
+              "type": "CloneReference",
+              "path": ["a"],
+              "span": [5, 9]
+            },
+            "span": [5, 9]
+          },
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "c" }
+              ]
+            },
+            "key": "c",
+            "value": {
+              "type": "CloneReference",
+              "path": ["b"],
+              "span": [10, 14]
+            },
+            "span": [10, 14]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.c",
+              "constraints": {
+                "type": "StringLiteral",
+                "pattern": "ok",
+                "resolve_reference_form": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resolved-reference-form-004",
+      "description": "Missing targets remain Core-owned even when resolve_reference_form is enabled",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "postcode" }
+              ]
+            },
+            "key": "postcode",
+            "value": {
+              "type": "CloneReference",
+              "path": ["missing"],
+              "span": [0, 9]
+            },
+            "span": [0, 9]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "type": "IntegerLiteral",
+                "min_value": "1000",
+                "max_value": "9999",
+                "resolve_reference_form": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resolved-reference-form-005",
+      "description": "resolve_reference_form must be boolean",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.x",
+              "constraints": {
+                "resolve_reference_form": "yes"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.x",
+            "code": "invalid_reference_constraint",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}
