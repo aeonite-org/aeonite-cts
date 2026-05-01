@@ -385,6 +385,105 @@
       },
       "tags": ["encoding", "transport", "reject"],
       "spec_refs": ["specs/04-official/v1/value-types-v1.md"]
+    },
+    {
+      "id": "aes-emission-009-anonymous-typed-list-elements",
+      "description": "Anonymous typed list elements emit indexed events with element datatypes and immediate value kinds",
+      "input": {
+        "source": "values:list = [:int32 = 3, :string = \"4\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.values",
+              "datatype": "list",
+              "value_kind": "ListNode",
+              "reference": null
+            },
+            {
+              "path": "$.values[0]",
+              "datatype": "int32",
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.values[1]",
+              "datatype": "string",
+              "value_kind": "StringLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["typed-values", "lists", "indexes"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md", "specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "aes-emission-010-anonymous-typed-tuple-elements",
+      "description": "Anonymous typed tuple elements emit indexed events with element datatypes and immediate value kinds",
+      "input": {
+        "source": "pair:tuple = (:float64 = 10.5, :float64 = 2.0)",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.pair",
+              "datatype": "tuple",
+              "value_kind": "TupleLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.pair[0]",
+              "datatype": "float64",
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.pair[1]",
+              "datatype": "float64",
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["typed-values", "tuples", "indexes"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md", "specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "aes-emission-011-anonymous-typed-node-children",
+      "description": "Anonymous typed node children remain inside the owning NodeLiteral event payload",
+      "input": {
+        "source": "page:node = <page(:string = \"hello\", <tag>, :int32 = 3)>",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.page",
+              "datatype": "node",
+              "value_kind": "NodeLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["typed-values", "nodes"],
+      "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md", "specs/04-official/v1/appendices/appendix-node-model.md"]
     }
   ]
 }

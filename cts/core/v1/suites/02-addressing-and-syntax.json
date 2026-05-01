@@ -542,6 +542,317 @@
       },
       "tags": ["separators", "syntax", "reject", "type-annotation"],
       "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-013-anonymous-typed-list-elements-pass",
+      "description": "Anonymous typed list elements parse and emit indexed element datatype metadata without becoming named bindings",
+      "input": {
+        "source": "values:list = [:int32 = 3, :string = \"4\"]",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.values",
+              "datatype": "list",
+              "kind": "binding"
+            },
+            {
+              "path": "$.values[0]",
+              "datatype": "int32",
+              "kind": "binding"
+            },
+            {
+              "path": "$.values[1]",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["typed-values", "lists", "indexes"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-014-anonymous-typed-tuple-elements-pass",
+      "description": "Anonymous typed tuple elements parse and emit indexed element datatype metadata",
+      "input": {
+        "source": "pair:tuple = (:float64 = 10.5, :float64 = 2.0)",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.pair",
+              "datatype": "tuple",
+              "kind": "binding"
+            },
+            {
+              "path": "$.pair[0]",
+              "datatype": "float64",
+              "kind": "binding"
+            },
+            {
+              "path": "$.pair[1]",
+              "datatype": "float64",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["typed-values", "tuples", "indexes"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-015-anonymous-typed-node-children-pass",
+      "description": "Anonymous typed node children parse inside node child context without creating additional canonical bindings",
+      "input": {
+        "source": "page:node = <page(:string = \"hello\", <tag>, :int32 = 3)>",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.page",
+              "datatype": "node",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["typed-values", "nodes"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md", "specs/04-official/v1/appendices/appendix-node-model.md"]
+    },
+    {
+      "id": "core-addr-016-anonymous-typed-root-reject",
+      "description": "Anonymous typed values are invalid where a root binding is expected",
+      "input": {
+        "source": ":n = 3",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["typed-values", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-017-anonymous-typed-binding-value-reject",
+      "description": "Anonymous typed values cannot appear directly where a binding value is expected",
+      "input": {
+        "source": "a:n = :n = 3",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["typed-values", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-018-anonymous-typed-list-nesting-reject",
+      "description": "Anonymous typed values annotate only immediate values and cannot wrap another anonymous typed value",
+      "input": {
+        "source": "a:list = [:n = :n = 3]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["typed-values", "lists", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-019-anonymous-typed-node-nesting-reject",
+      "description": "Anonymous typed node children cannot wrap another anonymous typed value",
+      "input": {
+        "source": "a:node = <tag(:n = :n = 3)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["typed-values", "nodes", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md", "specs/04-official/v1/appendices/appendix-node-model.md"]
+    },
+    {
+      "id": "core-addr-020-anonymous-typed-object-entry-reject",
+      "description": "Anonymous typed values are invalid inside objects because objects require keyed bindings",
+      "input": {
+        "source": "a:object = { :n = 3 }",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["typed-values", "objects", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-021-anonymous-typed-malformed-list-head-reject",
+      "description": "A list binding still requires an equals sign before the list value; typed elements do not create a binding-head shorthand",
+      "input": {
+        "source": "a:list[ :n = :n = 3 ]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["typed-values", "lists", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-022-list-binding-head-bracket-entry-reject",
+      "description": "A typed list binding cannot omit the equals sign and place keyed-looking content directly after the datatype",
+      "input": {
+        "source": "a:list[ n = 3 ]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["lists", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-023-list-binding-head-empty-type-reject",
+      "description": "A typed list binding cannot omit the equals sign and use an empty anonymous type annotation in brackets",
+      "input": {
+        "source": "a:list[ : = 3 ]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["typed-values", "lists", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-addr-024-list-binding-head-missing-element-reject",
+      "description": "A typed list binding cannot omit the equals sign and place an equals token directly inside brackets",
+      "input": {
+        "source": "a:list[ = 3 ]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["lists", "reject"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
     }
   ]
 }
