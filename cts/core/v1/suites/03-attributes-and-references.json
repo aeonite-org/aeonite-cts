@@ -171,6 +171,57 @@
       "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
     },
     {
+      "id": "core-attr-004c-duplicate-attribute-key-reject",
+      "description": "Duplicate keys inside one attribute map are rejected fail closed",
+      "input": {
+        "source": "a@{x=1, x=2} = 3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_KEY",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "duplicates", "fail"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-attr-004d-repeated-attribute-entry-head-reject",
+      "description": "Repeated attribute heads on one attribute entry are rejected even when nested attribute depth is raised",
+      "input": {
+        "source": "a@{x@{y=1}@{z=2} = 3} = 4",
+        "mode": "strict",
+        "options": {
+          "max_attribute_depth": 8
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "syntax", "duplicates", "fail"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
       "id": "core-attr-005-mixed-path-after-attribute-pass",
       "description": "Quoted bracket member segment is accepted after attribute selector",
       "input": {
@@ -297,6 +348,30 @@
         }
       },
       "tags": ["attributes", "syntax", "fail"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
+    },
+    {
+      "id": "core-attr-007a-floating-object-attributes-reject",
+      "description": "Object attributes must be attached to the object binding or to an object member binding",
+      "input": {
+        "source": "x = { @{meta=1} k = 2 }",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["attributes", "objects", "syntax", "fail", "regression"],
       "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md"]
     },
     {

@@ -13,8 +13,8 @@
   "title": "Core Fail-Closed Semantic Guarantees",
   "tests": [
     {
-      "id": "core-semantics-001-duplicate-canonical-path-fail-closed",
-      "description": "Duplicate canonical paths are rejected and emit no bindings in fail-closed mode",
+      "id": "core-semantics-001-duplicate-key-fail-closed",
+      "description": "Duplicate keys in one document are rejected and emit no bindings in fail-closed mode",
       "input": {
         "source": "a = 1\na = 2",
         "mode": "strict"
@@ -23,7 +23,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "DUPLICATE_CANONICAL_PATH",
+            "code": "DUPLICATE_KEY",
             "path": "$.a",
             "phase": null
           }
@@ -36,10 +36,42 @@
       "tags": [
         "fail-closed",
         "duplicates",
-        "canonical-path"
+        "keys"
       ],
       "spec_refs": [
         "specs/04-official/v1/addressing-references-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-semantics-001a-duplicate-object-member-key-fail-closed",
+      "description": "Duplicate object member keys are rejected and emit no bindings in fail-closed mode",
+      "input": {
+        "source": "config = { a = 1, a = 2 }",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_KEY",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "fail-closed",
+        "duplicates",
+        "keys",
+        "objects"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
         "specs/04-official/v1/appendices/appendix-error-model.md"
       ]
     },
@@ -106,8 +138,8 @@
       ]
     },
     {
-      "id": "core-semantics-004-escaped-decoded-identity-duplicate-fail-closed",
-      "description": "Escaped and decoded-equivalent keys that resolve to the same canonical path are rejected fail closed",
+      "id": "core-semantics-004-escaped-decoded-identity-duplicate-key-fail-closed",
+      "description": "Escaped and decoded-equivalent keys are rejected fail closed as duplicate keys",
       "input": {
         "source": "aA = 1\n\"a\\u0041\" = 2\n",
         "mode": "strict"
@@ -116,7 +148,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "DUPLICATE_CANONICAL_PATH",
+            "code": "DUPLICATE_KEY",
             "path": "$.aA",
             "phase": null
           }
@@ -129,7 +161,7 @@
       "tags": [
         "fail-closed",
         "duplicates",
-        "canonical-path",
+        "keys",
         "unicode"
       ],
       "spec_refs": [
