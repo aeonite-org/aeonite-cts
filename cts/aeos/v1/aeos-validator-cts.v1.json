@@ -105,6 +105,11 @@
       "id": "reference-security",
       "title": "Reference Security Hardening",
       "file": "suites/19-reference-security.json"
+    },
+    {
+      "id": "attribute-constraints",
+      "title": "Attribute Constraints",
+      "file": "suites/20-attribute-constraints.json"
     }
   ]
 }
