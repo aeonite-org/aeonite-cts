@@ -496,6 +496,31 @@
       "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
     },
     {
+      "id": "core-addr-010-prose-reserved-alias-pass",
+      "description": "Prose is a reserved trimtick alias for formatted text",
+      "input": {
+        "source": "body:prose = >`\n  # Title\n\n  Markdown-ish content.\n`",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.body",
+              "datatype": "prose",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["strings", "trimticks", "prose", "reserved-datatype"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#32-trimtick"]
+    },
+    {
       "id": "core-addr-011-trimticks-split-marker-reject",
       "description": "Split trimtick markers are rejected deterministically",
       "input": {
