@@ -135,6 +135,30 @@
         "specs/04-official/v1/structure-syntax-v1.md",
         "specs/04-official/v1/appendices/appendix-error-model.md"
       ]
+    },
+    {
+      "id": "canonical-node-006-anonymous-typed-node-children-normalize",
+      "description": "Anonymous typed node children preserve their local datatype annotations in canonical form",
+      "input": {
+        "source": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\n\npage:node = <page(:string = \"hello\", <tag>, :int32 = 3)>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\npage:node = <page(\n  :string = \"hello\",\n  <tag>,\n  :int32 = 3\n)>"
+        }
+      },
+      "tags": [
+        "canonical",
+        "nodes",
+        "typed-values"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md",
+        "specs/04-official/v1/appendices/appendix-node-model.md"
+      ]
     }
   ]
 }

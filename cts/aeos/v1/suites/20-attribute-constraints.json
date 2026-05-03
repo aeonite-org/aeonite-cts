@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "suite_id": "attribute-constraints",
+    "spec_refs": ["docs/proposals/aeos-attribute-aware-constraints.md"],
+    "constraint_primitives": ["attributes", "closed_attributes"]
+  },
+  "id": "attribute-constraints",
+  "title": "Attribute Constraints",
+  "tests": [
+    {
+      "id": "requires_attribute_entry",
+      "description": "Missing required attribute entry is rejected",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "value" }
+              ]
+            },
+            "key": "value",
+            "datatype": "number",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "3",
+              "value": "3"
+            },
+            "span": [0, 1]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.value",
+              "constraints": {
+                "type": "NumberLiteral",
+                "attributes": {
+                  "unit": {
+                    "required": true,
+                    "type": "StringLiteral",
+                    "datatype": "string"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.value@unit",
+            "code": "missing_required_field",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "closed_attributes_rejects_extra_entry",
+      "description": "closed_attributes rejects unknown attribute keys",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "value" }
+              ]
+            },
+            "key": "value",
+            "datatype": "number",
+            "annotations": {
+              "unit": {
+                "value": { "type": "StringLiteral", "raw": "\"cm\"", "value": "cm" },
+                "datatype": "string"
+              },
+              "extra": {
+                "value": { "type": "StringLiteral", "raw": "\"x\"", "value": "x" },
+                "datatype": "string"
+              }
+            },
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "3",
+              "value": "3"
+            },
+            "span": [0, 1]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.value",
+              "constraints": {
+                "attributes": {
+                  "unit": { "type": "StringLiteral" }
+                },
+                "closed_attributes": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.value@extra",
+            "code": "unexpected_attribute_entry",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "nested_attribute_type_mismatch",
+      "description": "Nested attribute constraints recurse through attribute payloads",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "value" }
+              ]
+            },
+            "key": "value",
+            "datatype": "number",
+            "annotations": {
+              "meta": {
+                "value": { "type": "ObjectNode", "bindings": [], "attributes": [] },
+                "annotations": {
+                  "label": {
+                    "value": { "type": "NumberLiteral", "raw": "7", "value": "7" },
+                    "datatype": "n"
+                  }
+                }
+              }
+            },
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "3",
+              "value": "3"
+            },
+            "span": [0, 1]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.value",
+              "constraints": {
+                "attributes": {
+                  "meta": {
+                    "attributes": {
+                      "label": { "type": "StringLiteral" }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.value@meta@label",
+            "code": "type_mismatch",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}
