@@ -44,7 +44,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\na = [\n  1,\n  {\n    b = 2\n  },\n  [\n    3,\n    4\n  ]\n]"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [\n  1,\n  {\n    b = 2\n  },\n  [\n    3,\n    4\n  ]\n]"
         }
       },
       "tags": [
@@ -67,7 +67,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nd@{n = <a(<a(<a>)>)>}:string = \"hello\""
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nd@{n = <a(<a(<a>)>)>}:string = \"hello\""
         }
       },
       "tags": [
@@ -143,7 +143,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nvalue:number = 1"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nvalue:number = 1"
         }
       },
       "tags": [
@@ -168,7 +168,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nvalue:number = 1"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nvalue:number = 1"
         }
       },
       "tags": [
@@ -242,7 +242,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nfraction:number = 10.0\nhalf:number = 0.5\nplain:number = 10\nscientific:number = 1e3"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nfraction:number = 10.0\nhalf:number = 0.5\nplain:number = 10\nscientific:number = 1e3"
         }
       },
       "tags": [
@@ -267,7 +267,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\na:number = 0\nb:number = -0.0\nc:number = 0e0\nd:number = -0e0"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na:number = 0\nb:number = -0.0\nc:number = 0e0\nd:number = -0e0"
         }
       },
       "tags": [
@@ -318,7 +318,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nbottom:nan = -NaN\ntop:nan = NaN"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nbottom:nan = -NaN\ntop:nan = NaN"
         }
       },
       "tags": [
@@ -342,7 +342,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nbottom:null = !\"postponed\"\ntop:null = !none"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nbottom:null = !\"postponed\"\ntop:null = !none"
         }
       },
       "tags": [
@@ -392,7 +392,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = 1.0\n}\nclone:n = ~order.total\norder:o = {\n  total:n = 2\n}\npointer:n = ~>order.total"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nclone:n = ~order.total\norder:o = {\n  total:n = 2\n}\npointer:n = ~>order.total"
         }
       },
       "tags": [
