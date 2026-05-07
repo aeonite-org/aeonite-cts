@@ -108,6 +108,38 @@
       ]
     },
     {
+      "id": "aes-baseline-003-prose-alias-emits-string-literal",
+      "description": "Strict mode emits prose-typed trimticks as StringLiteral values",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nbody:prose = >`\n  # Title\n\n  Markdown-ish content.\n`",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.body",
+              "datatype": "prose",
+              "value_kind": "StringLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "prose"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
       "id": "aes-baseline-004-time-literal-emits-time-value",
       "description": "Strict mode emits typed time literals with reserved datatype",
       "input": {

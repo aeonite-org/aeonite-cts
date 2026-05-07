@@ -405,6 +405,40 @@
       ]
     },
     {
+      "id": "core-baseline-009-prose-alias-pass",
+      "description": "Strict mode accepts prose as a reserved trimtick alias",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nbody:prose = >`\n  # Title\n\n  Markdown-ish content.\n`",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.body",
+              "datatype": "prose",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "strict",
+        "reserved-datatype",
+        "prose"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
       "id": "core-baseline-010-strict-time-literal-pass",
       "description": "Strict mode accepts typed time literals",
       "input": {
