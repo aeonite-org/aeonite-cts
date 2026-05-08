@@ -462,7 +462,7 @@
     },
     {
       "id": "aes-emission-011-anonymous-typed-node-children",
-      "description": "Anonymous typed node children remain inside the owning NodeLiteral event payload",
+      "description": "Anonymous typed node children remain in the NodeLiteral payload and may be surfaced through indexed child paths",
       "input": {
         "source": "page:node = <page(:string = \"hello\", <tag>, :int32 = 3)>",
         "mode": "strict"
