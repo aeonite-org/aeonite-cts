@@ -208,7 +208,7 @@
       "id": "core-baseline-007-transport-explicit-reserved-datatype-literal-mismatch",
       "description": "Transport mode still rejects explicit reserved datatype/literal mismatches",
       "input": {
-        "source": "aeon:mode = \"transport\"\nstate:switch = true",
+        "source": "aeon:mode = \"transport\"\nstate:toggle = true",
         "mode": "transport"
       },
       "expected": {
@@ -240,7 +240,7 @@
       "id": "core-baseline-008-transport-explicit-reserved-datatype-match",
       "description": "Transport mode allows explicit reserved datatype when literal matches",
       "input": {
-        "source": "aeon:mode = \"transport\"\nstate:switch = on",
+        "source": "aeon:mode = \"transport\"\nstate:toggle = on",
         "mode": "transport"
       },
       "expected": {
@@ -252,7 +252,7 @@
           "bindings": [
             {
               "path": "$.state",
-              "datatype": "switch",
+              "datatype": "toggle",
               "kind": "binding"
             }
           ]

@@ -107,8 +107,8 @@
       ]
     },
     {
-      "id": "core-semantics-003-strict-untyped-switch-fail-closed",
-      "description": "Strict mode requires switch literals to be explicitly typed",
+      "id": "core-semantics-003-strict-untyped-toggle-fail-closed",
+      "description": "Strict mode requires toggle literals to be explicitly typed",
       "input": {
         "source": "aeon:mode = \"strict\"\ndebug = yes",
         "mode": "strict"
@@ -130,7 +130,7 @@
       "tags": [
         "fail-closed",
         "strict",
-        "switch"
+        "toggle"
       ],
       "spec_refs": [
         "specs/04-official/v1/appendices/appendix-error-model.md",

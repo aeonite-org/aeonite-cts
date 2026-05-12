@@ -53,10 +53,10 @@
       ]
     },
     {
-      "id": "core-custom-reject-002-strict-allow-custom-still-rejects-switch-aliases",
-      "description": "Strict mode keeps the dedicated switch-type requirement even when general custom datatypes are enabled",
+      "id": "core-custom-reject-002-strict-allow-custom-still-rejects-toggle-aliases",
+      "description": "Strict mode keeps the dedicated toggle-type requirement even when general custom datatypes are enabled",
       "input": {
-        "source": "aeon:mode = \"strict\"\ns:toggle = on\n",
+        "source": "aeon:mode = \"strict\"\ns:mySwitch = on\n",
         "mode": "strict",
         "options": {
           "datatype_policy": "allow_custom"
@@ -79,7 +79,7 @@
       "tags": [
         "strict",
         "rejection",
-        "switch",
+        "toggle",
         "datatype-policy"
       ],
       "spec_refs": [
@@ -90,7 +90,7 @@
     },
     {
       "id": "core-custom-reject-002-custom-mode-does-not-apply-strict-switch-rule",
-      "description": "Custom mode rejects untyped switch literals through typed-mode enforcement rather than the strict-only untyped-switch rule",
+      "description": "Custom mode rejects untyped toggle literals through typed-mode enforcement rather than the strict-only untyped-toggle rule",
       "input": {
         "source": "aeon:mode = \"custom\"\nflag = yes\n",
         "mode": "custom"
@@ -112,7 +112,7 @@
       "tags": [
         "custom",
         "rejection",
-        "switch"
+        "toggle"
       ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
