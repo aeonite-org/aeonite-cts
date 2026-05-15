@@ -56,7 +56,7 @@
       "id": "core-custom-reject-002-strict-allow-custom-still-rejects-toggle-aliases",
       "description": "Strict mode keeps the dedicated toggle-type requirement even when general custom datatypes are enabled",
       "input": {
-        "source": "aeon:mode = \"strict\"\ns:mySwitch = on\n",
+        "source": "aeon:mode = \"strict\"\ns:myToggle = on\n",
         "mode": "strict",
         "options": {
           "datatype_policy": "allow_custom"
@@ -66,7 +66,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "CUSTOM_SWITCH_ALIAS_NOT_ALLOWED",
+            "code": "CUSTOM_TOGGLE_ALIAS_NOT_ALLOWED",
             "path": "$.s",
             "phase": "Mode Enforcement"
           }
