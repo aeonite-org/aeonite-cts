@@ -117,7 +117,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "UNTYPED_SWITCH_LITERAL",
+            "code": "UNTYPED_TOGGLE_LITERAL",
             "path": "$.debug",
             "phase": null
           }

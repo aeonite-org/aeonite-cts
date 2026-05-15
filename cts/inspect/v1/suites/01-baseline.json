@@ -182,8 +182,8 @@
       ]
     },
     {
-      "id": "inspect-json-005-switch-surfaced-value-stays-lexical",
-      "description": "Inspect JSON keeps surfaced switch values lexical even though finalized JSON materializes them as booleans",
+      "id": "inspect-json-005-toggle-surfaced-value-stays-lexical",
+      "description": "Inspect JSON keeps surfaced toggle values lexical even though finalized JSON materializes them as booleans",
       "input": {
         "source": "flag:toggle = on\n",
         "mode": "strict"
@@ -197,7 +197,7 @@
             {
               "path": "$.flag",
               "value": {
-                "type": "SwitchLiteral",
+                "type": "ToggleLiteral",
                 "value": "on"
               }
             }
