@@ -185,7 +185,7 @@
       "id": "inspect-json-005-switch-surfaced-value-stays-lexical",
       "description": "Inspect JSON keeps surfaced switch values lexical even though finalized JSON materializes them as booleans",
       "input": {
-        "source": "flag:switch = on\n",
+        "source": "flag:toggle = on\n",
         "mode": "strict"
       },
       "expected": {
@@ -206,7 +206,7 @@
       },
       "tags": [
         "inspect",
-        "switch",
+        "toggle",
         "metadata"
       ],
       "spec_refs": [

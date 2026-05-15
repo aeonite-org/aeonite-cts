@@ -142,7 +142,7 @@
       "id": "core-custom-003-reserved-datatypes-remain-usable-in-custom-mode",
       "description": "Custom mode still accepts reserved datatypes over the same literal families while remaining typed",
       "input": {
-        "source": "widthText:string = `3cm`\nlaunch:boolean = true\nlimit:infinity = Infinity\ntoggle:switch = yes\nswatch:hex = #FF32\nbits:radix = %1010111\nblob:encode = $FFF\nstart:date = 2025-01-01\nat:time = 09:30:00\nstamp:datetime = 2025-01-01T09:30:00Z\nzone:zrut = 2025-01-01T00:00:00Z&Australia/Melbourne\npath:sep = ^400x200\n",
+        "source": "widthText:string = `3cm`\nlaunch:boolean = true\nlimit:infinity = Infinity\ntoggle:toggle = yes\nswatch:hex = #FF32\nbits:radix = %1010111\nblob:encode = $FFF\nstart:date = 2025-01-01\nat:time = 09:30:00\nstamp:datetime = 2025-01-01T09:30:00Z\nzone:zrut = 2025-01-01T00:00:00Z&Australia/Melbourne\npath:sep = ^400x200\n",
         "mode": "custom"
       },
       "expected": {
@@ -169,7 +169,7 @@
             },
             {
               "path": "$.toggle",
-              "datatype": "switch",
+              "datatype": "toggle",
               "kind": "binding"
             },
             {
@@ -318,10 +318,10 @@
       ]
     },
     {
-      "id": "core-custom-004-custom-mode-allows-custom-switch-aliases",
-      "description": "Custom mode allows switch literals under custom datatype aliases as part of the ordinary custom-datatype model",
+      "id": "core-custom-004-custom-mode-allows-custom-toggle-aliases",
+      "description": "Custom mode allows toggle literals under custom datatype aliases as part of the ordinary custom-datatype model",
       "input": {
-        "source": "aeon:mode = \"custom\"\ns:toggle = on\n",
+        "source": "aeon:mode = \"custom\"\ns:mySwitch = on\n",
         "mode": "custom"
       },
       "expected": {
@@ -333,7 +333,7 @@
           "bindings": [
             {
               "path": "$.s",
-              "datatype": "toggle",
+              "datatype": "mySwitch",
               "kind": "binding"
             }
           ]
@@ -342,7 +342,7 @@
       "tags": [
         "custom",
         "literals",
-        "switch"
+        "toggle"
       ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",

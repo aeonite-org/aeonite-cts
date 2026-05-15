@@ -640,7 +640,7 @@
     },
     {
       "id": "core-addr-015-anonymous-typed-node-children-pass",
-      "description": "Anonymous typed node children parse inside node child context without creating additional canonical bindings",
+      "description": "Anonymous typed node children parse inside node child context while preserving indexed child addressing",
       "input": {
         "source": "page:node = <page(:string = \"hello\", <tag>, :int32 = 3)>",
         "mode": "strict"
