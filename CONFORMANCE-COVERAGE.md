@@ -95,6 +95,7 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 - structural container item validation
 - reference-form constraints and schema-owned reference policy
 - Core-versus-AEOS authority boundary preservation
+- literal widening, null/toggle lexical constraints, and min/max container cardinality
 
 ## AEOS coverage map
 
@@ -113,6 +114,7 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 | structural container item validation | baseline | `cts/aeos/v1/suites/15-structural-container-items.json` | covers typed indexed paths into structural list/object content |
 | reference-form constraints and schema-owned reference policy | baseline | `cts/aeos/v1/suites/16-reference-forms.json` | covers schema-owned reference require/forbid behavior, clone-vs-pointer distinction, invalid schema combinations, and schema-wide reference policy while keeping materialization behavior out of AEOS conformance |
 | Core-versus-AEOS authority boundary preservation | baseline | `cts/aeos/v1/suites/01-baseline.json`, `cts/aeos/v1/suites/16-reference-forms.json` | preserves that missing reference targets and related legality checks remain Core-owned even when AEOS constrains reference form |
+| literal widening and cardinality constraints | baseline | `cts/aeos/v1/suites/21-literal-widening-cardinality.json` | covers nullable typed values, null sentinel matching, Infinity/NaN numeric widening, toggle pair matching, and min/max immediate child counts |
 
 ## AEOS review note
 

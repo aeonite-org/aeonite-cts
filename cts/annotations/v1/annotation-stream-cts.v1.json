@@ -51,6 +51,9 @@
         ],
         "annotations-013-slash-channel-structured-comments-bind-deterministically": [
           "specs/04-official/v1/comments-annotations-v1.md"
+        ],
+        "annotations-014-tokenized-structured-header-trivia": [
+          "specs/04-official/v1/comments-annotations-v1.md"
         ]
       },
       "tests": [
@@ -375,6 +378,21 @@
               "form": "block",
               "raw": "/? orphan eof ?/",
               "target": { "kind": "unbound", "reason": "eof" }
+            }
+          ]
+        },
+        {
+          "id": "annotations-014-tokenized-structured-header-trivia",
+          "description": "Annotation stream binds structured-header separator trivia to normalized header field paths",
+          "input": {
+            "source": "aeon\n:\nheader /# gap #/= {\n  mode:\nstring = \"strict\"\n  encoding:string = \"utf-8\"\n}\napp:string = \"ok\""
+          },
+          "expectedAnnotations": [
+            {
+              "kind": "doc",
+              "form": "block",
+              "raw": "/# gap #/",
+              "target": { "kind": "path", "path": "$.[\"aeon:mode\"]" }
             }
           ]
         }

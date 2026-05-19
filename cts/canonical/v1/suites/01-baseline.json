@@ -57,6 +57,30 @@
       ]
     },
     {
+      "id": "canonical-baseline-002b-tokenized-structured-header",
+      "description": "Trivia around aeon:header separators is normalized in canonical output",
+      "input": {
+        "source": "aeon\n:\nheader /# gap #/= {\n  mode:\nstring = \"strict\"\n  encoding:string = \"utf-8\"\n}\napp:string = \"ok\""
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding:string = \"utf-8\"\n  mode:string = \"strict\"\n}\napp:string = \"ok\""
+        }
+      },
+      "tags": [
+        "baseline",
+        "header",
+        "trivia",
+        "formatting"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#11-processing-phases"
+      ]
+    },
+    {
       "id": "canonical-baseline-003-nested-node-attribute-inline",
       "description": "Nested node attribute values are not truncated in canonical output",
       "input": {
