@@ -2,7 +2,7 @@
   "meta": {
     "suite_id": "literal-widening-cardinality",
     "spec_refs": ["aeos/v1/drafts/AEOS-spec-v1.md#58-type-widening-and-literal-lexical-constraints", "aeos/v1/drafts/AEOS-spec-v1.md#57-container-cardinality-constraints"],
-    "constraint_primitives": ["NULLABLE", "ALLOW_INFINITY", "ALLOW_NAN", "NULL_VALUE", "TOGGLE_PAIR", "MIN_CHILDREN", "MAX_CHILDREN"]
+    "constraint_primitives": ["NULLABLE", "ALLOW_INFINITY", "ALLOW_NAN", "NULL_VALUE", "NULL_VALUES", "TOGGLE_PAIR", "MIN_CHILDREN", "MAX_CHILDREN"]
   },
   "id": "literal-widening-cardinality",
   "title": "Literal Widening and Container Cardinality Constraints",
@@ -69,6 +69,77 @@
         "errors": [
           {
             "path": "$.name",
+            "code": "null_value_mismatch",
+            "phase": "schema_validation",
+            "span": [0, 14]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "literal_widening_002b_null_values_pass",
+      "description": "Nullable string rule accepts any NullLiteral value listed in null_values",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "reason" } ] },
+            "key": "reason",
+            "value": { "type": "NullLiteral", "raw": "!notApplicable", "value": "notApplicable" },
+            "span": [0, 14]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.reason",
+              "constraints": {
+                "type": "StringLiteral",
+                "nullable": true,
+                "null_values": ["none", "notApplicable"]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "literal_widening_002c_null_values_fail",
+      "description": "Null value list fails when the surfaced null sentinel is not listed",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "reason" } ] },
+            "key": "reason",
+            "value": { "type": "NullLiteral", "raw": "!notApplicable", "value": "notApplicable" },
+            "span": [0, 14]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.reason",
+              "constraints": {
+                "type": "StringLiteral",
+                "nullable": true,
+                "null_values": ["none", "tombstone"]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.reason",
             "code": "null_value_mismatch",
             "phase": "schema_validation",
             "span": [0, 14]
