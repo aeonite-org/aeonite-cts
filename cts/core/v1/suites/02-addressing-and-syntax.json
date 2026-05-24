@@ -294,7 +294,7 @@
       "id": "core-addr-003-separator-literal",
       "description": "Separator literal parses in strict mode with datatype signature",
       "input": {
-        "source": "sep:set[|] = ^0|0|0|",
+        "source": "sep:sep[|] = ^0|0|0|",
         "mode": "strict"
       },
       "expected": {
@@ -306,7 +306,7 @@
           "bindings": [
             {
               "path": "$.sep",
-              "datatype": "set[|]",
+              "datatype": "sep[|]",
               "kind": "binding"
             }
           ]

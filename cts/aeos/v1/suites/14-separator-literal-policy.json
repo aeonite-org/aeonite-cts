@@ -23,7 +23,7 @@
               ]
             },
             "key": "line",
-            "datatype": "set[|]",
+            "datatype": "sep[|]",
             "value": {
               "type": "SeparatorLiteral",
               "value": "0|0|0|",
@@ -56,7 +56,7 @@
               ]
             },
             "key": "line",
-            "datatype": "set[|]",
+            "datatype": "sep[|]",
             "value": {
               "type": "SeparatorLiteral",
               "value": "0|0|0|",
@@ -99,7 +99,7 @@
               ]
             },
             "key": "line",
-            "datatype": "set[|]",
+            "datatype": "sep[|]",
             "value": {
               "type": "SeparatorLiteral",
               "value": "0|0|0|",

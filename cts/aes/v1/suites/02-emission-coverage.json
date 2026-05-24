@@ -257,7 +257,7 @@
       "id": "aes-emission-003-separator-literal",
       "description": "Separator literal emits datatype and literal kind",
       "input": {
-        "source": "sep:set[|] = ^0|0|0|",
+        "source": "sep:sep[|] = ^0|0|0|",
         "mode": "strict"
       },
       "expected": {
@@ -268,7 +268,7 @@
           "events": [
             {
               "path": "$.sep",
-              "datatype": "set[|]",
+              "datatype": "sep[|]",
               "value_kind": "SeparatorLiteral",
               "reference": null
             }
