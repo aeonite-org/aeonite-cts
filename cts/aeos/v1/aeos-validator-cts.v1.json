@@ -115,6 +115,11 @@
       "id": "literal-widening-cardinality",
       "title": "Literal Widening and Container Cardinality Constraints",
       "file": "suites/21-literal-widening-cardinality.json"
+    },
+    {
+      "id": "selector-paths",
+      "title": "Selector Path Rules",
+      "file": "suites/22-selector-paths.json"
     }
   ]
 }

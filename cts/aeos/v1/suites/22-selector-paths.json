@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "suite_id": "selector-paths",
+    "spec_refs": ["specs/04-official/v1/aeos-v1.md"],
+    "constraint_primitives": ["selector_paths", "type", "required", "closed_world"]
+  },
+  "id": "selector-paths",
+  "title": "Selector Path Rules",
+  "tests": [
+    {
+      "id": "selector_exact_depth_member_pass",
+      "description": "$.*.contact applies to contact bindings exactly two member segments below root",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "app" }, { "type": "member", "key": "contact" } ] },
+            "key": "contact",
+            "value": { "type": "ObjectNode", "bindings": [], "attributes": [], "span": [0, 1] },
+            "span": [0, 1]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "contact" } ] },
+            "key": "contact",
+            "value": { "type": "StringLiteral", "raw": "\"root\"", "value": "root", "delimiter": "\"", "span": [2, 8] },
+            "span": [2, 8]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.*.contact",
+              "constraints": {
+                "required": true,
+                "type": "ObjectNode"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_recursive_depth_type_fail",
+      "description": "$.**.contact applies to contact bindings at any descendant depth",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "profile" }, { "type": "member", "key": "billing" }, { "type": "member", "key": "contact" } ] },
+            "key": "contact",
+            "value": { "type": "NumberLiteral", "raw": "3", "value": "3", "span": [0, 1] },
+            "span": [0, 1]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.**.contact",
+              "constraints": {
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.profile.billing.contact",
+            "code": "type_mismatch",
+            "phase": "schema_validation",
+            "span": [0, 1]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_required_no_match_fail",
+      "description": "Required selector rules fail when no AES path matches the selector",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "profile" } ] },
+            "key": "profile",
+            "value": { "type": "ObjectNode", "bindings": [], "attributes": [], "span": [0, 1] },
+            "span": [0, 1]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.*.contact",
+              "constraints": {
+                "required": true,
+                "type": "ObjectNode"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.*.contact",
+            "code": "missing_required_field",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_closed_world_allowance",
+      "description": "Closed-world schemas allow bindings matched by selector rules and reject unmatched bindings",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "app" }, { "type": "member", "key": "contact" } ] },
+            "key": "contact",
+            "value": { "type": "ObjectNode", "bindings": [], "attributes": [], "span": [0, 1] },
+            "span": [0, 1]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "extra" } ] },
+            "key": "extra",
+            "value": { "type": "StringLiteral", "raw": "\"no\"", "value": "no", "delimiter": "\"", "span": [2, 6] },
+            "span": [2, 6]
+          }
+        ],
+        "schema": {
+          "world": "closed",
+          "rules": [
+            {
+              "selector": "$.*.contact",
+              "constraints": {
+                "type": "ObjectNode"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.extra",
+            "code": "unexpected_binding",
+            "phase": "schema_validation",
+            "span": [2, 6]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}
