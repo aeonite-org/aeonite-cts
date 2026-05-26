@@ -366,6 +366,38 @@
       ]
     },
     {
+      "id": "core-baseline-008e-tokenized-structured-header-pass",
+      "description": "Structured header recognition allows trivia around the aeon:header separators",
+      "input": {
+        "source": "aeon\n:\nheader /# gap #/= {\n  mode:\nstring = \"strict\"\n  encoding:string = \"utf-8\"\n}\napp:string = \"ok\"",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.app",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "header",
+        "trivia"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#10-phase-boundaries",
+        "specs/04-official/v1/appendices/appendix-canonical-form.md"
+      ]
+    },
+    {
       "id": "core-baseline-009-strict-envelope-alias-pass",
       "description": "Strict mode accepts envelope as a reserved object alias",
       "input": {

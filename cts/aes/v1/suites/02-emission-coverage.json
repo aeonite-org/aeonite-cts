@@ -37,6 +37,63 @@
       "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
     },
     {
+      "id": "aes-emission-001a-literal-word-keys",
+      "description": "Literal words emit as bare-key AES paths when used in key and path contexts",
+      "input": {
+        "source": "yes:string = \"top\"\ncopy:string = ~yes\ntrue@{no:string = \"attr\"}:string = \"named true\"\ngroup:object = {\n  false:boolean = true\n  off:toggle = yes\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.yes",
+              "datatype": "string",
+              "value_kind": "StringLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.copy",
+              "datatype": "string",
+              "value_kind": "CloneReference",
+              "reference": [
+                "yes"
+              ]
+            },
+            {
+              "path": "$.true",
+              "datatype": "string",
+              "value_kind": "StringLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.group",
+              "datatype": "object",
+              "value_kind": "ObjectNode",
+              "reference": null
+            },
+            {
+              "path": "$.group.false",
+              "datatype": "boolean",
+              "value_kind": "BooleanLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.group.off",
+              "datatype": "toggle",
+              "value_kind": "ToggleLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["addressing", "bare-keys", "literal-words", "references"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md", "specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
       "id": "aes-emission-001b-empty-quoted-key-reject",
       "description": "Empty quoted keys reject with syntax diagnostics and no emitted events",
       "input": {
@@ -200,7 +257,7 @@
       "id": "aes-emission-003-separator-literal",
       "description": "Separator literal emits datatype and literal kind",
       "input": {
-        "source": "sep:set[|] = ^0|0|0|",
+        "source": "sep:sep[|] = ^0|0|0|",
         "mode": "strict"
       },
       "expected": {
@@ -211,7 +268,7 @@
           "events": [
             {
               "path": "$.sep",
-              "datatype": "set[|]",
+              "datatype": "sep[|]",
               "value_kind": "SeparatorLiteral",
               "reference": null
             }

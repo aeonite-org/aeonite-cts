@@ -1,0 +1,268 @@
+{
+  "meta": {
+    "suite_id": "literal-widening-cardinality",
+    "spec_refs": ["aeos/v1/drafts/AEOS-spec-v1.md#58-type-widening-and-literal-lexical-constraints", "aeos/v1/drafts/AEOS-spec-v1.md#57-container-cardinality-constraints"],
+    "constraint_primitives": ["NULLABLE", "ALLOW_INFINITY", "ALLOW_NAN", "NULL_VALUE", "NULL_VALUES", "TOGGLE_PAIR", "MIN_CHILDREN", "MAX_CHILDREN"]
+  },
+  "id": "literal-widening-cardinality",
+  "title": "Literal Widening and Container Cardinality Constraints",
+  "tests": [
+    {
+      "id": "literal_widening_001_nullable_null_value_pass",
+      "description": "Nullable string rule accepts a NullLiteral with the expected null value",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "name" } ] },
+            "key": "name",
+            "value": { "type": "NullLiteral", "raw": "!none", "value": "none" },
+            "span": [0, 5]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.name",
+              "constraints": {
+                "type": "StringLiteral",
+                "nullable": true,
+                "null_value": "none"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "literal_widening_002_null_value_fail",
+      "description": "Null value constraint fails when the surfaced null sentinel does not match",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "name" } ] },
+            "key": "name",
+            "value": { "type": "NullLiteral", "raw": "!notApplicable", "value": "notApplicable" },
+            "span": [0, 14]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.name",
+              "constraints": {
+                "type": "StringLiteral",
+                "nullable": true,
+                "null_value": "none"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.name",
+            "code": "null_value_mismatch",
+            "phase": "schema_validation",
+            "span": [0, 14]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "literal_widening_002b_null_values_pass",
+      "description": "Nullable string rule accepts any NullLiteral value listed in null_values",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "reason" } ] },
+            "key": "reason",
+            "value": { "type": "NullLiteral", "raw": "!notApplicable", "value": "notApplicable" },
+            "span": [0, 14]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.reason",
+              "constraints": {
+                "type": "StringLiteral",
+                "nullable": true,
+                "null_values": ["none", "notApplicable"]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "literal_widening_002c_null_values_fail",
+      "description": "Null value list fails when the surfaced null sentinel is not listed",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "reason" } ] },
+            "key": "reason",
+            "value": { "type": "NullLiteral", "raw": "!notApplicable", "value": "notApplicable" },
+            "span": [0, 14]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.reason",
+              "constraints": {
+                "type": "StringLiteral",
+                "nullable": true,
+                "null_values": ["none", "tombstone"]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.reason",
+            "code": "null_value_mismatch",
+            "phase": "schema_validation",
+            "span": [0, 14]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "literal_widening_003_infinity_nan_pass",
+      "description": "Explicit numeric widening accepts InfinityLiteral and NaNLiteral",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "max" } ] },
+            "key": "max",
+            "value": { "type": "InfinityLiteral", "raw": "Infinity", "value": "Infinity" },
+            "span": [0, 8]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "sample" } ] },
+            "key": "sample",
+            "value": { "type": "NaNLiteral", "raw": "NaN", "value": "NaN" },
+            "span": [10, 13]
+          }
+        ],
+        "schema": {
+          "rules": [
+            { "path": "$.max", "constraints": { "type": "NumberLiteral", "allow_infinity": true } },
+            { "path": "$.sample", "constraints": { "type": "NumberLiteral", "allow_nan": true } }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "literal_widening_004_toggle_pair_fail",
+      "description": "Toggle pair constraint rejects on/off values when yes/no is required",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "visible" } ] },
+            "key": "visible",
+            "value": { "type": "ToggleLiteral", "raw": "on", "value": "on" },
+            "span": [0, 2]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.visible",
+              "constraints": {
+                "type": "ToggleLiteral",
+                "toggle_pair": "yes_no"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.visible",
+            "code": "toggle_pair_mismatch",
+            "phase": "schema_validation",
+            "span": [0, 2]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "literal_widening_005_container_cardinality_fail",
+      "description": "max_children fails when an object has too many immediate children",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "app" } ] },
+            "key": "app",
+            "value": {
+              "type": "ObjectNode",
+              "bindings": [
+                { "type": "Binding", "key": "a", "value": { "type": "StringLiteral", "raw": "\"a\"", "value": "a" } },
+                { "type": "Binding", "key": "b", "value": { "type": "StringLiteral", "raw": "\"b\"", "value": "b" } }
+              ],
+              "raw": "{a=\"a\" b=\"b\"}"
+            },
+            "span": [0, 13]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.app",
+              "constraints": {
+                "type": "ObjectNode",
+                "max_children": 1
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.app",
+            "code": "container_cardinality_mismatch",
+            "phase": "schema_validation",
+            "span": [0, 13]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

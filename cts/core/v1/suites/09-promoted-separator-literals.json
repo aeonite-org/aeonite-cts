@@ -155,6 +155,67 @@
       ]
     },
     {
+      "id": "core-sep-005b-unparameterized-kadot-accepts-dot-number-literal",
+      "description": "Unparameterized kadot datatypes may bind separator literals; kadot payload shape is not enforced by Core",
+      "input": {
+        "source": "semver:kadot = ^3.14.15\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.semver",
+              "datatype": "kadot",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "literals",
+        "kadot"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-sep-005c-removed-set-alias-rejects-in-strict-mode",
+      "description": "Strict mode treats the removed separator alias set as a custom datatype",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nversion:set = ^1.2.3\n",
+        "mode": "strict",
+        "options": {
+          "datatype_policy": "reserved_only"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "separator",
+        "literals",
+        "reject"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
       "id": "core-sep-006-separator-datatype-rejects-list-node",
       "description": "A sep-typed binding rejects list literals even when the list contains a separator literal",
       "input": {
@@ -209,9 +270,9 @@
     },
     {
       "id": "core-sep-008-angle-and-caret-separator-specs-accepted",
-      "description": "Reserved sep and set datatypes accept bracket specs drawn from the explicit separator whitelist, including <, >, and ^",
+      "description": "Reserved sep datatypes accept bracket specs drawn from the explicit separator whitelist, including <, >, and ^",
       "input": {
-        "source": "left:set[<] = ^a<b\nright:set[>] = ^a>b\nup:sep[^] = ^a^b\n",
+        "source": "left:sep[<] = ^a<b\nright:sep[>] = ^a>b\nup:sep[^] = ^a^b\n",
         "mode": "strict"
       },
       "expected": {
@@ -223,12 +284,12 @@
           "bindings": [
             {
               "path": "$.left",
-              "datatype": "set[<]",
+              "datatype": "sep[<]",
               "kind": "binding"
             },
             {
               "path": "$.right",
-              "datatype": "set[>]",
+              "datatype": "sep[>]",
               "kind": "binding"
             },
             {
@@ -279,7 +340,7 @@
       "id": "core-sep-010-inline-boundary-collision-rejects",
       "description": "Inline separator-literal boundary collisions fail closed and surface at least INVALID_SEPARATOR_CHAR",
       "input": {
-        "source": "badInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\nbadSepType1:matrix[,][;] = ^1,2,3;4,5,6\nbadSepType2:set[,] = ^0,0,0,\n",
+        "source": "badInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\nbadSepType1:matrix[,][;] = ^1,2,3;4,5,6\nbadSepType2:sep[,] = ^0,0,0,\n",
         "mode": "strict"
       },
       "expected": {

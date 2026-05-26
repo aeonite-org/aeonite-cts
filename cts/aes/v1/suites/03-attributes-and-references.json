@@ -602,6 +602,55 @@
       },
       "tags": ["references", "lists", "tuples", "fail", "regression"],
       "spec_refs": ["specs/04-official/v1/AEON-spec-v1.md#10-references"]
+    },
+    {
+      "id": "aes-attr-013-strict-untyped-attribute-entry-reject",
+      "description": "Typed modes reject attribute entries that carry values without datatype annotations before AES emission",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nb@{n=3}:number = 3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$.b@n",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["attributes", "typed", "strict", "fail", "regression"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#mode-requirements"]
+    },
+    {
+      "id": "aes-attr-014-strict-typed-attribute-entry-pass",
+      "description": "Typed attribute entries satisfy strict mode datatype-presence requirements before AES emission",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nb@{n:number=3}:number = 3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.b",
+              "datatype": "number",
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["attributes", "typed", "strict", "regression"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#mode-requirements"]
     }
   ]
 }

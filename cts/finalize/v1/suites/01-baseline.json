@@ -156,6 +156,43 @@
       ]
     },
     {
+      "id": "finalize-json-004b-tokenized-structured-header-full-scope",
+      "description": "Tokenized structured headers finalize as header fields without injecting shorthand header bindings",
+      "input": {
+        "source": "aeon\n:\nheader /# gap #/= {\n  mode:\nstring = \"strict\"\n  encoding:string = \"utf-8\"\n}\napp:string = \"ok\"",
+        "mode": "strict",
+        "options": {
+          "scope": "full",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "header": {
+              "mode": "strict",
+              "encoding": "utf-8"
+            },
+            "payload": {
+              "app": "ok"
+            }
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "header",
+        "trivia"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-json-profile.md"
+      ]
+    },
+    {
       "id": "finalize-json-005-attribute-descendant-selection",
       "description": "Projected finalized JSON keeps only the selected descendant under an attribute namespace",
       "input": {

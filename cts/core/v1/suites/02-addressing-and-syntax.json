@@ -37,6 +37,56 @@
       "spec_refs": ["specs/04-official/v1/appendices/appendix-addressing.md"]
     },
     {
+      "id": "core-addr-001a-literal-word-keys",
+      "description": "Literal words parse as bare keys in key and path contexts",
+      "input": {
+        "source": "yes:string = \"top\"\ncopy:string = ~yes\ntrue@{no:string = \"attr\"}:string = \"named true\"\ngroup:object = {\n  false:boolean = true\n  off:toggle = yes\n}",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.yes",
+              "datatype": "string",
+              "kind": "binding"
+            },
+            {
+              "path": "$.copy",
+              "datatype": "string",
+              "kind": "binding"
+            },
+            {
+              "path": "$.true",
+              "datatype": "string",
+              "kind": "binding"
+            },
+            {
+              "path": "$.group",
+              "datatype": "object",
+              "kind": "binding"
+            },
+            {
+              "path": "$.group.false",
+              "datatype": "boolean",
+              "kind": "binding"
+            },
+            {
+              "path": "$.group.off",
+              "datatype": "toggle",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["addressing", "bare-keys", "literal-words", "references"],
+      "spec_refs": ["specs/04-official/v1/structure-syntax-v1.md", "specs/04-official/v1/addressing-references-v1.md"]
+    },
+    {
       "id": "core-addr-001b-empty-quoted-key-reject",
       "description": "Empty quoted keys are rejected in binding position",
       "input": {
@@ -244,7 +294,7 @@
       "id": "core-addr-003-separator-literal",
       "description": "Separator literal parses in strict mode with datatype signature",
       "input": {
-        "source": "sep:set[|] = ^0|0|0|",
+        "source": "sep:sep[|] = ^0|0|0|",
         "mode": "strict"
       },
       "expected": {
@@ -256,7 +306,7 @@
           "bindings": [
             {
               "path": "$.sep",
-              "datatype": "set[|]",
+              "datatype": "sep[|]",
               "kind": "binding"
             }
           ]

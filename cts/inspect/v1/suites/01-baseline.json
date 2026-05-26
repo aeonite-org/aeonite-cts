@@ -116,6 +116,41 @@
       ]
     },
     {
+      "id": "inspect-json-002b-tokenized-structured-header",
+      "description": "Inspect JSON treats tokenized structured headers as header fields and surfaces only payload events",
+      "input": {
+        "source": "aeon\n:\nheader /# gap #/= {\n  mode:\nstring = \"strict\"\n  encoding:string = \"utf-8\"\n}\napp:string = \"ok\"",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.app",
+              "key": "app",
+              "datatype": "string",
+              "value": {
+                "type": "StringLiteral",
+                "raw": "ok",
+                "value": "ok"
+              }
+            }
+          ]
+        }
+      },
+      "tags": [
+        "inspect",
+        "header",
+        "trivia"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
       "id": "inspect-json-003-control-bytes-remain-json-safe",
       "description": "Inspect JSON remains parseable and preserves control-byte string content via JSON-safe escapes",
       "input": {
