@@ -84,6 +84,7 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 
 - result-envelope and validator output contract
 - schema rule-index integrity
+- selector path targeting and closed-world coverage
 - presence and forbid semantics
 - representational type and datatype-label constraints
 - numeric lexical-form constraints
@@ -103,6 +104,7 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 | --- | --- | --- | --- |
 | result-envelope and validator output contract | baseline | `cts/aeos/v1/suites/00-envelope.json` | establishes the validator envelope shape and success-path baseline |
 | schema rule-index integrity | baseline | `cts/aeos/v1/suites/02-schema-rules.json` | covers duplicate rule paths and unknown constraint-key rejection |
+| selector path targeting and closed-world coverage | baseline | `cts/aeos/v1/suites/22-selector-paths.json` | covers exact-depth selectors, recursive selectors, required selector no-match diagnostics, and closed-world selector allowance |
 | presence and forbid semantics | baseline | `cts/aeos/v1/suites/03-presence.json` | covers required presence, successful presence, and forbid-style absence semantics |
 | representational type and datatype-label constraints | baseline | `cts/aeos/v1/suites/04-type.json`, `cts/aeos/v1/suites/08-datatype-labels.json` | covers type matching, mismatch behavior, and datatype-label constraint enforcement |
 | numeric lexical-form constraints | baseline | `cts/aeos/v1/suites/05-numeric-form.json` | covers sign and digit-form constraint behavior on numeric lexical forms |
