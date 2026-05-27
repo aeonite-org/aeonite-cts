@@ -2,7 +2,7 @@
   "meta": {
     "suite_id": "numeric-form",
     "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
-    "constraint_primitives": ["sign", "min_digits", "max_digits", "radix"]
+    "constraint_primitives": ["sign", "min_digits", "max_digits", "radix", "allow_unspecified_radix"]
   },
   "id": "numeric-form",
   "title": "Numeric Form Constraints",
@@ -211,6 +211,7 @@
               ]
             },
             "key": "bits",
+            "datatype": "radix[2]",
             "value": {
               "type": "RadixLiteral",
               "raw": "%1050",
@@ -272,6 +273,7 @@
               ]
             },
             "key": "bits",
+            "datatype": "radix[2]",
             "value": {
               "type": "RadixLiteral",
               "raw": "%1010",
@@ -280,6 +282,233 @@
             "span": [
               34,
               39
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.bits",
+              "constraints": {
+                "type": "RadixLiteral",
+                "radix": 2
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "numeric_radix_unspecified_violation",
+      "description": "Radix literal with constrained radix requires a declared radix datatype by default",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "bits"
+                }
+              ]
+            },
+            "key": "bits",
+            "value": {
+              "type": "RadixLiteral",
+              "raw": "%1010",
+              "value": "1010"
+            },
+            "span": [
+              40,
+              45
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.bits",
+              "constraints": {
+                "type": "RadixLiteral",
+                "radix": 2
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.bits",
+            "code": "numeric_form_violation",
+            "phase": "schema_validation",
+            "span": [
+              40,
+              45
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "numeric_radix_unspecified_relaxed_pass",
+      "description": "Radix literal with constrained radix may omit the declared datatype only when explicitly relaxed",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "bits"
+                }
+              ]
+            },
+            "key": "bits",
+            "value": {
+              "type": "RadixLiteral",
+              "raw": "%1010",
+              "value": "1010"
+            },
+            "span": [
+              46,
+              51
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.bits",
+              "constraints": {
+                "type": "RadixLiteral",
+                "radix": 2,
+                "allow_unspecified_radix": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "numeric_radix_declared_mismatch_violation",
+      "description": "Radix literal fails when its declared radix datatype does not match the schema radix",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "bits"
+                }
+              ]
+            },
+            "key": "bits",
+            "datatype": "radix[4]",
+            "value": {
+              "type": "RadixLiteral",
+              "raw": "%1010",
+              "value": "1010"
+            },
+            "span": [
+              52,
+              57
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.bits",
+              "constraints": {
+                "type": "RadixLiteral",
+                "radix": 2
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.bits",
+            "code": "numeric_form_violation",
+            "phase": "schema_validation",
+            "span": [
+              52,
+              57
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "numeric_radix_alias_pass",
+      "description": "Radix literal accepts the compact radix datatype alias",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "bits"
+                }
+              ]
+            },
+            "key": "bits",
+            "datatype": "radix2",
+            "value": {
+              "type": "RadixLiteral",
+              "raw": "%1010",
+              "value": "1010"
+            },
+            "span": [
+              58,
+              63
             ]
           }
         ],

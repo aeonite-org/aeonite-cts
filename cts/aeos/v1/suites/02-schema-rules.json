@@ -72,6 +72,38 @@
         "warnings": [],
         "guarantees": {}
       }
+    },
+    {
+      "id": "schema-003",
+      "description": "allow_unspecified_radix must be boolean",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.bits",
+              "constraints": {
+                "type": "RadixLiteral",
+                "radix": 2,
+                "allow_unspecified_radix": "yes"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.bits",
+            "code": "unknown_constraint_key",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
     }
   ]
 }
