@@ -123,6 +123,107 @@
       }
     },
     {
+      "id": "pattern_separator_datatype_rule_pass",
+      "description": "Datatype rule pattern applies to separator literal normalized value -> pass",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "ip" }
+              ]
+            },
+            "key": "ip",
+            "datatype": "kadot",
+            "value": {
+              "type": "SeparatorLiteral",
+              "raw": "^198.0.126.255",
+              "value": "198.0.126.255"
+            },
+            "span": [64, 78]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.ip",
+              "constraints": {}
+            }
+          ],
+          "datatype_rules": {
+            "kadot": {
+              "type": "SeparatorLiteral",
+              "pattern": "^[0-9]+(?:\\.[0-9]+)*$"
+            }
+          }
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "pattern_separator_datatype_rule_fail",
+      "description": "Datatype rule pattern rejects non-kadot separator literal value",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                { "type": "root" },
+                { "type": "member", "key": "dimensions" }
+              ]
+            },
+            "key": "dimensions",
+            "datatype": "kadot",
+            "value": {
+              "type": "SeparatorLiteral",
+              "raw": "^300x250",
+              "value": "300x250"
+            },
+            "span": [79, 87]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.dimensions",
+              "constraints": {}
+            }
+          ],
+          "datatype_rules": {
+            "kadot": {
+              "type": "SeparatorLiteral",
+              "pattern": "^[0-9]+(?:\\.[0-9]+)*$"
+            }
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.dimensions",
+            "code": "pattern_mismatch",
+            "phase": "schema_validation",
+            "span": [79, 87]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
       "id": "pattern_non_portable_lookahead_rejected",
       "description": "Lookahead pattern syntax is rejected as outside the AEOS portable pattern profile",
       "input": {
