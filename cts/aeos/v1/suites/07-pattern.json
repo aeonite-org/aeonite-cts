@@ -121,6 +121,108 @@
       "assert": {
         "no_mutation": true
       }
+    },
+    {
+      "id": "pattern_non_portable_lookahead_rejected",
+      "description": "Lookahead pattern syntax is rejected as outside the AEOS portable pattern profile",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.code",
+              "constraints": {
+                "type": "StringLiteral",
+                "pattern": "^(?=ABC).+$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.code",
+            "code": "unknown_constraint_key",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "pattern_non_portable_backreference_rejected",
+      "description": "Backreference pattern syntax is rejected as outside the AEOS portable pattern profile",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.code",
+              "constraints": {
+                "type": "StringLiteral",
+                "pattern": "^(A)\\1$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.code",
+            "code": "unknown_constraint_key",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "pattern_nested_quantifier_rejected",
+      "description": "Nested quantified groups are rejected as outside the AEOS portable pattern profile",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.code",
+              "constraints": {
+                "type": "StringLiteral",
+                "pattern": "^(A+)+$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.code",
+            "code": "unknown_constraint_key",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
     }
   ]
 }
