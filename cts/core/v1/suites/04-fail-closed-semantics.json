@@ -55,7 +55,6 @@
         "errors": [
           {
             "code": "DUPLICATE_KEY",
-            "path": "$",
             "phase": null
           }
         ],

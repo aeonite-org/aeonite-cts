@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "suite_id": "core-resource-policy",
+    "spec_refs": ["specs/04-official/v1/AEON-v1-compliance.md"],
+    "constraint_primitives": ["max_events", "event_budget"]
+  },
+  "id": "core-resource-policy",
+  "title": "Core Resource Policy",
+  "tests": [
+    {
+      "id": "core-resource-policy-001-max-events-pass",
+      "description": "Core accepts input when emitted AES events stay within max_events.",
+      "input": {
+        "source": "a = 1\nb = 2",
+        "mode": "strict",
+        "options": {
+          "max_events": 2
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["resource-policy", "max-events", "pass"]
+    },
+    {
+      "id": "core-resource-policy-002-max-events-fail",
+      "description": "Core fails closed when emitted AES events exceed max_events.",
+      "input": {
+        "source": "a = 1\nb = 2",
+        "mode": "strict",
+        "options": {
+          "max_events": 1
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "EVENT_COUNT_EXCEEDED"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["resource-policy", "max-events", "fail-closed"]
+    }
+  ]
+}

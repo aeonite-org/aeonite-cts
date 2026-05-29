@@ -57,6 +57,10 @@
     {
       "id": "promoted-whitespace-boundaries",
       "file": "suites/13-promoted-whitespace-boundaries.json"
+    },
+    {
+      "id": "core-resource-policy",
+      "file": "suites/14-resource-policy.json"
     }
   ]
 }

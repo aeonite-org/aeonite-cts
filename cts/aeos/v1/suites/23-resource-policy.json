@@ -1,0 +1,318 @@
+{
+  "meta": {
+    "suite_id": "resource-policy",
+    "spec_refs": ["specs/04-official/v1/aeos-v1.md"],
+    "constraint_primitives": ["resource_policy", "schema_limits", "reference_budget", "selector_budget"]
+  },
+  "id": "resource-policy",
+  "title": "Resource Policy Limits",
+  "tests": [
+    {
+      "id": "resource_policy_max_events_fail",
+      "description": "max_events rejects AES envelopes above the configured event budget.",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "name" } ] },
+            "key": "name",
+            "value": { "type": "StringLiteral", "raw": "\"Ada\"", "value": "Ada", "span": [0, 5] },
+            "span": [0, 5]
+          }
+        ],
+        "schema": {
+          "resource_policy": {
+            "max_events": 0
+          },
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resource_policy_max_rules_fail",
+      "description": "max_rules rejects schemas above the configured rule budget.",
+      "input": {
+        "aes": [],
+        "schema": {
+          "resource_policy": {
+            "max_rules": 0
+          },
+          "rules": [
+            {
+              "path": "$.name",
+              "constraints": {
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resource_policy_max_any_of_cases_fail",
+      "description": "max_any_of_cases rejects overly broad alternative constraint branches.",
+      "input": {
+        "aes": [],
+        "schema": {
+          "resource_policy": {
+            "max_any_of_cases": 1
+          },
+          "rules": [
+            {
+              "path": "$.value",
+              "constraints": {
+                "any_of": [
+                  { "type": "StringLiteral" },
+                  { "type": "NumberLiteral" }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.value",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resource_policy_max_schema_depth_fail",
+      "description": "max_schema_depth rejects deeply nested constraint shapes.",
+      "input": {
+        "aes": [],
+        "schema": {
+          "resource_policy": {
+            "max_schema_depth": 1
+          },
+          "rules": [
+            {
+              "path": "$.value",
+              "constraints": {
+                "any_of": [
+                  {
+                    "any_of": [
+                      { "type": "StringLiteral" }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.value.any_of[0]",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resource_policy_max_path_length_fail",
+      "description": "max_path_length rejects AES paths longer than the configured path budget.",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "name" } ] },
+            "key": "name",
+            "value": { "type": "StringLiteral", "raw": "\"Ada\"", "value": "Ada", "span": [0, 5] },
+            "span": [0, 5]
+          }
+        ],
+        "schema": {
+          "resource_policy": {
+            "max_path_length": 2
+          },
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.name",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": [0, 5]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resource_policy_max_reference_resolution_steps_fail",
+      "description": "max_reference_resolution_steps rejects reference chains above the configured resolution budget.",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "source" } ] },
+            "key": "source",
+            "value": { "type": "NumberLiteral", "raw": "7", "value": "7", "span": [0, 1] },
+            "span": [0, 1]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "middle" } ] },
+            "key": "middle",
+            "value": { "type": "CloneReference", "path": ["source"], "span": [2, 9] },
+            "span": [2, 9]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "target" } ] },
+            "key": "target",
+            "value": { "type": "CloneReference", "path": ["middle"], "span": [10, 17] },
+            "span": [10, 17]
+          }
+        ],
+        "schema": {
+          "resource_policy": {
+            "max_reference_resolution_steps": 1
+          },
+          "rules": [
+            {
+              "path": "$.target",
+              "constraints": {
+                "type": "NumberLiteral",
+                "resolve_reference_form": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.target",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": [10, 17]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resource_policy_max_selector_expansions_fail",
+      "description": "max_selector_expansions rejects selector rules that expand beyond the configured budget.",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "profile" }, { "type": "member", "key": "name" } ] },
+            "key": "name",
+            "value": { "type": "StringLiteral", "raw": "\"Ada\"", "value": "Ada", "span": [0, 5] },
+            "span": [0, 5]
+          }
+        ],
+        "schema": {
+          "resource_policy": {
+            "max_selector_expansions": 0
+          },
+          "rules": [
+            {
+              "selector": "$.**.name",
+              "constraints": {
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.**.name",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "resource_policy_max_container_children_default_fail",
+      "description": "max_container_children_default rejects containers above the configured child budget.",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "items" } ] },
+            "key": "items",
+            "value": {
+              "type": "ListNode",
+              "elements": [
+                { "type": "StringLiteral", "raw": "\"one\"", "value": "one", "span": [1, 6] },
+                { "type": "StringLiteral", "raw": "\"two\"", "value": "two", "span": [8, 13] }
+              ],
+              "attributes": []
+            },
+            "span": [0, 14]
+          }
+        ],
+        "schema": {
+          "resource_policy": {
+            "max_container_children_default": 1
+          },
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.items",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": [0, 14]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}
