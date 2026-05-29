@@ -120,6 +120,11 @@
       "id": "selector-paths",
       "title": "Selector Path Rules",
       "file": "suites/22-selector-paths.json"
+    },
+    {
+      "id": "resource-policy",
+      "title": "Resource Policy Limits",
+      "file": "suites/23-resource-policy.json"
     }
   ]
 }
