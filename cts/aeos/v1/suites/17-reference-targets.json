@@ -170,6 +170,37 @@
     },
     {
       "id": "reference-target-005",
+      "description": "Non-portable reference_target_pattern regex is rejected as invalid schema",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.postcode",
+              "constraints": {
+                "reference": "require",
+                "reference_target_pattern": "^(\\$\\.postcodes)\\1$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.postcode",
+            "code": "invalid_reference_constraint",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "reference-target-006",
       "description": "reference_target_pattern conflicts with reference=forbid",
       "input": {
         "aes": [],

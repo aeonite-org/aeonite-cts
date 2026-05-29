@@ -183,6 +183,251 @@
       "assert": {
         "no_mutation": true
       }
+    },
+    {
+      "id": "separator_max_length_violation",
+      "description": "Separator literal payload longer than max_length should fail",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "sep"
+                }
+              ]
+            },
+            "key": "sep",
+            "datatype": "sep[.]",
+            "value": {
+              "type": "SeparatorLiteral",
+              "raw": "^hello.world",
+              "value": "hello.world"
+            },
+            "span": [
+              36,
+              47
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.sep",
+              "constraints": {
+                "type": "SeparatorLiteral",
+                "max_length": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.sep",
+            "code": "string_length_violation",
+            "phase": "schema_validation",
+            "span": [
+              36,
+              47
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "null_max_length_violation",
+      "description": "Null literal payload longer than max_length should fail",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "reason"
+                }
+              ]
+            },
+            "key": "reason",
+            "value": {
+              "type": "NullLiteral",
+              "raw": "!\"veryLongCustomNull\"",
+              "value": "veryLongCustomNull"
+            },
+            "span": [
+              48,
+              69
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.reason",
+              "constraints": {
+                "type": "NullLiteral",
+                "max_length": 8
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.reason",
+            "code": "string_length_violation",
+            "phase": "schema_validation",
+            "span": [
+              48,
+              69
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "encoding_min_length_violation",
+      "description": "Encoding literal payload shorter than min_length should fail",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "blob"
+                }
+              ]
+            },
+            "key": "blob",
+            "value": {
+              "type": "EncodingLiteral",
+              "raw": "$QQ",
+              "value": "QQ"
+            },
+            "span": [
+              70,
+              73
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.blob",
+              "constraints": {
+                "type": "EncodingLiteral",
+                "min_length": 4
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.blob",
+            "code": "string_length_violation",
+            "phase": "schema_validation",
+            "span": [
+              70,
+              73
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
+    },
+    {
+      "id": "zrut_pattern_violation",
+      "description": "ZRUT payload that does not match the declared pattern should fail",
+      "input": {
+        "aes": [
+          {
+            "path": {
+              "segments": [
+                {
+                  "type": "root"
+                },
+                {
+                  "type": "member",
+                  "key": "stamp"
+                }
+              ]
+            },
+            "key": "stamp",
+            "value": {
+              "type": "ZRUTDateTimeLiteral",
+              "raw": "@2026-05-25T12:34:56&local",
+              "value": "2026-05-25T12:34:56&local"
+            },
+            "span": [
+              74,
+              102
+            ]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.stamp",
+              "constraints": {
+                "type": "ZRUTDateTimeLiteral",
+                "pattern": "&UTC$"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.stamp",
+            "code": "pattern_mismatch",
+            "phase": "schema_validation",
+            "span": [
+              74,
+              102
+            ]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": {
+        "no_mutation": true
+      }
     }
   ]
 }
