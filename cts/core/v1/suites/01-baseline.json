@@ -269,31 +269,32 @@
       ]
     },
     {
-      "id": "core-baseline-008b-strict-header-payload-untyped-reject",
-      "description": "Strict mode applies typing requirements to structured header payload bindings",
+      "id": "core-baseline-008b-strict-header-metadata-untyped-pass",
+      "description": "Strict mode treats structured header metadata as control-plane data rather than payload bindings",
       "input": {
         "source": "aeon:header = {\n  mode = \"strict\"\n  meta = {\n    document:string = \"public\"\n  }\n}",
         "mode": "strict"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
-            "path": "$[\"aeon:meta\"]",
-            "phase": null
-          }
-        ],
+        "ok": true,
+        "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": false
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"aeon:meta\"].document",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
         }
       },
       "tags": [
         "baseline",
         "strict",
         "header",
-        "typing"
+        "control-plane"
       ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport",
@@ -315,7 +316,7 @@
           "parse_ok": true,
           "bindings": [
             {
-              "path": "$[\"aeon:meta\"].document",
+              "path": "$.[\"aeon:meta\"].document",
               "datatype": "string",
               "kind": "binding"
             }
@@ -334,7 +335,74 @@
       ]
     },
     {
-      "id": "core-baseline-008d-late-structured-header-reject",
+      "id": "core-baseline-008d-declared-strict-effective-transport-pass",
+      "description": "Consumer-selected transport mode has authority over a document-declared strict mode",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nname = \"AEON\"",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.name",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "mode-policy",
+        "transport"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport"
+      ]
+    },
+    {
+      "id": "core-baseline-008e-declared-transport-effective-strict-reject",
+      "description": "Consumer-selected strict mode has authority over a document-declared transport mode",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nname = \"AEON\"",
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$.name",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "baseline",
+        "mode-policy",
+        "strict"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#6-strict-vs-transport"
+      ]
+    },
+    {
+      "id": "core-baseline-008f-late-structured-header-reject",
       "description": "Structured headers are rejected when they appear after body bindings",
       "input": {
         "source": "app:object = {\n  name:string = \"playground\"\n}\naeon:header = {\n  mode:string = \"strict\"\n}",
@@ -366,7 +434,7 @@
       ]
     },
     {
-      "id": "core-baseline-008e-tokenized-structured-header-pass",
+      "id": "core-baseline-008g-tokenized-structured-header-pass",
       "description": "Structured header recognition allows trivia around the aeon:header separators",
       "input": {
         "source": "aeon\n:\nheader /# gap #/= {\n  mode:\nstring = \"strict\"\n  encoding:string = \"utf-8\"\n}\napp:string = \"ok\"",
