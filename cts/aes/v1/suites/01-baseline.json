@@ -270,31 +270,32 @@
       ]
     },
     {
-      "id": "aes-baseline-006b-strict-header-payload-untyped-reject",
-      "description": "Strict mode rejects untyped structured header payload bindings at the AES boundary",
+      "id": "aes-baseline-006b-strict-header-metadata-untyped-pass",
+      "description": "Strict mode emits untyped structured header metadata because header data is control-plane data",
       "input": {
         "source": "aeon:header = {\n  mode = \"strict\"\n  meta = {\n    document:string = \"public\"\n  }\n}",
         "mode": "strict"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
-            "path": "$[\"aeon:meta\"]",
-            "phase": null
-          }
-        ],
+        "ok": true,
+        "errors": [],
         "warnings": [],
         "result": {
-          "events": []
+          "events": [
+            {
+              "path": "$.[\"aeon:meta\"].document",
+              "datatype": "string",
+              "value_kind": "StringLiteral",
+              "reference": null
+            }
+          ]
         }
       },
       "tags": [
         "baseline",
-        "emission-fail",
+        "emission-pass",
         "header",
-        "typing"
+        "control-plane"
       ],
       "spec_refs": [
         "specs/04-official/v1/appendices/appendix-aes.md",
@@ -315,7 +316,7 @@
         "result": {
           "events": [
             {
-              "path": "$[\"aeon:meta\"].document",
+              "path": "$.[\"aeon:meta\"].document",
               "datatype": "string",
               "value_kind": "StringLiteral",
               "reference": null
@@ -335,7 +336,74 @@
       ]
     },
     {
-      "id": "aes-baseline-006d-late-structured-header-reject",
+      "id": "aes-baseline-006d-declared-strict-effective-transport-pass",
+      "description": "Consumer-selected transport mode has authority over a document-declared strict mode",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nname = \"AEON\"",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.name",
+              "datatype": null,
+              "value_kind": "StringLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-pass",
+        "mode-policy"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md"
+      ]
+    },
+    {
+      "id": "aes-baseline-006e-declared-transport-effective-strict-reject",
+      "description": "Consumer-selected strict mode has authority over a document-declared transport mode",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nname = \"AEON\"",
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTYPED_VALUE_IN_STRICT_MODE",
+            "path": "$.name",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": [
+        "baseline",
+        "emission-fail",
+        "mode-policy"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-aes.md"
+      ]
+    },
+    {
+      "id": "aes-baseline-006f-late-structured-header-reject",
       "description": "Structured headers are rejected when they appear after body bindings before AES emission",
       "input": {
         "source": "app:object = {\n  name:string = \"playground\"\n}\naeon:header = {\n  mode:string = \"strict\"\n}",
