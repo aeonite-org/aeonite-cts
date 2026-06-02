@@ -307,7 +307,7 @@
       "id": "aes-emission-004a-parameterized-object-and-node-claims",
       "description": "AES emission preserves parameterized object and node datatype claims",
       "input": {
-        "source": "scores:object<number> = {\n  alice:number = 10\n}\ndoc:node<html> = <html>\ntitle:node = <title:node<string>(\"Hello\")>",
+        "source": "scores:object<number> = {\n  alice:number = 10\n}\ndoc:node<html> = <html>\nchild:node<node> = <tag>\ntitle:node = <title:node<string>(\"Hello\")>",
         "mode": "transport"
       },
       "expected": {
@@ -331,6 +331,12 @@
             {
               "path": "$.doc",
               "datatype": "node<html>",
+              "value_kind": "NodeLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.child",
+              "datatype": "node<node>",
               "value_kind": "NodeLiteral",
               "reference": null
             },

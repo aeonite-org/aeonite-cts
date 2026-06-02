@@ -1246,7 +1246,7 @@
       "id": "core-baseline-029-transport-parameterized-object-node-claims-pass",
       "description": "Transport mode accepts parameterized object and node claims as preserved Core claims",
       "input": {
-        "source": "aeon:mode = \"transport\"\nscores:object<number> = {\n  alice:number = 10\n  bob:string = \"twelve\"\n}\ndoc:node<html> = <html>\ntitle:node = <title:node<string>(<span(\"hello\")>)>",
+        "source": "aeon:mode = \"transport\"\nscores:object<number> = {\n  alice:number = 10\n  bob:string = \"twelve\"\n}\ndoc:node<html> = <html>\nchild:node<node> = <tag>\ntitle:node = <title:node<string>(<span(\"hello\")>)>",
         "mode": "transport"
       },
       "expected": {
@@ -1264,7 +1264,33 @@
       ]
     },
     {
-      "id": "core-baseline-029a-transport-non-node-generic-node-head-reject",
+      "id": "core-baseline-029a-transport-reserved-child-datatype-binding-node-reject",
+      "description": "Transport mode rejects reserved child-value datatype arguments on ordinary binding node<T> claims",
+      "input": {
+        "source": "aeon:mode = \"transport\"\ntag:node<string> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": ["baseline", "transport", "datatype", "generics", "nodes", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md#44-node"
+      ]
+    },
+    {
+      "id": "core-baseline-029b-transport-non-node-generic-node-head-reject",
       "description": "Transport mode rejects non-node generic datatype adornments inside node heads",
       "input": {
         "source": "aeon:mode = \"transport\"\nbadNodeHead1:node = <tag:pair<int32,string>(\"x\")>",
