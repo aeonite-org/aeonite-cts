@@ -15,7 +15,7 @@
       "id": "finalize-json-001-unsafe-float-preserves-lexeme-and-errors",
       "description": "Unsafe floating numbers finalize fail-closed as preserved strings with a finalize diagnostic",
       "input": {
-        "source": "n = 9007199254740993.0\n",
+        "source": "n:number = 9007199254740993.0\n",
         "mode": "strict",
         "options": {
           "scope": "payload",
@@ -52,7 +52,7 @@
       "id": "finalize-json-002-top-level-quoted-keys-preserved",
       "description": "Legal top-level quoted keys survive JSON finalization unchanged",
       "input": {
-        "source": "\"a.b\" = 1\n\"two words\" = 2\n",
+        "source": "\"a.b\":number = 1\n\"two words\":number = 2\n",
         "mode": "strict",
         "options": {
           "scope": "payload",
@@ -117,10 +117,55 @@
       ]
     },
     {
+      "id": "finalize-json-003a-host-dangerous-object-keys-reject",
+      "description": "Host-dangerous object names fail closed during JSON object projection without making them invalid Core member names",
+      "input": {
+        "source": "\"__proto__\":object = { polluted:string = \"yes\" }\npayload:object = { prototype:number = 1, constructor:number = 2 }\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FINALIZE_RESERVED_KEY",
+            "phaseLabel": "Finalization"
+          },
+          {
+            "code": "FINALIZE_RESERVED_KEY",
+            "phaseLabel": "Finalization"
+          },
+          {
+            "code": "FINALIZE_RESERVED_KEY",
+            "phaseLabel": "Finalization"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "document": {
+            "payload": {}
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "host-object-safety",
+        "prototype-pollution"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-json-profile.md",
+        "specs/04-official/v1/appendices/appendix-tonic.md"
+      ]
+    },
+    {
       "id": "finalize-json-004-exact-top-level-attribute-selection",
       "description": "Projected finalized JSON keeps the enclosing binding and only the selected top-level attribute entry",
       "input": {
-        "source": "title@{lang=\"en\", tone=\"warm\"} = \"Hello\"\n",
+        "source": "title@{lang:string=\"en\", tone:string=\"warm\"}:string = \"Hello\"\n",
         "mode": "strict",
         "options": {
           "scope": "payload",
@@ -196,7 +241,7 @@
       "id": "finalize-json-005-attribute-descendant-selection",
       "description": "Projected finalized JSON keeps only the selected descendant under an attribute namespace",
       "input": {
-        "source": "card = { title@{meta={ keep=2, \"x.y\"=1 }, tone=\"warm\"} = \"Hello\" }\n",
+        "source": "card:object = { title@{meta:object={ keep:number=2, \"x.y\":number=1 }, tone:string=\"warm\"}:string = \"Hello\" }\n",
         "mode": "strict",
         "options": {
           "scope": "payload",
@@ -239,7 +284,7 @@
       "id": "finalize-json-006-node-head-attribute-selection",
       "description": "Projected finalized JSON keeps the enclosing node and only the selected node-head attribute entry",
       "input": {
-        "source": "badge = <pill@{id=\"main\", class=\"hero\"}(\"new\")>\n",
+        "source": "badge:node = <pill@{id:string=\"main\", class:string=\"hero\"}(\"new\")>\n",
         "mode": "strict",
         "options": {
           "scope": "payload",
