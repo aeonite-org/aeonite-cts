@@ -117,6 +117,51 @@
       ]
     },
     {
+      "id": "finalize-json-003a-host-dangerous-object-keys-reject",
+      "description": "Host-dangerous object names fail closed during JSON object projection without making them invalid Core member names",
+      "input": {
+        "source": "\"__proto__\" = { polluted = \"yes\" }\npayload = { prototype = 1, constructor = 2 }\n",
+        "mode": "strict",
+        "options": {
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FINALIZE_RESERVED_KEY",
+            "phaseLabel": "Finalization"
+          },
+          {
+            "code": "FINALIZE_RESERVED_KEY",
+            "phaseLabel": "Finalization"
+          },
+          {
+            "code": "FINALIZE_RESERVED_KEY",
+            "phaseLabel": "Finalization"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "document": {
+            "payload": {}
+          }
+        }
+      },
+      "tags": [
+        "finalize",
+        "json",
+        "host-object-safety",
+        "prototype-pollution"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/appendices/appendix-json-profile.md",
+        "specs/04-official/v1/appendices/appendix-tonic.md"
+      ]
+    },
+    {
       "id": "finalize-json-004-exact-top-level-attribute-selection",
       "description": "Projected finalized JSON keeps the enclosing binding and only the selected top-level attribute entry",
       "input": {
