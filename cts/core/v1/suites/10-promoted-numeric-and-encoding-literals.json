@@ -412,10 +412,10 @@
       ]
     },
     {
-      "id": "core-numenc-007-base64-forms-accepted",
-      "description": "Representative base64 literal spellings remain accepted in strict typed bindings",
+      "id": "core-numenc-007-base64url-forms-accepted",
+      "description": "Representative Base64URL literal spellings remain accepted in strict typed bindings",
       "input": {
-        "source": "payload:base64 = $abc-_+/==\nblue:base64 = $FF_FF_FF_\na1:base64 = $F__F\na2:base64 = $_FF\n",
+        "source": "payload:base64 = $abc-_==\nblue:base64 = $FF_FF_FF_\na1:base64 = $F__F\na2:base64 = $_FF\n",
         "mode": "strict"
       },
       "expected": {
@@ -487,6 +487,33 @@
       "description": "Invalid base64 literal spellings reject lexically before datatype validation",
       "input": {
         "source": "payload:base64 = $abc.\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "strict",
+        "base64",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-numenc-009b-standard-base64-class-rejects",
+      "description": "Standard base64 alphabet characters reject in AEON encoding literals",
+      "input": {
+        "source": "payload:base64 = $abc+/==\n",
         "mode": "strict"
       },
       "expected": {
