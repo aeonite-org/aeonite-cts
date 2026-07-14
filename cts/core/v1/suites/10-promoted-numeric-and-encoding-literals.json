@@ -415,7 +415,7 @@
       "id": "core-numenc-007-base64url-forms-accepted",
       "description": "Representative Base64URL literal spellings remain accepted in strict typed bindings",
       "input": {
-        "source": "payload:base64 = $abc-_==\nblue:base64 = $FF_FF_FF_\na1:base64 = $F__F\na2:base64 = $_FF\n",
+        "source": "payload:base64 = &abc-_==\nblue:base64 = &FF_FF_FF_\na1:base64 = &F__F\na2:base64 = &_FF\n",
         "mode": "strict"
       },
       "expected": {
@@ -486,7 +486,7 @@
       "id": "core-numenc-009-invalid-base64-class-rejects",
       "description": "Invalid base64 literal spellings reject lexically before datatype validation",
       "input": {
-        "source": "payload:base64 = $abc.\n",
+        "source": "payload:base64 = &abc.\n",
         "mode": "strict"
       },
       "expected": {
@@ -513,7 +513,7 @@
       "id": "core-numenc-009b-standard-base64-class-rejects",
       "description": "Standard base64 alphabet characters reject in AEON encoding literals",
       "input": {
-        "source": "payload:base64 = $abc+/==\n",
+        "source": "payload:base64 = &abc+/==\n",
         "mode": "strict"
       },
       "expected": {
@@ -594,7 +594,7 @@
       "id": "core-numenc-012-untyped-invalid-encoding-rejects",
       "description": "Untyped invalid encoding literal spellings fail closed instead of bypassing encoding validation",
       "input": {
-        "source": "e = $QmF.zZTY0IQ==\n",
+        "source": "e = &QmF.zZTY0IQ==\n",
         "mode": "transport"
       },
       "expected": {

@@ -235,14 +235,14 @@
       "id": "canonical-baseline-009-encoding-literals-preserve-base64url-padding",
       "description": "Encoding literals preserve accepted Base64URL spelling and trailing padding",
       "input": {
-        "source": "aeon:mode = \"transport\"\npayload:base64 = $abc-_=="
+        "source": "aeon:mode = \"transport\"\npayload:base64 = &abc-_=="
       },
       "expected": {
         "ok": true,
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  mode = \"transport\"\n}\npayload:base64 = $abc-_=="
+          "canonical_text": "aeon:header = {\n  mode = \"transport\"\n}\npayload:base64 = &abc-_=="
         }
       },
       "tags": [
