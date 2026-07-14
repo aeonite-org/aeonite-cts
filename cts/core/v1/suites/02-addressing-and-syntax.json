@@ -417,7 +417,7 @@
       "id": "core-addr-006-encoding-lexical-envelope",
       "description": "Encoding literal rejects dotted payload characters outside the shared encoding alphabet",
       "input": {
-        "source": "payload = $abc-._==",
+        "source": "payload = &abc-._==",
         "mode": "transport"
       },
       "expected": {

@@ -69,7 +69,7 @@
       "id": "inspect-json-002-number-radix-and-encoding-values-normalized",
       "description": "Inspect JSON preserves raw lexemes while surfacing normalized or payload-only semantic values",
       "input": {
-        "source": "num = 1_000_000\nenc = $QmFzZTY0IQ==\nrad = %+A_!_&z\n",
+        "source": "num = 1_000_000\nenc = &QmFzZTY0IQ==\nrad = %+A_!_&z\n",
         "mode": "strict"
       },
       "expected": {
@@ -90,7 +90,7 @@
               "path": "$.enc",
               "value": {
                 "type": "EncodingLiteral",
-                "raw": "$QmFzZTY0IQ==",
+                "raw": "&QmFzZTY0IQ==",
                 "value": "QmFzZTY0IQ=="
               }
             },

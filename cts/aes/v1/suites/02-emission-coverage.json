@@ -490,7 +490,7 @@
       "id": "aes-emission-008-untyped-invalid-encoding-rejects",
       "description": "Untyped invalid encoding literal spellings emit no AES events",
       "input": {
-        "source": "e = $QmF.zZTY0IQ==\n",
+        "source": "e = &QmF.zZTY0IQ==\n",
         "mode": "transport"
       },
       "expected": {
