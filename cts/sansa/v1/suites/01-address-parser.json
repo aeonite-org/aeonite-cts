@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "suite_id": "address-parser",
+    "lane": "sansa-address",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/addressing-v1.md"
+    ]
+  },
+  "id": "address-parser",
+  "title": "SANSA Address Parser Coverage",
+  "tests": [
+    {
+      "id": "sansa-address-001-root-absolute",
+      "description": "Absolute root parses as an exact address",
+      "input": {
+        "source": "$"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$",
+        "exact": true,
+        "root": "absolute"
+      },
+      "tags": ["sansa", "address", "root"]
+    },
+    {
+      "id": "sansa-address-002-root-contextual",
+      "description": "Contextual root parses as an exact address",
+      "input": {
+        "source": "?"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "?",
+        "exact": true,
+        "root": "contextual"
+      },
+      "tags": ["sansa", "address", "root"]
+    },
+    {
+      "id": "sansa-address-003-exact-navigation",
+      "description": "Exact member, position, attribute, and local-space navigation parses structurally",
+      "input": {
+        "source": "$.inventory[0].[\"display.name\"].@.<\"pdf\">"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.inventory[0].[\"display.name\"].@.<\"pdf\">",
+        "exact": true,
+        "selectors": ["member", "position", "member", "attributeSpace", "localSpace"]
+      },
+      "tags": ["sansa", "address", "exact", "local-space", "attributes"]
+    },
+    {
+      "id": "sansa-address-004-expanded-expression",
+      "description": "Expansion, filters, and name patterns parse as a non-exact address expression",
+      "input": {
+        "source": "$.items.*#text%stringLiteral.(\"item_*\").**"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.items.*#text%stringLiteral.(\"item_*\").**",
+        "exact": false,
+        "selectors": [
+          "member",
+          "directExpansion",
+          "semanticTypeFilter",
+          "representationKindFilter",
+          "namePattern",
+          "descendantExpansion"
+        ]
+      },
+      "tags": ["sansa", "address", "expanded", "filters"]
+    },
+    {
+      "id": "sansa-address-005-contextual-local-space",
+      "description": "Contextual roots may enter a named local address space",
+      "input": {
+        "source": "?.<\"request\">.user_id"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "?.<\"request\">.user_id",
+        "exact": true,
+        "root": "contextual",
+        "selectors": ["localSpace", "member"]
+      },
+      "tags": ["sansa", "address", "contextual-root", "local-space"]
+    },
+    {
+      "id": "sansa-address-006-quoted-member-escapes",
+      "description": "Quoted member payloads use AEON double-quoted string escapes",
+      "input": {
+        "source": "$.[\"line\\nfeed\"].[\"tab\\tname\"].[\"quote\\\"name\"]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.[\"line\\nfeed\"].[\"tab\\tname\"].[\"quote\\\"name\"]",
+        "exact": true,
+        "selectors": ["member", "member", "member"]
+      },
+      "tags": ["sansa", "address", "quoted-payload", "escapes"]
+    },
+    {
+      "id": "sansa-address-007-qualified-union",
+      "description": "Top-level qualifier unions parse in qualified address literals",
+      "input": {
+        "source": "$.result:number|nan"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.result:number|nan",
+        "exact": true,
+        "qualifier_terms": ["number", "nan"]
+      },
+      "tags": ["sansa", "address", "qualifier", "union"]
+    },
+    {
+      "id": "sansa-address-008-qualified-quoted-argument",
+      "description": "Qualifier arguments requiring comma use quoted payload syntax",
+      "input": {
+        "source": "$.inventory:csv[\",\"]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.inventory:csv[\",\"]",
+        "exact": true,
+        "qualifier_terms": ["csv"]
+      },
+      "tags": ["sansa", "address", "qualifier", "quoted-argument"]
+    },
+    {
+      "id": "sansa-address-009-qualified-rich-host-surface",
+      "description": "SANSA qualifier grammar can express host-defined type parameters and arguments",
+      "input": {
+        "source": "$.claim:type<type>[arg]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.claim:type<type>[arg]",
+        "exact": true,
+        "qualifier_terms": ["type"]
+      },
+      "tags": ["sansa", "address", "qualifier", "host-surface"]
+    },
+    {
+      "id": "sansa-address-010-qualified-repeated-arguments",
+      "description": "Repeated square-bracket qualifier arguments avoid raw comma separation",
+      "input": {
+        "source": "$.key:string[\",\"][\".\"]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.key:string[\",\"][\".\"]",
+        "exact": true,
+        "qualifier_terms": ["string"]
+      },
+      "tags": ["sansa", "address", "qualifier", "arguments"]
+    },
+    {
+      "id": "sansa-address-011-qualified-repeated-parameter-groups",
+      "description": "Repeated angle-bracket qualifier parameter groups avoid raw comma separation in host embeddings",
+      "input": {
+        "source": "$.key:tuple<x><y>"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.key:tuple<x><y>",
+        "exact": true,
+        "qualifier_terms": ["tuple"]
+      },
+      "tags": ["sansa", "address", "qualifier", "parameters"]
+    },
+    {
+      "id": "sansa-address-012-reject-raw-comma-argument",
+      "description": "Raw comma is not valid inside unquoted qualifier arguments",
+      "input": {
+        "source": "$.inventory:csv[,]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INVALID_QUALIFIER_ARGUMENT_CHAR"
+      },
+      "tags": ["sansa", "address", "reject", "qualifier"]
+    },
+    {
+      "id": "sansa-address-013-reject-empty-qualifier-argument",
+      "description": "Qualifier argument brackets must contain a token or quoted payload",
+      "input": {
+        "source": "$.inventory:csv[]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EXPECTED_QUALIFIER_ARGUMENT"
+      },
+      "tags": ["sansa", "address", "reject", "qualifier"]
+    },
+    {
+      "id": "sansa-address-014-reject-leading-zero-index",
+      "description": "Positional indexes reject leading zeroes other than [0]",
+      "input": {
+        "source": "$.items[01]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_LEADING_ZERO_INDEX"
+      },
+      "tags": ["sansa", "address", "reject", "index"]
+    },
+    {
+      "id": "sansa-address-015-reject-invalid-escape",
+      "description": "Invalid quoted-payload escapes fail closed",
+      "input": {
+        "source": "$.[\"bad\\q\"]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INVALID_ESCAPE"
+      },
+      "tags": ["sansa", "address", "reject", "quoted-payload"]
+    },
+    {
+      "id": "sansa-address-016-reject-invalid-unicode-scalar",
+      "description": "Unicode escapes must decode to scalar values",
+      "input": {
+        "source": "$.[\"bad\\u{D800}\"]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INVALID_UNICODE_SCALAR"
+      },
+      "tags": ["sansa", "address", "reject", "quoted-payload"]
+    },
+    {
+      "id": "sansa-address-017-reject-nested-qualifier-union",
+      "description": "Nested qualifier unions inside generic parameters are out of scope",
+      "input": {
+        "source": "$.value:list<string|number>"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INVALID_QUALIFIER"
+      },
+      "tags": ["sansa", "address", "reject", "qualifier"]
+    }
+  ]
+}
