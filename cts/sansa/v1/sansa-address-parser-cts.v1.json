@@ -3,16 +3,12 @@
     "version": "0.1.0",
     "lane": "sansa-address",
     "sut_protocol": "cts.protocol.v1",
-    "description": "SANSA Address parser CTS scaffold for v1"
+    "description": "SANSA address parser CTS scaffold for v1"
   },
   "suites": [
     {
       "id": "address-parser",
       "file": "suites/01-address-parser.json"
-    },
-    {
-      "id": "aeon-address-literals",
-      "file": "suites/02-aeon-address-literals.json"
     }
   ]
 }

@@ -1,0 +1,174 @@
+{
+  "meta": {
+    "suite_id": "aeon-address-literals",
+    "lane": "sansa-address",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/addressing-v1.md",
+      "aeonite-specs/aeon/v1/proposals/sansa-address-literals.md"
+    ]
+  },
+  "id": "aeon-address-literals",
+  "title": "AEON Embedded SANSA Address Literals",
+  "tests": [
+    {
+      "id": "sansa-aeon-001-absolute-address-literal",
+      "description": "AEON accepts absolute SANSA address literals as typed values",
+      "input": {
+        "source": "link:sansa = $.inventory.items[2].sku\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "bindings": [
+            {
+              "path": "$.link",
+              "datatype": "sansa",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "$.inventory.items[2].sku"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "aeon", "literal", "strict"]
+    },
+    {
+      "id": "sansa-aeon-002-contextual-address-literal",
+      "description": "AEON accepts contextual-root SANSA address literals as typed values",
+      "input": {
+        "source": "link:sansa = ?.name\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "bindings": [
+            {
+              "path": "$.link",
+              "datatype": "sansa",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "?.name"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "aeon", "literal", "contextual-root", "strict"]
+    },
+    {
+      "id": "sansa-aeon-003-rich-selector-address-literal",
+      "description": "AEON treats a SANSA value as one address literal until the host value boundary",
+      "input": {
+        "source": "items:sansa = $.items.*#text%stringLiteral.(\"item_*\")\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "bindings": [
+            {
+              "path": "$.items",
+              "datatype": "sansa",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "$.items.*#text%stringLiteral.(\"item_*\")"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "aeon", "literal", "selectors", "regression"]
+    },
+    {
+      "id": "sansa-aeon-004-qualified-address-with-quoted-comma",
+      "description": "AEON transports SANSA qualifier arguments that quote comma payloads",
+      "input": {
+        "source": "csv:sansa = $.inventory:csv[\",\"]\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "bindings": [
+            {
+              "path": "$.csv",
+              "datatype": "sansa",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "$.inventory:csv[\",\"]"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "aeon", "literal", "qualifier", "quoted-argument"]
+    },
+    {
+      "id": "sansa-aeon-005-reserved-sansa-datatype-rejects-string",
+      "description": "The reserved :sansa datatype requires an address literal, not a string containing an address",
+      "input": {
+        "source": "link:sansa = \"?.name\"\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": ["sansa", "aeon", "datatype", "rejection"]
+    },
+    {
+      "id": "sansa-aeon-006-invalid-address-rejects",
+      "description": "AEON surfaces SANSA address syntax failures as parse errors",
+      "input": {
+        "source": "link:sansa = $.items[01]\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": ["sansa", "aeon", "literal", "rejection"]
+    },
+    {
+      "id": "sansa-aeon-007-finalized-json-preserves-canonical-address",
+      "description": "Finalized JSON materializes SANSA address literals as canonical strings",
+      "input": {
+        "source": "link:sansa = $.inventory.items[2].sku\nctx:sansa = ?.name\n",
+        "mode": "strict",
+        "options": {
+          "profile": "json",
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "link": "$.inventory.items[2].sku",
+            "ctx": "?.name"
+          }
+        }
+      },
+      "tags": ["sansa", "aeon", "finalize", "json"]
+    }
+  ]
+}
