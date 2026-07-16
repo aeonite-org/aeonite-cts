@@ -16,7 +16,10 @@
       "description": "AEON accepts absolute SANSA address literals as typed values",
       "input": {
         "source": "link:sansa = $.inventory.items[2].sku\n",
-        "mode": "strict"
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
       },
       "expected": {
         "ok": true,
@@ -40,7 +43,10 @@
       "description": "AEON accepts contextual-root SANSA address literals as typed values",
       "input": {
         "source": "link:sansa = ?.name\n",
-        "mode": "strict"
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
       },
       "expected": {
         "ok": true,
@@ -64,7 +70,10 @@
       "description": "AEON treats a SANSA value as one address literal until the host value boundary",
       "input": {
         "source": "items:sansa = $.items.*#text%stringLiteral.(\"item_*\")\n",
-        "mode": "strict"
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
       },
       "expected": {
         "ok": true,
@@ -88,7 +97,10 @@
       "description": "AEON transports SANSA qualifier arguments that quote comma payloads",
       "input": {
         "source": "csv:sansa = $.inventory:csv[\",\"]\n",
-        "mode": "strict"
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
       },
       "expected": {
         "ok": true,
@@ -112,7 +124,10 @@
       "description": "The reserved :sansa datatype requires an address literal, not a string containing an address",
       "input": {
         "source": "link:sansa = \"?.name\"\n",
-        "mode": "strict"
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
       },
       "expected": {
         "ok": false,
@@ -131,7 +146,10 @@
       "description": "AEON surfaces SANSA address syntax failures as parse errors",
       "input": {
         "source": "link:sansa = $.items[01]\n",
-        "mode": "strict"
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
       },
       "expected": {
         "ok": false,
@@ -152,6 +170,7 @@
         "source": "link:sansa = $.inventory.items[2].sku\nctx:sansa = ?.name\n",
         "mode": "strict",
         "options": {
+          "effective_mode": "strict",
           "profile": "json",
           "scope": "payload",
           "materialization": "all"
