@@ -56,11 +56,11 @@
       "id": "sansa-address-004-expanded-expression",
       "description": "Expansion, filters, and name patterns parse as a non-exact address expression",
       "input": {
-        "source": "$.items.*#text%stringLiteral.(\"item_*\").**"
+        "source": "$.items.*#text%stringLiteral.(\"item?*\").**"
       },
       "expected": {
         "ok": true,
-        "canonical": "$.items.*#text%stringLiteral.(\"item_*\").**",
+        "canonical": "$.items.*#text%stringLiteral.(\"item?*\").**",
         "exact": false,
         "selectors": [
           "member",

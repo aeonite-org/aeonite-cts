@@ -69,7 +69,7 @@
       "id": "sansa-aeon-003-rich-selector-address-literal",
       "description": "AEON treats a SANSA value as one address literal until the host value boundary",
       "input": {
-        "source": "items:sansa = $.items.*#text%stringLiteral.(\"item_*\")\n",
+        "source": "items:sansa = $.items.*#text%stringLiteral.(\"item?*\")\n",
         "mode": "strict",
         "options": {
           "effective_mode": "strict"
@@ -85,7 +85,7 @@
               "path": "$.items",
               "datatype": "sansa",
               "value_type": "SansaAddressLiteral",
-              "canonical": "$.items.*#text%stringLiteral.(\"item_*\")"
+              "canonical": "$.items.*#text%stringLiteral.(\"item?*\")"
             }
           ]
         }
@@ -188,6 +188,90 @@
         }
       },
       "tags": ["sansa", "aeon", "finalize", "json"]
+    },
+    {
+      "id": "sansa-aeon-008-address-literal-comment-boundaries",
+      "description": "AEON terminates SANSA address literals before line and block comments",
+      "input": {
+        "source": "a:sansa = $.name/* block */\nb:sansa = $.name// line\n",
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "sansa",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "$.name"
+            },
+            {
+              "path": "$.b",
+              "datatype": "sansa",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "$.name"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "aeon", "literal", "comments", "regression"]
+    },
+    {
+      "id": "sansa-aeon-009-address-literal-container-boundaries",
+      "description": "AEON keeps SANSA address literals intact inside list, node, and tuple containers",
+      "input": {
+        "source": "c:list = [$.name]\nd:node = <tag($.name)>\ne:tuple = ($.name)\n",
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "bindings": [
+            {
+              "path": "$.c",
+              "datatype": "list",
+              "value_type": "ListNode"
+            },
+            {
+              "path": "$.c[0]",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "$.name"
+            },
+            {
+              "path": "$.d",
+              "datatype": "node",
+              "value_type": "NodeLiteral"
+            },
+            {
+              "path": "$.d[0]",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "$.name"
+            },
+            {
+              "path": "$.e",
+              "datatype": "tuple",
+              "value_type": "TupleLiteral"
+            },
+            {
+              "path": "$.e[0]",
+              "value_type": "SansaAddressLiteral",
+              "canonical": "$.name"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "aeon", "literal", "containers", "regression"]
     }
   ]
 }
