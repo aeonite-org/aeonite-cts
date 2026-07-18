@@ -1246,7 +1246,7 @@
       "id": "core-baseline-029-transport-parameterized-reserved-claims-pass",
       "description": "Transport mode accepts parameterized object, node, null, NaN, and infinity claims as preserved Core claims",
       "input": {
-        "source": "aeon:mode = \"transport\"\nscores:object<number> = {\n  alice:number = 10\n  bob:string = \"twelve\"\n}\ndoc:node<html> = <html>\nchild:node<node> = <tag>\nmissing:null<number> = !none\nbad:nan<number> = NaN\nfast:infinity<speedofmass> = Infinity\ntitle:node = <title:node<string>(<span(\"hello\")>)>",
+        "source": "aeon:mode = \"transport\"\nscores:object<number> = {\n  alice:number = 10\n  bob:string = \"twelve\"\n}\ndoc:node<html> = <html>\nchild:node<node> = <tag>\nchildren:node = <group:node<node>(<tag>, <tag>)>\nmissing:null<number> = !none\nbad:nan<number> = NaN\nfast:infinity<speedofmass> = Infinity\ntitle:node = <title:node<string>(<span(\"hello\")>)>",
         "mode": "transport"
       },
       "expected": {
