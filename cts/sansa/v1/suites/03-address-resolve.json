@@ -139,6 +139,35 @@
             }
           ]
         }
+      },
+      {
+        "id": "inventory-local",
+        "supportsLocalSpaces": true,
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "localSpaces": {
+                "catalog": {
+                  "address": "$.inventory.<\"catalog\">",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "skuIndex",
+                      "address": "$.inventory.<\"catalog\">.skuIndex",
+                      "semanticType": "index",
+                      "representationKind": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     ]
   },
@@ -325,6 +354,101 @@
         "error": "SANSA_LEADING_ZERO_INDEX"
       },
       "tags": ["sansa", "resolve", "parse-error", "reject"]
+    },
+    {
+      "id": "sansa-resolve-014-descendant-order-excludes-current",
+      "description": "Descendant expansion returns deterministic preorder descendants and excludes the current binding.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.**"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.inventory.items",
+          "$.inventory.items[0]",
+          "$.inventory.items[0].sku",
+          "$.inventory.items[0].qty",
+          "$.inventory.items[1]",
+          "$.inventory.items[1].sku",
+          "$.inventory.items[1].qty",
+          "$.inventory.items[1].status",
+          "$.inventory.itemA1",
+          "$.inventory.itemB2",
+          "$.inventory.archive"
+        ]
+      },
+      "tags": ["sansa", "resolve", "selector", "descendant-expansion", "ordering"]
+    },
+    {
+      "id": "sansa-resolve-015-descendant-does-not-enter-attribute-space",
+      "description": "Descendant expansion does not cross into attribute address spaces unless .@ is selected explicitly.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.**.unit"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": []
+      },
+      "tags": ["sansa", "resolve", "selector", "descendant-expansion", "attribute-space"]
+    },
+    {
+      "id": "sansa-resolve-016-attribute-direct-expansion",
+      "description": "Direct expansion after .@ selects direct attribute-space children.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.reading.@.*"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.reading.@.unit"]
+      },
+      "tags": ["sansa", "resolve", "attribute-space", "direct-expansion"]
+    },
+    {
+      "id": "sansa-resolve-017-contextual-root-direct-expansion",
+      "description": "Contextual roots can be expanded with ordinary selectors once a contextual binding is supplied.",
+      "input": {
+        "namespace": "inventory-basic",
+        "contextualRoot": "$.inventory.items[1]",
+        "source": "?.*"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.inventory.items[1].sku",
+          "$.inventory.items[1].qty",
+          "$.inventory.items[1].status"
+        ]
+      },
+      "tags": ["sansa", "resolve", "contextual-root", "direct-expansion"]
+    },
+    {
+      "id": "sansa-resolve-018-supported-local-space",
+      "description": "Local address-space traversal resolves when the namespace explicitly exposes local spaces.",
+      "input": {
+        "namespace": "inventory-local",
+        "source": "$.inventory.<\"catalog\">.skuIndex"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.inventory.<\"catalog\">.skuIndex"]
+      },
+      "tags": ["sansa", "resolve", "local-space"]
+    },
+    {
+      "id": "sansa-resolve-019-missing-local-space-mount",
+      "description": "A supported local-space selector with no matching mount resolves to an empty binding set.",
+      "input": {
+        "namespace": "inventory-local",
+        "source": "$.inventory.<\"missing\">"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": []
+      },
+      "tags": ["sansa", "resolve", "local-space", "no-match"]
     }
   ]
 }
