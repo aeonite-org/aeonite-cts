@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "sansa-resolve",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "SANSA Resolve CTS scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "address-resolve",
+      "file": "suites/03-address-resolve.json"
+    }
+  ]
+}

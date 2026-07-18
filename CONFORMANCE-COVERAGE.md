@@ -118,6 +118,22 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 | Core-versus-AEOS authority boundary preservation | baseline | `cts/aeos/v1/suites/01-baseline.json`, `cts/aeos/v1/suites/16-reference-forms.json` | preserves that missing reference targets and related legality checks remain Core-owned even when AEOS constrains reference form |
 | literal widening and cardinality constraints | baseline | `cts/aeos/v1/suites/21-literal-widening-cardinality.json` | covers nullable typed values, null sentinel matching, Infinity/NaN numeric widening, toggle pair matching, and min/max immediate child counts |
 
+## SANSA behavior families
+
+The following surfaces are treated as the current SANSA anti-drift behavior families:
+
+- address grammar and canonical rendering
+- AEON embedded SANSA address literals
+- resolve selector behavior over host-provided binding namespaces
+
+## SANSA coverage map
+
+| SANSA behavior family | status | current CTS owner | current coverage notes |
+| --- | --- | --- | --- |
+| address grammar and canonical rendering | baseline | `cts/sansa/v1/suites/01-address-parser.json` | covers roots, exact navigation, expansion selectors, filters, name patterns, qualifiers, quoted payloads, and key rejection boundaries |
+| AEON embedded SANSA address literals | baseline | `cts/sansa/v1/suites/02-aeon-address-literals.json` | covers SANSA literals in AEON value position and AEON host-surface acceptance boundaries |
+| resolve selector behavior | baseline | `cts/sansa/v1/suites/03-address-resolve.json` | covers exact resolution, direct and descendant expansion, name patterns, semantic and representation filters, attribute traversal, contextual roots, no-match behavior, and unsupported local-space diagnostics |
+
 ## AEOS review note
 
 The AEOS validator lane is now strong enough to be treated as a real anti-drift baseline.

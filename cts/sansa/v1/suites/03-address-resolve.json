@@ -1,0 +1,330 @@
+{
+  "meta": {
+    "suite_id": "address-resolve",
+    "lane": "sansa-resolve",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/addressing-v1.md",
+      "aeonite-specs/sansa/v1/proposals/resolve-v1.md"
+    ],
+    "description": "Host-neutral SANSA Resolve fixtures use binding metadata rather than AEON source text."
+  },
+  "id": "address-resolve",
+  "title": "SANSA Address Resolve Coverage",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "inventory-basic",
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "items",
+                  "address": "$.inventory.items",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.inventory.items[0]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[0].sku",
+                          "semanticType": "string",
+                          "representationKind": "string"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[0].qty",
+                          "semanticType": "number",
+                          "representationKind": "number"
+                        }
+                      ]
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.inventory.items[1]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[1].sku",
+                          "semanticType": "string",
+                          "representationKind": "string"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[1].qty",
+                          "semanticType": "number",
+                          "representationKind": "number"
+                        },
+                        {
+                          "name": "status",
+                          "address": "$.inventory.items[1].status",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "itemA1",
+                  "address": "$.inventory.itemA1",
+                  "semanticType": "string",
+                  "representationKind": "string"
+                },
+                {
+                  "name": "itemB2",
+                  "address": "$.inventory.itemB2",
+                  "semanticType": "string",
+                  "representationKind": "string"
+                },
+                {
+                  "name": "archive",
+                  "address": "$.inventory.archive",
+                  "representationKind": "object"
+                }
+              ]
+            },
+            {
+              "name": "contact",
+              "address": "$.contact",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "status",
+                  "address": "$.contact.status",
+                  "semanticType": "boolean",
+                  "representationKind": "boolean",
+                  "attributeSpace": {
+                    "address": "$.contact.status.@",
+                    "representationKind": "object",
+                    "children": [
+                      {
+                        "name": "role",
+                        "address": "$.contact.status.@.role",
+                        "semanticType": "string",
+                        "representationKind": "string"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "reading",
+              "address": "$.reading",
+              "semanticType": "measurement<number>",
+              "representationKind": "number",
+              "attributeSpace": {
+                "address": "$.reading.@",
+                "representationKind": "object",
+                "children": [
+                  {
+                    "name": "unit",
+                    "address": "$.reading.@.unit",
+                    "semanticType": "string",
+                    "representationKind": "string"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-resolve-001-exact-path",
+      "description": "Exact absolute paths resolve to the matching binding.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items[1].sku"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.inventory.items[1].sku"]
+      },
+      "tags": ["sansa", "resolve", "exact"]
+    },
+    {
+      "id": "sansa-resolve-002-exact-no-match",
+      "description": "A syntactically valid exact path with no binding resolves to an empty result set.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items[2].sku"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": []
+      },
+      "tags": ["sansa", "resolve", "exact", "no-match"]
+    },
+    {
+      "id": "sansa-resolve-003-direct-expansion",
+      "description": "Direct expansion selects the immediate children of the current binding.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items.*"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]"
+        ]
+      },
+      "tags": ["sansa", "resolve", "selector", "direct-expansion"]
+    },
+    {
+      "id": "sansa-resolve-004-descendant-expansion",
+      "description": "Descendant expansion walks through all descendant bindings before continuing traversal.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.**.sku"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.inventory.items[0].sku",
+          "$.inventory.items[1].sku"
+        ]
+      },
+      "tags": ["sansa", "resolve", "selector", "descendant-expansion"]
+    },
+    {
+      "id": "sansa-resolve-005-name-pattern",
+      "description": "Name patterns select direct child names using ? for one character and * for zero or more characters.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.(\"item??\")"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.inventory.itemA1",
+          "$.inventory.itemB2"
+        ]
+      },
+      "tags": ["sansa", "resolve", "selector", "name-pattern"]
+    },
+    {
+      "id": "sansa-resolve-006-semantic-type-filter",
+      "description": "Semantic type filters narrow the current binding set by semantic type or semantic base name.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.reading#measurement"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.reading"]
+      },
+      "tags": ["sansa", "resolve", "filter", "semantic-type"]
+    },
+    {
+      "id": "sansa-resolve-007-representation-kind-filter",
+      "description": "Representation kind filters narrow the current binding set by representation kind.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items.*.sku%string"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.inventory.items[0].sku",
+          "$.inventory.items[1].sku"
+        ]
+      },
+      "tags": ["sansa", "resolve", "filter", "representation-kind"]
+    },
+    {
+      "id": "sansa-resolve-008-filter-no-match",
+      "description": "Filters with no matching bindings resolve to an empty result set.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items.*.qty#string"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": []
+      },
+      "tags": ["sansa", "resolve", "filter", "no-match"]
+    },
+    {
+      "id": "sansa-resolve-009-attribute-space",
+      "description": "Attribute-space traversal uses the explicit .@.member form.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.contact.status.@.role"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.contact.status.@.role"]
+      },
+      "tags": ["sansa", "resolve", "attribute-space"]
+    },
+    {
+      "id": "sansa-resolve-010-contextual-root",
+      "description": "Contextual roots resolve relative to the supplied contextual binding.",
+      "input": {
+        "namespace": "inventory-basic",
+        "contextualRoot": "$.inventory.items[0]",
+        "source": "?.sku"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.inventory.items[0].sku"]
+      },
+      "tags": ["sansa", "resolve", "contextual-root"]
+    },
+    {
+      "id": "sansa-resolve-011-missing-contextual-root",
+      "description": "A contextual address fails explicitly when no contextual binding is supplied.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "?.sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_RESOLVE_UNSUPPORTED_CONTEXTUAL_ROOT"
+      },
+      "tags": ["sansa", "resolve", "contextual-root", "reject"]
+    },
+    {
+      "id": "sansa-resolve-012-unsupported-local-space",
+      "description": "Local address-space traversal fails explicitly when the namespace does not expose local spaces.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.<\"catalog\">"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_RESOLVE_UNSUPPORTED_LOCAL_SPACE",
+        "selectorIndex": 1
+      },
+      "tags": ["sansa", "resolve", "local-space", "reject"]
+    },
+    {
+      "id": "sansa-resolve-013-invalid-address",
+      "description": "Resolve reports parser errors for invalid SANSA address syntax.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items[01]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_LEADING_ZERO_INDEX"
+      },
+      "tags": ["sansa", "resolve", "parse-error", "reject"]
+    }
+  ]
+}
