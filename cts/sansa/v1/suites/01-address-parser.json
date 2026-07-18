@@ -243,6 +243,54 @@
         "error": "SANSA_INVALID_QUALIFIER"
       },
       "tags": ["sansa", "address", "reject", "qualifier"]
+    },
+    {
+      "id": "sansa-address-018-reject-compact-attribute-bare",
+      "description": "Compact legacy attribute syntax rejects bare keys without the canonical attribute namespace segment",
+      "input": {
+        "source": "$.a@id"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_UNEXPECTED_CHARACTER"
+      },
+      "tags": ["sansa", "address", "reject", "attributes"]
+    },
+    {
+      "id": "sansa-address-019-reject-compact-attribute-quoted",
+      "description": "Compact legacy attribute syntax rejects quoted keys without the canonical attribute namespace segment",
+      "input": {
+        "source": "$.a@[\"id\"]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_UNEXPECTED_CHARACTER"
+      },
+      "tags": ["sansa", "address", "reject", "attributes"]
+    },
+    {
+      "id": "sansa-address-020-reject-half-migrated-attribute-bare",
+      "description": "Half-migrated attribute syntax rejects bare keys without the required dot after the attribute namespace marker",
+      "input": {
+        "source": "$.a.@id"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_UNEXPECTED_CHARACTER"
+      },
+      "tags": ["sansa", "address", "reject", "attributes"]
+    },
+    {
+      "id": "sansa-address-021-reject-half-migrated-attribute-quoted",
+      "description": "Half-migrated attribute syntax rejects quoted keys without the required dot after the attribute namespace marker",
+      "input": {
+        "source": "$.a.@[\"id\"]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EXPECTED_INDEX"
+      },
+      "tags": ["sansa", "address", "reject", "attributes"]
     }
   ]
 }

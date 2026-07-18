@@ -150,6 +150,114 @@
       ]
     },
     {
+      "id": "core-snippet-transport-004a-legacy-dot-attribute-bare-reject",
+      "description": "Half-migrated attribute syntax rejects bare keys without the required dot after the attribute namespace marker",
+      "input": {
+        "source": "a@{id = 1} = 0\nv = ~a.@id\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "attributes",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-004b-legacy-dot-attribute-quoted-reject",
+      "description": "Half-migrated attribute syntax rejects quoted keys without the required dot after the attribute namespace marker",
+      "input": {
+        "source": "a@{id = 1} = 0\nv = ~a.@[\"id\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "attributes",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-004c-compact-attribute-bare-reject",
+      "description": "Compact legacy attribute syntax rejects bare keys without the canonical attribute namespace segment",
+      "input": {
+        "source": "a@{id = 1} = 0\nv = ~a@id\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "attributes",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
+      "id": "core-snippet-transport-004d-compact-attribute-quoted-reject",
+      "description": "Compact legacy attribute syntax rejects quoted keys without the canonical attribute namespace segment",
+      "input": {
+        "source": "a@{id = 1} = 0\nv = ~a@[\"id\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": [
+        "snippets",
+        "transport",
+        "attributes",
+        "rejection"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/addressing-references-v1.md"
+      ]
+    },
+    {
       "id": "core-snippet-transport-005-leading-segment-required",
       "description": "Quoted traversal segments reject when no leading path segment is present",
       "input": {
