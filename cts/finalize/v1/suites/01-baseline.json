@@ -171,7 +171,7 @@
           "scope": "payload",
           "materialization": "projected",
           "include_paths": [
-            "$.title@lang"
+            "$.title.@.lang"
           ]
         }
       },
@@ -247,7 +247,7 @@
           "scope": "payload",
           "materialization": "projected",
           "include_paths": [
-            "$.card.title@meta.keep"
+            "$.card.title.@.meta.keep"
           ]
         }
       },
@@ -290,7 +290,7 @@
           "scope": "payload",
           "materialization": "projected",
           "include_paths": [
-            "$.badge@@[\"id\"]"
+            "$.badge.@.@.[\"id\"]"
           ]
         }
       },

@@ -15,7 +15,7 @@
       "id": "aes-attr-001-clone-reference-pass",
       "description": "Attribute clone reference emits deterministic event order",
       "input": {
-        "source": "a@{ns=\"alto.v1\"} = 1\nv = ~a@ns",
+        "source": "a@{ns=\"alto.v1\"} = 1\nv = ~a.@.ns",
         "mode": "strict"
       },
       "expected": {
@@ -52,7 +52,7 @@
       "id": "aes-attr-002-missing-target",
       "description": "Missing attribute reference target fails with deterministic diagnostic",
       "input": {
-        "source": "a = 1\nv = ~a@ns",
+        "source": "a = 1\nv = ~a.@.ns",
         "mode": "strict"
       },
       "expected": {
@@ -76,7 +76,7 @@
       "id": "aes-attr-003-forward-target",
       "description": "Forward attribute reference target fails with forward-reference diagnostic",
       "input": {
-        "source": "v = ~a@ns\na@{ns=\"alto.v1\"} = 1",
+        "source": "v = ~a.@.ns\na@{ns=\"alto.v1\"} = 1",
         "mode": "strict"
       },
       "expected": {
@@ -100,7 +100,7 @@
       "id": "aes-attr-004-depth-exceeded",
       "description": "Chained attribute reference beyond default depth lock fails deterministically",
       "input": {
-        "source": "a@{b=2} = 1\nv = ~a@b@c",
+        "source": "a@{b=2} = 1\nv = ~a.@.b.@.c",
         "mode": "strict"
       },
       "expected": {
@@ -148,7 +148,7 @@
       "id": "aes-attr-004b-depth-override-pass",
       "description": "Chained attribute reference emits when max_attribute_depth is raised",
       "input": {
-        "source": "a@{b@{c=3}=2} = 1\nv = ~a@b@c",
+        "source": "a@{b@{c=3}=2} = 1\nv = ~a.@.b.@.c",
         "mode": "strict",
         "options": {
           "max_attribute_depth": 8
@@ -192,7 +192,7 @@
       "id": "aes-attr-005-mixed-path-after-attribute-pass",
       "description": "Quoted bracket member segment is preserved after attribute selector in AES reference path",
       "input": {
-        "source": "a@{meta = { \"x.y\" = 1 }} = 0\nv = ~a@meta.[\"x.y\"]",
+        "source": "a@{meta = { \"x.y\" = 1 }} = 0\nv = ~a.@.meta.[\"x.y\"]",
         "mode": "strict"
       },
       "expected": {
@@ -230,7 +230,7 @@
       "id": "aes-attr-006-nested-binding-attribute-reference-pass",
       "description": "Nested binding attributes inside containers are preserved in AES reference paths",
       "input": {
-        "source": "a = [{x@{b=0}=1}]\nv = ~a[0].x@b",
+        "source": "a = [{x@{b=0}=1}]\nv = ~a[0].x.@.b",
         "mode": "strict"
       },
       "expected": {
@@ -345,7 +345,7 @@
       "id": "aes-attr-008-binding-payload-may-reference-own-attribute-pass",
       "description": "A binding payload may reference one of its own attached attributes in emitted paths",
       "input": {
-        "source": "a@{x=1} = ~a@x",
+        "source": "a@{x=1} = ~a.@.x",
         "mode": "strict"
       },
       "expected": {
@@ -615,7 +615,7 @@
         "errors": [
           {
             "code": "UNTYPED_VALUE_IN_STRICT_MODE",
-            "path": "$.b@n",
+            "path": "$.b.@.n",
             "phase": null
           }
         ],

@@ -124,7 +124,7 @@
               "constraints": {
                 "reference": "require",
                 "reference_kind": "pointer",
-                "reference_target_pattern": "^\\$\\.a@ns$"
+                "reference_target_pattern": "^\\$\\.a.@.ns$"
               }
             }
           ]
