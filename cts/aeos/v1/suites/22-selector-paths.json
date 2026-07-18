@@ -162,6 +162,317 @@
         "warnings": [],
         "guarantees": {}
       }
+    },
+    {
+      "id": "selector_direct_expansion_sku_pass",
+      "description": "SANSA direct expansion selector rules apply to indexed children without legacy [*] syntax",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "sku" } ] },
+            "key": "sku",
+            "datatype": "string",
+            "value": { "type": "StringLiteral", "raw": "\"A-100\"", "value": "A-100", "delimiter": "\"", "span": [0, 7] },
+            "span": [0, 7]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 1 }, { "type": "member", "key": "sku" } ] },
+            "key": "sku",
+            "datatype": "string",
+            "value": { "type": "StringLiteral", "raw": "\"B-200\"", "value": "B-200", "delimiter": "\"", "span": [8, 15] },
+            "span": [8, 15]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.inventory.items.*.sku",
+              "constraints": {
+                "required": true,
+                "type": "StringLiteral",
+                "datatype": "string"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_descendant_expansion_qty_fail",
+      "description": "SANSA descendant expansion can continue traversal after recursive selection",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "qty" } ] },
+            "key": "qty",
+            "datatype": "number",
+            "value": { "type": "NumberLiteral", "raw": "4", "value": "4", "span": [0, 1] },
+            "span": [0, 1]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.inventory.**.qty",
+              "constraints": {
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.inventory.items[0].qty",
+            "code": "type_mismatch",
+            "phase": "schema_validation",
+            "span": [0, 1]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_name_pattern_pass",
+      "description": "SANSA name patterns use ? for one character and * for zero or more characters",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "sku" } ] },
+            "key": "sku",
+            "value": { "type": "StringLiteral", "raw": "\"A-100\"", "value": "A-100", "delimiter": "\"", "span": [0, 7] },
+            "span": [0, 7]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "qty" } ] },
+            "key": "qty",
+            "value": { "type": "NumberLiteral", "raw": "4", "value": "4", "span": [8, 9] },
+            "span": [8, 9]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.inventory.items.*.(\"sk?\")",
+              "constraints": {
+                "required": true,
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_semantic_type_filter_pass",
+      "description": "SANSA semantic filters in AEOS use datatype metadata from AES events",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "sku" } ] },
+            "key": "sku",
+            "datatype": "string",
+            "value": { "type": "StringLiteral", "raw": "\"A-100\"", "value": "A-100", "delimiter": "\"", "span": [0, 7] },
+            "span": [0, 7]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "qty" } ] },
+            "key": "qty",
+            "datatype": "number",
+            "value": { "type": "NumberLiteral", "raw": "4", "value": "4", "span": [8, 9] },
+            "span": [8, 9]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.inventory.items.*.*#string",
+              "constraints": {
+                "required": true,
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_representation_kind_filter_pass",
+      "description": "SANSA representation-kind filters in AEOS use AES value kind metadata",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "sku" } ] },
+            "key": "sku",
+            "value": { "type": "StringLiteral", "raw": "\"A-100\"", "value": "A-100", "delimiter": "\"", "span": [0, 7] },
+            "span": [0, 7]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "qty" } ] },
+            "key": "qty",
+            "value": { "type": "NumberLiteral", "raw": "4", "value": "4", "span": [8, 9] },
+            "span": [8, 9]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.inventory.items.*.*%stringLiteral",
+              "constraints": {
+                "required": true,
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_attribute_space_pass",
+      "description": "SANSA attribute-space traversal selects hydrated AEON attribute event paths",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "contact" }, { "type": "member", "key": "status" } ] },
+            "key": "status",
+            "annotations": {
+              "role": {
+                "datatype": "string",
+                "value": { "type": "StringLiteral", "raw": "\"admin\"", "value": "admin", "delimiter": "\"", "span": [0, 7] },
+                "annotations": {}
+              }
+            },
+            "value": { "type": "BooleanLiteral", "raw": "true", "value": "true", "span": [8, 12] },
+            "span": [8, 12]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.contact.status.@.role",
+              "constraints": {
+                "required": true,
+                "type": "StringLiteral",
+                "datatype": "string"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_closed_world_pattern_allowance",
+      "description": "Closed-world schemas use SANSA Resolve selector matches for allowance checks",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "sku" } ] },
+            "key": "sku",
+            "value": { "type": "StringLiteral", "raw": "\"A-100\"", "value": "A-100", "delimiter": "\"", "span": [0, 7] },
+            "span": [0, 7]
+          },
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "inventory" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "qty" } ] },
+            "key": "qty",
+            "value": { "type": "NumberLiteral", "raw": "4", "value": "4", "span": [8, 9] },
+            "span": [8, 9]
+          }
+        ],
+        "schema": {
+          "world": "closed",
+          "rules": [
+            {
+              "selector": "$.inventory.items.*.(\"sk?\")",
+              "constraints": {
+                "type": "StringLiteral"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.inventory.items[0].qty",
+            "code": "unexpected_binding",
+            "phase": "schema_validation",
+            "span": [8, 9]
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "selector_local_space_unsupported_fail",
+      "description": "AEOS selector rules reject syntactically valid SANSA selectors for unsupported local address spaces",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "items" } ] },
+            "key": "items",
+            "value": { "type": "ObjectNode", "bindings": [], "attributes": [], "span": [0, 1] },
+            "span": [0, 1]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.items.<\"local\">",
+              "constraints": {
+                "required": true
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "path": "$.items.<\"local\">",
+            "code": "invalid_schema_policy",
+            "phase": "schema_validation",
+            "span": null
+          }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
     }
   ]
 }
