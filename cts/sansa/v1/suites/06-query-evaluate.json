@@ -450,7 +450,35 @@
       "tags": ["sansa", "query", "evaluate", "negative", "semantic-filter"]
     },
     {
-      "id": "sansa-query-evaluate-015-function-projection",
+      "id": "sansa-query-evaluate-015-and-short-circuit",
+      "description": "and short-circuits when the left operand is false.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere .active == true and .deletedAt == \"never evaluated\"\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "boolean", "short-circuit"]
+    },
+    {
+      "id": "sansa-query-evaluate-016-or-short-circuit",
+      "description": "or short-circuits when the left operand is true.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .active == true or .deletedAt == \"never evaluated\"\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "boolean", "short-circuit"]
+    },
+    {
+      "id": "sansa-query-evaluate-017-function-projection",
       "description": "Built-in string functions may be used inside projection fields.",
       "input": {
         "namespace": "inventory-values",
@@ -478,7 +506,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "projection"]
     },
     {
-      "id": "sansa-query-evaluate-016-invalid-function-arity",
+      "id": "sansa-query-evaluate-018-invalid-function-arity",
       "description": "Built-in functions reject invalid arity explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -491,7 +519,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-017-invalid-function-type",
+      "id": "sansa-query-evaluate-019-invalid-function-type",
       "description": "Built-in string functions reject non-string scalar arguments explicitly.",
       "input": {
         "namespace": "inventory-values",
