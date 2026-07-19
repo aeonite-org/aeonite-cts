@@ -340,7 +340,9 @@
       },
       "expected": {
         "ok": false,
-        "error": "SANSA_QUERY_EVALUATE_EXPECTED_BOOLEAN"
+        "error": "SANSA_QUERY_EVALUATE_EXPECTED_BOOLEAN",
+        "errorPhase": "where",
+        "candidateAddress": "$.inventory.items[0]"
       },
       "tags": ["sansa", "query", "evaluate", "negative"]
     },
@@ -551,7 +553,9 @@
       },
       "expected": {
         "ok": false,
-        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON",
+        "errorPhase": "where",
+        "candidateAddress": "$.inventory.items[2]"
       },
       "tags": ["sansa", "query", "evaluate", "negative", "nan", "comparison"]
     },
