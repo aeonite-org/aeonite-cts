@@ -284,10 +284,10 @@
     },
     {
       "id": "sansa-query-evaluate-005-unsupported-function",
-      "description": "The evaluator scaffold rejects function calls explicitly.",
+      "description": "The evaluator scaffold rejects unsupported function calls explicitly.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nselect contains(.sku, \"B\")"
+        "source": "from $.inventory.items.*\nselect endsWith(.sku, \"B\")"
       },
       "expected": {
         "ok": false,
@@ -342,6 +342,73 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "cardinality", "empty"]
+    },
+    {
+      "id": "sansa-query-evaluate-009-function-filter",
+      "description": "Built-in contains may be used as a Boolean filter expression.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere contains(.sku, \"B\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.inventory.items[1]"]
+      },
+      "tags": ["sansa", "query", "evaluate", "function"]
+    },
+    {
+      "id": "sansa-query-evaluate-010-function-projection",
+      "description": "Built-in string functions may be used inside projection fields.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere startsWith(.sku, \"A\") or startsWith(.sku, \"B\")\nselect { code = lower(.sku) label = concat(\"item:\", .sku) }"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "code": "a-100",
+              "label": "item:A-100"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "code": "b-200",
+              "label": "item:B-200"
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-011-invalid-function-arity",
+      "description": "Built-in functions reject invalid arity explicitly.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect lower(.sku, \"x\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-012-invalid-function-type",
+      "description": "Built-in string functions reject non-string scalar arguments explicitly.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect contains(.qty, \"4\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative"]
     }
   ]
 }
