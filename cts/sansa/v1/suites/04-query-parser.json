@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "suite_id": "query-parser",
+    "lane": "sansa-query",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/query-v1.md"
+    ]
+  },
+  "id": "query-parser",
+  "title": "SANSA Query Parser Coverage",
+  "tests": [
+    {
+      "id": "sansa-query-001-minimal",
+      "description": "The minimum complete query contains from and select",
+      "input": {
+        "source": "from $.users.*\nselect .name"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "from $.users.*\nselect .name",
+        "from": "$.users.*",
+        "select": ".name",
+        "clauses": ["from", "select"]
+      },
+      "tags": ["sansa", "query", "minimal"]
+    },
+    {
+      "id": "sansa-query-002-all-clauses",
+      "description": "All initial clauses parse in normative order and omitted order direction defaults to asc",
+      "input": {
+        "source": "from $.users.*\nwhere .active == true\norder by .lastName desc, .firstName\noffset 20\nlimit 10\nselect { name = .name status = .status }"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "from $.users.*\nwhere .active == true\norder by .lastName desc, .firstName asc\noffset 20\nlimit 10\nselect { name = .name status = .status }",
+        "from": "$.users.*",
+        "where": ".active == true",
+        "order": [
+          { "expression": ".lastName", "direction": "desc" },
+          { "expression": ".firstName", "direction": "asc" }
+        ],
+        "offset": 20,
+        "limit": 10,
+        "select": "{ name = .name status = .status }",
+        "clauses": ["from", "where", "order", "offset", "limit", "select"]
+      },
+      "tags": ["sansa", "query", "clauses", "order"]
+    },
+    {
+      "id": "sansa-query-003-comments-and-whitespace",
+      "description": "Comments are lexical trivia and are removed from canonical query source",
+      "input": {
+        "source": "/* lead */ from $.inventory.items.* // inventory rows\nwhere .qty >= 1 /* available */\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "from $.inventory.items.*\nwhere .qty >= 1\nselect .sku",
+        "from": "$.inventory.items.*",
+        "where": ".qty >= 1",
+        "select": ".sku",
+        "clauses": ["from", "where", "select"]
+      },
+      "tags": ["sansa", "query", "comments"]
+    },
+    {
+      "id": "sansa-query-004-local-space-source",
+      "description": "Query expressions may contain explicit local address-space references",
+      "input": {
+        "source": "from $.contacts.*\nwhere .name == $.<\"params\">.username\nselect .name"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "from $.contacts.*\nwhere .name == $.<\"params\">.username\nselect .name",
+        "from": "$.contacts.*",
+        "where": ".name == $.<\"params\">.username",
+        "select": ".name",
+        "clauses": ["from", "where", "select"]
+      },
+      "tags": ["sansa", "query", "local-space"]
+    },
+    {
+      "id": "sansa-query-005-missing-select",
+      "description": "Queries without a select clause are incomplete",
+      "input": {
+        "source": "from $.users.*"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EXPECTED_SELECT"
+      },
+      "tags": ["sansa", "query", "negative"]
+    },
+    {
+      "id": "sansa-query-006-missing-from",
+      "description": "Queries must begin with from",
+      "input": {
+        "source": "select .name"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EXPECTED_FROM"
+      },
+      "tags": ["sansa", "query", "negative"]
+    },
+    {
+      "id": "sansa-query-007-invalid-clause-order",
+      "description": "No clause may follow terminal select",
+      "input": {
+        "source": "from $.users.*\nselect .name\nwhere .active == true"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_SELECT_MUST_BE_TERMINAL"
+      },
+      "tags": ["sansa", "query", "negative", "clause-order"]
+    },
+    {
+      "id": "sansa-query-008-invalid-from-address",
+      "description": "The from clause must contain a valid SANSA address expression",
+      "input": {
+        "source": "from $.items[01]\nselect .name"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_LEADING_ZERO_INDEX"
+      },
+      "tags": ["sansa", "query", "negative", "address"]
+    },
+    {
+      "id": "sansa-query-009-invalid-limit",
+      "description": "Limit values are non-negative integers without leading zeroes",
+      "input": {
+        "source": "from $.users.*\nlimit 01\nselect .name"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_LIMIT"
+      },
+      "tags": ["sansa", "query", "negative", "limit"]
+    },
+    {
+      "id": "sansa-query-010-duplicate-where",
+      "description": "Query clauses may not be duplicated",
+      "input": {
+        "source": "from $.users.*\nwhere .active == true\nwhere .role == \"admin\"\nselect .name"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_DUPLICATE_CLAUSE"
+      },
+      "tags": ["sansa", "query", "negative", "duplicate"]
+    }
+  ]
+}
