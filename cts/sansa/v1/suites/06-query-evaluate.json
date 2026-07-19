@@ -53,6 +53,27 @@
                           "semanticType": "boolean",
                           "representationKind": "boolean",
                           "value": true
+                        },
+                        {
+                          "name": "roles",
+                          "address": "$.inventory.items[0].roles",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "index": 0,
+                              "address": "$.inventory.items[0].roles[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "admin"
+                            },
+                            {
+                              "index": 1,
+                              "address": "$.inventory.items[0].roles[1]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "user"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -81,6 +102,20 @@
                           "semanticType": "boolean",
                           "representationKind": "boolean",
                           "value": true
+                        },
+                        {
+                          "name": "roles",
+                          "address": "$.inventory.items[1].roles",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "index": 0,
+                              "address": "$.inventory.items[1].roles[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "user"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -109,6 +144,11 @@
                           "semanticType": "boolean",
                           "representationKind": "boolean",
                           "value": false
+                        },
+                        {
+                          "name": "roles",
+                          "address": "$.inventory.items[2].roles",
+                          "representationKind": "list"
                         }
                       ]
                     },
@@ -137,6 +177,27 @@
                           "semanticType": "boolean",
                           "representationKind": "boolean",
                           "value": false
+                        },
+                        {
+                          "name": "roles",
+                          "address": "$.inventory.items[3].roles",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "index": 0,
+                              "address": "$.inventory.items[3].roles[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "admin"
+                            },
+                            {
+                              "index": 1,
+                              "address": "$.inventory.items[3].roles[1]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "admin"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -235,17 +296,52 @@
       "tags": ["sansa", "query", "evaluate", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-006-unsupported-cardinality",
-      "description": "The evaluator scaffold rejects cardinality operators explicitly.",
+      "id": "sansa-query-evaluate-006-cardinality-any",
+      "description": "The evaluator scaffold supports any over a resolved binding-set predicate.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nselect any(.sku == \"B-200\")"
+        "source": "from $.inventory.items.*\nwhere any(.roles.* == \"admin\")\nselect .sku"
       },
       "expected": {
-        "ok": false,
-        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_CARDINALITY"
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[3]"
+        ]
       },
-      "tags": ["sansa", "query", "evaluate", "negative"]
+      "tags": ["sansa", "query", "evaluate", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-007-cardinality-all-empty",
+      "description": "all(empty) evaluates to true.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere all(.roles.* == \"admin\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality", "empty"]
+    },
+    {
+      "id": "sansa-query-evaluate-008-cardinality-none-empty",
+      "description": "none(empty) evaluates to true.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere none(.roles.* == \"admin\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality", "empty"]
     }
   ]
 }
