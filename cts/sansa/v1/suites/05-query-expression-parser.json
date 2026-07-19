@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "suite_id": "query-expression-parser",
+    "lane": "sansa-query",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/query-v1.md"
+    ]
+  },
+  "id": "query-expression-parser",
+  "title": "SANSA Query Expression Parser Coverage",
+  "tests": [
+    {
+      "id": "sansa-query-expression-001-relative-resolution",
+      "description": "A leading dot resolves relative to the current query candidate",
+      "input": {
+        "expression": ".name"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".name",
+        "ast": {
+          "type": "resolutionExpression",
+          "scope": "current",
+          "canonical": ".name"
+        }
+      },
+      "tags": ["sansa", "query", "expression", "resolution"]
+    },
+    {
+      "id": "sansa-query-expression-002-root-resolution",
+      "description": "A root SANSA address remains a root resolution expression",
+      "input": {
+        "expression": "$.<\"params\">.username"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.<\"params\">.username",
+        "ast": {
+          "type": "resolutionExpression",
+          "scope": "absolute",
+          "canonical": "$.<\"params\">.username"
+        }
+      },
+      "tags": ["sansa", "query", "expression", "resolution", "local-space"]
+    },
+    {
+      "id": "sansa-query-expression-003-comparison",
+      "description": "Comparison expressions produce binary expression nodes",
+      "input": {
+        "expression": ".age >= 18"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".age >= 18",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": ">=",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".age"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "number",
+            "value": 18
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "comparison"]
+    },
+    {
+      "id": "sansa-query-expression-004-boolean-precedence",
+      "description": "Boolean expressions preserve not, and, or precedence",
+      "input": {
+        "expression": "not .active or .role == \"admin\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "not .active or .role == \"admin\"",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "or",
+          "left": {
+            "type": "unaryExpression",
+            "operator": "not"
+          },
+          "right": {
+            "type": "binaryExpression",
+            "operator": "=="
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "boolean"]
+    },
+    {
+      "id": "sansa-query-expression-005-cardinality",
+      "description": "Cardinality operators are parsed separately from ordinary functions",
+      "input": {
+        "expression": "any(.roles.* == \"admin\")"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "any(.roles.* == \"admin\")",
+        "ast": {
+          "type": "cardinalityExpression",
+          "operator": "any",
+          "argument": {
+            "type": "binaryExpression",
+            "operator": "=="
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "cardinality"]
+    },
+    {
+      "id": "sansa-query-expression-006-function-call",
+      "description": "Deterministic function call shape parses without assigning function semantics",
+      "input": {
+        "expression": "contains(.description, \"developer\")"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "contains(.description, \"developer\")",
+        "ast": {
+          "type": "functionCallExpression",
+          "name": "contains",
+          "arguments": [
+            {
+              "type": "resolutionExpression",
+              "canonical": ".description"
+            },
+            {
+              "type": "literalExpression",
+              "kind": "string",
+              "value": "developer"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "query", "expression", "function"]
+    },
+    {
+      "id": "sansa-query-expression-007-projection",
+      "description": "Projection expressions parse named fields with expression values",
+      "input": {
+        "expression": "{ name = .name status = lookup($.statuses, .status) }"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "{ name = .name status = lookup($.statuses, .status) }",
+        "ast": {
+          "type": "projectionExpression",
+          "fields": [
+            {
+              "type": "projectionField",
+              "name": "name"
+            },
+            {
+              "type": "projectionField",
+              "name": "status"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "query", "expression", "projection"]
+    },
+    {
+      "id": "sansa-query-expression-008-invalid-cardinality-arity",
+      "description": "Cardinality operators require exactly one expression",
+      "input": {
+        "expression": "any(.roles.*, \"admin\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "expression", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-009-invalid-projection",
+      "description": "Projection fields require expression values",
+      "input": {
+        "expression": "{ name = }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_PROJECTION"
+      },
+      "tags": ["sansa", "query", "expression", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-010-unterminated-group",
+      "description": "Unterminated parenthesized expressions are rejected",
+      "input": {
+        "expression": "(.name"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_UNTERMINATED_EXPRESSION"
+      },
+      "tags": ["sansa", "query", "expression", "negative"]
+    }
+  ]
+}

@@ -9,6 +9,10 @@
     {
       "id": "query-parser",
       "file": "suites/04-query-parser.json"
+    },
+    {
+      "id": "query-expression-parser",
+      "file": "suites/05-query-expression-parser.json"
     }
   ]
 }
