@@ -41,6 +41,22 @@
                           "value": "A-100"
                         },
                         {
+                          "name": "status",
+                          "address": "$.inventory.items[0].status",
+                          "semanticType": "null<string>",
+                          "representationKind": "null",
+                          "scalarKind": "null",
+                          "nullReason": "notSet",
+                          "value": null
+                        },
+                        {
+                          "name": "metric",
+                          "address": "$.inventory.items[0].metric",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 10
+                        },
+                        {
                           "name": "qty",
                           "address": "$.inventory.items[0].qty",
                           "semanticType": "number",
@@ -88,6 +104,13 @@
                           "semanticType": "string",
                           "representationKind": "string",
                           "value": "B-200"
+                        },
+                        {
+                          "name": "status",
+                          "address": "$.inventory.items[1].status",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "active"
                         },
                         {
                           "name": "id",
@@ -139,6 +162,14 @@
                           "value": "C-300"
                         },
                         {
+                          "name": "metric",
+                          "address": "$.inventory.items[2].metric",
+                          "semanticType": "nan<number>",
+                          "representationKind": "nan",
+                          "scalarKind": "nan",
+                          "value": "NaN"
+                        },
+                        {
                           "name": "qty",
                           "address": "$.inventory.items[2].qty",
                           "semanticType": "number",
@@ -172,11 +203,28 @@
                           "value": "D-250"
                         },
                         {
+                          "name": "status",
+                          "address": "$.inventory.items[3].status",
+                          "semanticType": "null<string>",
+                          "representationKind": "null",
+                          "scalarKind": "null",
+                          "nullReason": "notApplicable",
+                          "value": null
+                        },
+                        {
                           "name": "id",
                           "address": "$.inventory.items[3].id",
                           "semanticType": "number",
                           "representationKind": "number",
                           "value": 3
+                        },
+                        {
+                          "name": "ceiling",
+                          "address": "$.inventory.items[3].ceiling",
+                          "semanticType": "infinity<number>",
+                          "representationKind": "infinity",
+                          "scalarKind": "infinity",
+                          "value": "Infinity"
                         },
                         {
                           "name": "qty",
@@ -422,7 +470,93 @@
       "tags": ["sansa", "query", "evaluate", "existence", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-013-semantic-filter-guard",
+      "id": "sansa-query-evaluate-013-null-reason",
+      "description": "isNullReason tests explicit null values without matching missing bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.status) and isNullReason(.status, \"notSet\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "null", "absence"]
+    },
+    {
+      "id": "sansa-query-evaluate-014-missing-vs-null",
+      "description": "absent tests missing bindings and does not match explicit null values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere absent(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "missing", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-015-unguarded-null-test-missing",
+      "description": "isNull is a scalar value test and reports missing when its operand resolves no bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere isNull(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_SCALAR"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "missing", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-016-nan-predicate",
+      "description": "isNaN tests explicit NaN values without relying on equality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.metric) and isNaN(.metric)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "nan", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-evaluate-017-infinity-predicate",
+      "description": "isInfinity tests explicit Infinity values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.ceiling) and isInfinity(.ceiling)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "infinity", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-evaluate-018-nan-comparison-invalid",
+      "description": "NaN is not comparable; explicit predicates are required for NaN tests.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere .metric == .metric\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "nan", "comparison"]
+    },
+    {
+      "id": "sansa-query-evaluate-019-semantic-filter-guard",
       "description": "A semantic type filter can guard scalar comparison against mixed-type bindings.",
       "input": {
         "namespace": "inventory-values",
@@ -437,7 +571,7 @@
       "tags": ["sansa", "query", "evaluate", "existence", "semantic-filter"]
     },
     {
-      "id": "sansa-query-evaluate-014-unguarded-mixed-type-comparison",
+      "id": "sansa-query-evaluate-020-unguarded-mixed-type-comparison",
       "description": "A presence check without a semantic type filter does not protect mixed-type scalar comparison.",
       "input": {
         "namespace": "inventory-values",
@@ -450,7 +584,7 @@
       "tags": ["sansa", "query", "evaluate", "negative", "semantic-filter"]
     },
     {
-      "id": "sansa-query-evaluate-015-and-short-circuit",
+      "id": "sansa-query-evaluate-021-and-short-circuit",
       "description": "and short-circuits when the left operand is false.",
       "input": {
         "namespace": "inventory-values",
@@ -463,7 +597,7 @@
       "tags": ["sansa", "query", "evaluate", "boolean", "short-circuit"]
     },
     {
-      "id": "sansa-query-evaluate-016-or-short-circuit",
+      "id": "sansa-query-evaluate-022-or-short-circuit",
       "description": "or short-circuits when the left operand is true.",
       "input": {
         "namespace": "inventory-values",
@@ -478,7 +612,7 @@
       "tags": ["sansa", "query", "evaluate", "boolean", "short-circuit"]
     },
     {
-      "id": "sansa-query-evaluate-017-function-projection",
+      "id": "sansa-query-evaluate-023-function-projection",
       "description": "Built-in string functions may be used inside projection fields.",
       "input": {
         "namespace": "inventory-values",
@@ -506,7 +640,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "projection"]
     },
     {
-      "id": "sansa-query-evaluate-018-invalid-function-arity",
+      "id": "sansa-query-evaluate-024-invalid-function-arity",
       "description": "Built-in functions reject invalid arity explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -519,7 +653,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-019-invalid-function-type",
+      "id": "sansa-query-evaluate-025-invalid-function-type",
       "description": "Built-in string functions reject non-string scalar arguments explicitly.",
       "input": {
         "namespace": "inventory-values",
