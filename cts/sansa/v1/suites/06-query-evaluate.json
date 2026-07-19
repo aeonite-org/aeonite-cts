@@ -751,6 +751,71 @@
         "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
       },
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-032-function-missing-argument",
+      "description": "Ordinary functions fail when an argument resolution is missing.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lower(.deletedAt)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_SCALAR"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-033-function-cardinality-argument",
+      "description": "Ordinary functions fail when an argument resolves multiple bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lower(.roles.*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-034-function-null-argument",
+      "description": "Current built-in string functions reject explicit null arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lower(.status)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-035-function-nan-argument",
+      "description": "Current built-in string functions reject NaN arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nselect lower(.metric)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "nan"]
+    },
+    {
+      "id": "sansa-query-evaluate-036-function-infinity-argument",
+      "description": "Current built-in string functions reject Infinity arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[3]\nselect lower(.ceiling)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "infinity"]
     }
   ]
 }
