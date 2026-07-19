@@ -141,7 +141,39 @@
       "tags": ["sansa", "query", "expression", "function"]
     },
     {
-      "id": "sansa-query-expression-007-projection",
+      "id": "sansa-query-expression-007-existence",
+      "description": "Existence operators are parsed separately from ordinary functions",
+      "input": {
+        "expression": "exists(.roles) and absent(.roles.*)"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "exists(.roles) and absent(.roles.*)",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "and",
+          "left": {
+            "type": "existenceExpression",
+            "operator": "exists",
+            "argument": {
+              "type": "resolutionExpression",
+              "canonical": ".roles"
+            }
+          },
+          "right": {
+            "type": "existenceExpression",
+            "operator": "absent",
+            "argument": {
+              "type": "resolutionExpression",
+              "canonical": ".roles.*"
+            }
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "existence"]
+    },
+    {
+      "id": "sansa-query-expression-008-projection",
       "description": "Projection expressions parse named fields with expression values",
       "input": {
         "expression": "{ name = .name status = lookup($.statuses, .status) }"
@@ -166,7 +198,7 @@
       "tags": ["sansa", "query", "expression", "projection"]
     },
     {
-      "id": "sansa-query-expression-008-invalid-cardinality-arity",
+      "id": "sansa-query-expression-009-invalid-cardinality-arity",
       "description": "Cardinality operators require exactly one expression",
       "input": {
         "expression": "any(.roles.*, \"admin\")"
@@ -178,7 +210,19 @@
       "tags": ["sansa", "query", "expression", "negative"]
     },
     {
-      "id": "sansa-query-expression-009-invalid-projection",
+      "id": "sansa-query-expression-010-invalid-existence-argument",
+      "description": "Existence operators require a resolution expression",
+      "input": {
+        "expression": "absent(\"roles\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "expression", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-011-invalid-projection",
       "description": "Projection fields require expression values",
       "input": {
         "expression": "{ name = }"
@@ -190,7 +234,7 @@
       "tags": ["sansa", "query", "expression", "negative"]
     },
     {
-      "id": "sansa-query-expression-010-unterminated-group",
+      "id": "sansa-query-expression-012-unterminated-group",
       "description": "Unterminated parenthesized expressions are rejected",
       "input": {
         "expression": "(.name"

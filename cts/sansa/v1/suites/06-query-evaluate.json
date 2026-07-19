@@ -357,7 +357,58 @@
       "tags": ["sansa", "query", "evaluate", "function"]
     },
     {
-      "id": "sansa-query-evaluate-010-function-projection",
+      "id": "sansa-query-evaluate-010-existence-present",
+      "description": "exists returns true when the resolution expression resolves one or more bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.roles)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "existence"]
+    },
+    {
+      "id": "sansa-query-evaluate-011-existence-empty-container",
+      "description": "exists on a container combined with absent on its expansion selects present empty containers.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.roles) and absent(.roles.*)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "existence", "empty"]
+    },
+    {
+      "id": "sansa-query-evaluate-012-existence-missing",
+      "description": "absent returns true when the resolution expression resolves zero bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere absent(.deletedAt)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "existence", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-013-function-projection",
       "description": "Built-in string functions may be used inside projection fields.",
       "input": {
         "namespace": "inventory-values",
@@ -385,7 +436,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "projection"]
     },
     {
-      "id": "sansa-query-evaluate-011-invalid-function-arity",
+      "id": "sansa-query-evaluate-014-invalid-function-arity",
       "description": "Built-in functions reject invalid arity explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -398,7 +449,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-012-invalid-function-type",
+      "id": "sansa-query-evaluate-015-invalid-function-type",
       "description": "Built-in string functions reject non-string scalar arguments explicitly.",
       "input": {
         "namespace": "inventory-values",
