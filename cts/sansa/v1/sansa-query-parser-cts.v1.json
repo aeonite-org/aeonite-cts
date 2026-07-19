@@ -13,6 +13,10 @@
     {
       "id": "query-expression-parser",
       "file": "suites/05-query-expression-parser.json"
+    },
+    {
+      "id": "query-evaluate",
+      "file": "suites/06-query-evaluate.json"
     }
   ]
 }

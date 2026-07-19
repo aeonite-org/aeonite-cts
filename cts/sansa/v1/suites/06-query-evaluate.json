@@ -1,0 +1,190 @@
+{
+  "meta": {
+    "suite_id": "query-evaluate",
+    "lane": "sansa-query",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/query-v1.md"
+    ],
+    "description": "Initial SANSA.Query evaluator scaffold coverage over host-neutral binding fixtures."
+  },
+  "id": "query-evaluate",
+  "title": "SANSA Query Evaluate Coverage",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "inventory-values",
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "items",
+                  "address": "$.inventory.items",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.inventory.items[0]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[0].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "A-100"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[0].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 1
+                        },
+                        {
+                          "name": "active",
+                          "address": "$.inventory.items[0].active",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.inventory.items[1]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[1].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "B-200"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[1].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 4
+                        },
+                        {
+                          "name": "active",
+                          "address": "$.inventory.items[1].active",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean",
+                          "value": true
+                        }
+                      ]
+                    },
+                    {
+                      "index": 2,
+                      "address": "$.inventory.items[2]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[2].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "C-300"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[2].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 8
+                        },
+                        {
+                          "name": "active",
+                          "address": "$.inventory.items[2].active",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean",
+                          "value": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-query-evaluate-001-filter-project",
+      "description": "Evaluator filters candidate bindings and projects scalar fields.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 2 and .active == true\nselect { sku = .sku qty = .qty }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.inventory.items[1]"],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "qty": 4
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-002-offset-limit",
+      "description": "Evaluator applies offset and limit after filtering.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 1\noffset 1\nlimit 1\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.inventory.items[1]"],
+        "selectedAddresses": [
+          ["$.inventory.items[1].sku"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "slice"]
+    },
+    {
+      "id": "sansa-query-evaluate-003-unsupported-order",
+      "description": "The initial evaluator slice rejects order by explicitly.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\norder by .sku\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_ORDER"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-004-where-not-boolean",
+      "description": "Where expressions must evaluate to Boolean true or false.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .sku\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_EXPECTED_BOOLEAN"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative"]
+    }
+  ]
+}

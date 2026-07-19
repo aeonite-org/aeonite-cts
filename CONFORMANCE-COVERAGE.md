@@ -134,7 +134,7 @@ The following surfaces are treated as the current SANSA anti-drift behavior fami
 | address grammar and canonical rendering | baseline | `cts/sansa/v1/suites/01-address-parser.json` | covers roots, exact navigation, expansion selectors, filters, name patterns, qualifiers, quoted payloads, and key rejection boundaries |
 | AEON embedded SANSA address literals | baseline | `cts/sansa/v1/suites/02-aeon-address-literals.json` | covers SANSA literals in AEON value position and AEON host-surface acceptance boundaries |
 | resolve selector behavior | baseline | `cts/sansa/v1/suites/03-address-resolve.json` | covers exact resolution, direct and descendant expansion, name patterns, semantic and representation filters, attribute traversal, contextual roots, no-match behavior, and unsupported local-space diagnostics |
-| query parser and expression structure with canonical rendering | scaffold | `cts/sansa/v1/suites/04-query-parser.json`, `cts/sansa/v1/suites/05-query-expression-parser.json` | covers required clauses, clause ordering, duplicate rejection, `from` address validation, comments as trivia, order-key defaults, numeric slice bounds, initial expression AST shape, and expression canonical rendering |
+| query parser, expression structure, and evaluator scaffold | scaffold | `cts/sansa/v1/suites/04-query-parser.json`, `cts/sansa/v1/suites/05-query-expression-parser.json`, `cts/sansa/v1/suites/06-query-evaluate.json` | covers required clauses, clause ordering, duplicate rejection, `from` address validation, comments as trivia, order-key defaults, numeric slice bounds, initial expression AST shape, expression canonical rendering, filtered projection evaluation, slice evaluation, and explicit unsupported-feature diagnostics |
 
 ## AEOS review note
 
