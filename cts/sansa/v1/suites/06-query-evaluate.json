@@ -556,7 +556,94 @@
       "tags": ["sansa", "query", "evaluate", "negative", "nan", "comparison"]
     },
     {
-      "id": "sansa-query-evaluate-019-semantic-filter-guard",
+      "id": "sansa-query-evaluate-019-number-comparison",
+      "description": "Number values may participate in same-type ordering comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .qty < 2\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "number"]
+    },
+    {
+      "id": "sansa-query-evaluate-020-string-equality",
+      "description": "String values may participate in same-type equality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .sku == \"B-200\"\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "string"]
+    },
+    {
+      "id": "sansa-query-evaluate-021-boolean-equality",
+      "description": "Boolean values may participate in same-type equality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .active == false\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "boolean"]
+    },
+    {
+      "id": "sansa-query-evaluate-022-infinity-comparison",
+      "description": "Infinity values may participate in same-type numeric comparison as bounds.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[3]\nwhere .ceiling > 1000000\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "infinity"]
+    },
+    {
+      "id": "sansa-query-evaluate-023-null-comparison-invalid",
+      "description": "Explicit null values are not compared by ordinary equality operators.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .status == .status\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "comparison", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-024-boolean-order-invalid",
+      "description": "Boolean values are not orderable.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .active > false\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "comparison", "boolean"]
+    },
+    {
+      "id": "sansa-query-evaluate-025-semantic-filter-guard",
       "description": "A semantic type filter can guard scalar comparison against mixed-type bindings.",
       "input": {
         "namespace": "inventory-values",
@@ -571,7 +658,7 @@
       "tags": ["sansa", "query", "evaluate", "existence", "semantic-filter"]
     },
     {
-      "id": "sansa-query-evaluate-020-unguarded-mixed-type-comparison",
+      "id": "sansa-query-evaluate-026-unguarded-mixed-type-comparison",
       "description": "A presence check without a semantic type filter does not protect mixed-type scalar comparison.",
       "input": {
         "namespace": "inventory-values",
@@ -584,7 +671,7 @@
       "tags": ["sansa", "query", "evaluate", "negative", "semantic-filter"]
     },
     {
-      "id": "sansa-query-evaluate-021-and-short-circuit",
+      "id": "sansa-query-evaluate-027-and-short-circuit",
       "description": "and short-circuits when the left operand is false.",
       "input": {
         "namespace": "inventory-values",
@@ -597,7 +684,7 @@
       "tags": ["sansa", "query", "evaluate", "boolean", "short-circuit"]
     },
     {
-      "id": "sansa-query-evaluate-022-or-short-circuit",
+      "id": "sansa-query-evaluate-028-or-short-circuit",
       "description": "or short-circuits when the left operand is true.",
       "input": {
         "namespace": "inventory-values",
@@ -612,7 +699,7 @@
       "tags": ["sansa", "query", "evaluate", "boolean", "short-circuit"]
     },
     {
-      "id": "sansa-query-evaluate-023-function-projection",
+      "id": "sansa-query-evaluate-029-function-projection",
       "description": "Built-in string functions may be used inside projection fields.",
       "input": {
         "namespace": "inventory-values",
@@ -640,7 +727,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "projection"]
     },
     {
-      "id": "sansa-query-evaluate-024-invalid-function-arity",
+      "id": "sansa-query-evaluate-030-invalid-function-arity",
       "description": "Built-in functions reject invalid arity explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -653,7 +740,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-025-invalid-function-type",
+      "id": "sansa-query-evaluate-031-invalid-function-type",
       "description": "Built-in string functions reject non-string scalar arguments explicitly.",
       "input": {
         "namespace": "inventory-values",

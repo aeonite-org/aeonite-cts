@@ -141,7 +141,39 @@
       "tags": ["sansa", "query", "expression", "function"]
     },
     {
-      "id": "sansa-query-expression-007-existence",
+      "id": "sansa-query-expression-007-value-predicates",
+      "description": "Null and special numeric predicates parse as deterministic function-call expressions",
+      "input": {
+        "expression": "isNullReason(.status, \"notSet\") or isNaN(.metric) or isInfinity(.ceiling)"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "isNullReason(.status, \"notSet\") or isNaN(.metric) or isInfinity(.ceiling)",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "or",
+          "left": {
+            "type": "binaryExpression",
+            "operator": "or",
+            "left": {
+              "type": "functionCallExpression",
+              "name": "isNullReason"
+            },
+            "right": {
+              "type": "functionCallExpression",
+              "name": "isNaN"
+            }
+          },
+          "right": {
+            "type": "functionCallExpression",
+            "name": "isInfinity"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "function", "null", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-expression-008-existence",
       "description": "Existence operators are parsed separately from ordinary functions",
       "input": {
         "expression": "exists(.roles) and absent(.roles.*)"
@@ -173,7 +205,7 @@
       "tags": ["sansa", "query", "expression", "existence"]
     },
     {
-      "id": "sansa-query-expression-008-projection",
+      "id": "sansa-query-expression-009-projection",
       "description": "Projection expressions parse named fields with expression values",
       "input": {
         "expression": "{ name = .name status = lookup($.statuses, .status) }"
@@ -198,7 +230,7 @@
       "tags": ["sansa", "query", "expression", "projection"]
     },
     {
-      "id": "sansa-query-expression-009-invalid-cardinality-arity",
+      "id": "sansa-query-expression-010-invalid-cardinality-arity",
       "description": "Cardinality operators require exactly one expression",
       "input": {
         "expression": "any(.roles.*, \"admin\")"
@@ -210,7 +242,7 @@
       "tags": ["sansa", "query", "expression", "negative"]
     },
     {
-      "id": "sansa-query-expression-010-invalid-existence-argument",
+      "id": "sansa-query-expression-011-invalid-existence-argument",
       "description": "Existence operators require a resolution expression",
       "input": {
         "expression": "absent(\"roles\")"
@@ -222,7 +254,7 @@
       "tags": ["sansa", "query", "expression", "negative"]
     },
     {
-      "id": "sansa-query-expression-011-invalid-projection",
+      "id": "sansa-query-expression-012-invalid-projection",
       "description": "Projection fields require expression values",
       "input": {
         "expression": "{ name = }"
@@ -234,7 +266,7 @@
       "tags": ["sansa", "query", "expression", "negative"]
     },
     {
-      "id": "sansa-query-expression-012-unterminated-group",
+      "id": "sansa-query-expression-013-unterminated-group",
       "description": "Unterminated parenthesized expressions are rejected",
       "input": {
         "expression": "(.name"
