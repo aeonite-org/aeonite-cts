@@ -111,6 +111,34 @@
                           "value": false
                         }
                       ]
+                    },
+                    {
+                      "index": 3,
+                      "address": "$.inventory.items[3]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[3].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "D-250"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[3].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 4
+                        },
+                        {
+                          "name": "active",
+                          "address": "$.inventory.items[3].active",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean",
+                          "value": false
+                        }
+                      ]
                     }
                   ]
                 }
@@ -161,17 +189,24 @@
       "tags": ["sansa", "query", "evaluate", "slice"]
     },
     {
-      "id": "sansa-query-evaluate-003-unsupported-order",
-      "description": "The initial evaluator slice rejects order by explicitly.",
+      "id": "sansa-query-evaluate-003-order-offset-limit",
+      "description": "Evaluator applies stable order by before offset and limit.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\norder by .sku\nselect .sku"
+        "source": "from $.inventory.items.*\norder by .qty desc\noffset 1\nlimit 2\nselect .sku"
       },
       "expected": {
-        "ok": false,
-        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_ORDER"
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          ["$.inventory.items[1].sku"],
+          ["$.inventory.items[3].sku"]
+        ]
       },
-      "tags": ["sansa", "query", "evaluate", "negative"]
+      "tags": ["sansa", "query", "evaluate", "order", "slice"]
     },
     {
       "id": "sansa-query-evaluate-004-where-not-boolean",
@@ -183,6 +218,32 @@
       "expected": {
         "ok": false,
         "error": "SANSA_QUERY_EVALUATE_EXPECTED_BOOLEAN"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-005-unsupported-function",
+      "description": "The evaluator scaffold rejects function calls explicitly.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect contains(.sku, \"B\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_FUNCTION"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-006-unsupported-cardinality",
+      "description": "The evaluator scaffold rejects cardinality operators explicitly.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect any(.sku == \"B-200\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_CARDINALITY"
       },
       "tags": ["sansa", "query", "evaluate", "negative"]
     }
