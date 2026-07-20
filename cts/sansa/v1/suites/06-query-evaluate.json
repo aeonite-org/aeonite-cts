@@ -17,6 +17,61 @@
         "root": {
           "address": "$",
           "representationKind": "object",
+          "localSpaces": {
+            "params": {
+              "address": "$.<\"params\">",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "field",
+                  "address": "$.<\"params\">.field",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "?.sku"
+                  }
+                },
+                {
+                  "name": "active",
+                  "address": "$.<\"params\">.active",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "?.active"
+                  }
+                },
+                {
+                  "name": "sort",
+                  "address": "$.<\"params\">.sort",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "?.qty"
+                  }
+                },
+                {
+                  "name": "fieldText",
+                  "address": "$.<\"params\">.fieldText",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "?.sku"
+                },
+                {
+                  "name": "badPath",
+                  "address": "$.<\"params\">.badPath",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "$.items[01]"
+                  }
+                }
+              ]
+            }
+          },
           "children": [
             {
               "name": "inventory",
@@ -816,6 +871,97 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "function", "string", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-029c-path-select",
+      "description": "path activates a structured contextual SANSA Address Literal value in select expressions.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1]\nselect path($.<\"params\">.field)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[1].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "local-space"]
+    },
+    {
+      "id": "sansa-query-evaluate-029d-path-projection-order",
+      "description": "path may be used in where, order by, and projection expressions.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect { sku = path($.<\"params\">.field) qty = .qty }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "qty": 8
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "D-250",
+              "qty": 4
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "where", "order", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-029e-path-rejects-string",
+      "description": "path rejects plain strings that look like addresses.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.fieldText)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_PATH_LITERAL"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029f-path-invalid-address-literal",
+      "description": "path rejects invalid structured SANSA Address Literal values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.badPath)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_PATH_LITERAL"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029g-path-invalid-arity",
+      "description": "path requires exactly one argument.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.field, $.<\"params\">.sort)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "negative"]
     },
     {
       "id": "sansa-query-evaluate-030-unary-not",
