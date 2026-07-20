@@ -1088,7 +1088,124 @@
       "tags": ["sansa", "query", "evaluate", "lookup", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-047-invalid-function-arity",
+      "id": "sansa-query-evaluate-047-fallback-projection",
+      "description": "fallback supplies a replacement for missing scalar values while preserving explicit null values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect { sku = .sku status = fallback(.status, \"missing\") }"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "A-100",
+              "status": null
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "status": "active"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "status": "missing"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "D-250",
+              "status": null
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "missing", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-048-fallback-function-primary",
+      "description": "fallback handles missing-scalar diagnostics from its primary expression.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect fallback(lower(.deletedAt), \"none\")"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "scalar",
+            "value": "none"
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-049-fallback-lazy-replacement",
+      "description": "fallback does not evaluate the replacement expression when the primary expression succeeds.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1]\nselect fallback(.status, .deletedAt)"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "scalar",
+            "value": "active"
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "lazy"]
+    },
+    {
+      "id": "sansa-query-evaluate-050-fallback-cardinality-primary",
+      "description": "fallback does not hide cardinality errors in the primary expression.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect fallback(.roles.*, \"none\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-051-fallback-missing-replacement",
+      "description": "fallback reports missing scalar diagnostics when the replacement is also missing.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect fallback(.deletedAt, .alsoDeletedAt)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_SCALAR"
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "negative", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-052-fallback-invalid-arity",
+      "description": "fallback requires exactly two arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect fallback(.status)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-053-invalid-function-arity",
       "description": "Built-in functions reject invalid arity explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -1101,7 +1218,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-048-invalid-function-type",
+      "id": "sansa-query-evaluate-054-invalid-function-type",
       "description": "Built-in string functions reject non-string scalar arguments explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -1114,7 +1231,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-049-function-missing-argument",
+      "id": "sansa-query-evaluate-055-function-missing-argument",
       "description": "Ordinary functions fail when an argument resolution is missing.",
       "input": {
         "namespace": "inventory-values",
@@ -1127,7 +1244,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-050-function-cardinality-argument",
+      "id": "sansa-query-evaluate-056-function-cardinality-argument",
       "description": "Ordinary functions fail when an argument resolves multiple bindings.",
       "input": {
         "namespace": "inventory-values",
@@ -1140,7 +1257,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "cardinality"]
     },
     {
-      "id": "sansa-query-evaluate-051-function-null-argument",
+      "id": "sansa-query-evaluate-057-function-null-argument",
       "description": "Current built-in string functions reject explicit null arguments.",
       "input": {
         "namespace": "inventory-values",
@@ -1153,7 +1270,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "null"]
     },
     {
-      "id": "sansa-query-evaluate-052-function-nan-argument",
+      "id": "sansa-query-evaluate-058-function-nan-argument",
       "description": "Current built-in string functions reject NaN arguments.",
       "input": {
         "namespace": "inventory-values",
@@ -1166,7 +1283,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "nan"]
     },
     {
-      "id": "sansa-query-evaluate-053-function-infinity-argument",
+      "id": "sansa-query-evaluate-059-function-infinity-argument",
       "description": "Current built-in string functions reject Infinity arguments.",
       "input": {
         "namespace": "inventory-values",
