@@ -731,7 +731,51 @@
       "tags": ["sansa", "query", "evaluate", "function", "projection"]
     },
     {
-      "id": "sansa-query-evaluate-030-invalid-function-arity",
+      "id": "sansa-query-evaluate-030-unary-not",
+      "description": "Unary not negates a single binding Boolean scalar in Boolean context.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere not .active\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "boolean", "not"]
+    },
+    {
+      "id": "sansa-query-evaluate-031-unary-not-existence",
+      "description": "Unary not negates existence predicates.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere not exists(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[2].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "boolean", "not", "existence"]
+    },
+    {
+      "id": "sansa-query-evaluate-032-invalid-function-arity",
       "description": "Built-in functions reject invalid arity explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -744,7 +788,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-031-invalid-function-type",
+      "id": "sansa-query-evaluate-033-invalid-function-type",
       "description": "Built-in string functions reject non-string scalar arguments explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -757,7 +801,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-032-function-missing-argument",
+      "id": "sansa-query-evaluate-034-function-missing-argument",
       "description": "Ordinary functions fail when an argument resolution is missing.",
       "input": {
         "namespace": "inventory-values",
@@ -770,7 +814,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-033-function-cardinality-argument",
+      "id": "sansa-query-evaluate-035-function-cardinality-argument",
       "description": "Ordinary functions fail when an argument resolves multiple bindings.",
       "input": {
         "namespace": "inventory-values",
@@ -783,7 +827,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "cardinality"]
     },
     {
-      "id": "sansa-query-evaluate-034-function-null-argument",
+      "id": "sansa-query-evaluate-036-function-null-argument",
       "description": "Current built-in string functions reject explicit null arguments.",
       "input": {
         "namespace": "inventory-values",
@@ -796,7 +840,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "null"]
     },
     {
-      "id": "sansa-query-evaluate-035-function-nan-argument",
+      "id": "sansa-query-evaluate-037-function-nan-argument",
       "description": "Current built-in string functions reject NaN arguments.",
       "input": {
         "namespace": "inventory-values",
@@ -809,7 +853,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "nan"]
     },
     {
-      "id": "sansa-query-evaluate-036-function-infinity-argument",
+      "id": "sansa-query-evaluate-038-function-infinity-argument",
       "description": "Current built-in string functions reject Infinity arguments.",
       "input": {
         "namespace": "inventory-values",
