@@ -692,6 +692,21 @@
       "tags": ["sansa", "query", "evaluate", "value", "negative", "cardinality"]
     },
     {
+      "id": "sansa-query-evaluate-015e-is-value-literal",
+      "description": "isValue accepts ordinary scalar expression results, including literals.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere isValue(\"sku\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "literal"]
+    },
+    {
       "id": "sansa-query-evaluate-016-nan-predicate",
       "description": "isNaN tests explicit NaN values without relying on equality comparison.",
       "input": {
@@ -1076,6 +1091,38 @@
         "error": "SANSA_QUERY_EVALUATE_INVALID_PATH_LITERAL"
       },
       "tags": ["sansa", "query", "evaluate", "path", "source", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029j-path-is-value",
+      "description": "isValue may inspect Binding Sets produced by path.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nwhere isValue(path($.<\"params\">.active))\nselect path($.<\"params\">.field)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].sku"
+          ],
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "value", "local-space"]
     },
     {
       "id": "sansa-query-evaluate-030-unary-not",
