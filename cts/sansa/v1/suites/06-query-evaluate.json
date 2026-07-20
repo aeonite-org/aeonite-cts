@@ -836,7 +836,93 @@
       "tags": ["sansa", "query", "evaluate", "membership", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-035-invalid-function-arity",
+      "id": "sansa-query-evaluate-035-membership-empty-right",
+      "description": "Membership over an empty Binding Set evaluates to false.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere \"admin\" in .roles.*\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "membership"]
+    },
+    {
+      "id": "sansa-query-evaluate-036-membership-missing-left",
+      "description": "Membership consumes the left operand in scalar context, so a missing left operand fails.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .deletedAt in .roles.*\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_SCALAR"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-037-membership-cardinality-left",
+      "description": "Membership consumes the left operand in scalar context, so multiple left bindings fail.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .roles.* in .roles.*\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-038-membership-null-right",
+      "description": "Membership uses equality comparison rules, so explicit null candidates are not comparable by default.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere \"admin\" in .status\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-039-membership-nan-right",
+      "description": "Membership uses equality comparison rules, so NaN candidates are not comparable by default.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere 8 in .metric\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative", "nan"]
+    },
+    {
+      "id": "sansa-query-evaluate-040-membership-infinity",
+      "description": "Membership uses equality comparison rules, so infinity may compare as a numeric bound when supported.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[3]\nwhere .ceiling in .ceiling\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "infinity"]
+    },
+    {
+      "id": "sansa-query-evaluate-041-invalid-function-arity",
       "description": "Built-in functions reject invalid arity explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -849,7 +935,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-036-invalid-function-type",
+      "id": "sansa-query-evaluate-042-invalid-function-type",
       "description": "Built-in string functions reject non-string scalar arguments explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -862,7 +948,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-037-function-missing-argument",
+      "id": "sansa-query-evaluate-043-function-missing-argument",
       "description": "Ordinary functions fail when an argument resolution is missing.",
       "input": {
         "namespace": "inventory-values",
@@ -875,7 +961,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-038-function-cardinality-argument",
+      "id": "sansa-query-evaluate-044-function-cardinality-argument",
       "description": "Ordinary functions fail when an argument resolves multiple bindings.",
       "input": {
         "namespace": "inventory-values",
@@ -888,7 +974,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "cardinality"]
     },
     {
-      "id": "sansa-query-evaluate-039-function-null-argument",
+      "id": "sansa-query-evaluate-045-function-null-argument",
       "description": "Current built-in string functions reject explicit null arguments.",
       "input": {
         "namespace": "inventory-values",
@@ -901,7 +987,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "null"]
     },
     {
-      "id": "sansa-query-evaluate-040-function-nan-argument",
+      "id": "sansa-query-evaluate-046-function-nan-argument",
       "description": "Current built-in string functions reject NaN arguments.",
       "input": {
         "namespace": "inventory-values",
@@ -914,7 +1000,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "nan"]
     },
     {
-      "id": "sansa-query-evaluate-041-function-infinity-argument",
+      "id": "sansa-query-evaluate-047-function-infinity-argument",
       "description": "Current built-in string functions reject Infinity arguments.",
       "input": {
         "namespace": "inventory-values",
