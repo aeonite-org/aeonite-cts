@@ -53,11 +53,28 @@
                   }
                 },
                 {
+                  "name": "source",
+                  "address": "$.<\"params\">.source",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "$.inventory.items.*"
+                  }
+                },
+                {
                   "name": "fieldText",
                   "address": "$.<\"params\">.fieldText",
                   "semanticType": "string",
                   "representationKind": "string",
                   "value": "?.sku"
+                },
+                {
+                  "name": "sourceText",
+                  "address": "$.<\"params\">.sourceText",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "$.inventory.items.*"
                 },
                 {
                   "name": "badPath",
@@ -962,6 +979,47 @@
         "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
       },
       "tags": ["sansa", "query", "evaluate", "path", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029h-path-from-source",
+      "description": "path may activate a structured SANSA Address Literal as the from source.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nwhere .qty >= 4\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "source", "local-space"]
+    },
+    {
+      "id": "sansa-query-evaluate-029i-path-from-rejects-string",
+      "description": "Dynamic from path rejects plain strings that look like addresses.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.sourceText)\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_PATH_LITERAL"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "source", "negative"]
     },
     {
       "id": "sansa-query-evaluate-030-unary-not",

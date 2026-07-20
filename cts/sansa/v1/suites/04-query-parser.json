@@ -80,6 +80,33 @@
       "tags": ["sansa", "query", "local-space"]
     },
     {
+      "id": "sansa-query-004a-dynamic-path-source",
+      "description": "The from clause may use path to activate a structured SANSA Address Literal source.",
+      "input": {
+        "source": "from path($.<\"params\">.source)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "from path($.<\"params\">.source)\nselect .sku",
+        "from": "path($.<\"params\">.source)",
+        "select": ".sku",
+        "clauses": ["from", "select"]
+      },
+      "tags": ["sansa", "query", "path", "source"]
+    },
+    {
+      "id": "sansa-query-004b-invalid-dynamic-source",
+      "description": "Only SANSA address literals and path source expressions are accepted by the initial from clause model.",
+      "input": {
+        "source": "from fallback($.<\"params\">.source, $.<\"params\">.backup)\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_FROM_SOURCE"
+      },
+      "tags": ["sansa", "query", "path", "source", "negative"]
+    },
+    {
       "id": "sansa-query-005-missing-select",
       "description": "Queries without a select clause are incomplete",
       "input": {
