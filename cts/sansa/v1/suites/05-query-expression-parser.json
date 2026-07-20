@@ -198,6 +198,28 @@
       "tags": ["sansa", "query", "expression", "function", "null", "numeric-special"]
     },
     {
+      "id": "sansa-query-expression-007a-ordinary-value-predicate",
+      "description": "isValue parses as a deterministic function-call expression.",
+      "input": {
+        "expression": "isValue(.status)"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "isValue(.status)",
+        "ast": {
+          "type": "functionCallExpression",
+          "name": "isValue",
+          "arguments": [
+            {
+              "type": "resolutionExpression",
+              "canonical": ".status"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "query", "expression", "function", "value"]
+    },
+    {
       "id": "sansa-query-expression-008-existence",
       "description": "Existence operators are parsed separately from ordinary functions",
       "input": {

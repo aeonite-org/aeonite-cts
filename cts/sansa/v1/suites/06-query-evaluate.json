@@ -636,6 +636,62 @@
       "tags": ["sansa", "query", "evaluate", "negative", "missing", "null"]
     },
     {
+      "id": "sansa-query-evaluate-015a-is-value-ordinary",
+      "description": "isValue matches ordinary scalar values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere isValue(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value"]
+    },
+    {
+      "id": "sansa-query-evaluate-015b-is-value-missing-aware",
+      "description": "isValue returns false, rather than a missing diagnostic, when its operand resolves no bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere isValue(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-015c-is-value-excludes-numeric-specials",
+      "description": "isValue excludes NaN and infinity while accepting ordinary finite numbers.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere isValue(.metric) or isValue(.ceiling)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-evaluate-015d-is-value-cardinality",
+      "description": "isValue requires a single binding when its operand is present.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere isValue(.roles.*)\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "negative", "cardinality"]
+    },
+    {
       "id": "sansa-query-evaluate-016-nan-predicate",
       "description": "isNaN tests explicit NaN values without relying on equality comparison.",
       "input": {
