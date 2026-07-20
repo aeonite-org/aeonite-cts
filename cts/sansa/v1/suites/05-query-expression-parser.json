@@ -94,6 +94,31 @@
       "tags": ["sansa", "query", "expression", "boolean"]
     },
     {
+      "id": "sansa-query-expression-004b-membership",
+      "description": "Membership expressions parse as binary expressions at comparison precedence",
+      "input": {
+        "expression": "\"admin\" in .roles.*"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "\"admin\" in .roles.*",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "in",
+          "left": {
+            "type": "literalExpression",
+            "kind": "string",
+            "value": "admin"
+          },
+          "right": {
+            "type": "resolutionExpression",
+            "canonical": ".roles.*"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "membership"]
+    },
+    {
       "id": "sansa-query-expression-005-cardinality",
       "description": "Cardinality operators are parsed separately from ordinary functions",
       "input": {
