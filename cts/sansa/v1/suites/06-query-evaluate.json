@@ -6,7 +6,7 @@
     "spec_refs": [
       "aeonite-specs/sansa/v1/proposals/query-v1.md"
     ],
-    "description": "Initial SANSA.Query evaluator scaffold coverage over host-neutral binding fixtures."
+    "description": "SANSA.Query evaluator coverage over host-neutral binding fixtures."
   },
   "id": "query-evaluate",
   "title": "SANSA Query Evaluate Coverage",
@@ -469,7 +469,7 @@
     },
     {
       "id": "sansa-query-evaluate-005-unsupported-function",
-      "description": "The evaluator scaffold rejects unsupported function calls explicitly.",
+      "description": "The evaluator rejects unsupported function calls explicitly.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items.*\nselect matches(.sku, \"B\")"
@@ -482,7 +482,7 @@
     },
     {
       "id": "sansa-query-evaluate-006-cardinality-any",
-      "description": "The evaluator scaffold supports any over a resolved binding-set predicate.",
+      "description": "The evaluator supports any over a resolved binding-set predicate.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items.*\nwhere any(.roles.* == \"admin\")\nselect .sku"
@@ -1639,6 +1639,101 @@
         "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
       },
       "tags": ["sansa", "query", "evaluate", "function", "negative", "infinity"]
+    },
+    {
+      "id": "sansa-query-evaluate-060-recipe-dynamic-path-pipeline",
+      "description": "Recipe: dynamic source, dynamic Boolean predicate, dynamic order key, and dynamic projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect path($.<\"params\">.field)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "recipe", "path", "pipeline"]
+    },
+    {
+      "id": "sansa-query-evaluate-061-recipe-status-presence",
+      "description": "Recipe: distinguish ordinary values, explicit nulls, and missing bindings in one predicate.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere isValue(.status) or (exists(.status) and isNull(.status))\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].sku"
+          ],
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "recipe", "value", "null", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-062-recipe-lookup-fallback-pipeline",
+      "description": "Recipe: filter, lookup, fallback, and projection compose in a read-only pipeline.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect { sku = .sku category = lookup($.inventory.categoryLabels, .category) status = fallback(.status, \"missing\") }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "category": "Hardware",
+              "status": "active"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "category": "Hardware",
+              "status": "missing"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "D-250",
+              "category": "Tooling",
+              "status": null
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "recipe", "lookup", "fallback", "projection"]
     }
   ]
 }
