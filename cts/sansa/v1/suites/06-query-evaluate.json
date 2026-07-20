@@ -400,7 +400,7 @@
       "description": "The evaluator scaffold rejects unsupported function calls explicitly.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nselect endsWith(.sku, \"B\")"
+        "source": "from $.inventory.items.*\nselect matches(.sku, \"B\")"
       },
       "expected": {
         "ok": false,
@@ -778,6 +778,44 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "function", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-029b-string-function-ends-with",
+      "description": "Built-in string functions include suffix checks.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere endsWith(.sku, \"00\")\nselect { sku = .sku code = lower(.sku) label = concat(\"item:\", .sku) }"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "A-100",
+              "code": "a-100",
+              "label": "item:A-100"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "code": "b-200",
+              "label": "item:B-200"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "code": "c-300",
+              "label": "item:C-300"
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "string", "projection"]
     },
     {
       "id": "sansa-query-evaluate-030-unary-not",
