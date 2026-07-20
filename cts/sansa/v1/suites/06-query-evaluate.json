@@ -41,6 +41,13 @@
                           "value": "A-100"
                         },
                         {
+                          "name": "category",
+                          "address": "$.inventory.items[0].category",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "hardware"
+                        },
+                        {
                           "name": "status",
                           "address": "$.inventory.items[0].status",
                           "semanticType": "null<string>",
@@ -106,6 +113,13 @@
                           "value": "B-200"
                         },
                         {
+                          "name": "category",
+                          "address": "$.inventory.items[1].category",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "hardware"
+                        },
+                        {
                           "name": "status",
                           "address": "$.inventory.items[1].status",
                           "semanticType": "string",
@@ -162,6 +176,13 @@
                           "value": "C-300"
                         },
                         {
+                          "name": "category",
+                          "address": "$.inventory.items[2].category",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "hardware"
+                        },
+                        {
                           "name": "metric",
                           "address": "$.inventory.items[2].metric",
                           "semanticType": "nan<number>",
@@ -201,6 +222,13 @@
                           "semanticType": "string",
                           "representationKind": "string",
                           "value": "D-250"
+                        },
+                        {
+                          "name": "category",
+                          "address": "$.inventory.items[3].category",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "tooling"
                         },
                         {
                           "name": "status",
@@ -262,6 +290,27 @@
                           ]
                         }
                       ]
+                    }
+                  ]
+                },
+                {
+                  "name": "categoryLabels",
+                  "address": "$.inventory.categoryLabels",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "hardware",
+                      "address": "$.inventory.categoryLabels.hardware",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "Hardware"
+                    },
+                    {
+                      "name": "tooling",
+                      "address": "$.inventory.categoryLabels.tooling",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "Tooling"
                     }
                   ]
                 }
@@ -922,7 +971,124 @@
       "tags": ["sansa", "query", "evaluate", "membership", "infinity"]
     },
     {
-      "id": "sansa-query-evaluate-041-invalid-function-arity",
+      "id": "sansa-query-evaluate-041-lookup-projection",
+      "description": "lookup resolves a scalar key against one addressable container and may be used in projections.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect { sku = .sku category = lookup($.inventory.categoryLabels, .category) }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "category": "Hardware"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "category": "Hardware"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "D-250",
+              "category": "Tooling"
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "lookup", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-042-lookup-position",
+      "description": "lookup accepts non-negative integer keys for positional children.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lookup(.roles, 1)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].roles[1]"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "lookup", "position"]
+    },
+    {
+      "id": "sansa-query-evaluate-043-lookup-missing-target",
+      "description": "lookup returns an empty Binding Set when the target is missing.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lookup($.inventory.categoryLabels, \"unknown\")"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ],
+        "selectedAddresses": [
+          []
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "lookup", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-044-lookup-cardinality-base",
+      "description": "lookup requires the base to resolve exactly one binding.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lookup($.inventory.items.*, .category)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "lookup", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-045-lookup-cardinality-key",
+      "description": "lookup requires the key to resolve exactly one scalar value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lookup($.inventory.categoryLabels, .roles.*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "lookup", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-046-lookup-invalid-key",
+      "description": "lookup rejects key types outside string member names and non-negative integer positions.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lookup($.inventory.categoryLabels, true)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "lookup", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-047-invalid-function-arity",
       "description": "Built-in functions reject invalid arity explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -935,7 +1101,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-042-invalid-function-type",
+      "id": "sansa-query-evaluate-048-invalid-function-type",
       "description": "Built-in string functions reject non-string scalar arguments explicitly.",
       "input": {
         "namespace": "inventory-values",
@@ -948,7 +1114,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-043-function-missing-argument",
+      "id": "sansa-query-evaluate-049-function-missing-argument",
       "description": "Ordinary functions fail when an argument resolution is missing.",
       "input": {
         "namespace": "inventory-values",
@@ -961,7 +1127,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-044-function-cardinality-argument",
+      "id": "sansa-query-evaluate-050-function-cardinality-argument",
       "description": "Ordinary functions fail when an argument resolves multiple bindings.",
       "input": {
         "namespace": "inventory-values",
@@ -974,7 +1140,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "cardinality"]
     },
     {
-      "id": "sansa-query-evaluate-045-function-null-argument",
+      "id": "sansa-query-evaluate-051-function-null-argument",
       "description": "Current built-in string functions reject explicit null arguments.",
       "input": {
         "namespace": "inventory-values",
@@ -987,7 +1153,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "null"]
     },
     {
-      "id": "sansa-query-evaluate-046-function-nan-argument",
+      "id": "sansa-query-evaluate-052-function-nan-argument",
       "description": "Current built-in string functions reject NaN arguments.",
       "input": {
         "namespace": "inventory-values",
@@ -1000,7 +1166,7 @@
       "tags": ["sansa", "query", "evaluate", "function", "negative", "nan"]
     },
     {
-      "id": "sansa-query-evaluate-047-function-infinity-argument",
+      "id": "sansa-query-evaluate-053-function-infinity-argument",
       "description": "Current built-in string functions reject Infinity arguments.",
       "input": {
         "namespace": "inventory-values",
