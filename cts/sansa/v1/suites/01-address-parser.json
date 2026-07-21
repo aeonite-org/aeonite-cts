@@ -89,6 +89,48 @@
       "tags": ["sansa", "address", "contextual-root", "local-space"]
     },
     {
+      "id": "sansa-address-005a-position-range",
+      "description": "Position ranges parse as non-exact selectors with inclusive endpoints.",
+      "input": {
+        "source": "$.items[2..5]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.items[2..5]",
+        "exact": false,
+        "selectors": ["member", "positionRange"]
+      },
+      "tags": ["sansa", "address", "selector", "range"]
+    },
+    {
+      "id": "sansa-address-005b-position-range-open-end",
+      "description": "Position ranges may omit the end index.",
+      "input": {
+        "source": "$.items[2..]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.items[2..]",
+        "exact": false,
+        "selectors": ["member", "positionRange"]
+      },
+      "tags": ["sansa", "address", "selector", "range"]
+    },
+    {
+      "id": "sansa-address-005c-position-range-open-start",
+      "description": "Position ranges may omit the start index.",
+      "input": {
+        "source": "$.items[..5]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.items[..5]",
+        "exact": false,
+        "selectors": ["member", "positionRange"]
+      },
+      "tags": ["sansa", "address", "selector", "range"]
+    },
+    {
       "id": "sansa-address-006-quoted-member-escapes",
       "description": "Quoted member payloads use AEON double-quoted string escapes",
       "input": {
@@ -219,6 +261,30 @@
         "error": "SANSA_INVALID_ESCAPE"
       },
       "tags": ["sansa", "address", "reject", "quoted-payload"]
+    },
+    {
+      "id": "sansa-address-014a-reject-empty-position-range",
+      "description": "Position ranges must include at least one endpoint.",
+      "input": {
+        "source": "$.items[..]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EMPTY_POSITION_RANGE"
+      },
+      "tags": ["sansa", "address", "reject", "range"]
+    },
+    {
+      "id": "sansa-address-014b-reject-leading-zero-range-end",
+      "description": "Position range endpoints use the same no-leading-zero rule as positional indexes.",
+      "input": {
+        "source": "$.items[1..02]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_LEADING_ZERO_INDEX"
+      },
+      "tags": ["sansa", "address", "reject", "range", "index"]
     },
     {
       "id": "sansa-address-016-reject-invalid-unicode-scalar",

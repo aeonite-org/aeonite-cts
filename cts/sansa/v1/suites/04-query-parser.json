@@ -95,7 +95,22 @@
       "tags": ["sansa", "query", "path", "source"]
     },
     {
-      "id": "sansa-query-004b-invalid-dynamic-source",
+      "id": "sansa-query-004b-position-range-source",
+      "description": "Queries may use promoted SANSA position range selectors in source and projection expressions.",
+      "input": {
+        "source": "from $.inventory.items[0..1]\nselect .roles[0..]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "from $.inventory.items[0..1]\nselect .roles[0..]",
+        "from": "$.inventory.items[0..1]",
+        "select": ".roles[0..]",
+        "clauses": ["from", "select"]
+      },
+      "tags": ["sansa", "query", "selector", "range"]
+    },
+    {
+      "id": "sansa-query-004c-invalid-dynamic-source",
       "description": "Only SANSA address literals and path source expressions are accepted by the initial from clause model.",
       "input": {
         "source": "from fallback($.<\"params\">.source, $.<\"params\">.backup)\nselect .sku"

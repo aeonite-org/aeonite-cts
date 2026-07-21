@@ -417,6 +417,26 @@
       "tags": ["sansa", "query", "evaluate", "projection"]
     },
     {
+      "id": "sansa-query-evaluate-001a-position-range-source",
+      "description": "Evaluator accepts promoted SANSA position range selectors in query sources.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1..2]\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]"
+        ],
+        "selectedAddresses": [
+          ["$.inventory.items[1].sku"],
+          ["$.inventory.items[2].sku"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "selector", "range"]
+    },
+    {
       "id": "sansa-query-evaluate-002-offset-limit",
       "description": "Evaluator applies offset and limit after filtering.",
       "input": {

@@ -215,6 +215,61 @@
       "tags": ["sansa", "resolve", "selector", "direct-expansion"]
     },
     {
+      "id": "sansa-resolve-003a-position-range-bounded",
+      "description": "Position ranges select inclusive positional children.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items[0..1]"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]"
+        ]
+      },
+      "tags": ["sansa", "resolve", "selector", "range"]
+    },
+    {
+      "id": "sansa-resolve-003b-position-range-open-end",
+      "description": "Position ranges may omit the upper endpoint.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items[1..]"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.inventory.items[1]"]
+      },
+      "tags": ["sansa", "resolve", "selector", "range"]
+    },
+    {
+      "id": "sansa-resolve-003c-position-range-open-start",
+      "description": "Position ranges may omit the lower endpoint.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items[..0]"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.inventory.items[0]"]
+      },
+      "tags": ["sansa", "resolve", "selector", "range"]
+    },
+    {
+      "id": "sansa-resolve-003d-position-range-reversed-empty",
+      "description": "A reversed position range resolves to an empty binding set.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items[2..1]"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": []
+      },
+      "tags": ["sansa", "resolve", "selector", "range", "empty"]
+    },
+    {
       "id": "sansa-resolve-004-descendant-expansion",
       "description": "Descendant expansion walks through all descendant bindings before continuing traversal.",
       "input": {
