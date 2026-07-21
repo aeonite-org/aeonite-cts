@@ -1738,6 +1738,36 @@
       "tags": ["sansa", "query", "evaluate", "object-from", "projection"]
     },
     {
+      "id": "sansa-query-evaluate-046aa-object-from-contextual-position",
+      "description": "objectFrom may pair one selected header key with a contextual positional value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content.*\nselect objectFrom($.table.header[1], .[1])"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table.content[0]",
+          "$.table.content[1]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "age": 22
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "age": 31
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "contextual", "position"]
+    },
+    {
       "id": "sansa-query-evaluate-046b-object-from-mismatched-length",
       "description": "objectFrom rejects key and value binding sets with different lengths.",
       "input": {

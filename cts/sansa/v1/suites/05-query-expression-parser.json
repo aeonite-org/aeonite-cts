@@ -114,6 +114,23 @@
       "tags": ["sansa", "query", "expression", "current-binding"]
     },
     {
+      "id": "sansa-query-expression-002e-current-position",
+      "description": "Dot-position syntax is current-binding shorthand for contextual positional selection.",
+      "input": {
+        "expression": ".[1]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".[1]",
+        "ast": {
+          "type": "resolutionExpression",
+          "scope": "current",
+          "canonical": ".[1]"
+        }
+      },
+      "tags": ["sansa", "query", "expression", "current-binding", "position"]
+    },
+    {
       "id": "sansa-query-expression-003-comparison",
       "description": "Comparison expressions produce binary expression nodes",
       "input": {
