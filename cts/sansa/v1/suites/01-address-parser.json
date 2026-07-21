@@ -315,6 +315,34 @@
       "tags": ["sansa", "address", "reject", "range", "index"]
     },
     {
+      "id": "sansa-address-014c-max-position-index",
+      "description": "Position indexes are accepted at the portable support floor.",
+      "input": {
+        "source": "$.items[1000000]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.items[1000000]",
+        "exact": true,
+        "selectors": ["member", "position"]
+      },
+      "tags": ["sansa", "address", "index", "limit"]
+    },
+    {
+      "id": "sansa-address-014d-max-position-range-endpoint",
+      "description": "Position range endpoints are accepted at the portable support floor.",
+      "input": {
+        "source": "$.items[0..1000000]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.items[0..1000000]",
+        "exact": false,
+        "selectors": ["member", "positionRange"]
+      },
+      "tags": ["sansa", "address", "range", "index", "limit"]
+    },
+    {
       "id": "sansa-address-016-reject-invalid-unicode-scalar",
       "description": "Unicode escapes must decode to scalar values",
       "input": {
