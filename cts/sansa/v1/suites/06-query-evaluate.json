@@ -899,7 +899,7 @@
       "description": "Built-in string functions may be used inside projection fields.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nwhere startsWith(.sku, \"A\") or startsWith(.sku, \"B\")\nselect { code = lower(.sku) label = concat(\"item:\", .sku) }"
+        "source": "from $.inventory.items.*\nwhere startsWith(.sku, \"A\") or startsWith(.sku, \"B\")\nselect { code = lower(.sku) category = upper(.category) label = concat(\"item:\", .sku) }"
       },
       "expected": {
         "ok": true,
@@ -908,6 +908,7 @@
             "type": "object",
             "value": {
               "code": "a-100",
+              "category": "HARDWARE",
               "label": "item:A-100"
             }
           },
@@ -915,6 +916,7 @@
             "type": "object",
             "value": {
               "code": "b-200",
+              "category": "HARDWARE",
               "label": "item:B-200"
             }
           }
@@ -927,7 +929,7 @@
       "description": "Built-in string functions include suffix checks.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nwhere endsWith(.sku, \"00\")\nselect { sku = .sku code = lower(.sku) label = concat(\"item:\", .sku) }"
+        "source": "from $.inventory.items.*\nwhere endsWith(.sku, \"00\")\nselect { sku = .sku code = lower(.sku) category = upper(.category) label = concat(\"item:\", .sku) }"
       },
       "expected": {
         "ok": true,
@@ -937,6 +939,7 @@
             "value": {
               "sku": "A-100",
               "code": "a-100",
+              "category": "HARDWARE",
               "label": "item:A-100"
             }
           },
@@ -945,6 +948,7 @@
             "value": {
               "sku": "B-200",
               "code": "b-200",
+              "category": "HARDWARE",
               "label": "item:B-200"
             }
           },
@@ -953,6 +957,7 @@
             "value": {
               "sku": "C-300",
               "code": "c-300",
+              "category": "HARDWARE",
               "label": "item:C-300"
             }
           }
