@@ -110,6 +110,22 @@
       "tags": ["sansa", "query", "selector", "range"]
     },
     {
+      "id": "sansa-query-004d-parent-and-filters",
+      "description": "Queries may use SANSA parent traversal and suffix filters in query resolution expressions.",
+      "input": {
+        "source": "from $.inventory.items[1].sku.^\nwhere exists(.id#number)\nselect .**%string"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "from $.inventory.items[1].sku.^\nwhere exists(.id#number)\nselect .**%string",
+        "from": "$.inventory.items[1].sku.^",
+        "where": "exists(.id#number)",
+        "select": ".**%string",
+        "clauses": ["from", "where", "select"]
+      },
+      "tags": ["sansa", "query", "selector", "parent", "semantic-filter", "representation-filter"]
+    },
+    {
       "id": "sansa-query-004c-invalid-dynamic-source",
       "description": "Only SANSA address literals and path source expressions are accepted by the initial from clause model.",
       "input": {

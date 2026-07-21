@@ -14,6 +14,7 @@
     "namespaces": [
       {
         "id": "inventory-values",
+        "supportsParentTraversal": true,
         "root": {
           "address": "$",
           "representationKind": "object",
@@ -582,6 +583,42 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "selector", "range"]
+    },
+    {
+      "id": "sansa-query-evaluate-001b-position-range-open-end",
+      "description": "Open-ended position ranges select through the final exposed positional child.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect .roles[1..]"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ],
+        "selectedAddresses": [
+          ["$.inventory.items[0].roles[1]"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "selector", "range"]
+    },
+    {
+      "id": "sansa-query-evaluate-001c-parent-sibling",
+      "description": "Parent traversal may move from a selected child binding to its exposed parent before selecting a sibling.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1].sku\nselect .^.qty"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1].sku"
+        ],
+        "selectedAddresses": [
+          ["$.inventory.items[1].qty"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "selector", "parent"]
     },
     {
       "id": "sansa-query-evaluate-002-offset-limit",

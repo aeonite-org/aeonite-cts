@@ -62,6 +62,42 @@
       "tags": ["sansa", "query", "expression", "resolution", "parent"]
     },
     {
+      "id": "sansa-query-expression-002b-filtered-resolution",
+      "description": "Query resolution expressions may apply semantic type and representation kind suffix filters.",
+      "input": {
+        "expression": ".id#number or .**%string"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".id#number or .**%string",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "or",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".id#number"
+          },
+          "right": {
+            "type": "resolutionExpression",
+            "canonical": ".**%string"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "resolution", "semantic-filter", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-expression-002c-invalid-bare-filter",
+      "description": "Suffix filters apply to an existing Binding Set and are not valid as bare dotted selectors.",
+      "input": {
+        "expression": ".#number"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EXPECTED_IDENTIFIER"
+      },
+      "tags": ["sansa", "query", "expression", "resolution", "negative", "semantic-filter"]
+    },
+    {
       "id": "sansa-query-expression-003-comparison",
       "description": "Comparison expressions produce binary expression nodes",
       "input": {
