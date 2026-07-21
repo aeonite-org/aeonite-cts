@@ -485,6 +485,55 @@
                   ]
                 }
               ]
+            },
+            {
+              "name": "labels",
+              "address": "$.labels",
+              "representationKind": "list",
+              "children": [
+                {
+                  "index": 0,
+                  "address": "$.labels[0]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.labels[0].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "z"
+                    }
+                  ]
+                },
+                {
+                  "index": 1,
+                  "address": "$.labels[1]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.labels[1].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "ä"
+                    }
+                  ]
+                },
+                {
+                  "index": 2,
+                  "address": "$.labels[2]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.labels[2].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "a"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -569,6 +618,26 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "order", "slice"]
+    },
+    {
+      "id": "sansa-query-evaluate-003a-string-order-unicode-scalar",
+      "description": "String ordering and relational comparison use deterministic Unicode scalar-value order, not host locale collation.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.labels.*\nwhere .value >= \"z\"\norder by .value asc\nselect .value"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.labels[0]",
+          "$.labels[1]"
+        ],
+        "selectedAddresses": [
+          ["$.labels[0].value"],
+          ["$.labels[1].value"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "order", "string", "unicode"]
     },
     {
       "id": "sansa-query-evaluate-004-where-not-boolean",
