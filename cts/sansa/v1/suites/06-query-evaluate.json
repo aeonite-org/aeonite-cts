@@ -721,6 +721,22 @@
       "tags": ["sansa", "query", "evaluate", "cardinality"]
     },
     {
+      "id": "sansa-query-evaluate-006a-cardinality-function-predicate",
+      "description": "The evaluator supports any over a Boolean function predicate with one binding-set argument.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere any(contains(.roles.*, \"min\"))\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality", "function"]
+    },
+    {
       "id": "sansa-query-evaluate-007-cardinality-all-empty",
       "description": "all(empty) evaluates to true.",
       "input": {
@@ -1188,6 +1204,34 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "function", "string", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-029ba-current-binding-string-function",
+      "description": "A bare dot can expose the current candidate binding to scalar functions and projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*.roles.*\nwhere contains(., \"min\")\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0].roles[0]",
+          "$.inventory.items[3].roles[0]",
+          "$.inventory.items[3].roles[1]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].roles[0]"
+          ],
+          [
+            "$.inventory.items[3].roles[0]"
+          ],
+          [
+            "$.inventory.items[3].roles[1]"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "current-binding", "function", "string"]
     },
     {
       "id": "sansa-query-evaluate-029c-path-select",

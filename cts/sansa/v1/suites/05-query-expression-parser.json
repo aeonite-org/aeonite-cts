@@ -98,6 +98,22 @@
       "tags": ["sansa", "query", "expression", "resolution", "negative", "semantic-filter"]
     },
     {
+      "id": "sansa-query-expression-002d-current-binding",
+      "description": "A bare dot is the current candidate binding expression.",
+      "input": {
+        "expression": "."
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".",
+        "ast": {
+          "type": "currentBindingExpression",
+          "canonical": "."
+        }
+      },
+      "tags": ["sansa", "query", "expression", "current-binding"]
+    },
+    {
       "id": "sansa-query-expression-003-comparison",
       "description": "Comparison expressions produce binary expression nodes",
       "input": {
