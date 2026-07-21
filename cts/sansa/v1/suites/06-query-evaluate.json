@@ -387,6 +387,104 @@
                   ]
                 }
               ]
+            },
+            {
+              "name": "table",
+              "address": "$.table",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "header",
+                  "address": "$.table.header",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.table.header[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "name"
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.table.header[1]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "age"
+                    }
+                  ]
+                },
+                {
+                  "name": "duplicateHeader",
+                  "address": "$.table.duplicateHeader",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.table.duplicateHeader[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "name"
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.table.duplicateHeader[1]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "name"
+                    }
+                  ]
+                },
+                {
+                  "name": "content",
+                  "address": "$.table.content",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.table.content[0]",
+                      "representationKind": "tuple",
+                      "children": [
+                        {
+                          "index": 0,
+                          "address": "$.table.content[0][0]",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "Bob"
+                        },
+                        {
+                          "index": 1,
+                          "address": "$.table.content[0][1]",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 22
+                        }
+                      ]
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.table.content[1]",
+                      "representationKind": "tuple",
+                      "children": [
+                        {
+                          "index": 0,
+                          "address": "$.table.content[1][0]",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "Alice"
+                        },
+                        {
+                          "index": 1,
+                          "address": "$.table.content[1][1]",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 31
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -1456,6 +1554,77 @@
         "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
       },
       "tags": ["sansa", "query", "evaluate", "lookup", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-046a-object-from-projection",
+      "description": "objectFrom pairs ordered string key bindings with ordered scalar value bindings to construct an object.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content.*\nselect objectFrom($.table.header.*, .*)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table.content[0]",
+          "$.table.content[1]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "name": "Bob",
+              "age": 22
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "name": "Alice",
+              "age": 31
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-046b-object-from-mismatched-length",
+      "description": "objectFrom rejects key and value binding sets with different lengths.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content[0]\nselect objectFrom($.table.header[0..0], .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-046c-object-from-duplicate-key",
+      "description": "objectFrom rejects duplicate string keys rather than overwriting fields.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content[0]\nselect objectFrom($.table.duplicateHeader.*, .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-046d-object-from-invalid-argument",
+      "description": "objectFrom requires resolution expression arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content[0]\nselect objectFrom(\"name\", .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "negative"]
     },
     {
       "id": "sansa-query-evaluate-047-fallback-projection",
