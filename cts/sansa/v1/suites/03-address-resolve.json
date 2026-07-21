@@ -15,6 +15,7 @@
     "namespaces": [
       {
         "id": "inventory-basic",
+        "supportsParentTraversal": true,
         "root": {
           "address": "$",
           "representationKind": "object",
@@ -168,6 +169,20 @@
             }
           ]
         }
+      },
+      {
+        "id": "inventory-no-parent",
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object"
+            }
+          ]
+        }
       }
     ]
   },
@@ -268,6 +283,46 @@
         "addresses": []
       },
       "tags": ["sansa", "resolve", "selector", "range", "empty"]
+    },
+    {
+      "id": "sansa-resolve-003e-parent-sibling",
+      "description": "Parent traversal may move from a child binding to its exposed parent before continuing resolution.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items[1].sku.^.qty"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.inventory.items[1].qty"]
+      },
+      "tags": ["sansa", "resolve", "selector", "parent"]
+    },
+    {
+      "id": "sansa-resolve-003f-parent-root-empty",
+      "description": "Parent traversal from the effective resolution root resolves to an empty binding set.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.^"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": []
+      },
+      "tags": ["sansa", "resolve", "selector", "parent", "empty"]
+    },
+    {
+      "id": "sansa-resolve-003g-parent-unsupported",
+      "description": "Parent traversal fails explicitly when the namespace does not expose parent traversal.",
+      "input": {
+        "namespace": "inventory-no-parent",
+        "source": "$.inventory.^"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_RESOLVE_UNSUPPORTED_PARENT",
+        "selectorIndex": 1
+      },
+      "tags": ["sansa", "resolve", "selector", "parent", "reject"]
     },
     {
       "id": "sansa-resolve-004-descendant-expansion",

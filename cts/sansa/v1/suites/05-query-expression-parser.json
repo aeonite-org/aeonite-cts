@@ -45,6 +45,23 @@
       "tags": ["sansa", "query", "expression", "resolution", "local-space"]
     },
     {
+      "id": "sansa-query-expression-002a-parent-resolution",
+      "description": "Relative query resolution expressions may use SANSA parent traversal.",
+      "input": {
+        "expression": ".^.sibling"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".^.sibling",
+        "ast": {
+          "type": "resolutionExpression",
+          "scope": "current",
+          "canonical": ".^.sibling"
+        }
+      },
+      "tags": ["sansa", "query", "expression", "resolution", "parent"]
+    },
+    {
       "id": "sansa-query-expression-003-comparison",
       "description": "Comparison expressions produce binary expression nodes",
       "input": {

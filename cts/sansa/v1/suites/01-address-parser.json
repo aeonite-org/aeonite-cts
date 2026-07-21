@@ -131,6 +131,34 @@
       "tags": ["sansa", "address", "selector", "range"]
     },
     {
+      "id": "sansa-address-005d-parent-selector",
+      "description": "Parent traversal parses as a non-exact selector.",
+      "input": {
+        "source": "$.items[1].^.sku"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.items[1].^.sku",
+        "exact": false,
+        "selectors": ["member", "position", "parent", "member"]
+      },
+      "tags": ["sansa", "address", "selector", "parent"]
+    },
+    {
+      "id": "sansa-address-005e-quoted-caret-member",
+      "description": "A literal caret binding name remains addressable as a quoted member.",
+      "input": {
+        "source": "$.[\"^\"]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.[\"^\"]",
+        "exact": true,
+        "selectors": ["member"]
+      },
+      "tags": ["sansa", "address", "quoted-member", "parent"]
+    },
+    {
       "id": "sansa-address-006-quoted-member-escapes",
       "description": "Quoted member payloads use AEON double-quoted string escapes",
       "input": {
