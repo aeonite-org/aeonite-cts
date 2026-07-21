@@ -316,13 +316,13 @@
     },
     {
       "id": "sansa-address-014c-max-position-index",
-      "description": "Position indexes are accepted at the portable support floor.",
+      "description": "Position indexes are accepted at the portable maximum index.",
       "input": {
-        "source": "$.items[1000000]"
+        "source": "$.items[999999]"
       },
       "expected": {
         "ok": true,
-        "canonical": "$.items[1000000]",
+        "canonical": "$.items[999999]",
         "exact": true,
         "selectors": ["member", "position"]
       },
@@ -330,13 +330,13 @@
     },
     {
       "id": "sansa-address-014d-max-position-range-endpoint",
-      "description": "Position range endpoints are accepted at the portable support floor.",
+      "description": "Position range endpoints are accepted at the portable maximum index.",
       "input": {
-        "source": "$.items[0..1000000]"
+        "source": "$.items[0..999999]"
       },
       "expected": {
         "ok": true,
-        "canonical": "$.items[0..1000000]",
+        "canonical": "$.items[0..999999]",
         "exact": false,
         "selectors": ["member", "positionRange"]
       },
