@@ -1,0 +1,298 @@
+{
+  "meta": {
+    "suite_id": "minimum-consumer-contract",
+    "lane": "value-semantics",
+    "capability": "AEON.ValueSemantics",
+    "profile": "minimum-consumer",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/aeon/v1/proposals/value-semantics-v1.md#7-minimum-v1-consumer-contract"
+    ],
+    "description": "Minimum shared value behavior for equality, ordering, and ordinary scalar predicates."
+  },
+  "id": "minimum-consumer-contract",
+  "title": "Shared AEON Value Semantics Minimum Consumer Contract",
+  "tests": [
+    {
+      "id": "value_semantics_001_finite_number_equality_true",
+      "description": "Finite numbers compare equal by numeric value.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "finiteNumber", "value": "42" },
+        "right": { "category": "finiteNumber", "value": "42" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_002_finite_number_equality_false",
+      "description": "Different finite numbers compare unequal by numeric value.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "finiteNumber", "value": "42" },
+        "right": { "category": "finiteNumber", "value": "43" }
+      },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_003_infinity_same_equality_true",
+      "description": "Positive infinity equals positive infinity.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "positiveInfinity" },
+        "right": { "category": "positiveInfinity" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_004_infinity_opposite_equality_false",
+      "description": "Positive infinity and negative infinity are not equal.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "positiveInfinity" },
+        "right": { "category": "negativeInfinity" }
+      },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_005_infinity_finite_equality_false",
+      "description": "Infinity is not equal to a finite numeric value.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "positiveInfinity" },
+        "right": { "category": "finiteNumber", "value": "999" }
+      },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_006_string_equality_exact_true",
+      "description": "Strings compare by exact decoded string equality under the active string equality profile.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "string", "value": "Adapter" },
+        "right": { "category": "string", "value": "Adapter" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_007_boolean_equality_true",
+      "description": "Boolean equality is defined within the Boolean category.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "boolean", "value": true },
+        "right": { "category": "boolean", "value": true }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_008_nan_equality_error",
+      "description": "NaN is not equality-comparable in the minimum profile.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "nan" },
+        "right": { "category": "nan" }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "not_equality_comparable"
+      }
+    },
+    {
+      "id": "value_semantics_009_nan_inequality_error",
+      "description": "Inequality over NaN also fails closed in the minimum profile.",
+      "operation": "notEqual",
+      "input": {
+        "left": { "category": "nan" },
+        "right": { "category": "finiteNumber", "value": "1" }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "not_equality_comparable"
+      }
+    },
+    {
+      "id": "value_semantics_010_explicit_null_equality_error",
+      "description": "Explicit null equality is not defined by the minimum profile.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "explicitNull", "reason": "none" },
+        "right": { "category": "explicitNull", "reason": "none" }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "not_equality_comparable"
+      }
+    },
+    {
+      "id": "value_semantics_011_mixed_category_equality_error",
+      "description": "Mixed categories do not compare by implicit coercion.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "string", "value": "42" },
+        "right": { "category": "finiteNumber", "value": "42" }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "mixed_categories"
+      }
+    },
+    {
+      "id": "value_semantics_012_finite_number_order_less",
+      "description": "Finite numbers order by numeric value.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "finiteNumber", "value": "2" },
+        "right": { "category": "finiteNumber", "value": "10" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_013_negative_infinity_orders_before_finite",
+      "description": "Negative infinity sorts before finite numeric values.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "negativeInfinity" },
+        "right": { "category": "finiteNumber", "value": "0" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_014_positive_infinity_orders_after_finite",
+      "description": "Positive infinity sorts after finite numeric values.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "positiveInfinity" },
+        "right": { "category": "finiteNumber", "value": "0" }
+      },
+      "expected": { "outcome": "value", "relation": "greater" }
+    },
+    {
+      "id": "value_semantics_015_negative_infinity_orders_before_positive_infinity",
+      "description": "Negative infinity sorts before positive infinity.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "negativeInfinity" },
+        "right": { "category": "positiveInfinity" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_016_equal_infinities_compare_equal",
+      "description": "Equal infinities compare equal for ordering.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "positiveInfinity" },
+        "right": { "category": "positiveInfinity" }
+      },
+      "expected": { "outcome": "value", "relation": "equal" }
+    },
+    {
+      "id": "value_semantics_017_boolean_ordering_error",
+      "description": "Boolean ordering is not part of the minimum profile.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "boolean", "value": false },
+        "right": { "category": "boolean", "value": true }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "not_orderable"
+      }
+    },
+    {
+      "id": "value_semantics_018_nan_ordering_error",
+      "description": "NaN is not orderable.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "nan" },
+        "right": { "category": "finiteNumber", "value": "0" }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "not_orderable"
+      }
+    },
+    {
+      "id": "value_semantics_019_explicit_null_ordering_error",
+      "description": "Explicit null ordering is not part of the minimum profile.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "explicitNull", "reason": "none" },
+        "right": { "category": "string", "value": "value" }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "not_orderable"
+      }
+    },
+    {
+      "id": "value_semantics_020_is_value_finite_number_true",
+      "description": "A finite number is an ordinary scalar value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "finiteNumber", "value": "12" } },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_021_is_value_string_true",
+      "description": "A string is an ordinary scalar value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "string", "value": "active" } },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_022_is_value_boolean_true",
+      "description": "A Boolean is an ordinary scalar value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "boolean", "value": false } },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_023_is_value_missing_false",
+      "description": "Missing is an evaluation state, not an ordinary scalar value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "missing" } },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_024_is_value_explicit_null_false",
+      "description": "Explicit null is not an ordinary scalar value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "explicitNull", "reason": "notApplicable" } },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_025_is_value_absence_false",
+      "description": "An explicit absence value is not an ordinary scalar value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "explicitAbsence", "reason": "missing" } },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_026_is_value_nan_false",
+      "description": "NaN is not an ordinary scalar value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "nan" } },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_027_is_value_infinity_false",
+      "description": "Infinity is a numeric special value, not an ordinary scalar value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "positiveInfinity" } },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_028_is_value_container_false",
+      "description": "Containers are not ordinary scalar values.",
+      "operation": "isValue",
+      "input": { "value": { "category": "container", "containerKind": "object" } },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_029_is_value_binding_set_false",
+      "description": "Binding Sets are not ordinary scalar values.",
+      "operation": "isValue",
+      "input": { "value": { "category": "bindingSet", "count": 1 } },
+      "expected": { "outcome": "value", "value": false }
+    }
+  ]
+}
