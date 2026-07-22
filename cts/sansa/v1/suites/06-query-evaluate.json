@@ -2,6 +2,8 @@
   "meta": {
     "suite_id": "query-evaluate",
     "lane": "sansa-query",
+    "capability": "SANSA.Query",
+    "profile": "query",
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
       "aeonite-specs/sansa/v1/proposals/query-v1.md"
@@ -1917,6 +1919,12 @@
             }
           }
         ]
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "extension": "sansa.query.fieldsFrom"
       },
       "tags": ["sansa", "query", "evaluate", "fields-from", "experimental", "projection"]
     },

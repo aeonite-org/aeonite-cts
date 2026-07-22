@@ -2,6 +2,9 @@
   "meta": {
     "suite_id": "aeon-address-literals",
     "lane": "sansa-address",
+    "capability": "SANSA.Addressing",
+    "profile": "addressing",
+    "host": "AEON",
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
       "aeonite-specs/sansa/v1/proposals/addressing-v1.md",

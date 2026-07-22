@@ -2,6 +2,12 @@
   "meta": {
     "version": "0.1.0",
     "lane": "sansa-query",
+    "capability": "SANSA.Query",
+    "profile": "query",
+    "conformance": {
+      "surface": "core",
+      "experimental_default": "exclude"
+    },
     "sut_protocol": "cts.protocol.v1",
     "description": "SANSA Query parser CTS scaffold for v1"
   },

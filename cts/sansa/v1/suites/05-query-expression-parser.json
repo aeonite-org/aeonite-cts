@@ -2,6 +2,8 @@
   "meta": {
     "suite_id": "query-expression-parser",
     "lane": "sansa-query",
+    "capability": "SANSA.Query",
+    "profile": "query",
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
       "aeonite-specs/sansa/v1/proposals/query-v1.md"
