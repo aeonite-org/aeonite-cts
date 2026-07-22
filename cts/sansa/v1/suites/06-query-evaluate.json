@@ -2104,6 +2104,99 @@
       "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative"]
     },
     {
+      "id": "sansa-query-evaluate-046h-validation-policy-order",
+      "description": "Experimental validation query policy rejects order by clauses.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\norder by .sku asc\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative", "order"]
+    },
+    {
+      "id": "sansa-query-evaluate-046i-validation-policy-offset",
+      "description": "Experimental validation query policy rejects offset clauses.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\noffset 1\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative", "offset"]
+    },
+    {
+      "id": "sansa-query-evaluate-046j-validation-policy-limit",
+      "description": "Experimental validation query policy rejects limit clauses.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\nlimit 1\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative", "limit"]
+    },
+    {
+      "id": "sansa-query-evaluate-046k-validation-policy-transform",
+      "description": "Experimental validation query policy rejects transform-library helpers.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.table.content[0]\nselect objectFrom($.table.header.*, .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy",
+        "errorExtension": "sansa.transform.objectFrom"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative", "transform"]
+    },
+    {
       "id": "sansa-query-evaluate-047-fallback-projection",
       "description": "fallback supplies a replacement for missing scalar values while preserving explicit null values.",
       "input": {
