@@ -1998,6 +1998,31 @@
       "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "negative"]
     },
     {
+      "id": "sansa-query-evaluate-046e-transform-extension-disabled",
+      "description": "Transform helpers produce a stable unsupported-extension diagnostic when the transform extension surface is disabled.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "extensions": {
+            "transform": false
+          }
+        },
+        "source": "from $.table.content[0]\nselect objectFrom($.table.header.*, .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_EXTENSION",
+        "errorExtension": "sansa.transform.objectFrom"
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Transform",
+        "extension": "sansa.transform.objectFrom"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "negative", "extension-gating"]
+    },
+    {
       "id": "sansa-query-evaluate-047-fallback-projection",
       "description": "fallback supplies a replacement for missing scalar values while preserving explicit null values.",
       "input": {
