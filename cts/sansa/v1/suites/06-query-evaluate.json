@@ -545,6 +545,61 @@
             }
           ]
         }
+      },
+      {
+        "id": "membership-short-circuit",
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "roles",
+              "address": "$.roles",
+              "representationKind": "list",
+              "children": [
+                {
+                  "index": 0,
+                  "address": "$.roles[0]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "admin"
+                },
+                {
+                  "index": 1,
+                  "address": "$.roles[1]",
+                  "semanticType": "null<string>",
+                  "representationKind": "null",
+                  "scalarKind": "null",
+                  "nullReason": "notSet",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "name": "badRoles",
+              "address": "$.badRoles",
+              "representationKind": "list",
+              "children": [
+                {
+                  "index": 0,
+                  "address": "$.badRoles[0]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "user"
+                },
+                {
+                  "index": 1,
+                  "address": "$.badRoles[1]",
+                  "semanticType": "null<string>",
+                  "representationKind": "null",
+                  "scalarKind": "null",
+                  "nullReason": "notSet",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        }
       }
     ]
   },
@@ -1499,6 +1554,39 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "membership"]
+    },
+    {
+      "id": "sansa-query-evaluate-032a-membership-short-circuit-match",
+      "description": "Membership returns true on the first successful match and does not evaluate later incompatible bindings.",
+      "input": {
+        "namespace": "membership-short-circuit",
+        "source": "from $\nwhere \"admin\" in $.roles.*\nselect $.roles"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$"
+        ],
+        "selectedAddresses": [
+          [
+            "$.roles"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "short-circuit"]
+    },
+    {
+      "id": "sansa-query-evaluate-032b-membership-incompatible-before-match",
+      "description": "Membership fails when an incompatible right-side binding is encountered before any successful match.",
+      "input": {
+        "namespace": "membership-short-circuit",
+        "source": "from $\nwhere \"admin\" in $.badRoles.*\nselect $.badRoles"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "short-circuit", "negative"]
     },
     {
       "id": "sansa-query-evaluate-033-membership-negated",
