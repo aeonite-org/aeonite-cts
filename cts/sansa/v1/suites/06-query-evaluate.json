@@ -2023,6 +2023,66 @@
       "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "negative", "extension-gating"]
     },
     {
+      "id": "sansa-query-evaluate-046f-validation-policy-safe",
+      "description": "Experimental validation query policy allows read-only filtering with binding projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental"]
+    },
+    {
+      "id": "sansa-query-evaluate-046g-validation-policy-projection",
+      "description": "Experimental validation query policy rejects presentation object projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\nselect { sku = .sku qty = .qty }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative"]
+    },
+    {
       "id": "sansa-query-evaluate-047-fallback-projection",
       "description": "fallback supplies a replacement for missing scalar values while preserving explicit null values.",
       "input": {
