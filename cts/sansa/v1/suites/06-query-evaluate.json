@@ -1768,6 +1768,36 @@
       "tags": ["sansa", "query", "evaluate", "object-from", "contextual", "position"]
     },
     {
+      "id": "sansa-query-evaluate-046ab-fields-from-projection",
+      "description": "Experimental fieldsFrom projects selected fields from ordered header and row binding sets.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content.*\nselect fieldsFrom($.table.header.*, .*, \"age\")"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table.content[0]",
+          "$.table.content[1]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "age": 22
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "age": 31
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "fields-from", "experimental", "projection"]
+    },
+    {
       "id": "sansa-query-evaluate-046b-object-from-mismatched-length",
       "description": "objectFrom rejects key and value binding sets with different lengths.",
       "input": {
