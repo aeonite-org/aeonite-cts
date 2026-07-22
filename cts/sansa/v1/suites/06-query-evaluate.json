@@ -667,6 +667,27 @@
       "tags": ["sansa", "query", "evaluate", "selector", "range"]
     },
     {
+      "id": "sansa-query-evaluate-001ba-multi-binding-projection-preserves-candidate",
+      "description": "Projection does not flatten candidates when the selected expression resolves multiple bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect .roles.*"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].roles[0]",
+            "$.inventory.items[0].roles[1]"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "projection", "binding-set"]
+    },
+    {
       "id": "sansa-query-evaluate-001c-parent-sibling",
       "description": "Parent traversal may move from a selected child binding to its exposed parent before selecting a sibling.",
       "input": {
