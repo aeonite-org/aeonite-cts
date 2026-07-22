@@ -343,11 +343,11 @@
       "id": "sansa-query-expression-009-projection",
       "description": "Projection expressions parse named fields with expression values",
       "input": {
-        "expression": "{ name = .name status = lookup($.statuses, .status) }"
+        "expression": "{ name = .name status = resolveChild($.statuses, .status) }"
       },
       "expected": {
         "ok": true,
-        "canonical": "{ name = .name status = lookup($.statuses, .status) }",
+        "canonical": "{ name = .name status = resolveChild($.statuses, .status) }",
         "ast": {
           "type": "projectionExpression",
           "fields": [

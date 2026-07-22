@@ -1714,11 +1714,11 @@
       "tags": ["sansa", "query", "evaluate", "membership", "infinity"]
     },
     {
-      "id": "sansa-query-evaluate-041-lookup-projection",
-      "description": "lookup resolves a scalar key against one addressable container and may be used in projections.",
+      "id": "sansa-query-evaluate-041-resolve-child-projection",
+      "description": "resolveChild resolves a scalar key against one addressable container and may be used in projections.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect { sku = .sku category = lookup($.inventory.categoryLabels, .category) }"
+        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect { sku = .sku category = resolveChild($.inventory.categoryLabels, .category) }"
       },
       "expected": {
         "ok": true,
@@ -1751,14 +1751,14 @@
           }
         ]
       },
-      "tags": ["sansa", "query", "evaluate", "lookup", "projection"]
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "projection"]
     },
     {
-      "id": "sansa-query-evaluate-042-lookup-position",
-      "description": "lookup accepts non-negative integer keys for positional children.",
+      "id": "sansa-query-evaluate-042-resolve-child-position",
+      "description": "resolveChild accepts non-negative integer keys for positional children.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items[0]\nselect lookup(.roles, 1)"
+        "source": "from $.inventory.items[0]\nselect resolveChild(.roles, 1)"
       },
       "expected": {
         "ok": true,
@@ -1771,14 +1771,14 @@
           ]
         ]
       },
-      "tags": ["sansa", "query", "evaluate", "lookup", "position"]
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "position"]
     },
     {
-      "id": "sansa-query-evaluate-043-lookup-missing-target",
-      "description": "lookup returns an empty Binding Set when the target is missing.",
+      "id": "sansa-query-evaluate-043-resolve-child-missing-target",
+      "description": "resolveChild returns an empty Binding Set when the target is missing.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items[0]\nselect lookup($.inventory.categoryLabels, \"unknown\")"
+        "source": "from $.inventory.items[0]\nselect resolveChild($.inventory.categoryLabels, \"unknown\")"
       },
       "expected": {
         "ok": true,
@@ -1789,46 +1789,46 @@
           []
         ]
       },
-      "tags": ["sansa", "query", "evaluate", "lookup", "missing"]
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-044-lookup-cardinality-base",
-      "description": "lookup requires the base to resolve exactly one binding.",
+      "id": "sansa-query-evaluate-044-resolve-child-cardinality-base",
+      "description": "resolveChild requires the base to resolve exactly one binding.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items[0]\nselect lookup($.inventory.items.*, .category)"
+        "source": "from $.inventory.items[0]\nselect resolveChild($.inventory.items.*, .category)"
       },
       "expected": {
         "ok": false,
         "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
       },
-      "tags": ["sansa", "query", "evaluate", "lookup", "negative", "cardinality"]
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "negative", "cardinality"]
     },
     {
-      "id": "sansa-query-evaluate-045-lookup-cardinality-key",
-      "description": "lookup requires the key to resolve exactly one scalar value.",
+      "id": "sansa-query-evaluate-045-resolve-child-cardinality-key",
+      "description": "resolveChild requires the key to resolve exactly one scalar value.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items[0]\nselect lookup($.inventory.categoryLabels, .roles.*)"
+        "source": "from $.inventory.items[0]\nselect resolveChild($.inventory.categoryLabels, .roles.*)"
       },
       "expected": {
         "ok": false,
         "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
       },
-      "tags": ["sansa", "query", "evaluate", "lookup", "negative", "cardinality"]
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "negative", "cardinality"]
     },
     {
-      "id": "sansa-query-evaluate-046-lookup-invalid-key",
-      "description": "lookup rejects key types outside string member names and non-negative integer positions.",
+      "id": "sansa-query-evaluate-046-resolve-child-invalid-key",
+      "description": "resolveChild rejects key types outside string member names and non-negative integer positions.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items[0]\nselect lookup($.inventory.categoryLabels, true)"
+        "source": "from $.inventory.items[0]\nselect resolveChild($.inventory.categoryLabels, true)"
       },
       "expected": {
         "ok": false,
         "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
       },
-      "tags": ["sansa", "query", "evaluate", "lookup", "negative"]
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "negative"]
     },
     {
       "id": "sansa-query-evaluate-046a-object-from-projection",
@@ -2228,11 +2228,11 @@
       "tags": ["sansa", "query", "evaluate", "recipe", "value", "null", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-062-recipe-lookup-fallback-pipeline",
-      "description": "Recipe: filter, lookup, fallback, and projection compose in a read-only pipeline.",
+      "id": "sansa-query-evaluate-062-recipe-resolve-child-fallback-pipeline",
+      "description": "Recipe: filter, resolveChild, fallback, and projection compose in a read-only pipeline.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect { sku = .sku category = lookup($.inventory.categoryLabels, .category) status = fallback(.status, \"missing\") }"
+        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect { sku = .sku category = resolveChild($.inventory.categoryLabels, .category) status = fallback(.status, \"missing\") }"
       },
       "expected": {
         "ok": true,
@@ -2268,7 +2268,7 @@
           }
         ]
       },
-      "tags": ["sansa", "query", "evaluate", "recipe", "lookup", "fallback", "projection"]
+      "tags": ["sansa", "query", "evaluate", "recipe", "resolve-child", "fallback", "projection"]
     }
   ]
 }
