@@ -78,6 +78,13 @@
                   "value": "$.inventory.items.*"
                 },
                 {
+                  "name": "category",
+                  "address": "$.<\"params\">.category",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "hardware"
+                },
+                {
                   "name": "badPath",
                   "address": "$.<\"params\">.badPath",
                   "semanticType": "sansa",
@@ -1252,6 +1259,34 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "path", "local-space"]
+    },
+    {
+      "id": "sansa-query-evaluate-029ca-local-space-scalar-comparison",
+      "description": "Scalar values from mounted local spaces are consumed directly in scalar comparison contexts.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .category == $.<\"params\">.category\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[2]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].sku"
+          ],
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "local-space", "scalar", "comparison"]
     },
     {
       "id": "sansa-query-evaluate-029d-path-projection-order",
