@@ -1,0 +1,416 @@
+{
+  "meta": {
+    "suite_id": "query-expression-parser",
+    "lane": "sansa-query",
+    "capability": "SANSA.Query",
+    "profile": "query",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/query-v1.md"
+    ]
+  },
+  "id": "query-expression-parser",
+  "title": "SANSA Query Expression Parser Coverage",
+  "tests": [
+    {
+      "id": "sansa-query-expression-001-relative-resolution",
+      "description": "A leading dot resolves relative to the current query candidate",
+      "input": {
+        "expression": ".name"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".name",
+        "ast": {
+          "type": "resolutionExpression",
+          "scope": "current",
+          "canonical": ".name"
+        }
+      },
+      "tags": ["sansa", "query", "expression", "resolution"]
+    },
+    {
+      "id": "sansa-query-expression-002-root-resolution",
+      "description": "A root SANSA address remains a root resolution expression",
+      "input": {
+        "expression": "$.<\"params\">.username"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.<\"params\">.username",
+        "ast": {
+          "type": "resolutionExpression",
+          "scope": "absolute",
+          "canonical": "$.<\"params\">.username"
+        }
+      },
+      "tags": ["sansa", "query", "expression", "resolution", "local-space"]
+    },
+    {
+      "id": "sansa-query-expression-002a-parent-resolution",
+      "description": "Relative query resolution expressions may use SANSA parent traversal.",
+      "input": {
+        "expression": ".^.sibling"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".^.sibling",
+        "ast": {
+          "type": "resolutionExpression",
+          "scope": "current",
+          "canonical": ".^.sibling"
+        }
+      },
+      "tags": ["sansa", "query", "expression", "resolution", "parent"]
+    },
+    {
+      "id": "sansa-query-expression-002b-filtered-resolution",
+      "description": "Query resolution expressions may apply semantic type and representation kind suffix filters.",
+      "input": {
+        "expression": ".id#number or .**%string"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".id#number or .**%string",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "or",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".id#number"
+          },
+          "right": {
+            "type": "resolutionExpression",
+            "canonical": ".**%string"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "resolution", "semantic-filter", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-expression-002c-invalid-bare-filter",
+      "description": "Suffix filters apply to an existing Binding Set and are not valid as bare dotted selectors.",
+      "input": {
+        "expression": ".#number"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EXPECTED_IDENTIFIER"
+      },
+      "tags": ["sansa", "query", "expression", "resolution", "negative", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-expression-002d-current-binding",
+      "description": "A bare dot is the current candidate binding expression.",
+      "input": {
+        "expression": "."
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".",
+        "ast": {
+          "type": "currentBindingExpression",
+          "canonical": "."
+        }
+      },
+      "tags": ["sansa", "query", "expression", "current-binding"]
+    },
+    {
+      "id": "sansa-query-expression-002e-current-position",
+      "description": "Dot-position syntax is current-binding shorthand for contextual positional selection.",
+      "input": {
+        "expression": ".[1]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".[1]",
+        "ast": {
+          "type": "resolutionExpression",
+          "scope": "current",
+          "canonical": ".[1]"
+        }
+      },
+      "tags": ["sansa", "query", "expression", "current-binding", "position"]
+    },
+    {
+      "id": "sansa-query-expression-003-comparison",
+      "description": "Comparison expressions produce binary expression nodes",
+      "input": {
+        "expression": ".age >= 18"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".age >= 18",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": ">=",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".age"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "number",
+            "value": 18
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "comparison"]
+    },
+    {
+      "id": "sansa-query-expression-004-boolean-precedence",
+      "description": "Boolean expressions preserve not, and, or precedence",
+      "input": {
+        "expression": "not .active or .role == \"admin\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "not .active or .role == \"admin\"",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "or",
+          "left": {
+            "type": "unaryExpression",
+            "operator": "not"
+          },
+          "right": {
+            "type": "binaryExpression",
+            "operator": "=="
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "boolean"]
+    },
+    {
+      "id": "sansa-query-expression-004b-membership",
+      "description": "Membership expressions parse as binary expressions at comparison precedence",
+      "input": {
+        "expression": "\"admin\" in .roles.*"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "\"admin\" in .roles.*",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "in",
+          "left": {
+            "type": "literalExpression",
+            "kind": "string",
+            "value": "admin"
+          },
+          "right": {
+            "type": "resolutionExpression",
+            "canonical": ".roles.*"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "membership"]
+    },
+    {
+      "id": "sansa-query-expression-005-cardinality",
+      "description": "Cardinality operators are parsed separately from ordinary functions",
+      "input": {
+        "expression": "any(.roles.* == \"admin\")"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "any(.roles.* == \"admin\")",
+        "ast": {
+          "type": "cardinalityExpression",
+          "operator": "any",
+          "argument": {
+            "type": "binaryExpression",
+            "operator": "=="
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "cardinality"]
+    },
+    {
+      "id": "sansa-query-expression-006-function-call",
+      "description": "Deterministic function call shape parses without assigning function semantics",
+      "input": {
+        "expression": "contains(.description, \"developer\")"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "contains(.description, \"developer\")",
+        "ast": {
+          "type": "functionCallExpression",
+          "name": "contains",
+          "arguments": [
+            {
+              "type": "resolutionExpression",
+              "canonical": ".description"
+            },
+            {
+              "type": "literalExpression",
+              "kind": "string",
+              "value": "developer"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "query", "expression", "function"]
+    },
+    {
+      "id": "sansa-query-expression-007-value-predicates",
+      "description": "Null and special numeric predicates parse as deterministic function-call expressions",
+      "input": {
+        "expression": "isNullReason(.status, \"notSet\") or isNaN(.metric) or isInfinity(.ceiling)"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "isNullReason(.status, \"notSet\") or isNaN(.metric) or isInfinity(.ceiling)",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "or",
+          "left": {
+            "type": "binaryExpression",
+            "operator": "or",
+            "left": {
+              "type": "functionCallExpression",
+              "name": "isNullReason"
+            },
+            "right": {
+              "type": "functionCallExpression",
+              "name": "isNaN"
+            }
+          },
+          "right": {
+            "type": "functionCallExpression",
+            "name": "isInfinity"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "function", "null", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-expression-007a-ordinary-value-predicate",
+      "description": "isValue parses as a deterministic function-call expression.",
+      "input": {
+        "expression": "isValue(.status)"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "isValue(.status)",
+        "ast": {
+          "type": "functionCallExpression",
+          "name": "isValue",
+          "arguments": [
+            {
+              "type": "resolutionExpression",
+              "canonical": ".status"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "query", "expression", "function", "value"]
+    },
+    {
+      "id": "sansa-query-expression-008-existence",
+      "description": "Existence operators are parsed separately from ordinary functions",
+      "input": {
+        "expression": "exists(.roles) and absent(.roles.*)"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "exists(.roles) and absent(.roles.*)",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "and",
+          "left": {
+            "type": "existenceExpression",
+            "operator": "exists",
+            "argument": {
+              "type": "resolutionExpression",
+              "canonical": ".roles"
+            }
+          },
+          "right": {
+            "type": "existenceExpression",
+            "operator": "absent",
+            "argument": {
+              "type": "resolutionExpression",
+              "canonical": ".roles.*"
+            }
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "existence"]
+    },
+    {
+      "id": "sansa-query-expression-009-projection",
+      "description": "Projection expressions parse named fields with expression values",
+      "input": {
+        "expression": "{ name = .name status = resolveChild($.statuses, .status) }"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "{ name = .name status = resolveChild($.statuses, .status) }",
+        "ast": {
+          "type": "projectionExpression",
+          "fields": [
+            {
+              "type": "projectionField",
+              "name": "name"
+            },
+            {
+              "type": "projectionField",
+              "name": "status"
+            }
+          ]
+        }
+      },
+      "tags": ["sansa", "query", "expression", "projection"]
+    },
+    {
+      "id": "sansa-query-expression-010-invalid-cardinality-arity",
+      "description": "Cardinality operators require exactly one expression",
+      "input": {
+        "expression": "any(.roles.*, \"admin\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "expression", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-011-invalid-existence-argument",
+      "description": "Existence operators require a resolution expression",
+      "input": {
+        "expression": "absent(\"roles\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "expression", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-012-invalid-projection",
+      "description": "Projection fields require expression values",
+      "input": {
+        "expression": "{ name = }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_PROJECTION"
+      },
+      "tags": ["sansa", "query", "expression", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-013-unterminated-group",
+      "description": "Unterminated parenthesized expressions are rejected",
+      "input": {
+        "expression": "(.name"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_UNTERMINATED_EXPRESSION"
+      },
+      "tags": ["sansa", "query", "expression", "negative"]
+    }
+  ]
+}

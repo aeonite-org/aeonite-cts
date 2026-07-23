@@ -15,7 +15,7 @@
       "id": "core-attr-001-clone-reference-pass",
       "description": "Attribute clone reference parses and emits binding in strict mode",
       "input": {
-        "source": "a@{ns=\"alto.v1\"} = 1\nv = ~a@ns",
+        "source": "a@{ns=\"alto.v1\"} = 1\nv = ~a.@.ns",
         "mode": "strict"
       },
       "expected": {
@@ -45,7 +45,7 @@
       "id": "core-attr-002-missing-target",
       "description": "Missing attribute reference target is rejected deterministically",
       "input": {
-        "source": "a = 1\nv = ~a@ns",
+        "source": "a = 1\nv = ~a.@.ns",
         "mode": "strict"
       },
       "expected": {
@@ -69,7 +69,7 @@
       "id": "core-attr-003-forward-target",
       "description": "Forward attribute reference target is rejected",
       "input": {
-        "source": "v = ~a@ns\na@{ns=\"alto.v1\"} = 1",
+        "source": "v = ~a.@.ns\na@{ns=\"alto.v1\"} = 1",
         "mode": "strict"
       },
       "expected": {
@@ -93,7 +93,7 @@
       "id": "core-attr-004-depth-exceeded",
       "description": "Chained attribute reference beyond default depth lock is rejected",
       "input": {
-        "source": "a@{b=2} = 1\nv = ~a@b@c",
+        "source": "a@{b=2} = 1\nv = ~a.@.b.@.c",
         "mode": "strict"
       },
       "expected": {
@@ -141,7 +141,7 @@
       "id": "core-attr-004b-depth-override-pass",
       "description": "Chained attribute reference is accepted when max_attribute_depth is raised",
       "input": {
-        "source": "a@{b@{c=3}=2} = 1\nv = ~a@b@c",
+        "source": "a@{b@{c=3}=2} = 1\nv = ~a.@.b.@.c",
         "mode": "strict",
         "options": {
           "max_attribute_depth": 8
@@ -225,7 +225,7 @@
       "id": "core-attr-005-mixed-path-after-attribute-pass",
       "description": "Quoted bracket member segment is accepted after attribute selector",
       "input": {
-        "source": "a@{meta = { \"x.y\" = 1 }} = 0\nv = ~a@meta.[\"x.y\"]",
+        "source": "a@{meta = { \"x.y\" = 1 }} = 0\nv = ~a.@.meta.[\"x.y\"]",
         "mode": "strict"
       },
       "expected": {
@@ -255,7 +255,7 @@
       "id": "core-attr-006-nested-binding-attribute-reference-pass",
       "description": "Nested binding attributes inside containers remain addressable",
       "input": {
-        "source": "a = [{x@{b=0}=1}]\nv = ~a[0].x@b",
+        "source": "a = [{x@{b=0}=1}]\nv = ~a[0].x.@.b",
         "mode": "strict"
       },
       "expected": {
@@ -378,7 +378,7 @@
       "id": "core-attr-008-binding-payload-may-reference-own-attribute-pass",
       "description": "A binding payload may reference one of its own attached attributes",
       "input": {
-        "source": "a@{x=1} = ~a@x",
+        "source": "a@{x=1} = ~a.@.x",
         "mode": "strict"
       },
       "expected": {
@@ -610,7 +610,7 @@
       "id": "core-attr-013-escaped-decoded-identity-pointers-pass",
       "description": "Pointer references resolve through escaped-decoded quoted member and attribute traversal",
       "input": {
-        "source": "#!/bin/aeon --profile=ts.object.v1\n\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"aA\":int32 = 1\nptrTop = ~>[\"a\\u0041\"]\n\nobj = {\n  \"bA\":int32 = 2\n}\nptrNested = ~>obj.[\"b\\u0041\"]\n\nhost@{\n  \"xA\":int32 = 3\n} = 4\nptrAttr = ~>host@[\"x\\u0041\"]\n",
+        "source": "#!/bin/aeon --profile=ts.object.v1\n\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"aA\":int32 = 1\nptrTop = ~>[\"a\\u0041\"]\n\nobj = {\n  \"bA\":int32 = 2\n}\nptrNested = ~>obj.[\"b\\u0041\"]\n\nhost@{\n  \"xA\":int32 = 3\n} = 4\nptrAttr = ~>host.@.[\"x\\u0041\"]\n",
         "mode": "transport"
       },
       "expected": {
@@ -665,7 +665,7 @@
       "id": "core-attr-014-escaped-decoded-identity-rooted-clones-pass",
       "description": "Rooted and chained clone references resolve through escaped-decoded quoted traversal",
       "input": {
-        "source": "#!/bin/aeon --profile=ts.object.v1\n\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"aA\":int32 = 1\nrootClone = ~$.[\"a\\u0041\"]\n\nobj = {\n  \"bA\":int32 = 2\n}\nrootNested = ~$.obj.[\"b\\u0041\"]\n\nhost@{\n  \"xA\":int32 = 3\n} = 4\nrootAttr = ~$.host@[\"x\\u0041\"]\n\nchain1 = ~[\"a\\u0041\"]\nchain2 = ~chain1\n",
+        "source": "#!/bin/aeon --profile=ts.object.v1\n\naeon:header = {\n  version = \"1.0\"\n  mode = \"transport\"\n  profile = \"ts.object.v1\"\n}\n\n\"aA\":int32 = 1\nrootClone = ~$.[\"a\\u0041\"]\n\nobj = {\n  \"bA\":int32 = 2\n}\nrootNested = ~$.obj.[\"b\\u0041\"]\n\nhost@{\n  \"xA\":int32 = 3\n} = 4\nrootAttr = ~$.host.@.[\"x\\u0041\"]\n\nchain1 = ~[\"a\\u0041\"]\nchain2 = ~chain1\n",
         "mode": "transport"
       },
       "expected": {
@@ -738,7 +738,7 @@
         "errors": [
           {
             "code": "UNTYPED_VALUE_IN_STRICT_MODE",
-            "path": "$.b@n",
+            "path": "$.b.@.n",
             "phase": null
           }
         ],

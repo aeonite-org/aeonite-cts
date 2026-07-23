@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "sansa-query",
+    "capability": "SANSA.Query",
+    "profile": "query",
+    "conformance": {
+      "surface": "core",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "SANSA Query parser CTS scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "query-parser",
+      "file": "suites/04-query-parser.json"
+    },
+    {
+      "id": "query-expression-parser",
+      "file": "suites/05-query-expression-parser.json"
+    },
+    {
+      "id": "query-evaluate",
+      "file": "suites/06-query-evaluate.json"
+    }
+  ]
+}

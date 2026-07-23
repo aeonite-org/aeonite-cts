@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "sansa-address",
+    "capability": "SANSA.Addressing",
+    "profile": "addressing",
+    "conformance": {
+      "surface": "host-embedding",
+      "host": "AEON"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "AEON embedded SANSA address literal CTS scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "aeon-address-literals",
+      "file": "suites/02-aeon-address-literals.json"
+    }
+  ]
+}

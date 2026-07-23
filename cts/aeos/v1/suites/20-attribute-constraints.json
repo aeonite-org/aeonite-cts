@@ -51,7 +51,7 @@
         "ok": false,
         "errors": [
           {
-            "path": "$.value@unit",
+            "path": "$.value.@.unit",
             "code": "missing_required_field",
             "phase": "schema_validation",
             "span": null
@@ -111,7 +111,7 @@
         "ok": false,
         "errors": [
           {
-            "path": "$.value@extra",
+            "path": "$.value.@.extra",
             "code": "unexpected_attribute_entry",
             "phase": "schema_validation",
             "span": null
@@ -175,7 +175,7 @@
         "ok": false,
         "errors": [
           {
-            "path": "$.value@meta@label",
+            "path": "$.value.@.meta.@.label",
             "code": "type_mismatch",
             "phase": "schema_validation",
             "span": null

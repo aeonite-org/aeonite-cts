@@ -1,0 +1,2630 @@
+{
+  "meta": {
+    "suite_id": "query-evaluate",
+    "lane": "sansa-query",
+    "capability": "SANSA.Query",
+    "profile": "query",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/query-v1.md"
+    ],
+    "description": "SANSA.Query evaluator coverage over host-neutral binding fixtures."
+  },
+  "id": "query-evaluate",
+  "title": "SANSA Query Evaluate Coverage",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "inventory-values",
+        "supportsParentTraversal": true,
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "localSpaces": {
+            "params": {
+              "address": "$.<\"params\">",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "field",
+                  "address": "$.<\"params\">.field",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "?.sku"
+                  }
+                },
+                {
+                  "name": "active",
+                  "address": "$.<\"params\">.active",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "?.active"
+                  }
+                },
+                {
+                  "name": "sort",
+                  "address": "$.<\"params\">.sort",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "?.qty"
+                  }
+                },
+                {
+                  "name": "source",
+                  "address": "$.<\"params\">.source",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "$.inventory.items.*"
+                  }
+                },
+                {
+                  "name": "fieldText",
+                  "address": "$.<\"params\">.fieldText",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "?.sku"
+                },
+                {
+                  "name": "sourceText",
+                  "address": "$.<\"params\">.sourceText",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "$.inventory.items.*"
+                },
+                {
+                  "name": "category",
+                  "address": "$.<\"params\">.category",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "hardware"
+                },
+                {
+                  "name": "badPath",
+                  "address": "$.<\"params\">.badPath",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "$.items[01]"
+                  }
+                }
+              ]
+            }
+          },
+          "children": [
+            {
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "items",
+                  "address": "$.inventory.items",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.inventory.items[0]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[0].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "A-100"
+                        },
+                        {
+                          "name": "category",
+                          "address": "$.inventory.items[0].category",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "hardware"
+                        },
+                        {
+                          "name": "status",
+                          "address": "$.inventory.items[0].status",
+                          "semanticType": "null<string>",
+                          "representationKind": "null",
+                          "scalarKind": "null",
+                          "nullReason": "notSet",
+                          "value": null
+                        },
+                        {
+                          "name": "metric",
+                          "address": "$.inventory.items[0].metric",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 10
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[0].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 1
+                        },
+                        {
+                          "name": "active",
+                          "address": "$.inventory.items[0].active",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean",
+                          "value": true
+                        },
+                        {
+                          "name": "roles",
+                          "address": "$.inventory.items[0].roles",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "index": 0,
+                              "address": "$.inventory.items[0].roles[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "admin"
+                            },
+                            {
+                              "index": 1,
+                              "address": "$.inventory.items[0].roles[1]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "user"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.inventory.items[1]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[1].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "B-200"
+                        },
+                        {
+                          "name": "category",
+                          "address": "$.inventory.items[1].category",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "hardware"
+                        },
+                        {
+                          "name": "status",
+                          "address": "$.inventory.items[1].status",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "active"
+                        },
+                        {
+                          "name": "id",
+                          "address": "$.inventory.items[1].id",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "4"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[1].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 4
+                        },
+                        {
+                          "name": "active",
+                          "address": "$.inventory.items[1].active",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean",
+                          "value": true
+                        },
+                        {
+                          "name": "roles",
+                          "address": "$.inventory.items[1].roles",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "index": 0,
+                              "address": "$.inventory.items[1].roles[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "user"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "index": 2,
+                      "address": "$.inventory.items[2]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[2].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "C-300"
+                        },
+                        {
+                          "name": "category",
+                          "address": "$.inventory.items[2].category",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "hardware"
+                        },
+                        {
+                          "name": "metric",
+                          "address": "$.inventory.items[2].metric",
+                          "semanticType": "nan<number>",
+                          "representationKind": "nan",
+                          "scalarKind": "nan",
+                          "value": "NaN"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[2].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 8
+                        },
+                        {
+                          "name": "active",
+                          "address": "$.inventory.items[2].active",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean",
+                          "value": false
+                        },
+                        {
+                          "name": "roles",
+                          "address": "$.inventory.items[2].roles",
+                          "representationKind": "list"
+                        }
+                      ]
+                    },
+                    {
+                      "index": 3,
+                      "address": "$.inventory.items[3]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "name": "sku",
+                          "address": "$.inventory.items[3].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "D-250"
+                        },
+                        {
+                          "name": "category",
+                          "address": "$.inventory.items[3].category",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "tooling"
+                        },
+                        {
+                          "name": "status",
+                          "address": "$.inventory.items[3].status",
+                          "semanticType": "null<string>",
+                          "representationKind": "null",
+                          "scalarKind": "null",
+                          "nullReason": "notApplicable",
+                          "value": null
+                        },
+                        {
+                          "name": "id",
+                          "address": "$.inventory.items[3].id",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 3
+                        },
+                        {
+                          "name": "ceiling",
+                          "address": "$.inventory.items[3].ceiling",
+                          "semanticType": "infinity<number>",
+                          "representationKind": "infinity",
+                          "scalarKind": "infinity",
+                          "value": "Infinity"
+                        },
+                        {
+                          "name": "qty",
+                          "address": "$.inventory.items[3].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 4
+                        },
+                        {
+                          "name": "active",
+                          "address": "$.inventory.items[3].active",
+                          "semanticType": "boolean",
+                          "representationKind": "boolean",
+                          "value": false
+                        },
+                        {
+                          "name": "roles",
+                          "address": "$.inventory.items[3].roles",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "index": 0,
+                              "address": "$.inventory.items[3].roles[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "admin"
+                            },
+                            {
+                              "index": 1,
+                              "address": "$.inventory.items[3].roles[1]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "admin"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "categoryLabels",
+                  "address": "$.inventory.categoryLabels",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "hardware",
+                      "address": "$.inventory.categoryLabels.hardware",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "Hardware"
+                    },
+                    {
+                      "name": "tooling",
+                      "address": "$.inventory.categoryLabels.tooling",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "Tooling"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "table",
+              "address": "$.table",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "header",
+                  "address": "$.table.header",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.table.header[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "name"
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.table.header[1]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "age"
+                    }
+                  ]
+                },
+                {
+                  "name": "duplicateHeader",
+                  "address": "$.table.duplicateHeader",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.table.duplicateHeader[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "name"
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.table.duplicateHeader[1]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "name"
+                    }
+                  ]
+                },
+                {
+                  "name": "content",
+                  "address": "$.table.content",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.table.content[0]",
+                      "representationKind": "tuple",
+                      "children": [
+                        {
+                          "index": 0,
+                          "address": "$.table.content[0][0]",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "Bob"
+                        },
+                        {
+                          "index": 1,
+                          "address": "$.table.content[0][1]",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 22
+                        }
+                      ]
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.table.content[1]",
+                      "representationKind": "tuple",
+                      "children": [
+                        {
+                          "index": 0,
+                          "address": "$.table.content[1][0]",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "Alice"
+                        },
+                        {
+                          "index": 1,
+                          "address": "$.table.content[1][1]",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 31
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "labels",
+              "address": "$.labels",
+              "representationKind": "list",
+              "children": [
+                {
+                  "index": 0,
+                  "address": "$.labels[0]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.labels[0].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "z"
+                    }
+                  ]
+                },
+                {
+                  "index": 1,
+                  "address": "$.labels[1]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.labels[1].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "ä"
+                    }
+                  ]
+                },
+                {
+                  "index": 2,
+                  "address": "$.labels[2]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.labels[2].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "a"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "membership-short-circuit",
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "roles",
+              "address": "$.roles",
+              "representationKind": "list",
+              "children": [
+                {
+                  "index": 0,
+                  "address": "$.roles[0]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "admin"
+                },
+                {
+                  "index": 1,
+                  "address": "$.roles[1]",
+                  "semanticType": "null<string>",
+                  "representationKind": "null",
+                  "scalarKind": "null",
+                  "nullReason": "notSet",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "name": "badRoles",
+              "address": "$.badRoles",
+              "representationKind": "list",
+              "children": [
+                {
+                  "index": 0,
+                  "address": "$.badRoles[0]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "user"
+                },
+                {
+                  "index": 1,
+                  "address": "$.badRoles[1]",
+                  "semanticType": "null<string>",
+                  "representationKind": "null",
+                  "scalarKind": "null",
+                  "nullReason": "notSet",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-query-evaluate-001-filter-project",
+      "description": "Evaluator filters candidate bindings and projects scalar fields.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 2 and .active == true\nselect { sku = .sku qty = .qty }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.inventory.items[1]"],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "qty": 4
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-001a-position-range-source",
+      "description": "Evaluator accepts promoted SANSA position range selectors in query sources.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1..2]\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]"
+        ],
+        "selectedAddresses": [
+          ["$.inventory.items[1].sku"],
+          ["$.inventory.items[2].sku"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "selector", "range"]
+    },
+    {
+      "id": "sansa-query-evaluate-001b-position-range-open-end",
+      "description": "Open-ended position ranges select through the final exposed positional child.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect .roles[1..]"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ],
+        "selectedAddresses": [
+          ["$.inventory.items[0].roles[1]"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "selector", "range"]
+    },
+    {
+      "id": "sansa-query-evaluate-001ba-multi-binding-projection-preserves-candidate",
+      "description": "Projection does not flatten candidates when the selected expression resolves multiple bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect .roles.*"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].roles[0]",
+            "$.inventory.items[0].roles[1]"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "projection", "binding-set"]
+    },
+    {
+      "id": "sansa-query-evaluate-001c-parent-sibling",
+      "description": "Parent traversal may move from a selected child binding to its exposed parent before selecting a sibling.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1].sku\nselect .^.qty"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1].sku"
+        ],
+        "selectedAddresses": [
+          ["$.inventory.items[1].qty"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "selector", "parent"]
+    },
+    {
+      "id": "sansa-query-evaluate-002-offset-limit",
+      "description": "Evaluator applies offset and limit after filtering.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 1\noffset 1\nlimit 1\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.inventory.items[1]"],
+        "selectedAddresses": [
+          ["$.inventory.items[1].sku"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "slice"]
+    },
+    {
+      "id": "sansa-query-evaluate-003-order-offset-limit",
+      "description": "Evaluator applies stable order by before offset and limit.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\norder by .qty desc\noffset 1\nlimit 2\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          ["$.inventory.items[1].sku"],
+          ["$.inventory.items[3].sku"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "order", "slice"]
+    },
+    {
+      "id": "sansa-query-evaluate-003a-string-order-unicode-scalar",
+      "description": "String ordering and relational comparison use deterministic Unicode scalar-value order, not host locale collation.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.labels.*\nwhere .value >= \"z\"\norder by .value asc\nselect .value"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.labels[0]",
+          "$.labels[1]"
+        ],
+        "selectedAddresses": [
+          ["$.labels[0].value"],
+          ["$.labels[1].value"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "order", "string", "unicode"]
+    },
+    {
+      "id": "sansa-query-evaluate-003b-budget-from",
+      "description": "Budget exhaustion after source resolution is an evaluation failure, not implicit truncation.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect .sku",
+        "options": {
+          "budget": {
+            "maxFromBindings": 3
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_BUDGET_EXCEEDED",
+        "errorPhase": "from",
+        "errorBudget": "maxFromBindings",
+        "errorLimit": 3,
+        "errorObserved": 4
+      },
+      "tags": ["sansa", "query", "evaluate", "budget", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-003c-budget-where",
+      "description": "Budget exhaustion before where evaluation is an evaluation failure.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 2\nselect .sku",
+        "options": {
+          "budget": {
+            "maxWhereCandidates": 3
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_BUDGET_EXCEEDED",
+        "errorPhase": "where",
+        "errorBudget": "maxWhereCandidates",
+        "errorLimit": 3,
+        "errorObserved": 4
+      },
+      "tags": ["sansa", "query", "evaluate", "budget", "where", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-003d-budget-order",
+      "description": "Budget exhaustion before ordering is an evaluation failure.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\norder by .sku asc\nselect .sku",
+        "options": {
+          "budget": {
+            "maxOrderCandidates": 3
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_BUDGET_EXCEEDED",
+        "errorPhase": "order",
+        "errorBudget": "maxOrderCandidates",
+        "errorLimit": 3,
+        "errorObserved": 4
+      },
+      "tags": ["sansa", "query", "evaluate", "budget", "order", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-003e-budget-result-records",
+      "description": "Budget exhaustion before projection is an evaluation failure.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nlimit 4\nselect .sku",
+        "options": {
+          "budget": {
+            "maxResultRecords": 3
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_BUDGET_EXCEEDED",
+        "errorPhase": "select",
+        "errorBudget": "maxResultRecords",
+        "errorLimit": 3,
+        "errorObserved": 4
+      },
+      "tags": ["sansa", "query", "evaluate", "budget", "projection", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-004-where-not-boolean",
+      "description": "Where expressions must evaluate to Boolean true or false.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .sku\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_EXPECTED_BOOLEAN",
+        "errorPhase": "where",
+        "candidateAddress": "$.inventory.items[0]"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-005-unsupported-function",
+      "description": "The evaluator rejects unsupported function calls explicitly.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect matches(.sku, \"B\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_FUNCTION"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-005a-only-reserved",
+      "description": "The reserved future only(...) shorthand is not part of the SANSA.Query v1 evaluator surface.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere only(.roles.* == \"admin\")\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_FUNCTION"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "cardinality", "reserved"]
+    },
+    {
+      "id": "sansa-query-evaluate-006-cardinality-any",
+      "description": "The evaluator supports any over a resolved binding-set predicate.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere any(.roles.* == \"admin\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-006a-cardinality-function-predicate",
+      "description": "The evaluator supports any over a Boolean function predicate with one binding-set argument.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere any(contains(.roles.*, \"min\"))\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality", "function"]
+    },
+    {
+      "id": "sansa-query-evaluate-007-cardinality-all-empty",
+      "description": "all(empty) evaluates to true.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere all(.roles.* == \"admin\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality", "empty"]
+    },
+    {
+      "id": "sansa-query-evaluate-008-cardinality-none-empty",
+      "description": "none(empty) evaluates to true.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere none(.roles.* == \"admin\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality", "empty"]
+    },
+    {
+      "id": "sansa-query-evaluate-009-function-filter",
+      "description": "Built-in contains may be used as a Boolean filter expression.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere contains(.sku, \"B\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.inventory.items[1]"]
+      },
+      "tags": ["sansa", "query", "evaluate", "function"]
+    },
+    {
+      "id": "sansa-query-evaluate-010-existence-present",
+      "description": "exists returns true when the resolution expression resolves one or more bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.roles)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "existence"]
+    },
+    {
+      "id": "sansa-query-evaluate-011-existence-empty-container",
+      "description": "exists on a container combined with absent on its expansion selects present empty containers.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.roles) and absent(.roles.*)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "existence", "empty"]
+    },
+    {
+      "id": "sansa-query-evaluate-012-existence-missing",
+      "description": "absent returns true when the resolution expression resolves zero bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere absent(.deletedAt)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "existence", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-013-null-reason",
+      "description": "isNullReason tests explicit null values without matching missing bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.status) and isNullReason(.status, \"notSet\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "null", "absence"]
+    },
+    {
+      "id": "sansa-query-evaluate-014-missing-vs-null",
+      "description": "absent tests missing bindings and does not match explicit null values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere absent(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "missing", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-015-unguarded-null-test-missing",
+      "description": "isNull is a scalar value test and reports missing when its operand resolves no bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere isNull(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_SCALAR"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "missing", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-015a-is-value-ordinary",
+      "description": "isValue matches ordinary scalar values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere isValue(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value"]
+    },
+    {
+      "id": "sansa-query-evaluate-015b-is-value-missing-aware",
+      "description": "isValue returns false, rather than a missing diagnostic, when its operand resolves no bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere isValue(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-015c-is-value-excludes-numeric-specials",
+      "description": "isValue excludes NaN and infinity while accepting ordinary finite numbers.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere isValue(.metric) or isValue(.ceiling)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-evaluate-015d-is-value-cardinality",
+      "description": "isValue requires a single binding when its operand is present.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere isValue(.roles.*)\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-015e-is-value-literal",
+      "description": "isValue accepts ordinary scalar expression results, including literals.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere isValue(\"sku\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-016-nan-predicate",
+      "description": "isNaN tests explicit NaN values without relying on equality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.metric) and isNaN(.metric)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "nan", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-evaluate-017-infinity-predicate",
+      "description": "isInfinity tests explicit Infinity values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.ceiling) and isInfinity(.ceiling)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "infinity", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-evaluate-018-nan-comparison-invalid",
+      "description": "NaN is not comparable; explicit predicates are required for NaN tests.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere .metric == .metric\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON",
+        "errorPhase": "where",
+        "candidateAddress": "$.inventory.items[2]"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "nan", "comparison"]
+    },
+    {
+      "id": "sansa-query-evaluate-019-number-comparison",
+      "description": "Number values may participate in same-type ordering comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .qty < 2\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "number"]
+    },
+    {
+      "id": "sansa-query-evaluate-020-string-equality",
+      "description": "String values may participate in same-type equality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .sku == \"B-200\"\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "string"]
+    },
+    {
+      "id": "sansa-query-evaluate-021-boolean-equality",
+      "description": "Boolean values may participate in same-type equality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .active == false\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "boolean"]
+    },
+    {
+      "id": "sansa-query-evaluate-022-infinity-comparison",
+      "description": "Infinity values may participate in same-type numeric comparison as bounds.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[3]\nwhere .ceiling > 1000000\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "infinity"]
+    },
+    {
+      "id": "sansa-query-evaluate-023-null-comparison-invalid",
+      "description": "Explicit null values are not compared by ordinary equality operators.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .status == .status\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "comparison", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-024-boolean-order-invalid",
+      "description": "Boolean values are not orderable.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .active > false\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "comparison", "boolean"]
+    },
+    {
+      "id": "sansa-query-evaluate-025-semantic-filter-guard",
+      "description": "A semantic type filter can guard scalar comparison against mixed-type bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.id#number) and .id > 2\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "existence", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-026-unguarded-mixed-type-comparison",
+      "description": "A presence check without a semantic type filter does not protect mixed-type scalar comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.id) and .id > 2\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-027-and-short-circuit",
+      "description": "and short-circuits when the left operand is false.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere .active == true and .deletedAt == \"never evaluated\"\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "boolean", "short-circuit"]
+    },
+    {
+      "id": "sansa-query-evaluate-028-or-short-circuit",
+      "description": "or short-circuits when the left operand is true.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .active == true or .deletedAt == \"never evaluated\"\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "boolean", "short-circuit"]
+    },
+    {
+      "id": "sansa-query-evaluate-029-function-projection",
+      "description": "Built-in string functions may be used inside projection fields.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere startsWith(.sku, \"A\") or startsWith(.sku, \"B\")\nselect { code = lower(.sku) category = upper(.category) label = concat(\"item:\", .sku) }"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "code": "a-100",
+              "category": "HARDWARE",
+              "label": "item:A-100"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "code": "b-200",
+              "category": "HARDWARE",
+              "label": "item:B-200"
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-029b-string-function-ends-with",
+      "description": "Built-in string functions include suffix checks.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere endsWith(.sku, \"00\")\nselect { sku = .sku code = lower(.sku) category = upper(.category) label = concat(\"item:\", .sku) }"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "A-100",
+              "code": "a-100",
+              "category": "HARDWARE",
+              "label": "item:A-100"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "code": "b-200",
+              "category": "HARDWARE",
+              "label": "item:B-200"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "code": "c-300",
+              "category": "HARDWARE",
+              "label": "item:C-300"
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "string", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-029ba-current-binding-string-function",
+      "description": "A bare dot can expose the current candidate binding to scalar functions and projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*.roles.*\nwhere contains(., \"min\")\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0].roles[0]",
+          "$.inventory.items[3].roles[0]",
+          "$.inventory.items[3].roles[1]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].roles[0]"
+          ],
+          [
+            "$.inventory.items[3].roles[0]"
+          ],
+          [
+            "$.inventory.items[3].roles[1]"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "current-binding", "function", "string"]
+    },
+    {
+      "id": "sansa-query-evaluate-029c-path-select",
+      "description": "path activates a structured contextual SANSA Address Literal value in select expressions.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1]\nselect path($.<\"params\">.field)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[1].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "local-space"]
+    },
+    {
+      "id": "sansa-query-evaluate-029ca-local-space-scalar-comparison",
+      "description": "Scalar values from mounted local spaces are consumed directly in scalar comparison contexts.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .category == $.<\"params\">.category\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[2]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].sku"
+          ],
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "local-space", "scalar", "comparison"]
+    },
+    {
+      "id": "sansa-query-evaluate-029d-path-projection-order",
+      "description": "path may be used in where, order by, and projection expressions.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect { sku = path($.<\"params\">.field) qty = .qty }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "qty": 8
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "D-250",
+              "qty": 4
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "where", "order", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-029e-path-rejects-string",
+      "description": "path rejects plain strings that look like addresses.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.fieldText)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_PATH_LITERAL"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029f-path-invalid-address-literal",
+      "description": "path rejects invalid structured SANSA Address Literal values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.badPath)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_PATH_LITERAL"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029g-path-invalid-arity",
+      "description": "path requires exactly one argument.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.field, $.<\"params\">.sort)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029h-path-from-source",
+      "description": "path may activate a structured SANSA Address Literal as the from source.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nwhere .qty >= 4\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "source", "local-space"]
+    },
+    {
+      "id": "sansa-query-evaluate-029i-path-from-rejects-string",
+      "description": "Dynamic from path rejects plain strings that look like addresses.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.sourceText)\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_PATH_LITERAL"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "source", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029j-path-is-value",
+      "description": "isValue may inspect Binding Sets produced by path.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nwhere isValue(path($.<\"params\">.active))\nselect path($.<\"params\">.field)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].sku"
+          ],
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "value", "local-space"]
+    },
+    {
+      "id": "sansa-query-evaluate-030-unary-not",
+      "description": "Unary not negates a single binding Boolean scalar in Boolean context.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere not .active\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "boolean", "not"]
+    },
+    {
+      "id": "sansa-query-evaluate-031-unary-not-existence",
+      "description": "Unary not negates existence predicates.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere not exists(.status)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[2].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "boolean", "not", "existence"]
+    },
+    {
+      "id": "sansa-query-evaluate-032-membership",
+      "description": "Membership tests a scalar value against the scalar values exposed by a Binding Set.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere \"admin\" in .roles.*\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "membership"]
+    },
+    {
+      "id": "sansa-query-evaluate-032a-membership-short-circuit-match",
+      "description": "Membership returns true on the first successful match and does not evaluate later incompatible bindings.",
+      "input": {
+        "namespace": "membership-short-circuit",
+        "source": "from $\nwhere \"admin\" in $.roles.*\nselect $.roles"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$"
+        ],
+        "selectedAddresses": [
+          [
+            "$.roles"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "short-circuit"]
+    },
+    {
+      "id": "sansa-query-evaluate-032b-membership-incompatible-before-match",
+      "description": "Membership fails when an incompatible right-side binding is encountered before any successful match.",
+      "input": {
+        "namespace": "membership-short-circuit",
+        "source": "from $\nwhere \"admin\" in $.badRoles.*\nselect $.badRoles"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "short-circuit", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-033-membership-negated",
+      "description": "Membership over an empty or non-matching Binding Set evaluates to false and may be negated.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere not (\"admin\" in .roles.*)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "not"]
+    },
+    {
+      "id": "sansa-query-evaluate-034-membership-invalid-right",
+      "description": "Membership requires the right operand to evaluate to a Binding Set.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere \"admin\" in \"admin\"\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-035-membership-empty-right",
+      "description": "Membership over an empty Binding Set evaluates to false.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere \"admin\" in .roles.*\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "membership"]
+    },
+    {
+      "id": "sansa-query-evaluate-036-membership-missing-left",
+      "description": "Membership consumes the left operand in scalar context, so a missing left operand fails.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .deletedAt in .roles.*\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_SCALAR"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-037-membership-cardinality-left",
+      "description": "Membership consumes the left operand in scalar context, so multiple left bindings fail.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere .roles.* in .roles.*\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-038-membership-null-right",
+      "description": "Membership uses equality comparison rules, so explicit null candidates are not comparable by default.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere \"admin\" in .status\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-039-membership-nan-right",
+      "description": "Membership uses equality comparison rules, so NaN candidates are not comparable by default.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nwhere 8 in .metric\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "negative", "nan"]
+    },
+    {
+      "id": "sansa-query-evaluate-040-membership-infinity",
+      "description": "Membership uses equality comparison rules, so infinity may compare as a numeric bound when supported.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[3]\nwhere .ceiling in .ceiling\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "membership", "infinity"]
+    },
+    {
+      "id": "sansa-query-evaluate-041-resolve-child-projection",
+      "description": "resolveChild resolves a scalar key against one addressable container and may be used in projections.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect { sku = .sku category = resolveChild($.inventory.categoryLabels, .category) }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "category": "Hardware"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "category": "Hardware"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "D-250",
+              "category": "Tooling"
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-042-resolve-child-position",
+      "description": "resolveChild accepts non-negative integer keys for positional children.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect resolveChild(.roles, 1)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].roles[1]"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "position"]
+    },
+    {
+      "id": "sansa-query-evaluate-043-resolve-child-missing-target",
+      "description": "resolveChild returns an empty Binding Set when the target is missing.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect resolveChild($.inventory.categoryLabels, \"unknown\")"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ],
+        "selectedAddresses": [
+          []
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-044-resolve-child-cardinality-base",
+      "description": "resolveChild requires the base to resolve exactly one binding.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect resolveChild($.inventory.items.*, .category)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-045-resolve-child-cardinality-key",
+      "description": "resolveChild requires the key to resolve exactly one scalar value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect resolveChild($.inventory.categoryLabels, .roles.*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-046-resolve-child-invalid-key",
+      "description": "resolveChild rejects key types outside string member names and non-negative integer positions.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect resolveChild($.inventory.categoryLabels, true)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-046l-lookup-unsupported",
+      "description": "The old lookup(...) spelling is not part of SANSA.Query v1; dynamic direct-child resolution uses resolveChild(...).",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lookup($.inventory.categoryLabels, .category)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_FUNCTION"
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "negative", "reserved"]
+    },
+    {
+      "id": "sansa-query-evaluate-046m-function-name-case-sensitive",
+      "description": "Function and helper names are case-sensitive; objectfrom(...) is not the experimental objectFrom(...) helper.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content[0]\nselect objectfrom($.table.header.*, .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_FUNCTION"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "case-sensitive"]
+    },
+    {
+      "id": "sansa-query-evaluate-046a-object-from-projection",
+      "description": "objectFrom pairs ordered string key bindings with ordered scalar value bindings to construct an object.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content.*\nselect objectFrom($.table.header.*, .*)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table.content[0]",
+          "$.table.content[1]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "name": "Bob",
+              "age": 22
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "name": "Alice",
+              "age": 31
+            }
+          }
+        ]
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Transform",
+        "extension": "sansa.transform.objectFrom"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-046aa-object-from-contextual-position",
+      "description": "objectFrom may pair one selected header key with a contextual positional value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content.*\nselect objectFrom($.table.header[1], .[1])"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table.content[0]",
+          "$.table.content[1]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "age": 22
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "age": 31
+            }
+          }
+        ]
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Transform",
+        "extension": "sansa.transform.objectFrom"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "contextual", "position"]
+    },
+    {
+      "id": "sansa-query-evaluate-046ab-fields-from-projection",
+      "description": "Experimental fieldsFrom projects selected fields from ordered header and row binding sets.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content.*\nselect fieldsFrom($.table.header.*, .*, \"age\")"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table.content[0]",
+          "$.table.content[1]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "age": 22
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "age": 31
+            }
+          }
+        ]
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Transform",
+        "extension": "sansa.transform.fieldsFrom"
+      },
+      "tags": ["sansa", "query", "evaluate", "fields-from", "experimental", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-046b-object-from-mismatched-length",
+      "description": "objectFrom rejects key and value binding sets with different lengths.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content[0]\nselect objectFrom($.table.header[0..0], .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Transform",
+        "extension": "sansa.transform.objectFrom"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-046c-object-from-duplicate-key",
+      "description": "objectFrom rejects duplicate string keys rather than overwriting fields.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content[0]\nselect objectFrom($.table.duplicateHeader.*, .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Transform",
+        "extension": "sansa.transform.objectFrom"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-046d-object-from-invalid-argument",
+      "description": "objectFrom requires resolution expression arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content[0]\nselect objectFrom(\"name\", .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Transform",
+        "extension": "sansa.transform.objectFrom"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-046e-transform-extension-disabled",
+      "description": "Transform helpers produce a stable unsupported-extension diagnostic when the transform extension surface is disabled.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "extensions": {
+            "transform": false
+          }
+        },
+        "source": "from $.table.content[0]\nselect objectFrom($.table.header.*, .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_EXTENSION",
+        "errorExtension": "sansa.transform.objectFrom"
+      },
+      "conformance": {
+        "surface": "extension",
+        "maturity": "experimental",
+        "capability": "SANSA.Transform",
+        "extension": "sansa.transform.objectFrom"
+      },
+      "tags": ["sansa", "query", "evaluate", "object-from", "experimental", "negative", "extension-gating"]
+    },
+    {
+      "id": "sansa-query-evaluate-046f-validation-policy-safe",
+      "description": "Experimental validation query policy allows read-only filtering with binding projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental"]
+    },
+    {
+      "id": "sansa-query-evaluate-046g-validation-policy-projection",
+      "description": "Experimental validation query policy rejects presentation object projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\nselect { sku = .sku qty = .qty }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-046h-validation-policy-order",
+      "description": "Experimental validation query policy rejects order by clauses.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\norder by .sku asc\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative", "order"]
+    },
+    {
+      "id": "sansa-query-evaluate-046i-validation-policy-offset",
+      "description": "Experimental validation query policy rejects offset clauses.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\noffset 1\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative", "offset"]
+    },
+    {
+      "id": "sansa-query-evaluate-046j-validation-policy-limit",
+      "description": "Experimental validation query policy rejects limit clauses.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.inventory.items.*\nlimit 1\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative", "limit"]
+    },
+    {
+      "id": "sansa-query-evaluate-046k-validation-policy-transform",
+      "description": "Experimental validation query policy rejects transform-library helpers.",
+      "input": {
+        "namespace": "inventory-values",
+        "options": {
+          "policy": "validation"
+        },
+        "source": "from $.table.content[0]\nselect objectFrom($.table.header.*, .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_POLICY_VIOLATION",
+        "errorPhase": "policy",
+        "errorExtension": "sansa.transform.objectFrom"
+      },
+      "conformance": {
+        "surface": "policy",
+        "maturity": "experimental",
+        "capability": "SANSA.Query",
+        "policy": "validation"
+      },
+      "tags": ["sansa", "query", "evaluate", "validation-policy", "experimental", "negative", "transform"]
+    },
+    {
+      "id": "sansa-query-evaluate-047-fallback-projection",
+      "description": "fallback supplies a replacement for missing scalar values while preserving explicit null values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect { sku = .sku status = fallback(.status, \"missing\") }"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "A-100",
+              "status": null
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "status": "active"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "status": "missing"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "D-250",
+              "status": null
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "missing", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-048-fallback-function-primary",
+      "description": "fallback handles missing-scalar diagnostics from its primary expression.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect fallback(lower(.deletedAt), \"none\")"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "scalar",
+            "value": "none"
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-049-fallback-lazy-replacement",
+      "description": "fallback does not evaluate the replacement expression when the primary expression succeeds.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1]\nselect fallback(.status, .deletedAt)"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "scalar",
+            "value": "active"
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "lazy"]
+    },
+    {
+      "id": "sansa-query-evaluate-050-fallback-cardinality-primary",
+      "description": "fallback does not hide cardinality errors in the primary expression.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect fallback(.roles.*, \"none\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-051-fallback-missing-replacement",
+      "description": "fallback reports missing scalar diagnostics when the replacement is also missing.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect fallback(.deletedAt, .alsoDeletedAt)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_SCALAR"
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "negative", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-052-fallback-invalid-arity",
+      "description": "fallback requires exactly two arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect fallback(.status)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "fallback", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-053-invalid-function-arity",
+      "description": "Built-in functions reject invalid arity explicitly.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect lower(.sku, \"x\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-054-invalid-function-type",
+      "description": "Built-in string functions reject non-string scalar arguments explicitly.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect contains(.qty, \"4\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-055-function-missing-argument",
+      "description": "Ordinary functions fail when an argument resolution is missing.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lower(.deletedAt)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_SCALAR"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-056-function-cardinality-argument",
+      "description": "Ordinary functions fail when an argument resolves multiple bindings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lower(.roles.*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "cardinality"]
+    },
+    {
+      "id": "sansa-query-evaluate-057-function-null-argument",
+      "description": "Current built-in string functions reject explicit null arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lower(.status)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "null"]
+    },
+    {
+      "id": "sansa-query-evaluate-058-function-nan-argument",
+      "description": "Current built-in string functions reject NaN arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2]\nselect lower(.metric)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "nan"]
+    },
+    {
+      "id": "sansa-query-evaluate-059-function-infinity-argument",
+      "description": "Current built-in string functions reject Infinity arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[3]\nselect lower(.ceiling)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "infinity"]
+    },
+    {
+      "id": "sansa-query-evaluate-060-recipe-dynamic-path-pipeline",
+      "description": "Recipe: dynamic source, dynamic Boolean predicate, dynamic order key, and dynamic projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect path($.<\"params\">.field)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[2].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "recipe", "path", "pipeline"]
+    },
+    {
+      "id": "sansa-query-evaluate-061-recipe-status-presence",
+      "description": "Recipe: distinguish ordinary values, explicit nulls, and missing bindings in one predicate.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere isValue(.status) or (exists(.status) and isNull(.status))\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]",
+          "$.inventory.items[1]",
+          "$.inventory.items[3]"
+        ],
+        "selectedAddresses": [
+          [
+            "$.inventory.items[0].sku"
+          ],
+          [
+            "$.inventory.items[1].sku"
+          ],
+          [
+            "$.inventory.items[3].sku"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "recipe", "value", "null", "missing"]
+    },
+    {
+      "id": "sansa-query-evaluate-062-recipe-resolve-child-fallback-pipeline",
+      "description": "Recipe: filter, resolveChild, fallback, and projection compose in a read-only pipeline.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 4\nselect { sku = .sku category = resolveChild($.inventory.categoryLabels, .category) status = fallback(.status, \"missing\") }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[1]",
+          "$.inventory.items[2]",
+          "$.inventory.items[3]"
+        ],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "sku": "B-200",
+              "category": "Hardware",
+              "status": "active"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "C-300",
+              "category": "Hardware",
+              "status": "missing"
+            }
+          },
+          {
+            "type": "object",
+            "value": {
+              "sku": "D-250",
+              "category": "Tooling",
+              "status": null
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "recipe", "resolve-child", "fallback", "projection"]
+    }
+  ]
+}

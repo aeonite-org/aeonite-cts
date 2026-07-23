@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "value-semantics",
+    "capability": "AEON.ValueSemantics",
+    "profile": "minimum-consumer",
+    "conformance": {
+      "surface": "proposal-scaffold"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Shared AEON Value Semantics minimum consumer contract scaffold for v1"
+  },
+  "suites": [
+    {
+      "id": "minimum-consumer-contract",
+      "file": "suites/01-minimum-consumer-contract.json"
+    }
+  ]
+}
