@@ -1966,6 +1966,19 @@
       "tags": ["sansa", "query", "evaluate", "resolve-child", "negative", "reserved"]
     },
     {
+      "id": "sansa-query-evaluate-046m-function-name-case-sensitive",
+      "description": "Function and helper names are case-sensitive; objectfrom(...) is not the experimental objectFrom(...) helper.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table.content[0]\nselect objectfrom($.table.header.*, .*)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_FUNCTION"
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "negative", "case-sensitive"]
+    },
+    {
       "id": "sansa-query-evaluate-046a-object-from-projection",
       "description": "objectFrom pairs ordered string key bindings with ordered scalar value bindings to construct an object.",
       "input": {
