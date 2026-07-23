@@ -878,6 +878,19 @@
       "tags": ["sansa", "query", "evaluate", "negative"]
     },
     {
+      "id": "sansa-query-evaluate-005a-only-reserved",
+      "description": "The reserved future only(...) shorthand is not part of the SANSA.Query v1 evaluator surface.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere only(.roles.* == \"admin\")\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_FUNCTION"
+      },
+      "tags": ["sansa", "query", "evaluate", "negative", "cardinality", "reserved"]
+    },
+    {
       "id": "sansa-query-evaluate-006-cardinality-any",
       "description": "The evaluator supports any over a resolved binding-set predicate.",
       "input": {
