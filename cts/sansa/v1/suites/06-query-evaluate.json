@@ -1953,6 +1953,19 @@
       "tags": ["sansa", "query", "evaluate", "resolve-child", "negative"]
     },
     {
+      "id": "sansa-query-evaluate-046l-lookup-unsupported",
+      "description": "The old lookup(...) spelling is not part of SANSA.Query v1; dynamic direct-child resolution uses resolveChild(...).",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect lookup($.inventory.categoryLabels, .category)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_UNSUPPORTED_FUNCTION"
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "negative", "reserved"]
+    },
+    {
       "id": "sansa-query-evaluate-046a-object-from-projection",
       "description": "objectFrom pairs ordered string key bindings with ordered scalar value bindings to construct an object.",
       "input": {
