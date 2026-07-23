@@ -91,6 +91,18 @@
                   "representationKind": "string"
                 },
                 {
+                  "name": "item*",
+                  "address": "$.inventory.[\"item*\"]",
+                  "semanticType": "string",
+                  "representationKind": "string"
+                },
+                {
+                  "name": "item?",
+                  "address": "$.inventory.[\"item?\"]",
+                  "semanticType": "string",
+                  "representationKind": "string"
+                },
+                {
                   "name": "archive",
                   "address": "$.inventory.archive",
                   "representationKind": "object"
@@ -482,6 +494,32 @@
       "tags": ["sansa", "resolve", "selector", "name-pattern"]
     },
     {
+      "id": "sansa-resolve-005a-name-pattern-escaped-wildcards",
+      "description": "Name patterns use decoded backslash escaping for literal wildcard characters.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.(\"item\\\\*\")"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.inventory.[\"item*\"]"]
+      },
+      "tags": ["sansa", "resolve", "selector", "name-pattern", "escape"]
+    },
+    {
+      "id": "sansa-resolve-005b-name-pattern-escaped-single-wildcard",
+      "description": "Name patterns use decoded backslash escaping for literal single-code-point wildcard characters.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.(\"item\\\\?\")"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": ["$.inventory.[\"item?\"]"]
+      },
+      "tags": ["sansa", "resolve", "selector", "name-pattern", "escape"]
+    },
+    {
       "id": "sansa-resolve-006-semantic-type-filter",
       "description": "Semantic type filters narrow the current binding set by semantic type or semantic base name.",
       "input": {
@@ -610,6 +648,8 @@
           "$.inventory.items[1].status",
           "$.inventory.itemA1",
           "$.inventory.itemB2",
+          "$.inventory.[\"item*\"]",
+          "$.inventory.[\"item?\"]",
           "$.inventory.archive"
         ]
       },

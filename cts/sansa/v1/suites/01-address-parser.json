@@ -76,6 +76,20 @@
       "tags": ["sansa", "address", "expanded", "filters"]
     },
     {
+      "id": "sansa-address-004a-name-pattern-escaped-wildcard",
+      "description": "Name patterns preserve decoded backslash escapes for literal wildcard matching.",
+      "input": {
+        "source": "$.items.(\"item\\\\*\").sku"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.items.(\"item\\\\*\").sku",
+        "exact": false,
+        "selectors": ["member", "namePattern", "member"]
+      },
+      "tags": ["sansa", "address", "expanded", "name-pattern", "escape"]
+    },
+    {
       "id": "sansa-address-005-contextual-local-space",
       "description": "Contextual roots may enter a named local address space",
       "input": {
