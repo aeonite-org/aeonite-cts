@@ -4,7 +4,7 @@ Normative protocol documents for CTS runner/SUT contracts.
 
 ## Status
 - Version: `cts.protocol.v1`
-- Scope: all CTS lanes (`aeos`, `annotations`, `core`, `aes`, `canonical`)
+- Scope: all CTS lanes (`aeos`, `annotations`, `core`, `aes`, `canonical`, `sansa`)
 
 ## Documents
 - `runner-contract.md` - common invocation, envelope, diagnostics, and matching rules.
@@ -13,6 +13,7 @@ Normative protocol documents for CTS runner/SUT contracts.
 - `lane-core.md` - core parse/addressing lane payload contract.
 - `lane-aes.md` - AES emission lane payload contract.
 - `lane-canonical.md` - canonical formatting lane payload contract.
+- `lane-sansa.md` - SANSA Addressing, Resolve, and Query suite contract notes.
 - `sut-envelope.md` - AEOS compatibility contract retained for transition.
 - `sut-invocation-examples.md` - non-normative examples for working-directory and environment-aware SUT launches.
 
