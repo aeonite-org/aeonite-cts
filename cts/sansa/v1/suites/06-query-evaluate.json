@@ -762,6 +762,94 @@
       "tags": ["sansa", "query", "evaluate", "order", "string", "unicode"]
     },
     {
+      "id": "sansa-query-evaluate-003b-budget-from",
+      "description": "Budget exhaustion after source resolution is an evaluation failure, not implicit truncation.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nselect .sku",
+        "options": {
+          "budget": {
+            "maxFromBindings": 3
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_BUDGET_EXCEEDED",
+        "errorPhase": "from",
+        "errorBudget": "maxFromBindings",
+        "errorLimit": 3,
+        "errorObserved": 4
+      },
+      "tags": ["sansa", "query", "evaluate", "budget", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-003c-budget-where",
+      "description": "Budget exhaustion before where evaluation is an evaluation failure.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere .qty >= 2\nselect .sku",
+        "options": {
+          "budget": {
+            "maxWhereCandidates": 3
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_BUDGET_EXCEEDED",
+        "errorPhase": "where",
+        "errorBudget": "maxWhereCandidates",
+        "errorLimit": 3,
+        "errorObserved": 4
+      },
+      "tags": ["sansa", "query", "evaluate", "budget", "where", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-003d-budget-order",
+      "description": "Budget exhaustion before ordering is an evaluation failure.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\norder by .sku asc\nselect .sku",
+        "options": {
+          "budget": {
+            "maxOrderCandidates": 3
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_BUDGET_EXCEEDED",
+        "errorPhase": "order",
+        "errorBudget": "maxOrderCandidates",
+        "errorLimit": 3,
+        "errorObserved": 4
+      },
+      "tags": ["sansa", "query", "evaluate", "budget", "order", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-003e-budget-result-records",
+      "description": "Budget exhaustion before projection is an evaluation failure.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nlimit 4\nselect .sku",
+        "options": {
+          "budget": {
+            "maxResultRecords": 3
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_BUDGET_EXCEEDED",
+        "errorPhase": "select",
+        "errorBudget": "maxResultRecords",
+        "errorLimit": 3,
+        "errorObserved": 4
+      },
+      "tags": ["sansa", "query", "evaluate", "budget", "projection", "negative"]
+    },
+    {
       "id": "sansa-query-evaluate-004-where-not-boolean",
       "description": "Where expressions must evaluate to Boolean true or false.",
       "input": {
