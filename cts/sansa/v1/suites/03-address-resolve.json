@@ -373,6 +373,37 @@
       "tags": ["sansa", "resolve", "selector", "parent", "contextual-root", "empty"]
     },
     {
+      "id": "sansa-resolve-003h1-parent-forbidden-policy",
+      "description": "A resolver policy can forbid parent traversal explicitly, distinct from unsupported traversal.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.^",
+        "parentTraversal": "forbid"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_RESOLVE_PARENT_TRAVERSAL_FORBIDDEN",
+        "selectorIndex": 1
+      },
+      "tags": ["sansa", "resolve", "selector", "parent", "policy", "reject"]
+    },
+    {
+      "id": "sansa-resolve-003h2-contextual-parent-boundary-escape",
+      "description": "A resolver policy can report parent traversal from the effective root as a forbidden boundary escape.",
+      "input": {
+        "namespace": "inventory-basic",
+        "contextualRoot": "$.inventory.items[1]",
+        "source": "?.^",
+        "failOnParentFromEffectiveRoot": true
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_RESOLVE_BOUNDARY_ESCAPE_FORBIDDEN",
+        "selectorIndex": 0
+      },
+      "tags": ["sansa", "resolve", "selector", "parent", "contextual-root", "policy", "reject"]
+    },
+    {
       "id": "sansa-resolve-003i-contextual-child-parent",
       "description": "Parent traversal may return to the contextual root after first selecting a child binding.",
       "input": {
