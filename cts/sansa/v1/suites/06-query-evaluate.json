@@ -101,6 +101,22 @@
           },
           "children": [
             {
+              "name": "consent",
+              "address": "$.consent",
+              "semanticType": "toggle",
+              "representationKind": "toggle",
+              "scalarKind": "toggle",
+              "value": "yes"
+            },
+            {
+              "name": "fallbackConsent",
+              "address": "$.fallbackConsent",
+              "semanticType": "toggle",
+              "representationKind": "toggle",
+              "scalarKind": "toggle",
+              "value": "on"
+            },
+            {
               "name": "inventory",
               "address": "$.inventory",
               "representationKind": "object",
@@ -1635,6 +1651,53 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "boolean", "not"]
+    },
+    {
+      "id": "sansa-query-evaluate-030a-toggle-equality",
+      "description": "AEON toggle literals compare in the toggle equality domain.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.consent\nwhere . == yes\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.consent"
+        ],
+        "selectedAddresses": [
+          [
+            "$.consent"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "toggle"]
+    },
+    {
+      "id": "sansa-query-evaluate-030b-toggle-spelling-not-coerced",
+      "description": "Different toggle spellings are not treated as Boolean aliases by default.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.fallbackConsent\nwhere . == yes\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "toggle", "coercion"]
+    },
+    {
+      "id": "sansa-query-evaluate-030c-toggle-boolean-not-coerced",
+      "description": "Toggle and Boolean values do not compare by implicit coercion.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.consent\nwhere . == true\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "toggle", "boolean", "coercion", "negative"]
     },
     {
       "id": "sansa-query-evaluate-031-unary-not-existence",

@@ -158,6 +158,31 @@
       "tags": ["sansa", "query", "expression", "comparison"]
     },
     {
+      "id": "sansa-query-expression-003a-toggle-literal",
+      "description": "AEON toggle spellings parse as toggle literal expressions, not identifiers or Booleans.",
+      "input": {
+        "expression": ".consent == yes"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".consent == yes",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".consent"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "toggle",
+            "value": "yes"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "toggle"]
+    },
+    {
       "id": "sansa-query-expression-004-boolean-precedence",
       "description": "Boolean expressions preserve not, and, or precedence",
       "input": {
