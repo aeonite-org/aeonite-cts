@@ -181,6 +181,14 @@
                   "value": "ff00aa"
                 },
                 {
+                  "name": "octal",
+                  "address": "$.types.octal",
+                  "semanticType": "radix8",
+                  "representationKind": "radix",
+                  "scalarKind": "radix",
+                  "value": "70"
+                },
+                {
                   "name": "payload",
                   "address": "$.types.payload",
                   "semanticType": "encoding",
@@ -749,6 +757,21 @@
                     {
                       "name": "ok",
                       "address": "$.containers.packet.ok",
+                      "semanticType": "boolean",
+                      "representationKind": "boolean",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "name": "compact",
+                  "address": "$.containers.compact",
+                  "semanticType": "o",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "ok",
+                      "address": "$.containers.compact.ok",
                       "semanticType": "boolean",
                       "representationKind": "boolean",
                       "value": true
@@ -1680,6 +1703,46 @@
       "tags": ["sansa", "query", "evaluate", "comparison", "encoding", "reserved-label", "semantic-filter"]
     },
     {
+      "id": "sansa-query-evaluate-019f1-embed-family-alias-filter",
+      "description": "The embed reserved encoding label remains visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#embed\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.payloadEmbed"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.payloadEmbed"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "encoding", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019f2-inline-family-alias-filter",
+      "description": "The inline reserved encoding label remains visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#inline\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.payloadInline"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.payloadInline"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "encoding", "reserved-label", "semantic-filter"]
+    },
+    {
       "id": "sansa-query-evaluate-019g-separator-family-alias-filter-comparison",
       "description": "Separator-family reserved labels such as kadot remain visible to semantic filters while comparing by naïve separator payload order.",
       "input": {
@@ -2308,6 +2371,26 @@
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "radix", "literal"]
     },
     {
+      "id": "sansa-query-evaluate-030e2a-radix-reserved-label-filter",
+      "description": "Reserved radix labels such as radix8 remain visible to semantic filters without implying radix conversion.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#radix8\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.octal"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.octal"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "radix", "reserved-label", "semantic-filter"]
+    },
+    {
       "id": "sansa-query-evaluate-030e3-encoding-literal-equality",
       "description": "Encoding values compare with same-family Query source literals by preserved payload.",
       "input": {
@@ -2654,6 +2737,26 @@
       "tags": ["sansa", "query", "evaluate", "container", "reserved-label", "semantic-filter"]
     },
     {
+      "id": "sansa-query-evaluate-030ic1-container-short-object-alias-semantic-filter",
+      "description": "The short object alias o remains visible as a semantic filter label.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#o\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.compact"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.compact"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "alias", "semantic-filter"]
+    },
+    {
       "id": "sansa-query-evaluate-030id-container-list-generic-semantic-filter",
       "description": "Semantic filters match the base of generic list datatype claims.",
       "input": {
@@ -2724,7 +2827,8 @@
         "ok": true,
         "resultAddresses": [
           "$.containers.record",
-          "$.containers.packet"
+          "$.containers.packet",
+          "$.containers.compact"
         ],
         "selectedAddresses": [
           [
@@ -2732,6 +2836,9 @@
           ],
           [
             "$.containers.packet"
+          ],
+          [
+            "$.containers.compact"
           ]
         ]
       },

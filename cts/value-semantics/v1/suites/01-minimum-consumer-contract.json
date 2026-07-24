@@ -345,6 +345,116 @@
         "right": { "category": "temporal", "semanticType": "date", "value": "2026-07-25" }
       },
       "expected": { "outcome": "diagnostic", "reason": "mixed_categories" }
+    },
+    {
+      "id": "value_semantics_035_toggle_token_identity_false",
+      "description": "Different toggle spellings are not collapsed to Boolean-like aliases.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "toggle", "value": "yes" },
+        "right": { "category": "toggle", "value": "on" }
+      },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_036_toggle_boolean_equality_error",
+      "description": "Toggle and Boolean values do not compare by implicit coercion.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "toggle", "value": "yes" },
+        "right": { "category": "boolean", "value": true }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "mixed_categories" }
+    },
+    {
+      "id": "value_semantics_037_hex_identity_true",
+      "description": "Hex values compare by canonical hex-payload identity.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "hex", "value": "ff00aa" },
+        "right": { "category": "hex", "value": "ff00aa" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_038_hex_radix_equality_error",
+      "description": "Hex and radix values do not compare by implicit base-16 coercion.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "hex", "value": "10" },
+        "right": { "category": "radix", "semanticType": "radix[16]", "value": "10" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "mixed_categories" }
+    },
+    {
+      "id": "value_semantics_039_radix_metadata_identity_true",
+      "description": "Radix equality preserves radix-family metadata as part of identity.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "radix", "semanticType": "radix[16]", "value": "10" },
+        "right": { "category": "radix", "semanticType": "radix[16]", "value": "10" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_040_radix_metadata_identity_false",
+      "description": "Radix payload equality does not erase radix-family metadata.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "radix", "semanticType": "radix[16]", "value": "10" },
+        "right": { "category": "radix", "semanticType": "radix8", "value": "10" }
+      },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_041_encoding_naive_payload_order",
+      "description": "Encoding ordering uses deterministic preserved payload order, not decoded byte or text order.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "encoding", "value": "A" },
+        "right": { "category": "encoding", "value": "B" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_042_separator_naive_payload_order",
+      "description": "Separator ordering compares whole payloads and does not infer version or segment order.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "separator", "value": "0.11.0" },
+        "right": { "category": "separator", "value": "0.9.9" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_043_sansa_address_identity_true",
+      "description": "SANSA address values compare by canonical address-expression identity.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "sansaAddress", "value": "$.inventory.items.*.sku" },
+        "right": { "category": "sansaAddress", "value": "$.inventory.items.*.sku" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_044_reference_form_identity_true",
+      "description": "Reference forms compare by reference-form identity and do not implicitly follow targets.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "referenceForm", "value": { "kind": "clone", "target": "$.target" } },
+        "right": { "category": "referenceForm", "value": { "target": "$.target", "kind": "clone" } }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_045_reference_form_kind_identity_false",
+      "description": "Clone and pointer reference forms do not compare equal just because their target path matches.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "referenceForm", "value": { "kind": "clone", "target": "$.target" } },
+        "right": { "category": "referenceForm", "value": { "kind": "pointer", "target": "$.target" } }
+      },
+      "expected": { "outcome": "value", "value": false }
     }
   ]
 }
