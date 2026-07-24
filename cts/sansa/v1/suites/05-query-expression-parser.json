@@ -183,6 +183,157 @@
       "tags": ["sansa", "query", "expression", "literal", "toggle"]
     },
     {
+      "id": "sansa-query-expression-003b-hex-literal",
+      "description": "AEON hex source literals parse as same-family Query literal expressions.",
+      "input": {
+        "expression": ".color == #Ff_00_Aa"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".color == #ff00aa",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".color"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "hex",
+            "value": "ff00aa"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "hex"]
+    },
+    {
+      "id": "sansa-query-expression-003c-radix-literal",
+      "description": "AEON radix source literals parse as same-family Query literal expressions.",
+      "input": {
+        "expression": ".mask == %ff00aa"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".mask == %ff00aa",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".mask"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "radix",
+            "value": "ff00aa"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "radix"]
+    },
+    {
+      "id": "sansa-query-expression-003d-encoding-literal",
+      "description": "AEON encoding source literals preserve encoding payload padding.",
+      "input": {
+        "expression": ".payload == &QmFzZTY0IQ=="
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".payload == &QmFzZTY0IQ==",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".payload"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "encoding",
+            "value": "QmFzZTY0IQ=="
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "encoding"]
+    },
+    {
+      "id": "sansa-query-expression-003e-separator-literal",
+      "description": "AEON separator source literals parse as separator payload literals.",
+      "input": {
+        "expression": ".version == ^0.11.0"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".version == ^0.11.0",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".version"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "separator",
+            "value": "0.11.0"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "separator"]
+    },
+    {
+      "id": "sansa-query-expression-003f-temporal-literal",
+      "description": "AEON temporal-looking source literals parse as temporal Query literal expressions.",
+      "input": {
+        "expression": ".released == 2026-07-25"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".released == 2026-07-25",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".released"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "date",
+            "value": "2026-07-25"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "date"]
+    },
+    {
+      "id": "sansa-query-expression-003g-null-literal",
+      "description": "AEON explicit-null source literals parse as null Query literal expressions.",
+      "input": {
+        "expression": ".status == !notSet"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".status == !notSet",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".status"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "null",
+            "value": null,
+            "nullReason": "notSet"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "null"]
+    },
+    {
       "id": "sansa-query-expression-004-boolean-precedence",
       "description": "Boolean expressions preserve not, and, or precedence",
       "input": {

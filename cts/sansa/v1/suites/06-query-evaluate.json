@@ -1832,6 +1832,80 @@
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "hex"]
     },
     {
+      "id": "sansa-query-evaluate-030e1-hex-literal-equality",
+      "description": "Hex values compare with same-family Query source literals by canonical payload identity.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.color\nwhere . == #ff00aa\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.color"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.color"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "hex", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e2-radix-literal-family-metadata",
+      "description": "Bare radix source literals do not silently match profile-specific radix-family metadata.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.mask\nwhere . == %ff00aa\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "radix", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e3-encoding-literal-equality",
+      "description": "Encoding values compare with same-family Query source literals by preserved payload.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.payload\nwhere . == &QmFzZTY0IQ==\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.payload"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.payload"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "encoding", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e4-separator-literal-equality",
+      "description": "Separator values compare with same-family Query source literals by whole payload.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.version\nwhere . == ^0.11.0\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.version"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.version"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "separator", "literal"]
+    },
+    {
       "id": "sansa-query-evaluate-030f-hex-radix-not-coerced",
       "description": "Hex and radix values do not compare by implicit coercion.",
       "input": {
@@ -1856,6 +1930,32 @@
         "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
       },
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1-temporal-literal-comparison-requires-profile",
+      "description": "Temporal source literals parse, but temporal comparison still requires an active temporal value-semantics profile.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.released\nwhere . == 2026-07-25\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "literal", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g2-null-literal-comparison-rejected",
+      "description": "Explicit null source literals parse, but null comparison is rejected in favor of null predicates.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0].status\nwhere . == !notSet\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "null", "literal", "negative"]
     },
     {
       "id": "sansa-query-evaluate-030h-reference-form-equality",
