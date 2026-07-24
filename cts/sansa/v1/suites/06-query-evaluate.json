@@ -2074,6 +2074,72 @@
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "follow", "negative"]
     },
     {
+      "id": "sansa-query-evaluate-030i-container-structural-equality",
+      "description": "Resolved containers of the same container kind may participate in structural equality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table\nwhere .header == .header\nselect .header"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table"
+        ],
+        "selectedAddresses": [
+          [
+            "$.table.header"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "container"]
+    },
+    {
+      "id": "sansa-query-evaluate-030i1-container-structural-inequality",
+      "description": "Resolved containers of the same container kind may participate in structural inequality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table\nwhere .header != .duplicateHeader\nselect .duplicateHeader"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table"
+        ],
+        "selectedAddresses": [
+          [
+            "$.table.duplicateHeader"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "container"]
+    },
+    {
+      "id": "sansa-query-evaluate-030i2-container-kind-comparison-rejected",
+      "description": "Containers of different container kinds are not coerced for structural comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table\nwhere .header == .content[0]\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "container", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030i3-container-ordering-rejected",
+      "description": "Structural container values are equality-comparable but not orderable by the minimum profile.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table\nwhere .header > .header\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "container", "ordering", "negative"]
+    },
+    {
       "id": "sansa-query-evaluate-031-unary-not-existence",
       "description": "Unary not negates existence predicates.",
       "input": {
