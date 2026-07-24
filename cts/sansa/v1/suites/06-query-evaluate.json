@@ -138,6 +138,20 @@
               }
             },
             {
+              "name": "targetPointer",
+              "address": "$.targetPointer",
+              "semanticType": "number",
+              "representationKind": "pointerReference",
+              "scalarKind": "referenceForm",
+              "value": {
+                "type": "PointerReference",
+                "path": [
+                  "target"
+                ],
+                "canonical": "~>target"
+              }
+            },
+            {
               "name": "types",
               "address": "$.types",
               "representationKind": "object",
@@ -2011,6 +2025,53 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h1-reference-form-kind-not-coerced",
+      "description": "Clone and pointer reference forms do not compare equal even when their target path matches.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.targetPointer\nwhere . == $.targetClone\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "coercion"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h2-follow-reference-target-value",
+      "description": "follow(...) explicitly traverses a reference target before value comparison or projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.targetClone\nwhere follow(.) == 7\nselect follow(.)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.targetClone"
+        ],
+        "selectedAddresses": [
+          [
+            "$.target"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "follow"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h3-follow-rejects-non-reference",
+      "description": "follow(...) rejects non-reference operands instead of acting as a general resolver.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.target\nwhere follow(.) == 7\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "follow", "negative"]
     },
     {
       "id": "sansa-query-evaluate-031-unary-not-existence",
