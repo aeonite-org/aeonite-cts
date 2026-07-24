@@ -1700,6 +1700,46 @@
       "tags": ["sansa", "query", "evaluate", "comparison", "separator", "reserved-label", "semantic-filter"]
     },
     {
+      "id": "sansa-query-evaluate-019h-sansa-address-semantic-filter",
+      "description": "SANSA address literal datatype labels remain visible to semantic filters without activating the address.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#sansa\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.selector"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.selector"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "sansa-address", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019i-sansa-address-representation-filter",
+      "description": "SANSA address literal representation kinds remain visible to representation filters without activating the address.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*%sansa\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.selector"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.selector"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "sansa-address", "representation-filter"]
+    },
+    {
       "id": "sansa-query-evaluate-020-string-equality",
       "description": "String values may participate in same-type equality comparison.",
       "input": {
