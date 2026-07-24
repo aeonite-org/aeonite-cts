@@ -1063,7 +1063,7 @@
     },
     {
       "id": "sansa-query-evaluate-015a-is-value-ordinary",
-      "description": "isValue matches ordinary scalar values.",
+      "description": "isValue matches concrete values.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items.*\nwhere isValue(.status)\nselect .sku"
@@ -1090,8 +1090,8 @@
       "tags": ["sansa", "query", "evaluate", "value", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-015c-is-value-excludes-numeric-specials",
-      "description": "isValue excludes NaN and infinity while accepting ordinary finite numbers.",
+      "id": "sansa-query-evaluate-015c-is-value-excludes-nan-but-accepts-infinity",
+      "description": "isValue excludes NaN while accepting finite numbers and infinity as concrete values.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items.*\nwhere isValue(.metric) or isValue(.ceiling)\nselect .sku"
@@ -1099,7 +1099,8 @@
       "expected": {
         "ok": true,
         "resultAddresses": [
-          "$.inventory.items[0]"
+          "$.inventory.items[0]",
+          "$.inventory.items[3]"
         ]
       },
       "tags": ["sansa", "query", "evaluate", "value", "numeric-special"]
@@ -1119,7 +1120,7 @@
     },
     {
       "id": "sansa-query-evaluate-015e-is-value-literal",
-      "description": "isValue accepts ordinary scalar expression results, including literals.",
+      "description": "isValue accepts concrete expression results, including literals.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items[0]\nwhere isValue(\"sku\")\nselect .sku"

@@ -8,7 +8,7 @@
     "spec_refs": [
       "aeonite-specs/aeon/v1/proposals/value-semantics-v1.md#7-minimum-v1-consumer-contract"
     ],
-    "description": "Minimum shared value behavior for equality, ordering, and ordinary scalar predicates."
+    "description": "Minimum shared value behavior for equality, ordering, and concrete value predicates."
   },
   "id": "minimum-consumer-contract",
   "title": "Shared AEON Value Semantics Minimum Consumer Contract",
@@ -226,70 +226,70 @@
     },
     {
       "id": "value_semantics_020_is_value_finite_number_true",
-      "description": "A finite number is an ordinary scalar value.",
+      "description": "A finite number is a concrete value.",
       "operation": "isValue",
       "input": { "value": { "category": "finiteNumber", "value": "12" } },
       "expected": { "outcome": "value", "value": true }
     },
     {
       "id": "value_semantics_021_is_value_string_true",
-      "description": "A string is an ordinary scalar value.",
+      "description": "A string is a concrete value.",
       "operation": "isValue",
       "input": { "value": { "category": "string", "value": "active" } },
       "expected": { "outcome": "value", "value": true }
     },
     {
       "id": "value_semantics_022_is_value_boolean_true",
-      "description": "A Boolean is an ordinary scalar value.",
+      "description": "A Boolean is a concrete value.",
       "operation": "isValue",
       "input": { "value": { "category": "boolean", "value": false } },
       "expected": { "outcome": "value", "value": true }
     },
     {
       "id": "value_semantics_023_is_value_missing_false",
-      "description": "Missing is an evaluation state, not an ordinary scalar value.",
+      "description": "Missing is an evaluation state, not a concrete value.",
       "operation": "isValue",
       "input": { "value": { "category": "missing" } },
       "expected": { "outcome": "value", "value": false }
     },
     {
       "id": "value_semantics_024_is_value_explicit_null_false",
-      "description": "Explicit null is not an ordinary scalar value.",
+      "description": "Explicit null is not a concrete value.",
       "operation": "isValue",
       "input": { "value": { "category": "explicitNull", "reason": "notApplicable" } },
       "expected": { "outcome": "value", "value": false }
     },
     {
       "id": "value_semantics_025_is_value_absence_false",
-      "description": "An explicit absence value is not an ordinary scalar value.",
+      "description": "An explicit absence value is not a concrete value.",
       "operation": "isValue",
       "input": { "value": { "category": "explicitAbsence", "reason": "missing" } },
       "expected": { "outcome": "value", "value": false }
     },
     {
       "id": "value_semantics_026_is_value_nan_false",
-      "description": "NaN is not an ordinary scalar value.",
+      "description": "NaN is not a concrete value.",
       "operation": "isValue",
       "input": { "value": { "category": "nan" } },
       "expected": { "outcome": "value", "value": false }
     },
     {
-      "id": "value_semantics_027_is_value_infinity_false",
-      "description": "Infinity is a numeric special value, not an ordinary scalar value.",
+      "id": "value_semantics_027_is_value_infinity_true",
+      "description": "Infinity is a concrete value.",
       "operation": "isValue",
       "input": { "value": { "category": "positiveInfinity" } },
-      "expected": { "outcome": "value", "value": false }
+      "expected": { "outcome": "value", "value": true }
     },
     {
-      "id": "value_semantics_028_is_value_container_false",
-      "description": "Containers are not ordinary scalar values.",
+      "id": "value_semantics_028_is_value_container_true",
+      "description": "Containers are concrete values.",
       "operation": "isValue",
       "input": { "value": { "category": "container", "containerKind": "object" } },
-      "expected": { "outcome": "value", "value": false }
+      "expected": { "outcome": "value", "value": true }
     },
     {
       "id": "value_semantics_029_is_value_binding_set_false",
-      "description": "Binding Sets are not ordinary scalar values.",
+      "description": "Binding Sets are not concrete values.",
       "operation": "isValue",
       "input": { "value": { "category": "bindingSet", "count": 1 } },
       "expected": { "outcome": "value", "value": false }

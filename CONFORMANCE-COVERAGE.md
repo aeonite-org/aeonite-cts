@@ -51,7 +51,7 @@ The status labels used here are:
 | separator/path literal handling | baseline | `cts/core/v1/suites/09-promoted-separator-literals.json` | includes rooted path, URL-like, nested-list/object, lexical reject, and datatype mismatch behavior | `Aeon/stress-tests/snippets/positive-strict.aeon-cases`, `Aeon/stress-tests/snippets/negative-strict.aeon-cases` |
 | datatype-to-literal validation behavior | baseline | `cts/core/v1/suites/08-promoted-strict-literals.json`, `cts/core/v1/suites/09-promoted-separator-literals.json`, `cts/core/v1/suites/10-promoted-numeric-and-encoding-literals.json` | covers datatype/literal mismatch behavior for number, sep, base64, and hex classes | `Aeon/cts/core`, `Aeon/stress-tests/snippets/negative-strict.aeon-cases` |
 | custom-mode typed literal acceptance and fail-closed boundaries | baseline | `cts/core/v1/suites/01-baseline.json`, `cts/core/v1/suites/11-promoted-custom-literals.json`, `cts/core/v1/suites/12-promoted-custom-rejections.json` | baseline custom-datatype policy plus promoted custom-mode value-family acceptance, untyped fail-closed behavior, and reserved-datatype mismatch checks | `Aeon/stress-tests/snippets/positive-custom.aeon-cases`, `Aeon/stress-tests/snippets/negative-custom.aeon-cases` |
-| shared value equality, ordering, and ordinary-scalar semantics | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers minimum-profile equality, ordering, NaN fail-closed behavior, infinity numeric-bound behavior, and ordinary scalar predicate classification | `aeonite-specs/aeon/v1/proposals/value-semantics-v1.md` |
+| shared value equality, ordering, and concrete-value semantics | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers minimum-profile equality, ordering, NaN fail-closed behavior, infinity numeric-bound behavior, and concrete value predicate classification | `aeonite-specs/aeon/v1/proposals/value-semantics-v1.md` |
 | AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
 
 ## Promotion rule
@@ -147,7 +147,7 @@ The following surfaces are treated as the current Shared AEON Value Semantics an
 - minimum-profile ordering behavior
 - NaN fail-closed behavior
 - infinity numeric-bound behavior
-- ordinary scalar predicate behavior
+- concrete value predicate behavior
 
 ## Shared Value Semantics coverage map
 
@@ -156,7 +156,7 @@ The following surfaces are treated as the current Shared AEON Value Semantics an
 | scalar category classification | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers finite number, string, Boolean, infinity, NaN, explicit null, explicit absence, Missing, containers, and Binding Sets as contract categories |
 | equality behavior | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers finite numbers, infinity, strings, Booleans, NaN rejection, explicit null rejection, and mixed-category rejection |
 | ordering behavior | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers finite numeric ordering, infinity numeric-bound ordering, Boolean ordering rejection, NaN ordering rejection, and explicit null ordering rejection |
-| ordinary scalar predicates | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers the minimum-profile `isValue` basis: true only for finite number, string, and Boolean |
+| concrete value predicates | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers the minimum-profile `isValue` basis: true for concrete values and false for Missing, explicit null, explicit absence values, NaN, and Binding Sets |
 
 ## AEOS review note
 
