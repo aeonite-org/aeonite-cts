@@ -308,6 +308,81 @@
       "tags": ["sansa", "query", "expression", "literal", "temporal", "date"]
     },
     {
+      "id": "sansa-query-expression-003f1-time-literal",
+      "description": "AEON time source literals parse as same-family Query literal expressions.",
+      "input": {
+        "expression": ".window >= 09:30:00Z"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".window >= 09:30:00Z",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": ">=",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".window"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "time",
+            "value": "09:30:00Z"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "time"]
+    },
+    {
+      "id": "sansa-query-expression-003f2-datetime-literal",
+      "description": "AEON datetime source literals parse as same-family Query literal expressions.",
+      "input": {
+        "expression": ".stamp == 2026-07-25T09:30:00Z"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".stamp == 2026-07-25T09:30:00Z",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".stamp"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "datetime",
+            "value": "2026-07-25T09:30:00Z"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "datetime"]
+    },
+    {
+      "id": "sansa-query-expression-003f3-zrut-literal",
+      "description": "AEON ZRUT source literals preserve the named-zone payload.",
+      "input": {
+        "expression": ".zone == 2026-07-25T09:30:00Z&Australia/Melbourne"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".zone == 2026-07-25T09:30:00Z&Australia/Melbourne",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".zone"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "zrut",
+            "value": "2026-07-25T09:30:00Z&Australia/Melbourne"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut"]
+    },
+    {
       "id": "sansa-query-expression-003g-null-literal",
       "description": "AEON explicit-null source literals parse as null Query literal expressions.",
       "input": {

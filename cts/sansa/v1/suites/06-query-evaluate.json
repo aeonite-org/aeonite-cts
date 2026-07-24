@@ -213,6 +213,103 @@
                   "value": "2026-07-25T09:30:00Z"
                 },
                 {
+                  "name": "window",
+                  "address": "$.types.window",
+                  "semanticType": "time",
+                  "representationKind": "time",
+                  "scalarKind": "time",
+                  "value": "09:30:00Z"
+                },
+                {
+                  "name": "zone",
+                  "address": "$.types.zone",
+                  "semanticType": "zrut",
+                  "representationKind": "zrut",
+                  "scalarKind": "zrut",
+                  "value": "2026-07-25T09:30:00Z&Australia/Melbourne"
+                },
+                {
+                  "name": "count",
+                  "address": "$.types.count",
+                  "semanticType": "int32",
+                  "representationKind": "number",
+                  "value": 2
+                },
+                {
+                  "name": "capacity",
+                  "address": "$.types.capacity",
+                  "semanticType": "uint64",
+                  "representationKind": "number",
+                  "value": 8
+                },
+                {
+                  "name": "ratio",
+                  "address": "$.types.ratio",
+                  "semanticType": "float64",
+                  "representationKind": "number",
+                  "value": 2.5
+                },
+                {
+                  "name": "aliasNumber",
+                  "address": "$.types.aliasNumber",
+                  "semanticType": "n",
+                  "representationKind": "number",
+                  "value": 9
+                },
+                {
+                  "name": "approved",
+                  "address": "$.types.approved",
+                  "semanticType": "bool",
+                  "representationKind": "boolean",
+                  "value": true
+                },
+                {
+                  "name": "note",
+                  "address": "$.types.note",
+                  "semanticType": "trimtick",
+                  "representationKind": "string",
+                  "value": "hello trimtick"
+                },
+                {
+                  "name": "summary",
+                  "address": "$.types.summary",
+                  "semanticType": "prose",
+                  "representationKind": "string",
+                  "value": "hello prose"
+                },
+                {
+                  "name": "payloadBase64",
+                  "address": "$.types.payloadBase64",
+                  "semanticType": "base64",
+                  "representationKind": "encoding",
+                  "scalarKind": "encoding",
+                  "value": "QmFzZTY0IQ=="
+                },
+                {
+                  "name": "payloadEmbed",
+                  "address": "$.types.payloadEmbed",
+                  "semanticType": "embed",
+                  "representationKind": "encoding",
+                  "scalarKind": "encoding",
+                  "value": "QmFzZTY0IQ=="
+                },
+                {
+                  "name": "payloadInline",
+                  "address": "$.types.payloadInline",
+                  "semanticType": "inline",
+                  "representationKind": "encoding",
+                  "scalarKind": "encoding",
+                  "value": "QmFzZTY0IQ=="
+                },
+                {
+                  "name": "semver",
+                  "address": "$.types.semver",
+                  "semanticType": "kadot",
+                  "representationKind": "separator",
+                  "scalarKind": "separator",
+                  "value": "3.14.15"
+                },
+                {
                   "name": "selector",
                   "address": "$.types.selector",
                   "semanticType": "sansa",
@@ -1320,6 +1417,146 @@
       "tags": ["sansa", "query", "evaluate", "comparison", "number"]
     },
     {
+      "id": "sansa-query-evaluate-019a-numeric-subtype-filter-comparison",
+      "description": "Numeric subtype semantic labels can be selected with semantic filters and compared as finite numeric values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#int32\nwhere . >= 2\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.count"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.count"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "number", "numeric-subtype", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019b-numeric-subtype-cross-comparison",
+      "description": "Integer, unsigned integer, and floating numeric subtypes inherit finite numeric comparison once exposed as numeric values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types\nwhere .count < .ratio and .capacity > .ratio\nselect .count"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.count"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "number", "numeric-subtype"]
+    },
+    {
+      "id": "sansa-query-evaluate-019c-number-alias-filter-comparison",
+      "description": "The AEON number alias label remains visible to semantic filters while comparing as a finite numeric value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#n\nwhere . > $.types.count\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.aliasNumber"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.aliasNumber"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "number", "alias", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019d-boolean-alias-filter-comparison",
+      "description": "The AEON bool alias label remains visible to semantic filters while comparing as a Boolean value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#bool\nwhere . == true\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.approved"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.approved"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "boolean", "alias", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019e-string-family-alias-filter-comparison",
+      "description": "String-family reserved labels such as prose remain visible to semantic filters while comparing as strings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#prose\nwhere . == \"hello prose\"\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.summary"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.summary"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "string", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019f-encoding-family-alias-filter-comparison",
+      "description": "Encoding-family reserved labels such as base64 remain visible to semantic filters while comparing as encoded payloads.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#base64\nwhere . == &QmFzZTY0IQ==\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.payloadBase64"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.payloadBase64"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "encoding", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019g-separator-family-alias-filter-comparison",
+      "description": "Separator-family reserved labels such as kadot remain visible to semantic filters while comparing by naïve separator payload order.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#kadot\nwhere . > ^3.0.0\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.semver"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.semver"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "separator", "reserved-label", "semantic-filter"]
+    },
+    {
       "id": "sansa-query-evaluate-020-string-equality",
       "description": "String values may participate in same-type equality comparison.",
       "input": {
@@ -1979,6 +2216,66 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1a-time-literal-order",
+      "description": "Time source literals compare against same-family time bindings by canonical payload order.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.window\nwhere . >= 09:00:00Z\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.window"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.window"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "time", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1b-datetime-literal-equality",
+      "description": "Datetime source literals compare against same-family datetime bindings by canonical payload identity.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.stamp\nwhere . == 2026-07-25T09:30:00Z\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.stamp"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.stamp"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "datetime", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1c-zrut-literal-equality",
+      "description": "ZRUT source literals compare against same-family ZRUT bindings by preserved zone payload identity.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.zone\nwhere . == 2026-07-25T09:30:00Z&Australia/Melbourne\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.zone"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.zone"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "zrut", "literal"]
     },
     {
       "id": "sansa-query-evaluate-030g2-cross-family-temporal-comparison-rejected",
