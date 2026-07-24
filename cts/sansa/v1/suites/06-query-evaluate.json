@@ -2714,6 +2714,90 @@
       "tags": ["sansa", "query", "evaluate", "container", "node", "semantic-filter"]
     },
     {
+      "id": "sansa-query-evaluate-030ig-container-object-representation-filter",
+      "description": "Object-shaped containers remain selectable by representation kind regardless of datatype label or alias.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*%object\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.record",
+          "$.containers.packet"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.record"
+          ],
+          [
+            "$.containers.packet"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "object", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ih-container-list-representation-filter",
+      "description": "List-shaped containers remain selectable by representation kind.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*%list\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.series"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.series"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "list", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ii-container-tuple-representation-filter",
+      "description": "Tuple-shaped containers remain selectable by representation kind.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*%tuple\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.pair"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.pair"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "tuple", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ij-container-node-representation-filter",
+      "description": "Node-shaped containers remain selectable by representation kind.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*%node\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.nodeValue"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.nodeValue"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "node", "representation-filter"]
+    },
+    {
       "id": "sansa-query-evaluate-030i-container-structural-equality",
       "description": "Resolved containers of the same container kind may participate in structural equality comparison.",
       "input": {
