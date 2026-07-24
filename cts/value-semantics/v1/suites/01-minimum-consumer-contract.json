@@ -293,6 +293,28 @@
       "operation": "isValue",
       "input": { "value": { "category": "bindingSet", "count": 1 } },
       "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_030_default_profile_codepoint_string_order",
+      "description": "The default value-semantics profile uses portable codepoint string ordering.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.default.v1",
+        "left": { "category": "string", "value": "éclair" },
+        "right": { "category": "string", "value": "zebre" }
+      },
+      "expected": { "outcome": "value", "relation": "greater" }
+    },
+    {
+      "id": "value_semantics_031_explicit_codepoint_string_order",
+      "description": "The explicit codepoint string profile orders decoded Unicode scalar values from left to right.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.string.codepoint.v1",
+        "left": { "category": "string", "value": "éclair" },
+        "right": { "category": "string", "value": "zebre" }
+      },
+      "expected": { "outcome": "value", "relation": "greater" }
     }
   ]
 }
