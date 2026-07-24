@@ -191,6 +191,14 @@
                   "value": "2026-07-25"
                 },
                 {
+                  "name": "stamp",
+                  "address": "$.types.stamp",
+                  "semanticType": "datetime",
+                  "representationKind": "datetime",
+                  "scalarKind": "datetime",
+                  "value": "2026-07-25T09:30:00Z"
+                },
+                {
                   "name": "selector",
                   "address": "$.types.selector",
                   "semanticType": "sansa",
@@ -1919,11 +1927,51 @@
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "hex", "radix", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-030g-temporal-comparison-requires-profile",
-      "description": "Temporal values are preserved but do not compare without an active temporal value-semantics profile.",
+      "id": "sansa-query-evaluate-030g-temporal-equality",
+      "description": "Same-family temporal values compare by canonical temporal payload identity.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.types.released\nwhere . == $.types.released\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.released"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.released"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1-temporal-literal-order",
+      "description": "Temporal source literals compare against same-family temporal bindings by canonical payload order.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#date\nwhere . > 2025-01-01\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.released"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.released"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g2-cross-family-temporal-comparison-rejected",
+      "description": "Different temporal families do not compare by implicit coercion.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.stamp\nwhere . > $.types.released\nselect ."
       },
       "expected": {
         "ok": false,
@@ -1932,20 +1980,7 @@
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "negative"]
     },
     {
-      "id": "sansa-query-evaluate-030g1-temporal-literal-comparison-requires-profile",
-      "description": "Temporal source literals parse, but temporal comparison still requires an active temporal value-semantics profile.",
-      "input": {
-        "namespace": "inventory-values",
-        "source": "from $.types.released\nwhere . == 2026-07-25\nselect ."
-      },
-      "expected": {
-        "ok": false,
-        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
-      },
-      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "literal", "negative"]
-    },
-    {
-      "id": "sansa-query-evaluate-030g2-null-literal-comparison-rejected",
+      "id": "sansa-query-evaluate-030g3-null-literal-comparison-rejected",
       "description": "Explicit null source literals parse, but null comparison is rejected in favor of null predicates.",
       "input": {
         "namespace": "inventory-values",

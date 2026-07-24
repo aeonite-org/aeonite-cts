@@ -315,6 +315,36 @@
         "right": { "category": "string", "value": "zebre" }
       },
       "expected": { "outcome": "value", "relation": "greater" }
+    },
+    {
+      "id": "value_semantics_032_same_family_temporal_order",
+      "description": "Same-family temporal values order by canonical temporal payload in the minimum profile.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "temporal", "semanticType": "date", "value": "2026-07-25" },
+        "right": { "category": "temporal", "semanticType": "date", "value": "2025-01-01" }
+      },
+      "expected": { "outcome": "value", "relation": "greater" }
+    },
+    {
+      "id": "value_semantics_033_same_family_temporal_equality",
+      "description": "Same-family temporal equality compares canonical temporal payload identity.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "temporal", "semanticType": "date", "value": "2026-07-25" },
+        "right": { "category": "temporal", "semanticType": "date", "value": "2026-07-25" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_034_cross_family_temporal_order_error",
+      "description": "Different temporal families do not compare by implicit coercion.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "temporal", "semanticType": "datetime", "value": "2026-07-25T09:30:00Z" },
+        "right": { "category": "temporal", "semanticType": "date", "value": "2026-07-25" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "mixed_categories" }
     }
   ]
 }
