@@ -720,6 +720,104 @@
               ]
             },
             {
+              "name": "containers",
+              "address": "$.containers",
+              "semanticType": "object",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "record",
+                  "address": "$.containers.record",
+                  "semanticType": "obj",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "id",
+                      "address": "$.containers.record.id",
+                      "semanticType": "number",
+                      "representationKind": "number",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "name": "packet",
+                  "address": "$.containers.packet",
+                  "semanticType": "envelope",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "ok",
+                      "address": "$.containers.packet.ok",
+                      "semanticType": "boolean",
+                      "representationKind": "boolean",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "name": "series",
+                  "address": "$.containers.series",
+                  "semanticType": "list<number>",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.containers.series[0]",
+                      "semanticType": "number",
+                      "representationKind": "number",
+                      "value": 1
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.containers.series[1]",
+                      "semanticType": "number",
+                      "representationKind": "number",
+                      "value": 2
+                    }
+                  ]
+                },
+                {
+                  "name": "pair",
+                  "address": "$.containers.pair",
+                  "semanticType": "tuple",
+                  "representationKind": "tuple",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.containers.pair[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "x"
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.containers.pair[1]",
+                      "semanticType": "number",
+                      "representationKind": "number",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "name": "nodeValue",
+                  "address": "$.containers.nodeValue",
+                  "semanticType": "node",
+                  "representationKind": "node",
+                  "nodeTag": "tag",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.containers.nodeValue[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "hello"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "name": "labels",
               "address": "$.labels",
               "representationKind": "list",
@@ -2414,6 +2512,126 @@
         "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
       },
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "follow", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ia-container-object-semantic-filter",
+      "description": "Container datatype labels remain visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers#object\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ib-container-object-alias-semantic-filter",
+      "description": "Object aliases such as obj remain visible as semantic filter labels.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#obj\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.record"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.record"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "alias", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ic-container-envelope-semantic-filter",
+      "description": "Reserved object labels such as envelope remain visible as semantic filter labels.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#envelope\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.packet"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.packet"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030id-container-list-generic-semantic-filter",
+      "description": "Semantic filters match the base of generic list datatype claims.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#list\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.series"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.series"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "list", "generic", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ie-container-tuple-semantic-filter",
+      "description": "Tuple datatype labels remain visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#tuple\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.pair"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.pair"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "tuple", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030if-container-node-semantic-filter",
+      "description": "Node datatype labels remain visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#node\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.nodeValue"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.nodeValue"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "node", "semantic-filter"]
     },
     {
       "id": "sansa-query-evaluate-030i-container-structural-equality",
