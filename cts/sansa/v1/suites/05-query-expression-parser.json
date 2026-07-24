@@ -286,7 +286,7 @@
       "tags": ["sansa", "query", "expression", "function", "null", "numeric-special"]
     },
     {
-      "id": "sansa-query-expression-007a-ordinary-value-predicate",
+      "id": "sansa-query-expression-007a-concrete-value-predicate",
       "description": "isValue parses as a deterministic function-call expression.",
       "input": {
         "expression": "isValue(.status)"
