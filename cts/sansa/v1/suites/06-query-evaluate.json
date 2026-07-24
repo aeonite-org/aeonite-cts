@@ -2481,6 +2481,46 @@
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "coercion"]
     },
     {
+      "id": "sansa-query-evaluate-030h1a-clone-reference-representation-filter",
+      "description": "Clone references remain selectable by their concrete representation kind without implicit follow.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.*%cloneReference\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.targetClone"
+        ],
+        "selectedAddresses": [
+          [
+            "$.targetClone"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "reference", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h1b-pointer-reference-representation-filter",
+      "description": "Pointer references remain selectable by their concrete representation kind without implicit follow.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.*%pointerReference\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.targetPointer"
+        ],
+        "selectedAddresses": [
+          [
+            "$.targetPointer"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "reference", "representation-filter"]
+    },
+    {
       "id": "sansa-query-evaluate-030h2-follow-reference-target-value",
       "description": "follow(...) explicitly traverses a reference target before value comparison or projection.",
       "input": {
