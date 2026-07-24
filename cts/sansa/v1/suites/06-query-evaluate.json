@@ -1372,6 +1372,36 @@
       "tags": ["sansa", "query", "evaluate", "nan", "numeric-special"]
     },
     {
+      "id": "sansa-query-evaluate-016a-null-generic-semantic-filter",
+      "description": "Semantic filters match the base of generic null datatype claims before null predicates inspect the value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.status#null) and isNullReason(.status, \"notSet\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "null", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-016b-nan-generic-semantic-filter",
+      "description": "Semantic filters match the base of generic NaN datatype claims before NaN predicates inspect the value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.metric#nan) and isNaN(.metric)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "nan", "semantic-filter", "numeric-special"]
+    },
+    {
       "id": "sansa-query-evaluate-017-infinity-predicate",
       "description": "isInfinity tests explicit Infinity values.",
       "input": {
@@ -1385,6 +1415,21 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "infinity", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-evaluate-017a-infinity-generic-semantic-filter",
+      "description": "Semantic filters match the base of generic Infinity datatype claims before Infinity predicates inspect the value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.ceiling#infinity) and isInfinity(.ceiling)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "infinity", "semantic-filter", "numeric-special"]
     },
     {
       "id": "sansa-query-evaluate-018-nan-comparison-invalid",
