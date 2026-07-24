@@ -455,6 +455,28 @@
         "right": { "category": "referenceForm", "value": { "kind": "pointer", "target": "$.target" } }
       },
       "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_046_default_string_order_is_not_natural_ascii",
+      "description": "The default string profile does not perform numeric-region natural sorting.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.default.v1",
+        "left": { "category": "string", "value": "part-2" },
+        "right": { "category": "string", "value": "part-10" }
+      },
+      "expected": { "outcome": "value", "relation": "greater" }
+    },
+    {
+      "id": "value_semantics_047_natural_ascii_string_order",
+      "description": "The explicit Natural ASCII profile compares ASCII digit runs numerically.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.string.natural.ascii.v1",
+        "left": { "category": "string", "value": "part-2" },
+        "right": { "category": "string", "value": "part-10" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
     }
   ]
 }
