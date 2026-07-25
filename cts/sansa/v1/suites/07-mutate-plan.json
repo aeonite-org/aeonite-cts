@@ -288,6 +288,31 @@
       }
     },
     {
+      "id": "sansa-mutate-0040-preserve-create-datatype",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "selector",
+          "datatype": "sansa",
+          "value": "$.items.*"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "target": "$.inventory",
+            "datatype": "sansa"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-mutate-004a-reject-create-non-container-parent",
       "tags": ["experimental"],
       "input": {
