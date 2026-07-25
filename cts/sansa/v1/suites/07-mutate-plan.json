@@ -279,6 +279,63 @@
       }
     },
     {
+      "id": "sansa-mutate-008a-plan-with-preconditions",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "preconditions": [
+          {
+            "expression": "$.inventory.sku == \"A-100\""
+          },
+          {
+            "target": "$.inventory.sku",
+            "expression": ". == \"A-100\""
+          }
+        ],
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.sku"
+          }
+        ],
+        "preconditions": [
+          "$.inventory.sku == \"A-100\"",
+          ". == \"A-100\""
+        ]
+      }
+    },
+    {
+      "id": "sansa-mutate-008b-reject-failed-precondition",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "preconditions": [
+          {
+            "expression": "$.inventory.sku == \"C-300\""
+          }
+        ],
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_PRECONDITION_FAILED"
+      }
+    },
+    {
       "id": "sansa-mutate-009-same-container-move",
       "tags": ["experimental"],
       "input": {
