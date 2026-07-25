@@ -114,6 +114,13 @@ Rules:
 - `planOptions` applies only to `planMutation`.
 - `applyOptions` applies only to `applyMutationPlan`.
 
+Successful Mutate apply cases may assert `operationStatuses` and
+`operationReports`. `operationReports` compares named fields on each operation
+result, including role addresses such as `targetAddress`, `parentAddress`,
+`containerAddress`, `sourceAddress`, and `anchorAddress`, plus
+`previousAddress`, `affectedAddress`, and `resultingAddress` when expected.
+Unknown report fields are non-normative unless a suite explicitly expects them.
+
 Failed Mutate cases may assert `error`, `errorPhase`, `errorBudget`,
 `errorLimit`, `errorObserved`, and `operationIndex`. Mutate budget exhaustion is
 a planning or apply failure, never a partial plan or partial mutation. A

@@ -152,6 +152,14 @@
       "expected": {
         "ok": true,
         "operationStatuses": ["applied"],
+        "operationReports": [
+          {
+            "targetAddress": "$.inventory.sku",
+            "previousAddress": "$.inventory.sku",
+            "affectedAddress": "$.inventory.sku",
+            "resultingAddress": "$.inventory.sku"
+          }
+        ],
         "valuesByAddress": {
           "$.inventory.sku": "B-200"
         }
@@ -172,6 +180,13 @@
       },
       "expected": {
         "ok": true,
+        "operationReports": [
+          {
+            "parentAddress": "$.inventory",
+            "affectedAddress": "$.inventory.status",
+            "resultingAddress": "$.inventory.status"
+          }
+        ],
         "childrenByAddress": {
           "$.inventory": ["sku", "name", "status"]
         },
@@ -232,6 +247,83 @@
       }
     },
     {
+      "id": "sansa-mutate-006a-apply-remove-report",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "remove",
+          "target": "$.inventory.name"
+        },
+        "mode": "apply"
+      },
+      "expected": {
+        "ok": true,
+        "operationReports": [
+          {
+            "targetAddress": "$.inventory.name",
+            "previousAddress": "$.inventory.name",
+            "affectedAddress": "$.inventory.name"
+          }
+        ],
+        "childrenByAddress": {
+          "$.inventory": ["sku"]
+        }
+      }
+    },
+    {
+      "id": "sansa-mutate-006b-reject-target-miss",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.missing",
+          "value": "x"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-mutate-006c-reject-unsupported-operation",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "rename",
+          "target": "$.inventory.sku",
+          "name": "code"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_UNSUPPORTED_OPERATION"
+      }
+    },
+    {
+      "id": "sansa-mutate-006d-reject-unsupported-placement",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": "middle",
+          "value": "x"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_UNSUPPORTED_PLACEMENT"
+      }
+    },
+    {
       "id": "sansa-mutate-007-reject-duplicate-destructive-target",
       "tags": ["experimental"],
       "input": {
@@ -273,6 +365,14 @@
       },
       "expected": {
         "ok": true,
+        "operationReports": [
+          {
+            "containerAddress": "$.items",
+            "anchorAddress": "$.items[1]",
+            "affectedAddress": "$.items[inserted]",
+            "resultingAddress": "$.items[inserted]"
+          }
+        ],
         "childrenValuesByAddress": {
           "$.items": ["first", "middle", "second"]
         }
@@ -476,6 +576,15 @@
       },
       "expected": {
         "ok": true,
+        "operationReports": [
+          {
+            "sourceAddress": "$.items[0]",
+            "containerAddress": "$.items",
+            "previousAddress": "$.items[0]",
+            "affectedAddress": "$.items[0]",
+            "resultingAddress": "$.items[0]"
+          }
+        ],
         "childrenValuesByAddress": {
           "$.items": ["second", "first"]
         }
@@ -497,6 +606,48 @@
       "expected": {
         "ok": false,
         "error": "SANSA_MUTATE_INVALID_MOVE_CONTAINER"
+      }
+    },
+    {
+      "id": "sansa-mutate-010a-reject-anchor-outside-container",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.archive",
+          "placement": {
+            "kind": "before",
+            "anchor": "$.items[0]"
+          },
+          "value": "x"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_INVALID_ANCHOR"
+      }
+    },
+    {
+      "id": "sansa-mutate-010b-reject-move-self-anchor",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "move",
+          "source": "$.items[0]",
+          "container": "$.items",
+          "placement": {
+            "kind": "before",
+            "anchor": "$.items[0]"
+          }
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_INVALID_MOVE_ANCHOR"
       }
     },
     {
@@ -541,6 +692,26 @@
       "expected": {
         "ok": false,
         "error": "SANSA_MUTATE_UNSUPPORTED_ADAPTER_OPERATION"
+      }
+    },
+    {
+      "id": "sansa-mutate-013-require-atomic-apply",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "read-only-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "apply",
+        "applyOptions": {
+          "requireAtomic": true
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_ATOMIC_APPLY_UNAVAILABLE"
       }
     }
   ]
