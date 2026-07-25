@@ -126,6 +126,9 @@ Rules:
 - `applyOptions.requireAtomic: true` requires the adapter to advertise
   `supportsAtomicApply: true`; otherwise apply must fail before invoking
   mutation hooks.
+- `hookFailureBeforeApply` is a test-runner fixture control for apply cases. It
+  simulates a host mutation hook returning `{ "ok": false }` for a specific
+  operation and address after planning has succeeded.
 
 Successful Mutate plan cases may assert `sourceProvenance`. Planned operation
 expectations may also assert operation-level `provenance`. Provenance is inert
@@ -145,8 +148,9 @@ result, including role addresses such as `targetAddress`, `parentAddress`,
 Unknown report fields are non-normative unless a suite explicitly expects them.
 
 Failed Mutate cases may assert `error`, `errorPhase`, `errorBudget`,
-`errorLimit`, `errorObserved`, and `operationIndex`. Mutate budget exhaustion is
-a planning or apply failure, never a partial plan or partial mutation. A
+`errorLimit`, `errorObserved`, `operationIndex`, `operationStatuses`, and
+`operationReports`. Mutate budget exhaustion is a planning or apply failure,
+never a partial plan or partial mutation. A
 conforming Mutate implementation that accepts a CTS-supplied budget should
 report:
 

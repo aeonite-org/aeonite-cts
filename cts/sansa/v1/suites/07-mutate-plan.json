@@ -1244,6 +1244,49 @@
       }
     },
     {
+      "id": "sansa-mutate-013b-non-atomic-hook-failure-reports-partial-results",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.sku",
+            "value": "B-200"
+          },
+          {
+            "op": "replace",
+            "target": "$.inventory.name",
+            "value": "Bracket"
+          }
+        ],
+        "mode": "apply",
+        "hookFailureBeforeApply": {
+          "op": "replace",
+          "address": "$.inventory.name",
+          "message": "CTS host rejected name update"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_APPLY_FAILED",
+        "operationIndex": 1,
+        "operationStatuses": ["applied"],
+        "operationReports": [
+          {
+            "targetAddress": "$.inventory.sku",
+            "previousAddress": "$.inventory.sku",
+            "affectedAddress": "$.inventory.sku",
+            "resultingAddress": "$.inventory.sku"
+          }
+        ],
+        "valuesByAddress": {
+          "$.inventory.sku": "B-200",
+          "$.inventory.name": "Adapter"
+        }
+      }
+    },
+    {
       "id": "sansa-mutate-014-reject-disabled-operation-capability",
       "tags": ["experimental"],
       "input": {
