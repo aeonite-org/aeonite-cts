@@ -36,7 +36,22 @@
                   "semanticType": "string",
                   "representationKind": "string",
                   "value": "A-100",
-                  "revision": 0
+                  "revision": 0,
+                  "attributeSpace": {
+                    "id": "sku-attributes",
+                    "address": "$.inventory.sku.@",
+                    "representationKind": "attributeSpace",
+                    "children": [
+                      {
+                        "id": "sku-origin",
+                        "name": "origin",
+                        "address": "$.inventory.sku.@.origin",
+                        "semanticType": "string",
+                        "representationKind": "string",
+                        "value": "catalog"
+                      }
+                    ]
+                  }
                 },
                 {
                   "id": "name",
@@ -270,6 +285,72 @@
       "expected": {
         "ok": false,
         "error": "SANSA_MUTATE_TARGET_EXISTS"
+      }
+    },
+    {
+      "id": "sansa-mutate-004a-reject-create-non-container-parent",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory.sku",
+          "name": "status",
+          "value": "active"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_PARENT_NOT_CONTAINER"
+      }
+    },
+    {
+      "id": "sansa-mutate-004aa-create-attribute-space-member",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory.sku.@",
+          "name": "status",
+          "value": "active"
+        },
+        "mode": "apply"
+      },
+      "expected": {
+        "ok": true,
+        "operationReports": [
+          {
+            "parentAddress": "$.inventory.sku.@",
+            "affectedAddress": "$.inventory.sku.@.status",
+            "resultingAddress": "$.inventory.sku.@.status"
+          }
+        ],
+        "childrenByAddress": {
+          "$.inventory.sku.@": ["origin", "status"]
+        },
+        "valuesByAddress": {
+          "$.inventory.sku.@.status": "active"
+        }
+      }
+    },
+    {
+      "id": "sansa-mutate-004b-reject-insert-non-ordered-container",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.inventory.sku",
+          "placement": "last",
+          "value": "x"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_CONTAINER_NOT_ORDERED"
       }
     },
     {
