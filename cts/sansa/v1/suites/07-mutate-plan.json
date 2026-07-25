@@ -157,6 +157,35 @@
         }
       },
       {
+        "id": "mutable-non-atomic",
+        "supportsMutation": true,
+        "supportsAtomicApply": false,
+        "root": {
+          "id": "$",
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "id": "inventory",
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "id": "sku",
+                  "name": "sku",
+                  "address": "$.inventory.sku",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "A-100",
+                  "revision": 0
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
         "id": "mutable-replace-disabled",
         "supportsMutation": true,
         "supportsAtomicApply": true,
@@ -1189,6 +1218,29 @@
       "expected": {
         "ok": false,
         "error": "SANSA_MUTATE_ATOMIC_APPLY_UNAVAILABLE"
+      }
+    },
+    {
+      "id": "sansa-mutate-013a-require-atomic-apply-rejects-non-atomic-mutation-adapter",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-non-atomic",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "apply",
+        "applyOptions": {
+          "requireAtomic": true
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_ATOMIC_APPLY_UNAVAILABLE",
+        "valuesByAddress": {
+          "$.inventory.sku": "A-100"
+        }
       }
     },
     {
