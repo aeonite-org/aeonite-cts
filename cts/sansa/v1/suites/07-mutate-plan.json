@@ -362,6 +362,106 @@
       }
     },
     {
+      "id": "sansa-mutate-008d-plan-operation-budget",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.sku",
+            "value": "B-200"
+          },
+          {
+            "op": "replace",
+            "target": "$.inventory.name",
+            "value": "Bracket"
+          }
+        ],
+        "mode": "plan",
+        "options": {
+          "budget": {
+            "maxOperations": 1
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_BUDGET_EXCEEDED",
+        "errorPhase": "plan",
+        "errorBudget": "maxOperations",
+        "errorLimit": 1,
+        "errorObserved": 2
+      }
+    },
+    {
+      "id": "sansa-mutate-008e-plan-precondition-budget",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "preconditions": [
+          {
+            "expression": "$.inventory.sku == \"A-100\""
+          },
+          {
+            "expression": "$.inventory.name == \"Adapter\""
+          }
+        ],
+        "mode": "plan",
+        "options": {
+          "budget": {
+            "maxPreconditions": 1
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_BUDGET_EXCEEDED",
+        "errorPhase": "plan",
+        "errorBudget": "maxPreconditions",
+        "errorLimit": 1,
+        "errorObserved": 2
+      }
+    },
+    {
+      "id": "sansa-mutate-008f-apply-operation-budget",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.sku",
+            "value": "B-200"
+          },
+          {
+            "op": "replace",
+            "target": "$.inventory.name",
+            "value": "Bracket"
+          }
+        ],
+        "mode": "apply",
+        "applyOptions": {
+          "budget": {
+            "maxOperations": 1
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_BUDGET_EXCEEDED",
+        "errorPhase": "apply",
+        "errorBudget": "maxOperations",
+        "errorLimit": 1,
+        "errorObserved": 2
+      }
+    },
+    {
       "id": "sansa-mutate-009-same-container-move",
       "tags": ["experimental"],
       "input": {

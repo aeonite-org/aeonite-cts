@@ -87,3 +87,41 @@ Budget exhaustion is an evaluation failure, never implicit truncation. A conform
 - the budget name;
 - the configured limit;
 - the observed count.
+
+## Mutate Inputs
+
+Mutate cases use structured requests rather than mutation source text:
+
+```json
+{
+  "namespace": "fixture-id",
+  "operation": {
+    "op": "replace",
+    "target": "$.inventory.sku",
+    "value": "B-200"
+  },
+  "mode": "plan"
+}
+```
+
+Rules:
+
+- `operation` supplies one requested operation.
+- `operations` supplies a list of requested operations.
+- `preconditions` supplies structured precondition expressions.
+- `mode` is `plan` or `apply`.
+- `options` applies to both planning and apply unless `planOptions` or `applyOptions` is supplied.
+- `planOptions` applies only to `planMutation`.
+- `applyOptions` applies only to `applyMutationPlan`.
+
+Failed Mutate cases may assert `error`, `errorPhase`, `errorBudget`,
+`errorLimit`, `errorObserved`, and `operationIndex`. Mutate budget exhaustion is
+a planning or apply failure, never a partial plan or partial mutation. A
+conforming Mutate implementation that accepts a CTS-supplied budget should
+report:
+
+- `SANSA_MUTATE_BUDGET_EXCEEDED`
+- the `plan` or `apply` phase;
+- the budget name;
+- the configured limit;
+- the observed count.
