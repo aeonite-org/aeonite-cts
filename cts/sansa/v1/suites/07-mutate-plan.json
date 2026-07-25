@@ -336,6 +336,32 @@
       }
     },
     {
+      "id": "sansa-mutate-008c-recheck-precondition-before-apply",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "preconditions": [
+          {
+            "expression": "$.inventory.name == \"Adapter\""
+          }
+        ],
+        "mode": "apply",
+        "driftBeforeApply": {
+          "replaceBindingAtAddress": "$.inventory.name",
+          "value": "Bracket"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_PRECONDITION_FAILED"
+      }
+    },
+    {
       "id": "sansa-mutate-009-same-container-move",
       "tags": ["experimental"],
       "input": {
