@@ -340,6 +340,59 @@
       }
     },
     {
+      "id": "sansa-mutate-0042-preserve-replace-datatype-kind",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "datatype": "sansa",
+          "kind": "sansa",
+          "value": "$.items.*"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.sku",
+            "datatype": "sansa",
+            "kind": "sansa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-mutate-0043-preserve-insert-datatype-kind",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": "last",
+          "datatype": "brandColor",
+          "kind": "hex",
+          "value": "00ff00"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "target": "$.items",
+            "datatype": "brandColor",
+            "kind": "hex"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-mutate-004a-reject-create-non-container-parent",
       "tags": ["experimental"],
       "input": {
