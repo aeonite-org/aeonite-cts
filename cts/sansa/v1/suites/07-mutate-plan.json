@@ -786,6 +786,99 @@
       }
     },
     {
+      "id": "sansa-mutate-008ea-plan-value-node-budget",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.sku",
+            "value": {
+              "text": "A-101"
+            }
+          },
+          {
+            "op": "insert",
+            "container": "$.items",
+            "placement": "last",
+            "value": ["x", "y"]
+          }
+        ],
+        "mode": "plan",
+        "options": {
+          "budget": {
+            "maxValueNodes": 4
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_BUDGET_EXCEEDED",
+        "errorPhase": "plan",
+        "errorBudget": "maxValueNodes",
+        "errorLimit": 4,
+        "errorObserved": 5
+      }
+    },
+    {
+      "id": "sansa-mutate-008eb-plan-value-depth-budget",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "nested",
+          "value": {
+            "outer": {
+              "inner": "value"
+            }
+          }
+        },
+        "mode": "plan",
+        "options": {
+          "budget": {
+            "maxValueDepth": 2
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_BUDGET_EXCEEDED",
+        "errorPhase": "plan",
+        "errorBudget": "maxValueDepth",
+        "errorLimit": 2,
+        "errorObserved": 3
+      }
+    },
+    {
+      "id": "sansa-mutate-008ec-plan-string-length-budget",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "ABCDEFGHIJ"
+        },
+        "mode": "plan",
+        "options": {
+          "budget": {
+            "maxStringLength": 4
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_BUDGET_EXCEEDED",
+        "errorPhase": "plan",
+        "errorBudget": "maxStringLength",
+        "errorLimit": 4,
+        "errorObserved": 10
+      }
+    },
+    {
       "id": "sansa-mutate-008f-apply-operation-budget",
       "tags": ["experimental"],
       "input": {
