@@ -21,6 +21,9 @@ Mutable namespace fixtures may expose adapter capability flags such as
 `supportsOrderedInsert`, `supportsMove`, `supportsStableBindingIdentity`, and
 `supportsAtomicApply`. An explicit `false` operation flag means the adapter must
 reject that operation even if a host-specific hook exists.
+`supportsAtomicApply` is only required when a Mutate case supplies
+`applyOptions.requireAtomic: true`; otherwise apply atomicity remains an adapter
+and consumer contract outside the CTS assertion.
 
 ## Query Evaluation Inputs
 
@@ -120,6 +123,9 @@ Rules:
 - `options` applies to both planning and apply unless `planOptions` or `applyOptions` is supplied.
 - `planOptions` applies only to `planMutation`.
 - `applyOptions` applies only to `applyMutationPlan`.
+- `applyOptions.requireAtomic: true` requires the adapter to advertise
+  `supportsAtomicApply: true`; otherwise apply must fail before invoking
+  mutation hooks.
 
 Successful Mutate plan cases may assert `sourceProvenance`. Planned operation
 expectations may also assert operation-level `provenance`. Provenance is inert
