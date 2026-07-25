@@ -963,6 +963,76 @@
       }
     },
     {
+      "id": "sansa-mutate-011a-reject-stale-insert-anchor",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": {
+            "kind": "before",
+            "anchor": "$.items[1]"
+          },
+          "value": "middle"
+        },
+        "mode": "apply",
+        "driftBeforeApply": {
+          "replaceBindingAtAddress": "$.items[1]",
+          "with": {
+            "id": "replacement",
+            "index": 1,
+            "address": "$.items[1]",
+            "semanticType": "string",
+            "representationKind": "string",
+            "value": "replacement"
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_STALE_TARGET",
+        "childrenValuesByAddress": {
+          "$.items": ["first", "replacement"]
+        }
+      }
+    },
+    {
+      "id": "sansa-mutate-011b-reject-stale-move-anchor",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "move",
+          "source": "$.items[0]",
+          "container": "$.items",
+          "placement": {
+            "kind": "after",
+            "anchor": "$.items[1]"
+          }
+        },
+        "mode": "apply",
+        "driftBeforeApply": {
+          "replaceBindingAtAddress": "$.items[1]",
+          "with": {
+            "id": "replacement",
+            "index": 1,
+            "address": "$.items[1]",
+            "semanticType": "string",
+            "representationKind": "string",
+            "value": "replacement"
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_STALE_TARGET",
+        "childrenValuesByAddress": {
+          "$.items": ["first", "replacement"]
+        }
+      }
+    },
+    {
       "id": "sansa-mutate-012-reject-apply-without-mutation-adapter",
       "tags": ["experimental"],
       "input": {
