@@ -1,0 +1,364 @@
+{
+  "meta": {
+    "suite_id": "mutate-plan",
+    "lane": "sansa-mutate",
+    "capability": "SANSA.Mutate",
+    "profile": "mutate-plan",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/mutate-v1.md"
+    ],
+    "description": "Experimental structured mutation-plan behavior over host-neutral mutable fixtures."
+  },
+  "id": "mutate-plan",
+  "title": "SANSA Mutate Structured Plan Coverage",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "mutable-inventory",
+        "supportsMutation": true,
+        "supportsAtomicApply": true,
+        "root": {
+          "id": "$",
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "id": "inventory",
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "id": "sku",
+                  "name": "sku",
+                  "address": "$.inventory.sku",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "A-100",
+                  "revision": 0
+                },
+                {
+                  "id": "name",
+                  "name": "name",
+                  "address": "$.inventory.name",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "Adapter",
+                  "revision": 0
+                }
+              ]
+            },
+            {
+              "id": "items",
+              "name": "items",
+              "address": "$.items",
+              "representationKind": "list",
+              "children": [
+                {
+                  "id": "first",
+                  "index": 0,
+                  "address": "$.items[0]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "first",
+                  "revision": 0
+                },
+                {
+                  "id": "second",
+                  "index": 1,
+                  "address": "$.items[1]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "second",
+                  "revision": 0
+                }
+              ]
+            },
+            {
+              "id": "archive",
+              "name": "archive",
+              "address": "$.archive",
+              "representationKind": "list",
+              "children": []
+            }
+          ]
+        }
+      },
+      {
+        "id": "read-only-inventory",
+        "supportsMutation": false,
+        "root": {
+          "id": "$",
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "id": "inventory",
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "id": "sku",
+                  "name": "sku",
+                  "address": "$.inventory.sku",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "A-100"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-mutate-001-plan-replace-exact",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.sku"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-mutate-002-apply-replace",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "apply"
+      },
+      "expected": {
+        "ok": true,
+        "operationStatuses": ["applied"],
+        "valuesByAddress": {
+          "$.inventory.sku": "B-200"
+        }
+      }
+    },
+    {
+      "id": "sansa-mutate-003-create-targets-parent-not-missing-child",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "status",
+          "value": "active"
+        },
+        "mode": "apply"
+      },
+      "expected": {
+        "ok": true,
+        "childrenByAddress": {
+          "$.inventory": ["sku", "name", "status"]
+        },
+        "valuesByAddress": {
+          "$.inventory.status": "active"
+        }
+      }
+    },
+    {
+      "id": "sansa-mutate-004-create-is-not-upsert",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "sku",
+          "value": "C-300"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_EXISTS"
+      }
+    },
+    {
+      "id": "sansa-mutate-005-reject-expanded-target",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.*",
+          "value": "x"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_NON_EXACT_TARGET"
+      }
+    },
+    {
+      "id": "sansa-mutate-006-reject-root-remove",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "remove",
+          "target": "$"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_ROOT_REMOVE_FORBIDDEN"
+      }
+    },
+    {
+      "id": "sansa-mutate-007-reject-duplicate-destructive-target",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.sku",
+            "value": "B-200"
+          },
+          {
+            "op": "remove",
+            "target": "$.inventory.sku"
+          }
+        ],
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_DUPLICATE_TARGET",
+        "operationIndex": 1
+      }
+    },
+    {
+      "id": "sansa-mutate-008-ordered-insert-before-anchor",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": {
+            "kind": "before",
+            "anchor": "$.items[1]"
+          },
+          "value": "middle"
+        },
+        "mode": "apply"
+      },
+      "expected": {
+        "ok": true,
+        "childrenValuesByAddress": {
+          "$.items": ["first", "middle", "second"]
+        }
+      }
+    },
+    {
+      "id": "sansa-mutate-009-same-container-move",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "move",
+          "source": "$.items[0]",
+          "container": "$.items",
+          "placement": "last"
+        },
+        "mode": "apply"
+      },
+      "expected": {
+        "ok": true,
+        "childrenValuesByAddress": {
+          "$.items": ["second", "first"]
+        }
+      }
+    },
+    {
+      "id": "sansa-mutate-010-reject-cross-container-move",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "move",
+          "source": "$.items[0]",
+          "container": "$.archive",
+          "placement": "last"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_INVALID_MOVE_CONTAINER"
+      }
+    },
+    {
+      "id": "sansa-mutate-011-reject-stale-positional-target",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "remove",
+          "target": "$.items[1]"
+        },
+        "mode": "apply",
+        "driftBeforeApply": {
+          "replaceBindingAtAddress": "$.items[1]",
+          "with": {
+            "id": "replacement",
+            "index": 1,
+            "address": "$.items[1]",
+            "semanticType": "string",
+            "representationKind": "string",
+            "value": "replacement"
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_STALE_TARGET"
+      }
+    },
+    {
+      "id": "sansa-mutate-012-reject-apply-without-mutation-adapter",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "read-only-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "apply"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_UNSUPPORTED_ADAPTER_OPERATION"
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Lane Contract: SANSA (`cts/sansa/v1`)
 
-This lane validates SANSA Addressing, Resolve, and Query behavior over host-neutral fixtures.
+This lane validates SANSA Addressing, Resolve, Query, and proposal-stage Mutate behavior over host-neutral fixtures.
 
 SANSA CTS assets currently use manifest and suite JSON files rather than the generic stdin/stdout SUT envelope described in `runner-contract.md`. Implementations may adapt these assets into their own runner shape, but the expectation fields in the suite files are normative for conformance comparison.
 
@@ -12,6 +12,9 @@ SANSA CTS assets currently use manifest and suite JSON files rather than the gen
 - `04-query-parser.json`: Query clause parsing and canonical rendering.
 - `05-query-expression-parser.json`: Query expression parsing and AST-shape expectations.
 - `06-query-evaluate.json`: Query evaluation behavior over host-neutral binding fixtures.
+- `07-mutate-plan.json`: experimental structured mutation-plan behavior over mutable host-neutral binding fixtures.
+
+The Mutate suite is proposal-stage and should be treated as an experimental lane unless a manifest or implementation explicitly opts into `SANSA.Mutate`.
 
 ## Query Evaluation Inputs
 

@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "sansa-mutate",
+    "capability": "SANSA.Mutate",
+    "profile": "mutate-plan",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Experimental SANSA Mutate structured-plan CTS scaffold for proposal-stage implementation slices"
+  },
+  "suites": [
+    {
+      "id": "mutate-plan",
+      "file": "suites/07-mutate-plan.json"
+    }
+  ]
+}
