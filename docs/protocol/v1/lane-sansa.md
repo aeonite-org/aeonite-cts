@@ -109,10 +109,21 @@ Rules:
 - `operation` supplies one requested operation.
 - `operations` supplies a list of requested operations.
 - `preconditions` supplies structured precondition expressions.
+- `provenance` supplies inert request-envelope provenance when present.
 - `mode` is `plan` or `apply`.
 - `options` applies to both planning and apply unless `planOptions` or `applyOptions` is supplied.
 - `planOptions` applies only to `planMutation`.
 - `applyOptions` applies only to `applyMutationPlan`.
+
+Successful Mutate plan cases may assert `sourceProvenance`. Planned operation
+expectations may also assert operation-level `provenance`. Provenance is inert
+metadata and must not be interpreted as mutation source text, authorization
+policy, validation policy, or resolver configuration.
+
+Successful Mutate plan cases may assert `portabilityWarnings` as diagnostic
+codes. These warnings indicate locally accepted SANSA inputs that exceed the
+portable v1 floor. They do not make the plan fail, but they must remain
+inspectable when the implementation exposes them.
 
 Successful Mutate apply cases may assert `operationStatuses` and
 `operationReports`. `operationReports` compares named fields on each operation
