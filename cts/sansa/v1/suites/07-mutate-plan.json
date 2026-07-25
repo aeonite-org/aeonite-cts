@@ -313,6 +313,33 @@
       }
     },
     {
+      "id": "sansa-mutate-0041-preserve-create-kind",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "color",
+          "datatype": "brandColor",
+          "kind": "hex",
+          "value": "ff00aa"
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "target": "$.inventory",
+            "datatype": "brandColor",
+            "kind": "hex"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-mutate-004a-reject-create-non-container-parent",
       "tags": ["experimental"],
       "input": {
