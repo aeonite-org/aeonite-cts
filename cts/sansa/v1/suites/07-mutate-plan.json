@@ -912,6 +912,35 @@
       }
     },
     {
+      "id": "sansa-mutate-008fa-apply-value-budget",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "ABCDEFGHIJ"
+        },
+        "mode": "apply",
+        "applyOptions": {
+          "budget": {
+            "maxStringLength": 4
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_BUDGET_EXCEEDED",
+        "errorPhase": "apply",
+        "errorBudget": "maxStringLength",
+        "errorLimit": 4,
+        "errorObserved": 10,
+        "valuesByAddress": {
+          "$.inventory.sku": "A-100"
+        }
+      }
+    },
+    {
       "id": "sansa-mutate-008g-plan-portability-warning",
       "tags": ["experimental"],
       "input": {
