@@ -140,6 +140,36 @@
             }
           ]
         }
+      },
+      {
+        "id": "mutable-replace-disabled",
+        "supportsMutation": true,
+        "supportsAtomicApply": true,
+        "supportsReplace": false,
+        "root": {
+          "id": "$",
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "id": "inventory",
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "id": "sku",
+                  "name": "sku",
+                  "address": "$.inventory.sku",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "A-100",
+                  "revision": 0
+                }
+              ]
+            }
+          ]
+        }
       }
     ]
   },
@@ -781,6 +811,26 @@
       "expected": {
         "ok": false,
         "error": "SANSA_MUTATE_ATOMIC_APPLY_UNAVAILABLE"
+      }
+    },
+    {
+      "id": "sansa-mutate-014-reject-disabled-operation-capability",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-replace-disabled",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "apply"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_UNSUPPORTED_ADAPTER_OPERATION",
+        "valuesByAddress": {
+          "$.inventory.sku": "A-100"
+        }
       }
     }
   ]

@@ -16,6 +16,12 @@ SANSA CTS assets currently use manifest and suite JSON files rather than the gen
 
 The Mutate suite is proposal-stage and should be treated as an experimental lane unless a manifest or implementation explicitly opts into `SANSA.Mutate`.
 
+Mutable namespace fixtures may expose adapter capability flags such as
+`supportsCreate`, `supportsReplace`, `supportsRemove`,
+`supportsOrderedInsert`, `supportsMove`, `supportsStableBindingIdentity`, and
+`supportsAtomicApply`. An explicit `false` operation flag means the adapter must
+reject that operation even if a host-specific hook exists.
+
 ## Query Evaluation Inputs
 
 Query evaluation cases use:
@@ -143,3 +149,7 @@ report:
 - the budget name;
 - the configured limit;
 - the observed count.
+
+Failed Mutate cases may also assert fixture state with `valuesByAddress`,
+`childrenByAddress`, or `childrenValuesByAddress` to prove a rejected request did
+not apply a partial mutation.
