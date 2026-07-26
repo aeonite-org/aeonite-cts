@@ -163,5 +163,8 @@ report:
 - the observed count.
 
 Failed Mutate cases may also assert fixture state with `valuesByAddress`,
-`childrenByAddress`, or `childrenValuesByAddress` to prove a rejected request did
-not apply a partial mutation.
+`childrenByAddress`, or `childrenValuesByAddress`. For planning failures,
+budget failures, stale-target failures, capability failures, and other failures
+before mutation hooks run, these assertions prove that no partial mutation was
+applied. For consumer-selected non-atomic hook failures, these assertions may
+instead prove the documented partial execution state.
