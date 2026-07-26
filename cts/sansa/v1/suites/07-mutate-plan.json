@@ -422,6 +422,88 @@
       }
     },
     {
+      "id": "sansa-mutate-0044-target-aeon-accepts-plain-replace",
+      "tags": ["experimental", "target-surface"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0045-target-aeon-rejects-invalid-generic-datatype",
+      "tags": ["experimental", "target-surface"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "textProbe",
+          "datatype": "string<null>",
+          "value": ""
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "string<null>"
+      }
+    },
+    {
+      "id": "sansa-mutate-0046-target-json-accepts-plain-replace",
+      "tags": ["experimental", "target-surface"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "plan",
+        "target": "json"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0047-target-json-rejects-sansa-datatype-intent",
+      "tags": ["experimental", "target-surface"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "selector",
+          "datatype": "sansa",
+          "value": "$.items.*"
+        },
+        "mode": "plan",
+        "target": "json"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "json",
+        "errorDatatype": "sansa"
+      }
+    },
+    {
       "id": "sansa-mutate-004a-reject-create-non-container-parent",
       "tags": ["experimental"],
       "input": {
