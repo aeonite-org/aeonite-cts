@@ -128,7 +128,9 @@ Rules:
   mutation hooks.
 - `hookFailureBeforeApply` is a test-runner fixture control for apply cases. It
   simulates a host mutation hook returning `{ "ok": false }` for a specific
-  operation and address after planning has succeeded.
+  operation and address after planning has succeeded. If it includes
+  `"throw": true`, the simulated hook throws instead of returning a failure
+  object.
 
 Successful Mutate plan cases may assert `sourceProvenance`. Planned operation
 expectations may also assert operation-level `provenance`. Provenance is inert

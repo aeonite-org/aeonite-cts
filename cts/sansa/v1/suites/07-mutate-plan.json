@@ -1287,6 +1287,34 @@
       }
     },
     {
+      "id": "sansa-mutate-013c-thrown-hook-failure-reports-apply-failed",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "apply",
+        "hookFailureBeforeApply": {
+          "op": "replace",
+          "address": "$.inventory.sku",
+          "throw": true,
+          "message": "CTS host hook threw during replace"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_APPLY_FAILED",
+        "operationIndex": 0,
+        "operationStatuses": [],
+        "valuesByAddress": {
+          "$.inventory.sku": "A-100"
+        }
+      }
+    },
+    {
       "id": "sansa-mutate-014-reject-disabled-operation-capability",
       "tags": ["experimental"],
       "input": {
