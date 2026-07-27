@@ -291,6 +291,153 @@
         "ok": false,
         "error": "SANSA_INSTRUCTION_MULTIPLE_MUTATION_VERBS"
       }
+    },
+    {
+      "id": "sansa-instruction-010-parse-canonicalizes-type-value-delimiter",
+      "description": "Type-first value annotation may omit the comma in source but canonical form includes it.",
+      "tags": ["experimental", "parse", "value"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.count with :int32 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "create $.inventory.count with :int32, 10",
+        "clauses": ["create"]
+      }
+    },
+    {
+      "id": "sansa-instruction-011-lower-candidate-relative-insert",
+      "description": "Candidate-relative ordered insert lowers container and anchor addresses for each selected candidate.",
+      "tags": ["experimental", "lower", "ordered"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ninsert after .tags[0] in .tags with \"sale\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[0].tags",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[0].tags[0]"
+            },
+            "kind": "string",
+            "value": "sale"
+          },
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].tags",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[1].tags[0]"
+            },
+            "kind": "string",
+            "value": "sale"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012-plan-direct-move",
+      "description": "Direct move instructions plan source, ordered container, and placement intent.",
+      "tags": ["experimental", "plan", "ordered"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.items[1] first in $.inventory.items"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.items[1]",
+            "container": "$.inventory.items",
+            "placement": {
+              "kind": "first"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-013-plan-object-container-literal",
+      "description": "Instruction object literals preserve object datatype and representation intent.",
+      "tags": ["experimental", "plan", "value", "container"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.settings with :object, { enabled = true, status = false }"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "settings",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "enabled": true,
+              "status": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-014-plan-list-container-literal",
+      "description": "Instruction list literals preserve generic datatype intent and list representation intent.",
+      "tags": ["experimental", "plan", "value", "container"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.aliases with :list<string>, [\"adapter\", \"driver\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "aliases",
+            "datatype": "list<string>",
+            "kind": "list",
+            "value": ["adapter", "driver"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-015-plan-node-container-literal",
+      "description": "Instruction node literals preserve node datatype and representation intent.",
+      "tags": ["experimental", "plan", "value", "container"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.badge with :node, <badge(\"new\", 3)>"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "badge",
+            "datatype": "node",
+            "kind": "node",
+            "value": {
+              "tag": "badge",
+              "children": ["new", 3]
+            }
+          }
+        ]
+      }
     }
   ]
 }
