@@ -1,0 +1,296 @@
+{
+  "meta": {
+    "suite_id": "instruction",
+    "lane": "sansa-instruction",
+    "capability": "SANSA.Instruction",
+    "profile": "instruction-parse-lower-plan",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/instruction-v1.md",
+      "aeonite-specs/sansa/v1/proposals/mutate-v1.md"
+    ],
+    "description": "Experimental instruction parse/lower/plan behavior over host-neutral fixtures."
+  },
+  "id": "instruction",
+  "title": "SANSA Instruction Parse, Lower, Plan, And Target Coverage",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "instruction-inventory",
+        "root": {
+          "id": "$",
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "id": "inventory",
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "id": "items",
+                  "name": "items",
+                  "address": "$.inventory.items",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "id": "item-0",
+                      "index": 0,
+                      "address": "$.inventory.items[0]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "id": "item-0-sku",
+                          "name": "sku",
+                          "address": "$.inventory.items[0].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "A-100",
+                          "revision": 0
+                        },
+                        {
+                          "id": "item-0-qty",
+                          "name": "qty",
+                          "address": "$.inventory.items[0].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 0,
+                          "revision": 0
+                        },
+                        {
+                          "id": "item-0-tags",
+                          "name": "tags",
+                          "address": "$.inventory.items[0].tags",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "id": "item-0-tags-0",
+                              "index": 0,
+                              "address": "$.inventory.items[0].tags[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "core"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "item-1",
+                      "index": 1,
+                      "address": "$.inventory.items[1]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "id": "item-1-sku",
+                          "name": "sku",
+                          "address": "$.inventory.items[1].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "B-200",
+                          "revision": 0
+                        },
+                        {
+                          "id": "item-1-qty",
+                          "name": "qty",
+                          "address": "$.inventory.items[1].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 4,
+                          "revision": 0
+                        },
+                        {
+                          "id": "item-1-tags",
+                          "name": "tags",
+                          "address": "$.inventory.items[1].tags",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "id": "item-1-tags-0",
+                              "index": 0,
+                              "address": "$.inventory.items[1].tags[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "core"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-instruction-001-parse-direct-replace",
+      "description": "Direct replace instruction parses to canonical instruction source.",
+      "tags": ["experimental", "parse"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.inventory.items[0].qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "replace $.inventory.items[0].qty with :int32, 10",
+        "clauses": ["replace"]
+      }
+    },
+    {
+      "id": "sansa-instruction-002-lower-candidate-relative-replace",
+      "description": "Query-shaped instruction lowers candidate-relative targets into exact mutation requests.",
+      "tags": ["experimental", "lower"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .qty == 0\nreplace .qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-003-lower-candidate-relative-create",
+      "description": "Candidate-relative create lowers to one create operation per selected candidate.",
+      "tags": ["experimental", "lower"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ncreate status with \"active\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "target": "$.inventory.items[0]",
+            "name": "status",
+            "kind": "string",
+            "value": "active"
+          },
+          {
+            "op": "create",
+            "target": "$.inventory.items[1]",
+            "name": "status",
+            "kind": "string",
+            "value": "active"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-004-plan-preserves-source-provenance",
+      "description": "Instruction planning preserves source provenance and exact planned target metadata.",
+      "tags": ["experimental", "plan"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .qty == 0\nreplace .qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "sourceProvenanceType": "SansaInstruction",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-005-lower-reports-target-miss",
+      "description": "Candidate-relative target misses remain lowering failures.",
+      "tags": ["experimental", "lower", "diagnostic"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nreplace .missing with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "lower",
+        "error": "SANSA_INSTRUCTION_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-instruction-006-plan-reports-mutate-target-exists",
+      "description": "Lowered requests keep downstream Mutate planning failures distinct from lowering failures.",
+      "tags": ["experimental", "plan", "diagnostic"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ncreate sku with \"duplicate\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_TARGET_EXISTS"
+      }
+    },
+    {
+      "id": "sansa-instruction-007-target-aeon-accepts-compatible-plan",
+      "description": "Instruction target checks run after successful planning and can accept AEON-compatible intent.",
+      "tags": ["experimental", "target-surface"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "replace $.inventory.items[0].sku with \"A-101\""
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008-target-json-rejects-sansa-datatype-intent",
+      "description": "Instruction can lower to valid SANSA.Mutate intent that a JSON target surface cannot represent.",
+      "tags": ["experimental", "target-surface"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.selectorProbe with :sansa, $.inventory.items.*"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "sansa"
+      }
+    },
+    {
+      "id": "sansa-instruction-009-parse-rejects-multiple-mutation-verbs",
+      "description": "One Instruction contains one mutation intent.",
+      "tags": ["experimental", "parse", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.inventory.qty with 10\nremove $.inventory.oldQty"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_MULTIPLE_MUTATION_VERBS"
+      }
+    }
+  ]
+}
