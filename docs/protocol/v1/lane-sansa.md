@@ -1,6 +1,6 @@
 # Lane Contract: SANSA (`cts/sansa/v1`)
 
-This lane validates SANSA Addressing, Resolve, Query, and proposal-stage Mutate behavior over host-neutral fixtures.
+This lane validates SANSA Addressing, Resolve, Query, proposal-stage Instruction, and proposal-stage Mutate behavior over host-neutral fixtures.
 
 SANSA CTS assets currently use manifest and suite JSON files rather than the generic stdin/stdout SUT envelope described in `runner-contract.md`. Implementations may adapt these assets into their own runner shape, but the expectation fields in the suite files are normative for conformance comparison.
 
@@ -13,8 +13,11 @@ SANSA CTS assets currently use manifest and suite JSON files rather than the gen
 - `05-query-expression-parser.json`: Query expression parsing and AST-shape expectations.
 - `06-query-evaluate.json`: Query evaluation behavior over host-neutral binding fixtures.
 - `07-mutate-plan.json`: experimental structured mutation-plan behavior over mutable host-neutral binding fixtures.
+- `08-instruction.json`: experimental Instruction parse, lower, plan, and target-surface behavior over host-neutral binding fixtures.
 
-The Mutate suite is proposal-stage and should be treated as an experimental lane unless a manifest or implementation explicitly opts into `SANSA.Mutate`.
+The Instruction and Mutate suites are proposal-stage and should be treated as
+experimental lanes unless a manifest or implementation explicitly opts into
+`SANSA.Instruction` or `SANSA.Mutate`.
 
 Mutable namespace fixtures may expose adapter capability flags such as
 `supportsCreate`, `supportsReplace`, `supportsRemove`,
@@ -86,6 +89,38 @@ Rules:
 - `errorExtension` compares extension identity for disabled or unsupported extension diagnostics.
 - `errorBudget`, `errorLimit`, and `errorObserved` compare budget diagnostics when expected.
 - Unknown diagnostic fields are non-normative unless a suite explicitly adds an expectation field for them.
+
+## Instruction Inputs
+
+Instruction cases use human-authored instruction source rather than structured
+mutation requests:
+
+```json
+{
+  "namespace": "fixture-id",
+  "source": "from $.inventory.items.*\nwhere .qty == 0\nreplace .qty with :int32, 10",
+  "mode": "plan"
+}
+```
+
+Rules:
+
+- `source` supplies proposal-stage SANSA Instruction source text.
+- `mode` is `parse`, `lower`, `plan`, or `target`.
+- `namespace` is required for candidate-relative `from` or `where` lowering,
+  planning, and target checks.
+- `target` is used only with `mode: "target"` and names the target surface that
+  validates representability after successful planning.
+- Instruction source lowers to SANSA.Mutate request operations. It does not
+  replace the structured Mutate plan model.
+
+Successful Instruction parse cases may assert `canonical` and `clauses`.
+Successful lower and plan cases may assert normalized `operations`. Successful
+plan cases may also assert `sourceProvenanceType`.
+
+Failed Instruction cases may assert `error`, `errorPhase`,
+`errorTargetFormat`, and `errorDatatype`. Lowering failures, downstream Mutate
+planning failures, and target-surface failures must remain distinguishable.
 
 ## Budget Diagnostics
 
