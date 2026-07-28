@@ -217,6 +217,31 @@
       }
     },
     {
+      "id": "sansa-instruction-004a-plan-preserves-claimed-provenance",
+      "description": "Because and by clauses are inert instruction provenance and are preserved on source provenance.",
+      "tags": ["experimental", "plan", "provenance"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "because \"manual correction\"\nby \"Bob\"\nreplace $.inventory.items[0].qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "sourceProvenanceType": "SansaInstruction",
+        "sourceProvenanceReason": "manual correction",
+        "sourceProvenanceClaimedAuthor": "Bob",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-005-lower-reports-target-miss",
       "description": "Candidate-relative target misses remain lowering failures.",
       "tags": ["experimental", "lower", "diagnostic"],
