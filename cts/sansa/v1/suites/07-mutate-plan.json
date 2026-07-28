@@ -3,15 +3,15 @@
     "suite_id": "mutate-plan",
     "lane": "sansa-mutate",
     "capability": "SANSA.Mutate",
-    "profile": "mutate-plan",
+    "profile": "mutate-plan-and-policy",
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
       "aeonite-specs/sansa/v1/proposals/mutate-v1.md"
     ],
-    "description": "Experimental structured mutation-plan behavior over host-neutral mutable fixtures."
+    "description": "Experimental structured mutation-plan and policy-boundary behavior over host-neutral mutable fixtures."
   },
   "id": "mutate-plan",
-  "title": "SANSA Mutate Structured Plan Coverage",
+  "title": "SANSA Mutate Structured Plan And Policy Coverage",
   "fixtures": {
     "namespaces": [
       {
