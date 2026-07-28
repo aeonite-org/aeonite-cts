@@ -387,6 +387,34 @@
       }
     },
     {
+      "id": "sansa-instruction-012b-lower-require-precondition",
+      "description": "Require clauses lower into candidate-scoped Mutate preconditions rather than filtering candidates.",
+      "tags": ["experimental", "lower", "precondition"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .sku == \"A-100\"\nrequire .qty == 0\nreplace .qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ],
+        "preconditions": [
+          {
+            "expression": ".qty == 0",
+            "target": "$.inventory.items[0]"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-013-plan-object-container-literal",
       "description": "Instruction object literals preserve object datatype and representation intent.",
       "tags": ["experimental", "plan", "value", "container"],
