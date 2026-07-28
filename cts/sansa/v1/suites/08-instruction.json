@@ -143,6 +143,22 @@
       }
     },
     {
+      "id": "sansa-instruction-001a-parse-canonicalizes-claimed-provenance",
+      "description": "Claimed provenance clauses parse and canonicalize before mutation intent.",
+      "tags": ["experimental", "parse", "provenance"],
+      "input": {
+        "mode": "parse",
+        "source": "because \"manual correction\"\nby \"Bob\"\nreplace $.inventory.items[0].qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "because \"manual correction\"\nby \"Bob\"\nreplace $.inventory.items[0].qty with :int32, 10",
+        "clauses": ["because", "by", "replace"],
+        "provenanceReason": "manual correction",
+        "provenanceClaimedAuthor": "Bob"
+      }
+    },
+    {
       "id": "sansa-instruction-002-lower-candidate-relative-replace",
       "description": "Query-shaped instruction lowers candidate-relative targets into exact mutation requests.",
       "tags": ["experimental", "lower"],
@@ -239,6 +255,19 @@
             "value": 10
           }
         ]
+      }
+    },
+    {
+      "id": "sansa-instruction-004b-parse-rejects-reversed-claimed-provenance",
+      "description": "Claimed provenance clauses must preserve grammar order: because, then by.",
+      "tags": ["experimental", "parse", "provenance", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "by \"Bob\"\nbecause \"manual correction\"\nreplace $.inventory.items[0].qty with :int32, 10"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_CLAUSE_ORDER"
       }
     },
     {
