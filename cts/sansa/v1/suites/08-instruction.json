@@ -365,6 +365,28 @@
       }
     },
     {
+      "id": "sansa-instruction-012a-lower-append-alias",
+      "description": "Append instruction syntax lowers as an insert-last operation rather than a distinct Mutate verb.",
+      "tags": ["experimental", "lower", "ordered", "alias"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "append $.inventory.items[1].tags with \"clearance\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].tags",
+            "placement": "last",
+            "kind": "string",
+            "value": "clearance"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-013-plan-object-container-literal",
       "description": "Instruction object literals preserve object datatype and representation intent.",
       "tags": ["experimental", "plan", "value", "container"],
