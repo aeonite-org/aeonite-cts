@@ -504,6 +504,129 @@
       }
     },
     {
+      "id": "sansa-mutate-0048-policy-allows-planned-intent",
+      "tags": ["experimental", "policy"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku",
+              "datatypes": ["string"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-0049-policy-rejects-unsupported-top-level-field",
+      "tags": ["experimental", "policy", "authority"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "actor": "Bob",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_INVALID",
+        "errorPhase": "policy"
+      }
+    },
+    {
+      "id": "sansa-mutate-0049a-policy-rejects-unsupported-rule-field",
+      "tags": ["experimental", "policy", "authority"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku",
+              "rewrite": {
+                "value": "C-300"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_INVALID",
+        "errorPhase": "policy",
+        "ruleIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-0049b-policy-rejects-claimed-provenance-authority",
+      "tags": ["experimental", "policy", "authority", "provenance"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "preconditions": [],
+        "provenance": {
+          "type": "SansaInstruction",
+          "claimedAuthor": "Bob"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku",
+              "by": "Bob"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_INVALID",
+        "errorPhase": "policy",
+        "ruleIndex": 0
+      }
+    },
+    {
       "id": "sansa-mutate-004a-reject-create-non-container-parent",
       "tags": ["experimental"],
       "input": {
