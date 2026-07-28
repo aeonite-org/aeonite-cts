@@ -531,6 +531,65 @@
       }
     },
     {
+      "id": "sansa-mutate-0048a-policy-default-deny-rejects-unmatched-intent",
+      "tags": ["experimental", "policy", "authority"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.name",
+          "value": "Brace"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-0048b-policy-explicit-deny-rule-rejects-intent",
+      "tags": ["experimental", "policy", "authority"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "allow",
+          "rules": [
+            {
+              "allow": false,
+              "operations": ["replace"],
+              "target": "$.inventory.sku"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0,
+        "ruleIndex": 0
+      }
+    },
+    {
       "id": "sansa-mutate-0049-policy-rejects-unsupported-top-level-field",
       "tags": ["experimental", "policy", "authority"],
       "input": {
@@ -623,6 +682,36 @@
         "ok": false,
         "error": "SANSA_MUTATE_POLICY_INVALID",
         "errorPhase": "policy",
+        "ruleIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-0049c-policy-rejects-invalid-address-matcher",
+      "tags": ["experimental", "policy", "authority", "address"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.["
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_INVALID_ADDRESS",
+        "errorPhase": "policy",
+        "operationIndex": 0,
         "ruleIndex": 0
       }
     },
