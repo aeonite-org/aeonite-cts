@@ -542,6 +542,88 @@
           }
         ]
       }
+    },
+    {
+      "id": "sansa-instruction-016-parse-quoted-create-member",
+      "description": "Create destinations may use quoted member names when the member cannot be written as a bare identifier.",
+      "tags": ["experimental", "parse", "create"],
+      "input": {
+        "mode": "parse",
+        "source": "create \"display name\" with \"Adapter\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "create \"display name\" with \"Adapter\"",
+        "clauses": ["create"]
+      }
+    },
+    {
+      "id": "sansa-instruction-017-lower-attribute-create-destination",
+      "description": "Attribute-space create destinations lower through the .@.attribute address form.",
+      "tags": ["experimental", "lower", "create", "attribute"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.@.selector with :sansa, $.inventory.items.*"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory.@",
+            "name": "selector",
+            "datatype": "sansa",
+            "kind": "sansa",
+            "value": "$.inventory.items.*"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018-target-aeon-rejects-unsupported-generic-datatype-intent",
+      "description": "Instruction can express datatype intent that the AEON target surface rejects after planning.",
+      "tags": ["experimental", "target-surface", "value"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.textProbe with :string<null>, \"\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "string<null>"
+      }
+    },
+    {
+      "id": "sansa-instruction-019-lower-rejects-positional-create-destination",
+      "description": "Create may name a new member but does not create positional children by address spelling.",
+      "tags": ["experimental", "lower", "diagnostic", "create"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.items[2] with \"sale\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_CREATE_DESTINATION_NOT_MEMBER"
+      }
+    },
+    {
+      "id": "sansa-instruction-020-parse-rejects-extra-value-comma",
+      "description": "The optional comma is only the delimiter between explicit datatype intent and the value payload.",
+      "tags": ["experimental", "parse", "diagnostic", "value"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.status with :int32 344,"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_UNEXPECTED_EXPRESSION_TOKEN"
+      }
     }
   ]
 }
