@@ -635,6 +635,29 @@
       }
     },
     {
+      "id": "sansa-instruction-015a-plan-tuple-container-literal",
+      "description": "Instruction tuple literals preserve tuple datatype and representation intent.",
+      "tags": ["experimental", "plan", "value", "container"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.pairing with :tuple, (\"sku\", 7)"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "pairing",
+            "datatype": "tuple",
+            "kind": "tuple",
+            "value": ["sku", 7]
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-016-parse-quoted-create-member",
       "description": "Create destinations may use quoted member names when the member cannot be written as a bare identifier.",
       "tags": ["experimental", "parse", "create"],
@@ -687,6 +710,75 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorTargetFormat": "aeon",
         "errorDatatype": "string<null>"
+      }
+    },
+    {
+      "id": "sansa-instruction-018a-plan-csv-scalar-datatype-intent",
+      "description": "Typed scalar values preserve datatype intent separately from string representation.",
+      "tags": ["experimental", "plan", "value", "scalar"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.format with :csv[\",\"], \"sku,name\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "format",
+            "datatype": "csv[\",\"]",
+            "kind": "string",
+            "value": "sku,name"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018b-plan-null-scalar-datatype-intent",
+      "description": "Typed explicit-null values preserve datatype intent separately from null representation.",
+      "tags": ["experimental", "plan", "value", "scalar", "null"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.absent with :null<string>, !notApplicable"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "absent",
+            "datatype": "null<string>",
+            "kind": "null",
+            "value": "notApplicable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018c-plan-reference-scalar-datatype-intent",
+      "description": "Reference-family values preserve datatype intent separately from reference representation.",
+      "tags": ["experimental", "plan", "value", "scalar", "reference"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.copy with :number, ~target"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "copy",
+            "datatype": "number",
+            "kind": "cloneReference",
+            "value": "target"
+          }
+        ]
       }
     },
     {
