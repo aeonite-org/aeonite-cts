@@ -624,6 +624,167 @@
         "ok": false,
         "error": "SANSA_QUERY_UNEXPECTED_EXPRESSION_TOKEN"
       }
+    },
+    {
+      "id": "sansa-instruction-021-lower-candidate-relative-remove",
+      "description": "Candidate-relative remove lowers selected targets into exact remove operations.",
+      "tags": ["experimental", "lower", "remove"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .qty == 0\nremove .sku"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "remove",
+            "target": "$.inventory.items[0].sku"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-022-lower-candidate-relative-append-in-alias",
+      "description": "Candidate-relative append-in syntax lowers as insert-last against each selected container.",
+      "tags": ["experimental", "lower", "ordered", "alias"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nappend in .tags with \"new\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[0].tags",
+            "placement": "last",
+            "kind": "string",
+            "value": "new"
+          },
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].tags",
+            "placement": "last",
+            "kind": "string",
+            "value": "new"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-023-lower-candidate-relative-move",
+      "description": "Candidate-relative move lowers source and container addresses for each selected candidate.",
+      "tags": ["experimental", "lower", "ordered", "move"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nmove .tags[0] first in .tags"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.items[0].tags[0]",
+            "container": "$.inventory.items[0].tags",
+            "placement": "first"
+          },
+          {
+            "op": "move",
+            "source": "$.inventory.items[1].tags[0]",
+            "container": "$.inventory.items[1].tags",
+            "placement": "first"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-024-lower-repeated-require-preconditions",
+      "description": "Repeated require clauses lower into multiple candidate-scoped Mutate preconditions.",
+      "tags": ["experimental", "lower", "precondition"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .sku == \"A-100\"\nrequire .qty == 0\nrequire .sku == \"A-100\"\nreplace .qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ],
+        "preconditions": [
+          {
+            "expression": ".qty == 0",
+            "target": "$.inventory.items[0]"
+          },
+          {
+            "expression": ".sku == \"A-100\"",
+            "target": "$.inventory.items[0]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-025-target-json-rejects-tuple-container-value",
+      "description": "JSON target validation rejects tuple value intent after successful instruction planning.",
+      "tags": ["experimental", "target-surface", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.pair with :tuple, (\"sku\", 7)"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "tuple"
+      }
+    },
+    {
+      "id": "sansa-instruction-026-target-json-rejects-node-container-value",
+      "description": "JSON target validation rejects node value intent after successful instruction planning.",
+      "tags": ["experimental", "target-surface", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.badge with :node, <badge(\"new\", 3)>"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "node"
+      }
+    },
+    {
+      "id": "sansa-instruction-027-target-json-rejects-reference-value",
+      "description": "JSON target validation rejects AEON reference-family payloads after successful instruction planning.",
+      "tags": ["experimental", "target-surface", "value", "reference"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.copy with :number, ~target"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "cloneReference"
+      }
     }
   ]
 }
