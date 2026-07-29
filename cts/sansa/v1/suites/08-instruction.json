@@ -919,6 +919,178 @@
         "errorPhase": "plan",
         "error": "SANSA_MUTATE_INVALID_MOVE_ANCHOR"
       }
+    },
+    {
+      "id": "sansa-instruction-036-parse-strips-comments",
+      "description": "Instruction comments are lexical trivia and do not appear in canonical source.",
+      "tags": ["experimental", "parse", "comments"],
+      "input": {
+        "mode": "parse",
+        "source": "because \"manual correction\" // source note\n/* choose selected item */\nreplace $.inventory.qty with /* typed payload */ :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "because \"manual correction\"\nreplace $.inventory.qty with :int32, 10",
+        "clauses": ["because", "replace"],
+        "provenanceReason": "manual correction"
+      }
+    },
+    {
+      "id": "sansa-instruction-037-parse-complex-datatype-intent",
+      "description": "Instruction datatype intent accepts SANSA qualifier grammar without assigning target semantics.",
+      "tags": ["experimental", "parse", "value", "datatype"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.relationship with :relationship<sibling>[brother], \"Bob\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "create $.relationship with :relationship<sibling>[brother], \"Bob\"",
+        "clauses": ["create"]
+      }
+    },
+    {
+      "id": "sansa-instruction-038-parse-rejects-unterminated-block-comment",
+      "description": "Unterminated block comments are instruction parse failures.",
+      "tags": ["experimental", "parse", "comments", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.qty with 1 /* unterminated"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_UNTERMINATED_BLOCK_COMMENT"
+      }
+    },
+    {
+      "id": "sansa-instruction-039-parse-rejects-empty-quoted-create-member",
+      "description": "Quoted create member names must not be empty.",
+      "tags": ["experimental", "parse", "create", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create \"\" with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_CREATE_DESTINATION"
+      }
+    },
+    {
+      "id": "sansa-instruction-040-parse-rejects-trailing-quoted-create-member-text",
+      "description": "Quoted create member destinations do not admit trailing tokens before with.",
+      "tags": ["experimental", "parse", "create", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create \"display\" extra with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_CREATE_DESTINATION"
+      }
+    },
+    {
+      "id": "sansa-instruction-041-parse-rejects-unterminated-object-value",
+      "description": "Unterminated object value literals are instruction value parse failures.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { enabled = true"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-042-parse-rejects-duplicate-object-field",
+      "description": "Instruction object value literals reject duplicate field names rather than silently taking the last value.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { enabled = true enabled = false }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_DUPLICATE_OBJECT_FIELD"
+      }
+    },
+    {
+      "id": "sansa-instruction-043-parse-rejects-empty-list-item",
+      "description": "Instruction list value literals reject empty items.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :list, [\"a\", , \"b\"]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_EXPECTED_VALUE"
+      }
+    },
+    {
+      "id": "sansa-instruction-044-parse-rejects-empty-tuple-item",
+      "description": "Instruction tuple value literals reject empty items.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :tuple, (\"a\", )"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_EXPECTED_VALUE"
+      }
+    },
+    {
+      "id": "sansa-instruction-045-parse-rejects-invalid-node-tag",
+      "description": "Instruction node value literals require an identifier-like tag.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :node, <123(\"a\")>"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_NODE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-046-parse-rejects-nested-datatype-union",
+      "description": "Instruction datatype intent uses SANSA qualifier grammar and inherits the nested-union restriction.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :list<string|number>, [1]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-047-parse-rejects-function-value-expression",
+      "description": "Instruction value payloads remain literal-only and reject query function expressions.",
+      "tags": ["experimental", "parse", "value", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.x with lower(\"A\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-048-parse-rejects-membership-value-expression",
+      "description": "Instruction value payloads remain literal-only and reject non-literal query expressions.",
+      "tags": ["experimental", "parse", "value", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.x with \"a\" in $.list.*"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
     }
   ]
 }
