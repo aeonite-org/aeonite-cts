@@ -28,6 +28,11 @@ reject that operation even if a host-specific hook exists.
 `applyOptions.requireAtomic: true`; otherwise apply atomicity remains an adapter
 and consumer contract outside the CTS assertion.
 
+Resolve cases may supply `maxBindings` as a non-negative integer. When an
+intermediate or final Binding Set first exceeds that bound, expected failures
+may assert `SANSA_RESOLVE_BINDING_LIMIT_EXCEEDED`, `selectorIndex`, `limit`, and
+`observed`. No partial addresses are returned.
+
 ## Query Evaluation Inputs
 
 Query evaluation cases use:
@@ -46,6 +51,12 @@ Rules:
 - `source` is the SANSA Query source text.
 - `options` is optional and maps to implementation-defined evaluator options when the option is part of a published or proposal-stage CTS surface.
 - Query budget options are supplied under `options.budget`.
+- Dynamic `path(...)` cases supply `options.addressActivation` as either the
+  explicit `trusted` test context or a constrained policy with structural
+  roots, selector capabilities, contextual-root permission, and bounds.
+- Omitting `options.addressActivation` in a case that successfully obtains a
+  structured Address value tests fail-closed activation rather than implying
+  unrestricted authority.
 
 ## Query Evaluation Expectations
 
@@ -131,6 +142,13 @@ Budget exhaustion is an evaluation failure, never implicit truncation. A conform
 - the budget name;
 - the configured limit;
 - the observed count.
+
+Dynamic-address binding limits use
+`SANSA_QUERY_PATH_ACTIVATION_BINDING_LIMIT_EXCEEDED`. They likewise return no
+partial result set and expose the configured `limit` and `observed` binding
+count. Scope or selector rejection uses `SANSA_QUERY_PATH_ACTIVATION_DENIED`;
+missing activation authority uses
+`SANSA_QUERY_PATH_ACTIVATION_POLICY_REQUIRED`.
 
 ## Mutate Inputs
 

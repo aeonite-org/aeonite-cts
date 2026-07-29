@@ -66,6 +66,26 @@
                   }
                 },
                 {
+                  "name": "parentField",
+                  "address": "$.<\"params\">.parentField",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "?.^.category"
+                  }
+                },
+                {
+                  "name": "localTarget",
+                  "address": "$.<\"params\">.localTarget",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "$.<\"params\">.field"
+                  }
+                },
+                {
                   "name": "fieldText",
                   "address": "$.<\"params\">.fieldText",
                   "semanticType": "string",
@@ -2133,7 +2153,10 @@
       "description": "path activates a structured contextual SANSA Address Literal value in select expressions.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items[1]\nselect path($.<\"params\">.field)"
+        "source": "from $.inventory.items[1]\nselect path($.<\"params\">.field)",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -2181,7 +2204,10 @@
       "description": "path may be used in where, order by, and projection expressions.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect { sku = path($.<\"params\">.field) qty = .qty }"
+        "source": "from $.inventory.items.*\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect { sku = path($.<\"params\">.field) qty = .qty }",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -2252,7 +2278,10 @@
       "description": "path may activate a structured SANSA Address Literal as the from source.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from path($.<\"params\">.source)\nwhere .qty >= 4\nselect .sku"
+        "source": "from path($.<\"params\">.source)\nwhere .qty >= 4\nselect .sku",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -2293,7 +2322,10 @@
       "description": "isValue may inspect Binding Sets produced by path.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from path($.<\"params\">.source)\nwhere isValue(path($.<\"params\">.active))\nselect path($.<\"params\">.field)"
+        "source": "from path($.<\"params\">.source)\nwhere isValue(path($.<\"params\">.active))\nselect path($.<\"params\">.field)",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -2319,6 +2351,150 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "path", "value", "local-space"]
+    },
+    {
+      "id": "sansa-query-evaluate-029k-path-policy-required",
+      "description": "Dynamic address activation fails closed when the consumer supplies no activation policy.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.field)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_POLICY_REQUIRED",
+        "errorPhase": "select",
+        "candidateAddress": "$.inventory.items[0]"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029l-path-constrained-contextual",
+      "description": "A constrained policy may activate a contextual exact address within a permitted structural root.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1]\nselect path($.<\"params\">.field)",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.inventory.items"],
+            "allowedSelectors": ["member", "position"],
+            "allowContextualRoot": true,
+            "maxAddressDepth": 2,
+            "maxBindings": 1
+          }
+        }
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.inventory.items[1]"],
+        "selectedAddresses": [["$.inventory.items[1].sku"]]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "contextual"]
+    },
+    {
+      "id": "sansa-query-evaluate-029m-path-root-denied",
+      "description": "A syntactically valid activated address is denied when it falls outside every permitted root.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nselect .sku",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.types"],
+            "allowedSelectors": ["member", "wildcard"]
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "from"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "scope", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029n-path-selector-denied",
+      "description": "A constrained activation policy rejects selectors outside its capability surface.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nselect .sku",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.inventory.items"],
+            "allowedSelectors": ["member", "position"]
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "from"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "selector", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029o-path-parent-escape-denied",
+      "description": "Parent traversal is denied when its normalized target can escape the granted structural root.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.parentField)",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.inventory.items[0]"],
+            "allowedSelectors": ["member", "position", "parent"],
+            "allowContextualRoot": true
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "select",
+        "candidateAddress": "$.inventory.items[0]"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "parent", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029p-path-local-space-denied",
+      "description": "Local address-space traversal requires an explicit activation capability.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $\nselect path($.<\"params\">.localTarget)",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$"],
+            "allowedSelectors": ["member", "position"]
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "select",
+        "candidateAddress": "$"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "local-space", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029q-path-binding-limit",
+      "description": "Activated address resolution fails without partial results when the binding bound is exceeded.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nselect .sku",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.inventory.items"],
+            "allowedSelectors": ["member", "wildcard"],
+            "maxBindings": 2
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_BINDING_LIMIT_EXCEEDED",
+        "errorPhase": "from",
+        "errorLimit": 2,
+        "errorObserved": 3
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "budget", "negative"]
     },
     {
       "id": "sansa-query-evaluate-030-unary-not",
@@ -3970,7 +4146,10 @@
       "description": "Recipe: dynamic source, dynamic Boolean predicate, dynamic order key, and dynamic projection.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from path($.<\"params\">.source)\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect path($.<\"params\">.field)"
+        "source": "from path($.<\"params\">.source)\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect path($.<\"params\">.field)",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
