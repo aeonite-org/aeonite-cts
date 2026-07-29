@@ -350,6 +350,69 @@
       }
     },
     {
+      "id": "sansa-instruction-008a-target-json-accepts-plain-object",
+      "description": "JSON target validation accepts plain JSON-compatible object intent.",
+      "tags": ["experimental", "target-surface", "json", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.settingsJson with :object, { enabled = true }"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008b-target-json-accepts-plain-list",
+      "description": "JSON target validation accepts unparameterized JSON-compatible list intent.",
+      "tags": ["experimental", "target-surface", "json", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.aliasesJson with :list, [\"adapter\", \"driver\"]"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008c-target-json-rejects-parameterized-list",
+      "description": "JSON target validation rejects parameterized list datatype intent even when the payload is array-shaped.",
+      "tags": ["experimental", "target-surface", "json", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.aliasesTypedJson with :list<string>, [\"adapter\"]"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "list<string>"
+      }
+    },
+    {
+      "id": "sansa-instruction-008d-target-aeon-accepts-parameterized-list",
+      "description": "AEON target validation can accept parameterized list datatype intent that JSON rejects.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.aliasesAeon with :list<string>, [\"adapter\"]"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
       "id": "sansa-instruction-009-parse-rejects-multiple-mutation-verbs",
       "description": "One Instruction contains one mutation intent.",
       "tags": ["experimental", "parse", "diagnostic"],
