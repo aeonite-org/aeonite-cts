@@ -8,7 +8,7 @@
     "spec_refs": [
       "aeonite-specs/sansa/v1/proposals/mutate-v1.md"
     ],
-    "description": "Experimental structured mutation-plan and policy-boundary behavior over host-neutral mutable fixtures."
+    "description": "Experimental structured mutation-plan and policy plan-filter behavior over host-neutral mutable fixtures."
   },
   "id": "mutate-plan",
   "title": "SANSA Mutate Structured Plan And Policy Coverage",

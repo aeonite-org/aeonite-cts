@@ -12,7 +12,7 @@ SANSA CTS assets currently use manifest and suite JSON files rather than the gen
 - `04-query-parser.json`: Query clause parsing and canonical rendering.
 - `05-query-expression-parser.json`: Query expression parsing and AST-shape expectations.
 - `06-query-evaluate.json`: Query evaluation behavior over host-neutral binding fixtures.
-- `07-mutate-plan.json`: experimental structured mutation-plan and policy-boundary behavior over mutable host-neutral binding fixtures.
+- `07-mutate-plan.json`: experimental structured mutation-plan and policy plan-filter behavior over mutable host-neutral binding fixtures.
 - `08-instruction.json`: experimental Instruction parse, lower, plan, and target-surface behavior over host-neutral binding fixtures.
 
 The Instruction and Mutate suites are proposal-stage and should be treated as
