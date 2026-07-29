@@ -755,7 +755,9 @@
       "expected": {
         "ok": false,
         "error": "SANSA_MUTATE_POLICY_INVALID",
-        "errorPhase": "policy"
+        "errorPhase": "policy",
+        "errorPolicyField": "actor",
+        "errorPolicyScope": "topLevel"
       }
     },
     {
@@ -787,7 +789,9 @@
         "ok": false,
         "error": "SANSA_MUTATE_POLICY_INVALID",
         "errorPhase": "policy",
-        "ruleIndex": 0
+        "ruleIndex": 0,
+        "errorPolicyField": "rewrite",
+        "errorPolicyScope": "rule"
       }
     },
     {
@@ -822,7 +826,9 @@
         "ok": false,
         "error": "SANSA_MUTATE_POLICY_INVALID",
         "errorPhase": "policy",
-        "ruleIndex": 0
+        "ruleIndex": 0,
+        "errorPolicyField": "by",
+        "errorPolicyScope": "rule"
       }
     },
     {
@@ -852,7 +858,10 @@
         "error": "SANSA_MUTATE_POLICY_INVALID_ADDRESS",
         "errorPhase": "policy",
         "operationIndex": 0,
-        "ruleIndex": 0
+        "ruleIndex": 0,
+        "errorPolicyField": "target",
+        "errorPolicyScope": "matcher",
+        "errorPolicyAddress": "$.inventory.["
       }
     },
     {
