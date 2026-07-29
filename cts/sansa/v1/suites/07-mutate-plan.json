@@ -642,6 +642,94 @@
       }
     },
     {
+      "id": "sansa-mutate-0048e-policy-singular-operation-field-allows-planned-intent",
+      "tags": ["experimental", "policy", "operation"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operation": "replace",
+              "target": "$.inventory.sku"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-0048f-policy-singular-datatype-kind-value-fields-allow-planned-intent",
+      "tags": ["experimental", "policy", "datatype", "kind", "value"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "datatype": "string",
+          "kind": "string",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operation": "replace",
+              "target": "$.inventory.sku",
+              "datatype": "string",
+              "kind": "string",
+              "value": "B-200"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-0048g-policy-singular-name-field-allows-create-intent",
+      "tags": ["experimental", "policy", "name", "create"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "status",
+          "datatype": "string",
+          "value": "active"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operation": "create",
+              "parent": "$.inventory",
+              "name": "status",
+              "datatype": "string",
+              "value": "active"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
       "id": "sansa-mutate-0049-policy-rejects-unsupported-top-level-field",
       "tags": ["experimental", "policy", "authority"],
       "input": {
