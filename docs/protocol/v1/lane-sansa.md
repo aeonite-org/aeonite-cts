@@ -12,7 +12,7 @@ SANSA CTS assets currently use manifest and suite JSON files rather than the gen
 - `04-query-parser.json`: Query clause parsing and canonical rendering.
 - `05-query-expression-parser.json`: Query expression parsing and AST-shape expectations.
 - `06-query-evaluate.json`: Query evaluation behavior over host-neutral binding fixtures.
-- `07-mutate-plan.json`: experimental structured mutation-plan behavior over mutable host-neutral binding fixtures.
+- `07-mutate-plan.json`: experimental structured mutation-plan and policy-boundary behavior over mutable host-neutral binding fixtures.
 - `08-instruction.json`: experimental Instruction parse, lower, plan, and target-surface behavior over host-neutral binding fixtures.
 
 The Instruction and Mutate suites are proposal-stage and should be treated as
@@ -154,18 +154,65 @@ Rules:
 - `operations` supplies a list of requested operations.
 - `preconditions` supplies structured precondition expressions.
 - `provenance` supplies inert request-envelope provenance when present.
-- `mode` is `plan` or `apply`.
+- `mode` is `plan`, `apply`, or `policy`.
 - `options` applies to both planning and apply unless `planOptions` or `applyOptions` is supplied.
 - `planOptions` applies only to `planMutation`.
 - `applyOptions` applies only to `applyMutationPlan`.
 - `applyOptions.requireAtomic: true` requires the adapter to advertise
   `supportsAtomicApply: true`; otherwise apply must fail before invoking
   mutation hooks.
+- `policy` is used only with `mode: "policy"` and supplies a trusted
+  consumer-side experimental policy plan filter. The policy is evaluated after
+  successful planning and before apply.
 - `hookFailureBeforeApply` is a test-runner fixture control for apply cases. It
   simulates a host mutation hook returning `{ "ok": false }` for a specific
   operation and address after planning has succeeded. If it includes
   `"throw": true`, the simulated hook throws instead of returning a failure
   object.
+
+Policy-mode cases use the same structured mutation request fields as plan
+cases, plus `policy`:
+
+```json
+{
+  "namespace": "fixture-id",
+  "operation": {
+    "op": "replace",
+    "target": "$.inventory.sku",
+    "value": "B-200"
+  },
+  "mode": "policy",
+  "policy": {
+    "default": "deny",
+    "rules": [
+      {
+        "allow": true,
+        "operation": "replace",
+        "target": "$.inventory.sku"
+      }
+    ]
+  }
+}
+```
+
+The experimental policy plan-filter surface is trusted runner or consumer
+input, not document input. It authorizes or denies already planned operations;
+it must not rewrite the plan, reinterpret runtime strings as SANSA Instruction
+source, or make invalid target values valid. Unsupported policy fields must
+fail closed rather than being ignored.
+
+Current policy CTS cases may exercise:
+
+- `default` policy behavior;
+- ordered allow and deny rules;
+- singular and plural matcher aliases such as `operation`/`operations`,
+  `datatype`/`datatypes`, `kind`/`kinds`, `name`/`names`, and `value`/`values`;
+- address-role matchers such as `target`, `parent`, `source`, `container`, and
+  `anchor`;
+- invalid policy JSON, invalid policy shape, unsupported fields, and invalid
+  address matchers;
+- provenance fields that must remain inert and must not become policy
+  authority.
 
 Successful Mutate plan cases may assert `sourceProvenance`. Planned operation
 expectations may also assert operation-level `provenance`. Provenance is inert
@@ -185,8 +232,9 @@ result, including role addresses such as `targetAddress`, `parentAddress`,
 Unknown report fields are non-normative unless a suite explicitly expects them.
 
 Failed Mutate cases may assert `error`, `errorPhase`, `errorBudget`,
-`errorLimit`, `errorObserved`, `operationIndex`, `operationStatuses`, and
-`operationReports`. Mutate budget exhaustion is a planning or apply failure,
+`errorLimit`, `errorObserved`, `operationIndex`, `ruleIndex`,
+`operationStatuses`, and `operationReports`. Mutate budget exhaustion is a
+planning or apply failure,
 never a partial plan or partial mutation. A
 conforming Mutate implementation that accepts a CTS-supplied budget should
 report:
