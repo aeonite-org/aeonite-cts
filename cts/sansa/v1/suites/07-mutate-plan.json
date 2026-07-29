@@ -531,7 +531,59 @@
       }
     },
     {
-      "id": "sansa-mutate-0048a-policy-default-deny-rejects-unmatched-intent",
+      "id": "sansa-mutate-0048a-policy-selector-address-matcher-allows-planned-intent",
+      "tags": ["experimental", "policy", "address", "selector"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.*"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-0048b-policy-operation-wildcard-allows-planned-intent",
+      "tags": ["experimental", "policy", "operation"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["*"],
+              "target": "$.inventory.sku"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-0048c-policy-default-deny-rejects-unmatched-intent",
       "tags": ["experimental", "policy", "authority"],
       "input": {
         "namespace": "mutable-inventory",
@@ -560,7 +612,7 @@
       }
     },
     {
-      "id": "sansa-mutate-0048b-policy-explicit-deny-rule-rejects-intent",
+      "id": "sansa-mutate-0048d-policy-explicit-deny-rule-rejects-intent",
       "tags": ["experimental", "policy", "authority"],
       "input": {
         "namespace": "mutable-inventory",
