@@ -363,6 +363,19 @@
       }
     },
     {
+      "id": "sansa-instruction-009a-parse-rejects-repeated-create-verbs",
+      "description": "Repeated source-level mutation clauses are rejected even when they use the same verb.",
+      "tags": ["experimental", "parse", "diagnostic", "batch-boundary"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.status with \"active\"\ncreate $.inventory.flag with true"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_MULTIPLE_MUTATION_VERBS"
+      }
+    },
+    {
       "id": "sansa-instruction-010-parse-canonicalizes-type-value-delimiter",
       "description": "Type-first value annotation may omit the comma in source but canonical form includes it.",
       "tags": ["experimental", "parse", "value"],
@@ -746,6 +759,21 @@
             "target": "$.inventory.items[0]"
           }
         ]
+      }
+    },
+    {
+      "id": "sansa-instruction-024a-plan-direct-require-precondition-failure",
+      "description": "Direct require clauses lower into Mutate preconditions and fail during planning when false.",
+      "tags": ["experimental", "plan", "precondition", "diagnostic"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "require $.inventory.items[0].sku == \"Z-999\"\nreplace $.inventory.items[0].sku with \"A-101\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_PRECONDITION_FAILED"
       }
     },
     {
