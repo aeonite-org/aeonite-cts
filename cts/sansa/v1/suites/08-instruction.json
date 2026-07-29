@@ -413,6 +413,51 @@
       }
     },
     {
+      "id": "sansa-instruction-008e-target-aeon-accepts-parameterized-object",
+      "description": "AEON target validation can accept parameterized object datatype intent while leaving schema semantics to the target profile.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.settingsAeon with :object<node>, { enabled = true }"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008f-target-aeon-accepts-parameterized-tuple",
+      "description": "AEON target validation can accept parameterized tuple datatype intent while leaving tuple member semantics to the target profile.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.pairAeon with :tuple<string>, (\"sku\", \"A-100\")"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008g-target-aeon-accepts-parameterized-node",
+      "description": "AEON target validation can accept parameterized node datatype intent while leaving child semantics to the target profile.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badgeAeon with :node<node>, <badge(<label(\"new\")>)>"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
       "id": "sansa-instruction-009-parse-rejects-multiple-mutation-verbs",
       "description": "One Instruction contains one mutation intent.",
       "tags": ["experimental", "parse", "diagnostic"],
@@ -450,6 +495,20 @@
         "ok": true,
         "canonical": "create $.inventory.count with :int32, 10",
         "clauses": ["create"]
+      }
+    },
+    {
+      "id": "sansa-instruction-010a-parse-canonicalizes-replace-type-value-delimiter",
+      "description": "The optional comma delimiter is value syntax shared by value-carrying verbs, not create-specific syntax.",
+      "tags": ["experimental", "parse", "value"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.inventory.qty with :int32 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "replace $.inventory.qty with :int32, 10",
+        "clauses": ["replace"]
       }
     },
     {
@@ -716,6 +775,31 @@
             "datatype": "tuple",
             "kind": "tuple",
             "value": ["sku", 7]
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-015b-plan-typed-append-value",
+      "description": "Instruction ordered insert values preserve datatype intent and representation kind like create and replace values.",
+      "tags": ["experimental", "plan", "value", "ordered"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "append in $.inventory.items[0].tags with :csv[\",\"], \"new,tag\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[0].tags",
+            "placement": {
+              "kind": "last"
+            },
+            "datatype": "csv[\",\"]",
+            "kind": "string",
+            "value": "new,tag"
           }
         ]
       }
