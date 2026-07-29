@@ -808,6 +808,98 @@
       }
     },
     {
+      "id": "sansa-mutate-0049g-policy-name-constraint-narrows-create-rule",
+      "tags": ["experimental", "policy", "authority", "name", "create"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "status",
+          "value": "active"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["create"],
+              "parent": "$.inventory",
+              "names": ["label"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-0049h-policy-container-constraint-narrows-insert-rule",
+      "tags": ["experimental", "policy", "authority", "container", "insert"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": "last",
+          "value": "third"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["insert"],
+              "container": "$.archive"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-0049i-policy-source-constraint-narrows-move-rule",
+      "tags": ["experimental", "policy", "authority", "source", "move"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "move",
+          "source": "$.items[0]",
+          "container": "$.items",
+          "placement": "last"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["move"],
+              "source": "$.items[1]",
+              "container": "$.items"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0
+      }
+    },
+    {
       "id": "sansa-mutate-004a-reject-create-non-container-parent",
       "tags": ["experimental"],
       "input": {
