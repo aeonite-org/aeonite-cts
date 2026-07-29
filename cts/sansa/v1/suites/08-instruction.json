@@ -119,6 +119,22 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "id": "other-tags",
+                  "name": "otherTags",
+                  "address": "$.inventory.otherTags",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "id": "other-tags-0",
+                      "index": 0,
+                      "address": "$.inventory.otherTags[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "other"
+                    }
+                  ]
                 }
               ]
             }
@@ -784,6 +800,124 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorTargetFormat": "json",
         "errorDatatype": "cloneReference"
+      }
+    },
+    {
+      "id": "sansa-instruction-028-lower-reports-candidate-relative-remove-miss",
+      "description": "Candidate-relative remove reports missing targets as lowering failures.",
+      "tags": ["experimental", "lower", "diagnostic", "remove"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nremove .missing"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-instruction-029-plan-reports-candidate-relative-append-non-ordered-container",
+      "description": "Candidate-relative append can lower successfully and then fail Mutate planning when the resolved container is not ordered.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered", "alias"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nappend .sku with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_CONTAINER_NOT_ORDERED"
+      }
+    },
+    {
+      "id": "sansa-instruction-030-lower-reports-candidate-relative-insert-anchor-miss",
+      "description": "Candidate-relative insert reports missing anchors as lowering failures.",
+      "tags": ["experimental", "lower", "diagnostic", "ordered"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ninsert after .tags[99] in .tags with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "lower",
+        "error": "SANSA_INSTRUCTION_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-instruction-031-plan-reports-insert-anchor-outside-container",
+      "description": "Ordered insert planning rejects anchors that are not direct children of the named container.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "insert before $.inventory.otherTags[0] in $.inventory.items[0].tags with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_INVALID_ANCHOR"
+      }
+    },
+    {
+      "id": "sansa-instruction-032-lower-reports-candidate-relative-move-source-miss",
+      "description": "Candidate-relative move reports missing source bindings as lowering failures.",
+      "tags": ["experimental", "lower", "diagnostic", "ordered", "move"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nmove .tags[99] first in .tags"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-instruction-033-plan-reports-candidate-relative-move-non-ordered-container",
+      "description": "Candidate-relative move can lower successfully and then fail Mutate planning when the resolved container is not ordered.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered", "move"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nmove .sku first in .sku"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_CONTAINER_NOT_ORDERED"
+      }
+    },
+    {
+      "id": "sansa-instruction-034-plan-reports-cross-container-move",
+      "description": "Conservative move planning rejects moves into a different ordered container.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered", "move"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.items[0].tags[0] last in $.inventory.otherTags"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_INVALID_MOVE_CONTAINER"
+      }
+    },
+    {
+      "id": "sansa-instruction-035-plan-reports-move-source-as-anchor",
+      "description": "Conservative move planning rejects placements relative to the moved source binding itself.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered", "move"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.items[0].tags[0] before $.inventory.items[0].tags[0] in $.inventory.items[0].tags"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_INVALID_MOVE_ANCHOR"
       }
     }
   ]
