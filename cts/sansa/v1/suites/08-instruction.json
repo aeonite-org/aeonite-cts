@@ -470,6 +470,68 @@
       }
     },
     {
+      "id": "sansa-instruction-012a1-parse-append-in-canonicalizes-to-insert-last",
+      "description": "Append-in syntax is accepted as source sugar and canonicalizes to insert last.",
+      "tags": ["experimental", "parse", "ordered", "alias"],
+      "input": {
+        "mode": "parse",
+        "source": "append in $.inventory.items[1].tags with \"clearance\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "insert last in $.inventory.items[1].tags with \"clearance\"",
+        "clauses": ["append"]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a2-lower-direct-insert-after",
+      "description": "Direct insert-after instructions lower anchor placement without using append sugar.",
+      "tags": ["experimental", "lower", "ordered"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "insert after $.inventory.items[1].tags[0] in $.inventory.items[1].tags with \"clearance\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].tags",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[1].tags[0]"
+            },
+            "kind": "string",
+            "value": "clearance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a3-plan-direct-move-last",
+      "description": "Direct move-last instructions plan as same-container ordered moves.",
+      "tags": ["experimental", "plan", "ordered", "move"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.items[0] last in $.inventory.items"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.items[0]",
+            "container": "$.inventory.items",
+            "placement": {
+              "kind": "last"
+            }
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-012b-lower-require-precondition",
       "description": "Require clauses lower into candidate-scoped Mutate preconditions rather than filtering candidates.",
       "tags": ["experimental", "lower", "precondition"],
