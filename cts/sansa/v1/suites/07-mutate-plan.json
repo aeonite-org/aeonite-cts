@@ -865,6 +865,113 @@
       }
     },
     {
+      "id": "sansa-mutate-0049ca-policy-rejects-invalid-default-decision",
+      "tags": ["experimental", "policy", "authority"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "maybe",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_INVALID",
+        "errorPhase": "policy",
+        "errorPolicyField": "default",
+        "errorPolicyScope": "topLevel"
+      }
+    },
+    {
+      "id": "sansa-mutate-0049cb-policy-rejects-missing-rules-list",
+      "tags": ["experimental", "policy", "authority"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_INVALID",
+        "errorPhase": "policy",
+        "errorPolicyField": "rules",
+        "errorPolicyScope": "topLevel"
+      }
+    },
+    {
+      "id": "sansa-mutate-0049cc-policy-rejects-non-object-rule",
+      "tags": ["experimental", "policy", "authority"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [null]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_INVALID",
+        "errorPhase": "policy",
+        "ruleIndex": 0,
+        "errorPolicyScope": "rule"
+      }
+    },
+    {
+      "id": "sansa-mutate-0049cd-policy-rejects-missing-allow-decision",
+      "tags": ["experimental", "policy", "authority"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "operations": ["replace"],
+              "target": "$.inventory.sku"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_INVALID",
+        "errorPhase": "policy",
+        "ruleIndex": 0,
+        "errorPolicyField": "allow",
+        "errorPolicyScope": "rule"
+      }
+    },
+    {
       "id": "sansa-mutate-0049d-policy-datatype-constraint-narrows-rule",
       "tags": ["experimental", "policy", "authority", "datatype"],
       "input": {
