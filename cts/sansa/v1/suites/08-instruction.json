@@ -776,6 +776,24 @@
       }
     },
     {
+      "id": "sansa-instruction-0180a-target-json-rejects-nested-node-value",
+      "description": "JSON target validation reports value-path context when a nested payload value is not representable.",
+      "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.payload with :object, { badge = :node, <badge(\"new\")> }"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "json",
+        "errorValuePath": "value.badge"
+      }
+    },
+    {
       "id": "sansa-instruction-018a-plan-csv-scalar-datatype-intent",
       "description": "Typed scalar values preserve datatype intent separately from string representation.",
       "tags": ["experimental", "plan", "value", "scalar"],
