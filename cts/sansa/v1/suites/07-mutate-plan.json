@@ -716,6 +716,98 @@
       }
     },
     {
+      "id": "sansa-mutate-0049d-policy-datatype-constraint-narrows-rule",
+      "tags": ["experimental", "policy", "authority", "datatype"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "datatype": "sansa",
+          "value": "$.items.*"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku",
+              "datatypes": ["string"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-0049e-policy-value-constraint-narrows-rule",
+      "tags": ["experimental", "policy", "authority", "value"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "C-300"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku",
+              "values": ["B-200"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-0049f-policy-kind-constraint-narrows-rule",
+      "tags": ["experimental", "policy", "authority", "kind"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "kind": "sansa",
+          "value": "$.items.*"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["replace"],
+              "target": "$.inventory.sku",
+              "kinds": ["string"]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0
+      }
+    },
+    {
       "id": "sansa-mutate-004a-reject-create-non-container-parent",
       "tags": ["experimental"],
       "input": {
