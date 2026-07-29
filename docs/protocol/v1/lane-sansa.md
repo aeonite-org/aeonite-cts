@@ -158,6 +158,9 @@ Rules:
 - `options` applies to both planning and apply unless `planOptions` or `applyOptions` is supplied.
 - `planOptions` applies only to `planMutation`.
 - `applyOptions` applies only to `applyMutationPlan`.
+- `target` names an experimental target surface such as `aeon` or `json`.
+  When supplied, the runner plans first and then validates target-surface
+  representability instead of applying or policy-filtering the plan.
 - `applyOptions.requireAtomic: true` requires the adapter to advertise
   `supportsAtomicApply: true`; otherwise apply must fail before invoking
   mutation hooks.
