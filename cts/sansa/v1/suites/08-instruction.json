@@ -981,7 +981,62 @@
       }
     },
     {
-      "id": "sansa-instruction-0180c-target-json-rejects-nested-node-value",
+      "id": "sansa-instruction-0180c-target-aeon-rejects-invalid-radix-datatype-metadata",
+      "description": "AEON target validation rejects reserved radix datatype metadata that AEON Core cannot represent.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "radix"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badRadix with :radix[03], %101"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "radix[03]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180d-target-aeon-rejects-unsupported-radix-alias",
+      "description": "AEON target validation rejects radixN aliases that are not reserved Core v1 shorthands.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "radix"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badRadixAlias with :radix16, %10"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "radix16"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180e-target-aeon-rejects-quoted-encoding-literal",
+      "description": "Quoted encoding-looking text is a string literal family, so an AEON encoding-family datatype target rejects it.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "encoding"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badEncoding with :base64, \"abc+/==\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "base64",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180f-target-json-rejects-nested-node-value",
       "description": "JSON target validation reports value-path context when a nested payload value is not representable.",
       "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
       "input": {

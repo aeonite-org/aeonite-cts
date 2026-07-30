@@ -487,6 +487,121 @@
       }
     },
     {
+      "id": "sansa-mutate-0045b-target-aeon-accepts-lexical-radix-payload-with-base-metadata",
+      "tags": ["experimental", "target-surface", "radix"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "radixProbe",
+          "datatype": "radix[2]",
+          "kind": "radix",
+          "value": "1A"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0045c-target-aeon-rejects-invalid-radix-payload",
+      "tags": ["experimental", "target-surface", "radix"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badRadix",
+          "kind": "radix",
+          "value": "1__0"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-mutate-0045d-target-aeon-rejects-invalid-radix-datatype-metadata",
+      "tags": ["experimental", "target-surface", "radix"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badRadixDatatype",
+          "datatype": "radix[03]",
+          "kind": "radix",
+          "value": "101"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "radix[03]"
+      }
+    },
+    {
+      "id": "sansa-mutate-0045e-target-aeon-rejects-unsupported-radix-alias",
+      "tags": ["experimental", "target-surface", "radix"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badRadixAlias",
+          "datatype": "radix16",
+          "kind": "radix",
+          "value": "10"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "radix16"
+      }
+    },
+    {
+      "id": "sansa-mutate-0045f-target-aeon-rejects-invalid-encoding-payload",
+      "tags": ["experimental", "target-surface", "encoding"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badEncoding",
+          "kind": "encoding",
+          "value": "abc+/=="
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
       "id": "sansa-mutate-0046-target-json-accepts-plain-replace",
       "tags": ["experimental", "target-surface"],
       "input": {
