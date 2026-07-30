@@ -819,6 +819,43 @@
       }
     },
     {
+      "id": "sansa-instruction-016a-lower-quoted-address-create-member",
+      "description": "Create destinations may end in quoted member selectors, which lower to parent plus decoded member name.",
+      "tags": ["experimental", "lower", "create", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.[\"display name\"] with :string, \"Adapter\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "display name",
+            "datatype": "string",
+            "kind": "string",
+            "value": "Adapter"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-016b-lower-rejects-pattern-create-destination",
+      "description": "Create destinations must name one member; name-pattern selectors are selectors, not member destinations.",
+      "tags": ["experimental", "lower", "diagnostic", "create", "selector"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.(\"display*\") with \"Adapter\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_CREATE_DESTINATION_NOT_MEMBER"
+      }
+    },
+    {
       "id": "sansa-instruction-017-lower-attribute-create-destination",
       "description": "Attribute-space create destinations lower through the .@.attribute address form.",
       "tags": ["experimental", "lower", "create", "attribute"],
@@ -942,6 +979,74 @@
             "datatype": "number",
             "kind": "cloneReference",
             "value": "target"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018d-plan-typed-replace-scalar-datatype-intent",
+      "description": "Typed replace values preserve explicit datatype intent separately from representation kind.",
+      "tags": ["experimental", "plan", "value", "scalar", "replace"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "replace $.inventory.items[0].sku with :string, \"A-101\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].sku",
+            "datatype": "string",
+            "kind": "string",
+            "value": "A-101"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018e-plan-date-scalar-datatype-intent",
+      "description": "Date literals preserve date representation kind and explicit datatype intent.",
+      "tags": ["experimental", "plan", "value", "scalar", "date"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.released with :date, 2026-10-10"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "released",
+            "datatype": "date",
+            "kind": "date",
+            "value": "2026-10-10"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018f-plan-sansa-selector-value",
+      "description": "SANSA address literal values can carry selector syntax as data without being resolved by Instruction.",
+      "tags": ["experimental", "plan", "value", "scalar", "sansa"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.selectorProbe with :sansa, $.inventory.items[0..1].sku"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "selectorProbe",
+            "datatype": "sansa",
+            "kind": "sansa",
+            "value": "$.inventory.items[0..1].sku"
           }
         ]
       }
