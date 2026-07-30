@@ -1113,6 +1113,29 @@
       }
     },
     {
+      "id": "sansa-instruction-018e1-plan-reduced-datetime-scalar-datatype-intent",
+      "description": "Reduced-precision datetime literals preserve datetime representation kind and explicit datatype intent.",
+      "tags": ["experimental", "plan", "value", "scalar", "datetime"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.availableAt with :datetime, 2026-10-10T09Z"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "availableAt",
+            "datatype": "datetime",
+            "kind": "datetime",
+            "value": "2026-10-10T09Z"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-018f-plan-sansa-selector-value",
       "description": "SANSA address literal values can carry selector syntax as data without being resolved by Instruction.",
       "tags": ["experimental", "plan", "value", "scalar", "sansa"],
@@ -1626,6 +1649,32 @@
       "expected": {
         "ok": false,
         "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-049-parse-rejects-invalid-date-range",
+      "description": "Instruction temporal value literals reject invalid calendar dates.",
+      "tags": ["experimental", "parse", "value", "temporal", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :date, 2025-02-29"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-050-parse-rejects-invalid-time-range",
+      "description": "Instruction temporal value literals reject invalid clock ranges.",
+      "tags": ["experimental", "parse", "value", "temporal", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :time, 24:00"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
       }
     }
   ]

@@ -463,6 +463,30 @@
       }
     },
     {
+      "id": "sansa-mutate-0045a-target-aeon-rejects-invalid-temporal-value",
+      "tags": ["experimental", "target-surface", "temporal"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badDate",
+          "datatype": "date",
+          "kind": "date",
+          "value": "2025-02-29"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
       "id": "sansa-mutate-0046-target-json-accepts-plain-replace",
       "tags": ["experimental", "target-surface"],
       "input": {
