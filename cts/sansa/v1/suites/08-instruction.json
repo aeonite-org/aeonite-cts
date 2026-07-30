@@ -962,7 +962,26 @@
       }
     },
     {
-      "id": "sansa-instruction-0180b-target-json-rejects-nested-node-value",
+      "id": "sansa-instruction-0180b-target-aeon-rejects-quoted-date-literal",
+      "description": "Quoted date-looking text is a string literal family, so an AEON date datatype target rejects it.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "date"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badDate with :date, \"2026-10-10\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "date",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180c-target-json-rejects-nested-node-value",
       "description": "JSON target validation reports value-path context when a nested payload value is not representable.",
       "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
       "input": {
