@@ -856,6 +856,20 @@
       }
     },
     {
+      "id": "sansa-instruction-016c-lower-rejects-wildcard-create-destination",
+      "description": "Create destinations must name one member; wildcard selectors are expanded selectors, not member destinations.",
+      "tags": ["experimental", "lower", "diagnostic", "create", "selector"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.* with \"Adapter\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_CREATE_DESTINATION_NOT_MEMBER"
+      }
+    },
+    {
       "id": "sansa-instruction-017-lower-attribute-create-destination",
       "description": "Attribute-space create destinations lower through the .@.attribute address form.",
       "tags": ["experimental", "lower", "create", "attribute"],
