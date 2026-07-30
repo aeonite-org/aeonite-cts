@@ -136,7 +136,22 @@
                     }
                   ]
                 }
-              ]
+              ],
+              "attributeSpace": {
+                "id": "inventory-attributes",
+                "address": "$.inventory.@",
+                "representationKind": "attributeSpace",
+                "children": [
+                  {
+                    "id": "inventory-origin",
+                    "name": "origin",
+                    "address": "$.inventory.@.origin",
+                    "semanticType": "string",
+                    "representationKind": "string",
+                    "value": "fixture"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -908,6 +923,23 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorTargetFormat": "aeon",
         "errorDatatype": "string<null>"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180-target-json-rejects-attribute-space-create",
+      "description": "Instruction can plan an attribute-space create, but JSON target validation rejects the attribute-space role.",
+      "tags": ["experimental", "target-surface", "attribute", "json"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.@.reviewed with true"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorTargetFormat": "json"
       }
     },
     {
