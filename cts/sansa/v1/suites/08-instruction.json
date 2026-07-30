@@ -943,7 +943,26 @@
       }
     },
     {
-      "id": "sansa-instruction-0180a-target-json-rejects-nested-node-value",
+      "id": "sansa-instruction-0180a-target-aeon-rejects-datatype-kind-mismatch",
+      "description": "Instruction can plan datatype intent with a mismatched literal family, but AEON target validation rejects the reserved datatype mismatch.",
+      "tags": ["experimental", "target-surface", "value", "aeon"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badToggle with :toggle, \"maybe\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "toggle",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180b-target-json-rejects-nested-node-value",
       "description": "JSON target validation reports value-path context when a nested payload value is not representable.",
       "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
       "input": {
