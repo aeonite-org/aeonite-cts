@@ -1731,6 +1731,19 @@
         "ok": false,
         "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
       }
+    },
+    {
+      "id": "sansa-instruction-051-parse-rejects-invalid-zrut-zone-comment-marker",
+      "description": "Instruction temporal value literals reject comment-looking markers inside contiguous ZRUT named-zone payloads.",
+      "tags": ["experimental", "parse", "value", "temporal", "zrut", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :zrut, 2025-01-01T09Z&Europe//Brussels"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
     }
   ]
 }

@@ -485,7 +485,19 @@
       "id": "sansa-query-expression-003f5a-invalid-zrut-zone",
       "description": "Temporal ZRUT literals reject invalid named-zone slash placement.",
       "input": {
-        "expression": ".zone == 2025-01-01T09Z&Europe/"
+        "expression": ".zone == 2025-01-01T09Z&Europe//Brussels"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-003f5b-invalid-zrut-zone-block-comment-marker",
+      "description": "Temporal ZRUT literals reject block-comment-looking markers inside the contiguous named-zone payload.",
+      "input": {
+        "expression": ".zone == 2025-01-01T09Z&Europe/*Brussels*/"
       },
       "expected": {
         "ok": false,
