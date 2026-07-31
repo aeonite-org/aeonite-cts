@@ -149,6 +149,14 @@
                     "semanticType": "string",
                     "representationKind": "string",
                     "value": "fixture"
+                  },
+                  {
+                    "id": "inventory-source-role",
+                    "name": "source role",
+                    "address": "$.inventory.@.[\"source role\"]",
+                    "semanticType": "string",
+                    "representationKind": "string",
+                    "value": "catalog"
                   }
                 ]
               }
@@ -1037,6 +1045,46 @@
       }
     },
     {
+      "id": "sansa-instruction-017c-lower-quoted-attribute-replace-target",
+      "description": "Replace targets may use quoted SANSA member selectors inside attribute-space paths.",
+      "tags": ["experimental", "lower", "replace", "attribute", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "replace $.inventory.@.[\"source role\"] with \"system\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.@.[\"source role\"]",
+            "kind": "string",
+            "value": "system"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-017d-lower-quoted-attribute-remove-target",
+      "description": "Remove targets may use quoted SANSA member selectors inside attribute-space paths.",
+      "tags": ["experimental", "lower", "remove", "attribute", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "remove $.inventory.@.[\"source role\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "remove",
+            "target": "$.inventory.@.[\"source role\"]"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-018-target-aeon-rejects-unsupported-generic-datatype-intent",
       "description": "Instruction can express datatype intent that the AEON target surface rejects after planning.",
       "tags": ["experimental", "target-surface", "value"],
@@ -1079,7 +1127,41 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "json",
-        "source": "create $.inventory.@.[\"source role\"] with \"catalog\""
+        "source": "create $.inventory.@.[\"source note\"] with \"catalog\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorTargetFormat": "json"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a0a-target-json-rejects-quoted-attribute-space-replace",
+      "description": "JSON target validation rejects attribute-space replaces even when the attribute name is a quoted SANSA member selector.",
+      "tags": ["experimental", "target-surface", "attribute", "json", "quoted-member", "replace"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "replace $.inventory.@.[\"source role\"] with \"system\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorTargetFormat": "json"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a0b-target-json-rejects-quoted-attribute-space-remove",
+      "description": "JSON target validation rejects attribute-space removes even when the attribute name is a quoted SANSA member selector.",
+      "tags": ["experimental", "target-surface", "attribute", "json", "quoted-member", "remove"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "remove $.inventory.@.[\"source role\"]"
       },
       "expected": {
         "ok": false,
