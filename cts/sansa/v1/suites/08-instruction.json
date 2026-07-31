@@ -756,6 +756,32 @@
       }
     },
     {
+      "id": "sansa-instruction-013a-plan-object-container-literal-with-quoted-field",
+      "description": "Instruction object literals may use bracket-quoted field names when a key cannot be written as a bare identifier.",
+      "tags": ["experimental", "plan", "value", "container", "quoted-member"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.quotedSettings with :object, { [\"bad.key\"] = \"x\", enabled = true }"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "quotedSettings",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "bad.key": "x",
+              "enabled": true
+            }
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-014-plan-list-container-literal",
       "description": "Instruction list literals preserve generic datatype intent and list representation intent.",
       "tags": ["experimental", "plan", "value", "container"],
@@ -1300,6 +1326,25 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
         "errorTargetFormat": "json",
         "errorValuePath": "value.badge"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180i1-target-json-rejects-nested-node-value-with-quoted-field-path",
+      "description": "JSON target validation quotes non-identifier field names in nested target value paths.",
+      "tags": ["experimental", "target-surface", "value", "diagnostic", "json", "quoted-member"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.payload with :object, { [\"bad.key\"] = :node, <badge(\"new\")> }"
+      },
+      "expected": {
+        "ok": false,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "json",
+        "errorValuePath": "value[\"bad.key\"]"
       }
     },
     {
@@ -2039,6 +2084,19 @@
       "input": {
         "mode": "parse",
         "source": "create $.x with :object, { enabled = true enabled = false }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_DUPLICATE_OBJECT_FIELD"
+      }
+    },
+    {
+      "id": "sansa-instruction-042a-parse-rejects-duplicate-quoted-object-field",
+      "description": "Bracket-quoted object field names participate in the same duplicate-name checks as bare field names.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic", "quoted-member"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { [\"enabled\"] = true enabled = false }"
       },
       "expected": {
         "ok": false,
