@@ -59,6 +59,14 @@
                           "revision": 0
                         },
                         {
+                          "id": "item-0-display-name",
+                          "name": "display name",
+                          "address": "$.inventory.items[0].[\"display name\"]",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "Adapter"
+                        },
+                        {
                           "id": "item-0-tags",
                           "name": "tags",
                           "address": "$.inventory.items[0].tags",
@@ -71,6 +79,30 @@
                               "semanticType": "string",
                               "representationKind": "string",
                               "value": "core"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "item-0-sale-tags",
+                          "name": "sale tags",
+                          "address": "$.inventory.items[0].[\"sale tags\"]",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "id": "item-0-sale-tags-0",
+                              "index": 0,
+                              "address": "$.inventory.items[0].[\"sale tags\"][0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "seasonal"
+                            },
+                            {
+                              "id": "item-0-sale-tags-1",
+                              "index": 1,
+                              "address": "$.inventory.items[0].[\"sale tags\"][1]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "featured"
                             }
                           ]
                         }
@@ -101,6 +133,14 @@
                           "revision": 0
                         },
                         {
+                          "id": "item-1-display-name",
+                          "name": "display name",
+                          "address": "$.inventory.items[1].[\"display name\"]",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "Driver"
+                        },
+                        {
                           "id": "item-1-tags",
                           "name": "tags",
                           "address": "$.inventory.items[1].tags",
@@ -113,6 +153,30 @@
                               "semanticType": "string",
                               "representationKind": "string",
                               "value": "core"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "item-1-sale-tags",
+                          "name": "sale tags",
+                          "address": "$.inventory.items[1].[\"sale tags\"]",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "id": "item-1-sale-tags-0",
+                              "index": 0,
+                              "address": "$.inventory.items[1].[\"sale tags\"][0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "standard"
+                            },
+                            {
+                              "id": "item-1-sale-tags-1",
+                              "index": 1,
+                              "address": "$.inventory.items[1].[\"sale tags\"][1]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "display"
                             }
                           ]
                         }
@@ -239,6 +303,124 @@
             "datatype": "int32",
             "kind": "number",
             "value": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002a-lower-candidate-relative-quoted-replace",
+      "description": "Candidate-relative replace targets may use quoted member selectors.",
+      "tags": ["experimental", "lower", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nreplace .[\"display name\"] with \"Renamed\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].[\"display name\"]",
+            "kind": "string",
+            "value": "Renamed"
+          },
+          {
+            "op": "replace",
+            "target": "$.inventory.items[1].[\"display name\"]",
+            "kind": "string",
+            "value": "Renamed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002b-lower-candidate-relative-quoted-remove",
+      "description": "Candidate-relative remove targets may use quoted member selectors.",
+      "tags": ["experimental", "lower", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nremove .[\"display name\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "remove",
+            "target": "$.inventory.items[0].[\"display name\"]"
+          },
+          {
+            "op": "remove",
+            "target": "$.inventory.items[1].[\"display name\"]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002c-lower-candidate-relative-quoted-insert",
+      "description": "Candidate-relative insert containers and anchors may use quoted member selectors.",
+      "tags": ["experimental", "lower", "ordered", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ninsert after .[\"sale tags\"][0] in .[\"sale tags\"] with \"quoted-sale\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[0].[\"sale tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[0].[\"sale tags\"][0]"
+            },
+            "kind": "string",
+            "value": "quoted-sale"
+          },
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].[\"sale tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[1].[\"sale tags\"][0]"
+            },
+            "kind": "string",
+            "value": "quoted-sale"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002d-lower-candidate-relative-quoted-move",
+      "description": "Candidate-relative move sources, containers, and anchors may use quoted member selectors.",
+      "tags": ["experimental", "lower", "ordered", "move", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nmove .[\"sale tags\"][0] after .[\"sale tags\"][1] in .[\"sale tags\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.items[0].[\"sale tags\"][0]",
+            "container": "$.inventory.items[0].[\"sale tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[0].[\"sale tags\"][1]"
+            }
+          },
+          {
+            "op": "move",
+            "source": "$.inventory.items[1].[\"sale tags\"][0]",
+            "container": "$.inventory.items[1].[\"sale tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[1].[\"sale tags\"][1]"
+            }
           }
         ]
       }
