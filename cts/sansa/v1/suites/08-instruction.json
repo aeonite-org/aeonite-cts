@@ -757,12 +757,12 @@
     },
     {
       "id": "sansa-instruction-013a-plan-object-container-literal-with-quoted-field",
-      "description": "Instruction object literals may use bracket-quoted field names when a key cannot be written as a bare identifier.",
+      "description": "Instruction object literals may use AEON-style quoted field names when a key cannot be written as a bare identifier.",
       "tags": ["experimental", "plan", "value", "container", "quoted-member"],
       "input": {
         "mode": "plan",
         "namespace": "instruction-inventory",
-        "source": "create $.inventory.quotedSettings with :object, { [\"bad.key\"] = \"x\", enabled = true }"
+        "source": "create $.inventory.quotedSettings with :object, { \"bad.key\" = \"x\", enabled = true }"
       },
       "expected": {
         "ok": true,
@@ -1336,7 +1336,7 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "json",
-        "source": "create $.inventory.payload with :object, { [\"bad.key\"] = :node, <badge(\"new\")> }"
+        "source": "create $.inventory.payload with :object, { \"bad.key\" = :node, <badge(\"new\")> }"
       },
       "expected": {
         "ok": false,
@@ -1355,7 +1355,7 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "aeon",
-        "source": "create $.inventory.badQuotedField with :object, { [\"bad.key\"] = \"x\" }"
+        "source": "create $.inventory.badQuotedField with :object, { \"bad.key\" = \"x\" }"
       },
       "expected": {
         "ok": true,
@@ -2107,15 +2107,28 @@
     },
     {
       "id": "sansa-instruction-042a-parse-rejects-duplicate-quoted-object-field",
-      "description": "Bracket-quoted object field names participate in the same duplicate-name checks as bare field names.",
+      "description": "Quoted object field names participate in the same duplicate-name checks as bare field names.",
       "tags": ["experimental", "parse", "value", "container", "diagnostic", "quoted-member"],
       "input": {
         "mode": "parse",
-        "source": "create $.x with :object, { [\"enabled\"] = true enabled = false }"
+        "source": "create $.x with :object, { \"enabled\" = true enabled = false }"
       },
       "expected": {
         "ok": false,
         "error": "SANSA_INSTRUCTION_DUPLICATE_OBJECT_FIELD"
+      }
+    },
+    {
+      "id": "sansa-instruction-042b-parse-rejects-address-style-object-field",
+      "description": "Instruction object value literals reject SANSA address-style bracket-quoted selectors as field-name syntax.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic", "quoted-member"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { [\"bad.key\"] = true }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
       }
     },
     {
