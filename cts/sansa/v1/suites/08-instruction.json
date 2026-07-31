@@ -1348,9 +1348,9 @@
       }
     },
     {
-      "id": "sansa-instruction-0180j-target-aeon-rejects-quoted-object-field",
-      "description": "AEON target validation rejects decoded object field names that cannot be represented as AEON binding keys.",
-      "tags": ["experimental", "target-surface", "value", "diagnostic", "aeon", "quoted-member"],
+      "id": "sansa-instruction-0180j-target-aeon-accepts-quoted-object-field",
+      "description": "AEON target validation accepts decoded quoted object field names that can be rendered as quoted AEON binding keys.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "quoted-member"],
       "input": {
         "mode": "target",
         "namespace": "instruction-inventory",
@@ -1358,11 +1358,8 @@
         "source": "create $.inventory.badQuotedField with :object, { [\"bad.key\"] = \"x\" }"
       },
       "expected": {
-        "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorValuePath": "operations[0].value[\"bad.key\"]"
+        "ok": true,
+        "targetDiagnostics": []
       }
     },
     {

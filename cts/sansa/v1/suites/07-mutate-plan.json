@@ -537,7 +537,7 @@
       }
     },
     {
-      "id": "sansa-mutate-0045a1a-target-aeon-rejects-non-identifier-object-key",
+      "id": "sansa-mutate-0045a1a-target-aeon-reports-quoted-nested-key-value-path",
       "tags": ["experimental", "target-surface", "value", "diagnostic"],
       "input": {
         "namespace": "mutable-inventory",
@@ -560,7 +560,7 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
         "errorPhase": "target",
         "errorTargetFormat": "aeon",
-        "errorValuePath": "operations[0].value[\"bad.key\"]"
+        "errorValuePath": "operations[0].value[\"bad.key\"][\"\"]"
       }
     },
     {
