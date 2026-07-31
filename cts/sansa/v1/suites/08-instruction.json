@@ -993,6 +993,50 @@
       }
     },
     {
+      "id": "sansa-instruction-017a-lower-quoted-attribute-create-destination",
+      "description": "Attribute-space create destinations may use quoted final member selectors for attribute names that cannot be written as bare identifiers.",
+      "tags": ["experimental", "lower", "create", "attribute", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.@.[\"source role\"] with \"catalog\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory.@",
+            "name": "source role",
+            "kind": "string",
+            "value": "catalog"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-017b-lower-quoted-member-attribute-create-destination",
+      "description": "Quoted member selectors remain address syntax when they appear before an attribute-space selector in a create destination.",
+      "tags": ["experimental", "lower", "create", "attribute", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.[\"display name\"].@.[\"source role\"] with \"catalog\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory.[\"display name\"].@",
+            "name": "source role",
+            "kind": "string",
+            "value": "catalog"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-018-target-aeon-rejects-unsupported-generic-datatype-intent",
       "description": "Instruction can express datatype intent that the AEON target surface rejects after planning.",
       "tags": ["experimental", "target-surface", "value"],
@@ -1019,6 +1063,23 @@
         "namespace": "instruction-inventory",
         "target": "json",
         "source": "create $.inventory.@.reviewed with true"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorTargetFormat": "json"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a0-target-json-rejects-quoted-attribute-space-create",
+      "description": "JSON target validation rejects attribute-space creates even when the attribute name is a quoted SANSA member selector.",
+      "tags": ["experimental", "target-surface", "attribute", "json", "quoted-member"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.@.[\"source role\"] with \"catalog\""
       },
       "expected": {
         "ok": false,
