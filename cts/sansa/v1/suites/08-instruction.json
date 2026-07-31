@@ -1193,6 +1193,32 @@
       }
     },
     {
+      "id": "sansa-instruction-018a1-lower-warns-nested-value-intent-flattened",
+      "description": "Nested datatype intent is parsed but flattened out of conservative Mutate operations with a warning.",
+      "tags": ["experimental", "lower", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.settings with :object, { csv = :csv[\",\"], \"sku,name\" }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "settings",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "csv": "sku,name"
+            }
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-018b-plan-null-scalar-datatype-intent",
       "description": "Typed explicit-null values preserve datatype intent separately from null representation.",
       "tags": ["experimental", "plan", "value", "scalar", "null"],
