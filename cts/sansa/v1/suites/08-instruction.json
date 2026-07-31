@@ -473,6 +473,39 @@
       }
     },
     {
+      "id": "sansa-instruction-008g1-target-aeon-accepts-node-custom-profile-claim",
+      "description": "AEON target validation accepts binding-side node<T> custom profile/domain claims.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container", "node"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.htmlDoc with :node<html>, <html(<body>)>"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008g2-target-aeon-rejects-reserved-node-child-claim",
+      "description": "AEON target validation rejects binding-side node<T> reserved non-node value datatype claims.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container", "node"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badNodeString with :node<string>, <title(\"Hello\")>"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "node<string>"
+      }
+    },
+    {
       "id": "sansa-instruction-009-parse-rejects-multiple-mutation-verbs",
       "description": "One Instruction contains one mutation intent.",
       "tags": ["experimental", "parse", "diagnostic"],

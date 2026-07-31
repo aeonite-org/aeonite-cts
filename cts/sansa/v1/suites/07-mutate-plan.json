@@ -463,6 +463,29 @@
       }
     },
     {
+      "id": "sansa-mutate-0045a0-target-aeon-rejects-malformed-datatype-intent",
+      "tags": ["experimental", "target-surface", "datatype"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "malformedDatatypeProbe",
+          "datatype": "list<",
+          "value": []
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "list<"
+      }
+    },
+    {
       "id": "sansa-mutate-0045a-target-aeon-rejects-invalid-temporal-value",
       "tags": ["experimental", "target-surface", "temporal"],
       "input": {
@@ -593,6 +616,57 @@
       "expected": {
         "ok": true,
         "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0045b5-target-aeon-accepts-node-custom-profile-claim",
+      "tags": ["experimental", "target-surface", "container", "node"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "nodeCustomProfile",
+          "datatype": "node<html>",
+          "kind": "node",
+          "value": {
+            "tag": "html",
+            "children": []
+          }
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0045b6-target-aeon-rejects-reserved-node-child-claim",
+      "tags": ["experimental", "target-surface", "container", "node"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "nodeReservedChildClaim",
+          "datatype": "node<string>",
+          "kind": "node",
+          "value": {
+            "tag": "title",
+            "children": ["hello"]
+          }
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "node<string>"
       }
     },
     {
