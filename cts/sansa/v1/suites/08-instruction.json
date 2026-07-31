@@ -1036,7 +1036,57 @@
       }
     },
     {
-      "id": "sansa-instruction-0180f-target-json-rejects-nested-node-value",
+      "id": "sansa-instruction-0180f-target-aeon-accepts-quoted-separator-payload",
+      "description": "AEON target validation accepts separator payloads with quoted source segments.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "separator"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.parts with :sep[|], ^\"hello world\"|\"this, [is] fine\""
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-instruction-0180g-target-aeon-rejects-invalid-separator-datatype-metadata",
+      "description": "AEON target validation rejects separator metadata that AEON Core cannot represent.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "separator"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badSeparator with :sep[\",\"], ^\"hello, world\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "sep[\",\"]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180h-target-aeon-rejects-kadot-metadata",
+      "description": "AEON target validation rejects separator metadata on the unparameterized kadot datatype.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "separator"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badKadot with :kadot[.], ^1.2.3"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "kadot[.]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180i-target-json-rejects-nested-node-value",
       "description": "JSON target validation reports value-path context when a nested payload value is not representable.",
       "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
       "input": {
@@ -1717,6 +1767,19 @@
       "expected": {
         "ok": false,
         "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-049a-parse-rejects-invalid-separator-payload",
+      "description": "Instruction separator value literals reject raw slash characters inside payloads.",
+      "tags": ["experimental", "parse", "value", "separator", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :sep, ^root/main"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_SEPARATOR_LITERAL"
       }
     },
     {

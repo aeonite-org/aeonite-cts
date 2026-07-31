@@ -283,6 +283,43 @@
       "tags": ["sansa", "query", "expression", "literal", "separator"]
     },
     {
+      "id": "sansa-query-expression-003e1-quoted-separator-literal",
+      "description": "AEON separator source literals may contain quoted payload segments.",
+      "input": {
+        "expression": ".parts == ^\"hello world\"|\"this, [is] fine\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".parts == ^\"hello world\"|\"this, [is] fine\"",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".parts"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "separator",
+            "value": "\"hello world\"|\"this, [is] fine\""
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "separator"]
+    },
+    {
+      "id": "sansa-query-expression-003e2-invalid-separator-raw-slash",
+      "description": "AEON separator source literals reject raw slash characters inside the payload.",
+      "input": {
+        "expression": ".path == ^root/main"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_SEPARATOR_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "separator", "negative"]
+    },
+    {
       "id": "sansa-query-expression-003f-temporal-literal",
       "description": "AEON temporal-looking source literals parse as temporal Query literal expressions.",
       "input": {

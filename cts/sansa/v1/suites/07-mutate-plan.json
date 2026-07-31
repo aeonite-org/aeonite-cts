@@ -602,6 +602,98 @@
       }
     },
     {
+      "id": "sansa-mutate-0045g-target-aeon-accepts-quoted-separator-payload",
+      "tags": ["experimental", "target-surface", "separator"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "quotedSeparator",
+          "datatype": "sep[|]",
+          "kind": "separator",
+          "value": "\"hello world\"|\"this, [is] fine\""
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0045h-target-aeon-rejects-invalid-separator-payload",
+      "tags": ["experimental", "target-surface", "separator"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badSeparator",
+          "kind": "separator",
+          "value": "root/main"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-mutate-0045i-target-aeon-rejects-invalid-separator-datatype-metadata",
+      "tags": ["experimental", "target-surface", "separator"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badSeparatorDatatype",
+          "datatype": "sep[\",\"]",
+          "kind": "separator",
+          "value": "\"hello, world\""
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "sep[\",\"]"
+      }
+    },
+    {
+      "id": "sansa-mutate-0045j-target-aeon-rejects-kadot-metadata",
+      "tags": ["experimental", "target-surface", "separator"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badKadot",
+          "datatype": "kadot[.]",
+          "kind": "separator",
+          "value": "1.2.3"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "kadot[.]"
+      }
+    },
+    {
       "id": "sansa-mutate-0046-target-json-accepts-plain-replace",
       "tags": ["experimental", "target-surface"],
       "input": {
