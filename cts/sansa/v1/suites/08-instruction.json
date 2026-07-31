@@ -1389,6 +1389,43 @@
       }
     },
     {
+      "id": "sansa-instruction-0180j1-target-aeon-rejects-empty-quoted-object-field",
+      "description": "AEON target validation rejects empty decoded object field names even though the SANSA Instruction object literal is syntactically valid.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "quoted-member", "diagnostic"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badEmptyField with :object, { \"\" = \"x\" }"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value[\"\"]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180j2-target-json-renders-escaped-quoted-object-field-path",
+      "description": "Target diagnostics escape decoded quoted object field names when rendering nested value paths.",
+      "tags": ["experimental", "target-surface", "value", "json", "quoted-member", "diagnostic"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.payloadQuotedEscaped with :object, { \"quote\\\"key\" = :node, <badge(\"new\")> }"
+      },
+      "expected": {
+        "ok": false,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "json",
+        "errorValuePath": "value[\"quote\\\"key\"]"
+      }
+    },
+    {
       "id": "sansa-instruction-018a-plan-csv-scalar-datatype-intent",
       "description": "Typed scalar values preserve datatype intent separately from string representation.",
       "tags": ["experimental", "plan", "value", "scalar"],
