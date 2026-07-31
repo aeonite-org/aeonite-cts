@@ -223,6 +223,14 @@
                       "value": "featured"
                     }
                   ]
+                },
+                {
+                  "id": "inventory-quote-key",
+                  "name": "quote\"key",
+                  "address": "$.inventory.[\"quote\\\"key\"]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "quoted"
                 }
               ],
               "attributeSpace": {
@@ -449,6 +457,27 @@
           {
             "expression": ".[\"display name\"] == \"Adapter\"",
             "target": "$.inventory.items[0]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002f-lower-candidate-relative-escaped-quoted-member",
+      "description": "Candidate-relative where and mutation targets may use escaped quoted member selectors.",
+      "tags": ["experimental", "lower", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory\nwhere .[\"quote\\\"key\"] == \"quoted\"\nreplace .[\"quote\\\"key\"] with \"escaped\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.[\"quote\\\"key\"]",
+            "kind": "string",
+            "value": "escaped"
           }
         ]
       }
@@ -1228,6 +1257,28 @@
             "datatype": "string",
             "kind": "string",
             "value": "Adapter"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-016a1-lower-escaped-quoted-address-create-member",
+      "description": "Create destinations decode quoted member selector escapes before lowering to a mutation name.",
+      "tags": ["experimental", "lower", "create", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.[\"quote\\\"key\"] with \"escaped\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "quote\"key",
+            "kind": "string",
+            "value": "escaped"
           }
         ]
       }
@@ -2080,6 +2131,27 @@
             "datatype": "string",
             "kind": "string",
             "value": "A-101"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018d1-plan-escaped-quoted-member-replace",
+      "description": "Replace targets may use escaped quoted member selectors and preserve the escaped canonical target path.",
+      "tags": ["experimental", "plan", "value", "scalar", "replace", "quoted-member"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "replace $.inventory.[\"quote\\\"key\"] with \"escaped\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.[\"quote\\\"key\"]",
+            "kind": "string",
+            "value": "escaped"
           }
         ]
       }
