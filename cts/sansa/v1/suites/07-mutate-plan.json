@@ -2087,7 +2087,8 @@
         "errorPhase": "plan",
         "errorBudget": "maxValueDepth",
         "errorLimit": 2,
-        "errorObserved": 3
+        "errorObserved": 3,
+        "errorValuePath": "operations[0].value.outer.inner"
       }
     },
     {
@@ -2113,7 +2114,38 @@
         "errorPhase": "plan",
         "errorBudget": "maxStringLength",
         "errorLimit": 4,
-        "errorObserved": 10
+        "errorObserved": 10,
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-mutate-008ed-plan-nested-string-length-budget",
+      "tags": ["experimental"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "nestedString",
+          "value": {
+            "labels": ["ok", "ABCDEFGHIJ"]
+          }
+        },
+        "mode": "plan",
+        "options": {
+          "budget": {
+            "maxStringLength": 4
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_BUDGET_EXCEEDED",
+        "errorPhase": "plan",
+        "errorBudget": "maxStringLength",
+        "errorLimit": 4,
+        "errorObserved": 10,
+        "errorValuePath": "operations[0].value.labels[1]"
       }
     },
     {
@@ -2173,6 +2205,7 @@
         "errorBudget": "maxStringLength",
         "errorLimit": 4,
         "errorObserved": 10,
+        "errorValuePath": "operations[0].value",
         "valuesByAddress": {
           "$.inventory.sku": "A-100"
         }
