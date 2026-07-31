@@ -508,6 +508,94 @@
       }
     },
     {
+      "id": "sansa-mutate-0045b1-target-aeon-accepts-sansa-selector-value",
+      "tags": ["experimental", "target-surface", "sansa"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "selectorProbe",
+          "datatype": "sansa",
+          "kind": "sansa",
+          "value": "$.inventory.items.*.sku"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0045b2-target-aeon-rejects-invalid-sansa-value",
+      "tags": ["experimental", "target-surface", "sansa"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badSansa",
+          "datatype": "sansa",
+          "kind": "sansa",
+          "value": "$.inventory..sku"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-mutate-0045b3-target-aeon-rejects-selector-reference-target",
+      "tags": ["experimental", "target-surface", "reference"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badReference",
+          "kind": "cloneReference",
+          "value": "target.*"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-mutate-0045b4-target-aeon-accepts-quoted-reference-target",
+      "tags": ["experimental", "target-surface", "reference"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "quotedReference",
+          "kind": "cloneReference",
+          "value": "[\"target.key\"]"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
       "id": "sansa-mutate-0045c-target-aeon-rejects-invalid-radix-payload",
       "tags": ["experimental", "target-surface", "radix"],
       "input": {

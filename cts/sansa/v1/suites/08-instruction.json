@@ -999,6 +999,39 @@
       }
     },
     {
+      "id": "sansa-instruction-0180c1-target-aeon-accepts-sansa-selector-value",
+      "description": "SANSA address literals may carry selector expressions as address data on an AEON target.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "sansa"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.selectorProbeAeon with :sansa, $.inventory.items.*.sku"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-0180c2-target-aeon-rejects-selector-reference-target",
+      "description": "AEON references use exact target paths; selector expansion is not part of reference target representability.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "reference"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badReference with :number, ~target.*"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
       "id": "sansa-instruction-0180d-target-aeon-rejects-unsupported-radix-alias",
       "description": "AEON target validation rejects radixN aliases that are not reserved Core v1 shorthands.",
       "tags": ["experimental", "target-surface", "value", "aeon", "radix"],
