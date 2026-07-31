@@ -1926,6 +1926,32 @@
       }
     },
     {
+      "id": "sansa-instruction-045a-parse-rejects-missing-typed-value-payload",
+      "description": "A datatype annotation must be followed by a literal payload before lowering.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :string,"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_EXPECTED_VALUE"
+      }
+    },
+    {
+      "id": "sansa-instruction-045b-parse-rejects-missing-nested-typed-value-payload",
+      "description": "Nested datatype annotations must also be followed by a literal payload before conservative lowering can flatten them.",
+      "tags": ["experimental", "parse", "value", "datatype", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { label = :string, }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_EXPECTED_VALUE"
+      }
+    },
+    {
       "id": "sansa-instruction-046-parse-rejects-nested-datatype-union",
       "description": "Instruction datatype intent uses SANSA qualifier grammar and inherits the nested-union restriction.",
       "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
