@@ -1235,6 +1235,38 @@
       }
     },
     {
+      "id": "sansa-instruction-018a2a-target-json-validates-flattened-nested-tuple-intent",
+      "description": "Nested tuple datatype intent is warned and flattened before JSON target validation sees the conservative object payload.",
+      "tags": ["experimental", "target-surface", "value", "container", "diagnostic", "json"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.nestedPair with :object, { pair = :tuple, (\"sku\", 7) }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-018a2b-target-aeon-validates-flattened-nested-custom-datatype-intent",
+      "description": "Nested custom datatype intent is warned and flattened; AEON target validation sees the plain nested scalar payload.",
+      "tags": ["experimental", "target-surface", "value", "container", "diagnostic", "aeon"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.nestedRelationship with :object, { sibling = :relationship<sibling>[brother], \"Bob\" }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "targetDiagnostics": []
+      }
+    },
+    {
       "id": "sansa-instruction-018a3-parse-rejects-nested-value-intent-mismatch",
       "description": "Nested datatype intent is checked for compatibility before it is flattened out of conservative Mutate operations.",
       "tags": ["experimental", "parse", "value", "container", "diagnostic"],
@@ -1245,6 +1277,32 @@
       "expected": {
         "ok": false,
         "error": "SANSA_INSTRUCTION_NESTED_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-018a3a-lower-warns-nested-custom-datatype-intent-flattened",
+      "description": "Nested custom qualifier datatype intent is preserved in Instruction source but flattened out of conservative Mutate operations.",
+      "tags": ["experimental", "lower", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.relationships with :object, { sibling = :relationship<sibling>[brother], \"Bob\" }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "relationships",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "sibling": "Bob"
+            }
+          }
+        ]
       }
     },
     {
