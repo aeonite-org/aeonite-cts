@@ -1495,7 +1495,33 @@
       },
       "expected": {
         "ok": false,
-        "error": "SANSA_QUERY_UNEXPECTED_EXPRESSION_TOKEN"
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-020a-parse-rejects-double-value-comma",
+      "description": "A second comma after datatype intent is not an argument separator and is rejected before lowering.",
+      "tags": ["experimental", "parse", "diagnostic", "value", "datatype"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.status with :int32,, 344"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-020b-parse-rejects-nested-double-value-comma",
+      "description": "Nested typed values use the same single datatype/value delimiter rule as top-level values.",
+      "tags": ["experimental", "parse", "diagnostic", "value", "datatype", "container"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.settings with :object, { count = :int32,, 344 }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
       }
     },
     {
