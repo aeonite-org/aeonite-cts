@@ -1248,6 +1248,35 @@
       }
     },
     {
+      "id": "sansa-instruction-018a4-parse-warns-nested-representation-flattened",
+      "description": "Nested non-plain literal representation families are warned when flattened without explicit datatype intent.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.settings with :object, { copy = ~target }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_REPRESENTATION_FLATTENED"]
+      }
+    },
+    {
+      "id": "sansa-instruction-018a5-target-json-validates-flattened-nested-reference",
+      "description": "JSON target validation evaluates the flattened nested payload while preserving a warning that reference representation was dropped.",
+      "tags": ["experimental", "target-surface", "value", "container", "diagnostic", "json"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.nestedReference with :object, { copy = ~target }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_REPRESENTATION_FLATTENED"],
+        "targetDiagnostics": []
+      }
+    },
+    {
       "id": "sansa-instruction-018b-plan-null-scalar-datatype-intent",
       "description": "Typed explicit-null values preserve datatype intent separately from null representation.",
       "tags": ["experimental", "plan", "value", "scalar", "null"],
