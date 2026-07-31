@@ -426,6 +426,34 @@
       }
     },
     {
+      "id": "sansa-instruction-002e-lower-candidate-relative-quoted-filter-and-require",
+      "description": "Candidate-relative where and require expressions may use quoted member selectors.",
+      "tags": ["experimental", "lower", "quoted-member", "precondition"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .[\"display name\"] == \"Adapter\"\nrequire .[\"display name\"] == \"Adapter\"\nreplace .qty with :int32, 11"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 11
+          }
+        ],
+        "preconditions": [
+          {
+            "expression": ".[\"display name\"] == \"Adapter\"",
+            "target": "$.inventory.items[0]"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-003-lower-candidate-relative-create",
       "description": "Candidate-relative create lowers to one create operation per selected candidate.",
       "tags": ["experimental", "lower"],
