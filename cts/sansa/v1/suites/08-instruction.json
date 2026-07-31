@@ -135,6 +135,30 @@
                       "value": "other"
                     }
                   ]
+                },
+                {
+                  "id": "display-tags",
+                  "name": "display tags",
+                  "address": "$.inventory.[\"display tags\"]",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "id": "display-tags-0",
+                      "index": 0,
+                      "address": "$.inventory.[\"display tags\"][0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "primary"
+                    },
+                    {
+                      "id": "display-tags-1",
+                      "index": 1,
+                      "address": "$.inventory.[\"display tags\"][1]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "featured"
+                    }
+                  ]
                 }
               ],
               "attributeSpace": {
@@ -687,6 +711,31 @@
       }
     },
     {
+      "id": "sansa-instruction-012a2a-lower-direct-insert-with-quoted-container",
+      "description": "Direct insert instructions may use quoted member selectors for ordered containers and anchors.",
+      "tags": ["experimental", "lower", "ordered", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "insert before $.inventory.[\"display tags\"][1] in $.inventory.[\"display tags\"] with \"new\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.[\"display tags\"]",
+            "placement": {
+              "kind": "before",
+              "anchor": "$.inventory.[\"display tags\"][1]"
+            },
+            "kind": "string",
+            "value": "new"
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-012a3-plan-direct-move-last",
       "description": "Direct move-last instructions plan as same-container ordered moves.",
       "tags": ["experimental", "plan", "ordered", "move"],
@@ -704,6 +753,30 @@
             "container": "$.inventory.items",
             "placement": {
               "kind": "last"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a4-plan-direct-move-with-quoted-container",
+      "description": "Direct move instructions may use quoted member selectors for ordered containers and anchors.",
+      "tags": ["experimental", "plan", "ordered", "move", "quoted-member"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.[\"display tags\"][0] after $.inventory.[\"display tags\"][1] in $.inventory.[\"display tags\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.[\"display tags\"][0]",
+            "container": "$.inventory.[\"display tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.[\"display tags\"][1]"
             }
           }
         ]
