@@ -995,6 +995,63 @@
       }
     },
     {
+      "id": "sansa-instruction-0180a1-target-aeon-rejects-quoted-number-literal",
+      "description": "Quoted number-looking text is a string literal family, so an AEON number datatype target rejects it.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "number"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badNumber with :number, \"42\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "number",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a2-target-aeon-rejects-quoted-boolean-literal",
+      "description": "Quoted boolean-looking text is a string literal family, so an AEON boolean datatype target rejects it.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "boolean"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badBoolean with :boolean, \"true\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "boolean",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a3-target-aeon-rejects-null-value-as-string",
+      "description": "Explicit null-family payloads are not coerced into string literals by string datatype intent.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "null"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badStringNull with :string, !notApplicable"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "string",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
       "id": "sansa-instruction-0180b-target-aeon-rejects-quoted-date-literal",
       "description": "Quoted date-looking text is a string literal family, so an AEON date datatype target rejects it.",
       "tags": ["experimental", "target-surface", "value", "aeon", "date"],
@@ -1117,6 +1174,63 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
         "errorTargetFormat": "aeon",
         "errorDatatype": "base64",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180e1-target-aeon-rejects-quoted-hex-literal",
+      "description": "Quoted hex-looking text is a string literal family, so an AEON hex datatype target rejects it.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "hex"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badHex with :hex, \"fff\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "hex",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180e2-target-aeon-rejects-quoted-nan-literal",
+      "description": "Quoted NaN-looking text is a string literal family, so an AEON NaN datatype target rejects it.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "nan"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badNaN with :nan, \"NaN\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "nan",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180e3-target-aeon-rejects-quoted-infinity-literal",
+      "description": "Quoted Infinity-looking text is a string literal family, so an AEON Infinity datatype target rejects it.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "infinity"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badInfinity with :infinity, \"+Infinity\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "infinity",
         "errorValuePath": "operations[0].value"
       }
     },
