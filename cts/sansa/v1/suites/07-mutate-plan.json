@@ -537,6 +537,33 @@
       }
     },
     {
+      "id": "sansa-mutate-0045a1a-target-aeon-reports-quoted-nested-key-value-path",
+      "tags": ["experimental", "target-surface", "value", "diagnostic"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badNestedQuotedKeyPath",
+          "datatype": "object",
+          "value": {
+            "bad.key": {
+              "": "active"
+            }
+          }
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value[\"bad.key\"][\"\"]"
+      }
+    },
+    {
       "id": "sansa-mutate-0045a2-target-aeon-reports-node-tag-value-path",
       "tags": ["experimental", "target-surface", "value", "diagnostic", "node"],
       "input": {
@@ -953,6 +980,34 @@
         "errorPhase": "target",
         "errorTargetFormat": "json",
         "errorValuePath": "value.badge"
+      }
+    },
+    {
+      "id": "sansa-mutate-0046b-target-json-reports-quoted-nested-key-value-path",
+      "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "payload",
+          "datatype": "object",
+          "value": {
+            "bad.key": {
+              "tag": "badge",
+              "children": ["new"]
+            }
+          }
+        },
+        "mode": "plan",
+        "target": "json"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "json",
+        "errorValuePath": "value[\"bad.key\"]"
       }
     },
     {
