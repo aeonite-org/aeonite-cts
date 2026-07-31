@@ -782,6 +782,32 @@
       }
     },
     {
+      "id": "sansa-instruction-013b-plan-object-container-literal-with-escaped-quoted-fields",
+      "description": "Instruction object quoted field names use quoted-payload escape rules and preserve decoded names in the mutation value.",
+      "tags": ["experimental", "plan", "value", "container", "quoted-member"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.quotedSettingsRich with :object, { \"display name\" = \"Adapter\", \"quote\\\"key\" = \"ok\" }"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "quotedSettingsRich",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "display name": "Adapter",
+              "quote\"key": "ok"
+            }
+          }
+        ]
+      }
+    },
+    {
       "id": "sansa-instruction-014-plan-list-container-literal",
       "description": "Instruction list literals preserve generic datatype intent and list representation intent.",
       "tags": ["experimental", "plan", "value", "container"],
