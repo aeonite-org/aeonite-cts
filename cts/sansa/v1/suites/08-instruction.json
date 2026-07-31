@@ -1065,6 +1065,25 @@
       }
     },
     {
+      "id": "sansa-instruction-0180c3-target-aeon-rejects-sansa-value-as-string",
+      "description": "A SANSA address literal payload remains address data; a string datatype intent does not coerce it to a string literal.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "sansa"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badAddressDatatype with :string, $.inventory.items.*.sku"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "string",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
       "id": "sansa-instruction-0180d-target-aeon-rejects-unsupported-radix-alias",
       "description": "AEON target validation rejects radixN aliases that are not reserved Core v1 shorthands.",
       "tags": ["experimental", "target-surface", "value", "aeon", "radix"],
@@ -2040,6 +2059,45 @@
       "expected": {
         "ok": false,
         "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046e-parse-rejects-empty-reference-value",
+      "description": "Reference-family instruction literals require a non-empty target token before target-surface validation.",
+      "tags": ["experimental", "parse", "value", "reference", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :number, ~"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_REFERENCE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-046f-parse-rejects-whitespace-reference-value",
+      "description": "Reference-family instruction literal targets do not permit embedded whitespace.",
+      "tags": ["experimental", "parse", "value", "reference", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :number, ~ target"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_REFERENCE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-046g-parse-rejects-malformed-sansa-value",
+      "description": "Malformed SANSA address literal payloads preserve SANSA Address parser diagnostics.",
+      "tags": ["experimental", "parse", "value", "sansa", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :sansa, $.inventory..sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EXPECTED_IDENTIFIER"
       }
     },
     {
