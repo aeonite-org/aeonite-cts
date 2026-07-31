@@ -1991,6 +1991,58 @@
       }
     },
     {
+      "id": "sansa-instruction-046a-parse-rejects-empty-datatype-annotation",
+      "description": "A leading colon must be followed by a datatype annotation before the value payload.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :, 1"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046b-parse-rejects-unterminated-datatype-parameters",
+      "description": "Datatype qualifier parameters must be closed before the value payload can be parsed.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :list<string, [1]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046c-parse-rejects-unterminated-datatype-arguments",
+      "description": "Datatype qualifier arguments must be closed before the value payload can be parsed.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :csv[\";\", \"a\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046d-parse-rejects-empty-datatype-parameters",
+      "description": "Datatype qualifier parameters require a qualifier term rather than an empty parameter list.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :list<>, [1]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
       "id": "sansa-instruction-047-parse-rejects-function-value-expression",
       "description": "Instruction value payloads remain literal-only and reject query function expressions.",
       "tags": ["experimental", "parse", "value", "diagnostic"],
