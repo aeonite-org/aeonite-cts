@@ -1048,6 +1048,47 @@
       }
     },
     {
+      "id": "sansa-mutate-0046a0-target-json-compatible-alias-normalizes-to-json",
+      "tags": ["experimental", "target-surface", "json", "alias"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "plan",
+        "target": "json-compatible"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0046a1-target-json-compatible-alias-reports-json-target-format",
+      "tags": ["experimental", "target-surface", "json", "alias", "diagnostic"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "selector",
+          "datatype": "sansa",
+          "value": "$.items.*"
+        },
+        "mode": "plan",
+        "target": "json-compatible"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorPhase": "target",
+        "errorTargetFormat": "json",
+        "errorDatatype": "sansa"
+      }
+    },
+    {
       "id": "sansa-mutate-0046a-target-json-reports-nested-node-value-path",
       "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
       "input": {
