@@ -422,6 +422,53 @@
       }
     },
     {
+      "id": "sansa-mutate-0043a-reject-unsupported-request-policy-field",
+      "tags": ["experimental", "authority", "policy"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "request": {
+          "operations": [
+            {
+              "op": "replace",
+              "target": "$.inventory.sku",
+              "value": "B-200"
+            }
+          ],
+          "policy": {
+            "allow": true
+          }
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_UNSUPPORTED_REQUEST_FIELD",
+        "errorRequestField": "policy"
+      }
+    },
+    {
+      "id": "sansa-mutate-0043b-reject-unsupported-operation-policy-field",
+      "tags": ["experimental", "authority", "policy"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200",
+          "policy": {
+            "allow": true
+          }
+        },
+        "mode": "plan"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_UNSUPPORTED_OPERATION_FIELD",
+        "operationIndex": 0,
+        "errorOperationField": "policy"
+      }
+    },
+    {
       "id": "sansa-mutate-0044-target-aeon-accepts-plain-replace",
       "tags": ["experimental", "target-surface"],
       "input": {
