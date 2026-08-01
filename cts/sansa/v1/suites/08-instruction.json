@@ -1505,98 +1505,68 @@
       }
     },
     {
-      "id": "sansa-instruction-0180a-target-aeon-rejects-datatype-kind-mismatch",
-      "description": "Instruction can plan datatype intent with a mismatched literal family, but AEON target validation rejects the reserved datatype mismatch.",
-      "tags": ["experimental", "target-surface", "value", "aeon"],
+      "id": "sansa-instruction-0180a-parse-rejects-datatype-kind-mismatch",
+      "description": "Known datatype intent must match the literal family before instruction lowering.",
+      "tags": ["experimental", "parse", "value", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badToggle with :toggle, \"maybe\""
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "toggle",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
-      "id": "sansa-instruction-0180a1-target-aeon-rejects-quoted-number-literal",
-      "description": "Quoted number-looking text is a string literal family, so an AEON number datatype target rejects it.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "number"],
+      "id": "sansa-instruction-0180a1-parse-rejects-quoted-number-literal",
+      "description": "Quoted number-looking text is a string literal family and is not compatible with number datatype intent.",
+      "tags": ["experimental", "parse", "value", "number", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badNumber with :number, \"42\""
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "number",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
-      "id": "sansa-instruction-0180a2-target-aeon-rejects-quoted-boolean-literal",
-      "description": "Quoted boolean-looking text is a string literal family, so an AEON boolean datatype target rejects it.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "boolean"],
+      "id": "sansa-instruction-0180a2-parse-rejects-quoted-boolean-literal",
+      "description": "Quoted boolean-looking text is a string literal family and is not compatible with Boolean datatype intent.",
+      "tags": ["experimental", "parse", "value", "boolean", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badBoolean with :boolean, \"true\""
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "boolean",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
-      "id": "sansa-instruction-0180a3-target-aeon-rejects-null-value-as-string",
+      "id": "sansa-instruction-0180a3-parse-rejects-null-value-as-string",
       "description": "Explicit null-family payloads are not coerced into string literals by string datatype intent.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "null"],
+      "tags": ["experimental", "parse", "value", "null", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badStringNull with :string, !notApplicable"
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "string",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
-      "id": "sansa-instruction-0180b-target-aeon-rejects-quoted-date-literal",
-      "description": "Quoted date-looking text is a string literal family, so an AEON date datatype target rejects it.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "date"],
+      "id": "sansa-instruction-0180b-parse-rejects-quoted-date-literal",
+      "description": "Quoted date-looking text is a string literal family and is not compatible with date datatype intent.",
+      "tags": ["experimental", "parse", "value", "date", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badDate with :date, \"2026-10-10\""
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "date",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
@@ -1651,22 +1621,16 @@
       }
     },
     {
-      "id": "sansa-instruction-0180c3-target-aeon-rejects-sansa-value-as-string",
+      "id": "sansa-instruction-0180c3-parse-rejects-sansa-value-as-string",
       "description": "A SANSA address literal payload remains address data; a string datatype intent does not coerce it to a string literal.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "sansa"],
+      "tags": ["experimental", "parse", "value", "sansa", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badAddressDatatype with :string, $.inventory.items.*.sku"
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "string",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
@@ -1688,79 +1652,55 @@
       }
     },
     {
-      "id": "sansa-instruction-0180e-target-aeon-rejects-quoted-encoding-literal",
-      "description": "Quoted encoding-looking text is a string literal family, so an AEON encoding-family datatype target rejects it.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "encoding"],
+      "id": "sansa-instruction-0180e-parse-rejects-quoted-encoding-literal",
+      "description": "Quoted encoding-looking text is a string literal family and is not compatible with encoding-family datatype intent.",
+      "tags": ["experimental", "parse", "value", "encoding", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badEncoding with :base64, \"abc+/==\""
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "base64",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
-      "id": "sansa-instruction-0180e1-target-aeon-rejects-quoted-hex-literal",
-      "description": "Quoted hex-looking text is a string literal family, so an AEON hex datatype target rejects it.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "hex"],
+      "id": "sansa-instruction-0180e1-parse-rejects-quoted-hex-literal",
+      "description": "Quoted hex-looking text is a string literal family and is not compatible with hex datatype intent.",
+      "tags": ["experimental", "parse", "value", "hex", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badHex with :hex, \"fff\""
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "hex",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
-      "id": "sansa-instruction-0180e2-target-aeon-rejects-quoted-nan-literal",
-      "description": "Quoted NaN-looking text is a string literal family, so an AEON NaN datatype target rejects it.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "nan"],
+      "id": "sansa-instruction-0180e2-parse-rejects-quoted-nan-literal",
+      "description": "Quoted NaN-looking text is a string literal family and is not compatible with NaN datatype intent.",
+      "tags": ["experimental", "parse", "value", "nan", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badNaN with :nan, \"NaN\""
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "nan",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
-      "id": "sansa-instruction-0180e3-target-aeon-rejects-quoted-infinity-literal",
-      "description": "Quoted Infinity-looking text is a string literal family, so an AEON Infinity datatype target rejects it.",
-      "tags": ["experimental", "target-surface", "value", "aeon", "infinity"],
+      "id": "sansa-instruction-0180e3-parse-rejects-quoted-infinity-literal",
+      "description": "Quoted Infinity-looking text is a string literal family and is not compatible with Infinity datatype intent.",
+      "tags": ["experimental", "parse", "value", "infinity", "diagnostic"],
       "input": {
-        "mode": "target",
-        "namespace": "instruction-inventory",
-        "target": "aeon",
+        "mode": "parse",
         "source": "create $.inventory.badInfinity with :infinity, \"+Infinity\""
       },
       "expected": {
         "ok": false,
-        "errorPhase": "target",
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "infinity",
-        "errorValuePath": "operations[0].value"
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
@@ -1923,6 +1863,55 @@
             "value": "sku,name"
           }
         ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018a0-plan-custom-datatype-with-literal-family",
+      "description": "Custom datatype intent may pair with a known literal representation family without making the custom datatype a core family.",
+      "tags": ["experimental", "plan", "value", "scalar", "custom"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.brand with :brandColor, #ff00aa"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "brand",
+            "datatype": "brandColor",
+            "kind": "hex",
+            "value": "ff00aa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018a0a-parse-rejects-top-level-date-string-intent-mismatch",
+      "description": "Known top-level datatype intent must be compatible with the literal representation family before lowering.",
+      "tags": ["experimental", "parse", "value", "scalar", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.when with :date, \"2026-10-10\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-018a0b-parse-rejects-top-level-number-string-intent-mismatch",
+      "description": "Known top-level numeric datatype intent must not be paired with a quoted string literal payload.",
+      "tags": ["experimental", "parse", "value", "scalar", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.count with :number, \"2026-10-10\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
       }
     },
     {
