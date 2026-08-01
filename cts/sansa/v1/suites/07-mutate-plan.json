@@ -1686,6 +1686,68 @@
       }
     },
     {
+      "id": "sansa-mutate-0049j-policy-anchor-constraint-allows-anchored-insert-rule",
+      "tags": ["experimental", "policy", "authority", "anchor", "insert"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": {
+            "kind": "before",
+            "anchor": "$.items[1]"
+          },
+          "value": "middle"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["insert"],
+              "container": "$.items",
+              "anchor": "$.items[1]"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-0049k-policy-anchor-constraint-does-not-match-unanchored-placement",
+      "tags": ["experimental", "policy", "authority", "anchor", "insert"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": "last",
+          "value": "third"
+        },
+        "mode": "policy",
+        "policy": {
+          "default": "deny",
+          "rules": [
+            {
+              "allow": true,
+              "operations": ["insert"],
+              "container": "$.items",
+              "anchor": "$.items[1]"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_POLICY_DENIED",
+        "errorPhase": "policy",
+        "operationIndex": 0
+      }
+    },
+    {
       "id": "sansa-mutate-004a-reject-create-non-container-parent",
       "tags": ["experimental"],
       "input": {
