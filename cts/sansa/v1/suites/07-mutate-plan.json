@@ -557,6 +557,52 @@
       }
     },
     {
+      "id": "sansa-mutate-0045a01-target-aeon-accepts-custom-datatype-with-known-kind",
+      "tags": ["experimental", "target-surface", "datatype", "kind"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "brandColor",
+          "datatype": "brandColor",
+          "kind": "hex",
+          "value": "ff00aa"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-mutate-0045a02-target-aeon-rejects-known-datatype-kind-mismatch",
+      "tags": ["experimental", "target-surface", "datatype", "kind", "diagnostic"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "create",
+          "parent": "$.inventory",
+          "name": "badNumberString",
+          "datatype": "number",
+          "kind": "string",
+          "value": "42"
+        },
+        "mode": "plan",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorPhase": "target",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "number",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
       "id": "sansa-mutate-0045a1-target-aeon-reports-nested-empty-key-value-path",
       "tags": ["experimental", "target-surface", "value", "diagnostic"],
       "input": {
