@@ -1089,6 +1089,26 @@
       }
     },
     {
+      "id": "sansa-mutate-0046a2-target-unsupported-id-reports-requested-target-format",
+      "tags": ["experimental", "target-surface", "diagnostic"],
+      "input": {
+        "namespace": "mutable-inventory",
+        "operation": {
+          "op": "replace",
+          "target": "$.inventory.sku",
+          "value": "B-200"
+        },
+        "mode": "plan",
+        "target": "xml"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorPhase": "target",
+        "errorTargetFormat": "xml"
+      }
+    },
+    {
       "id": "sansa-mutate-0046a-target-json-reports-nested-node-value-path",
       "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
       "input": {
