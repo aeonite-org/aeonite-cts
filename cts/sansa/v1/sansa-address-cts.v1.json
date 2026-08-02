@@ -9,7 +9,8 @@
     },
     "sut_protocol": "cts.protocol.v1",
     "description": "SANSA Address parser CTS scaffold for v1",
-    "snapshot_id": "sansa-address-cts-v1-snapshot-0.1"
+    "snapshot_id": "sansa-address-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "sansa-address-specs-v1-snapshot-0.1"
   },
   "suites": [
     {

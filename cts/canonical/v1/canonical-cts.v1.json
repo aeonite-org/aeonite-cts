@@ -4,7 +4,8 @@
     "lane": "canonical",
     "sut_protocol": "cts.protocol.v1",
     "description": "AEON canonical formatting CTS scaffold for v1",
-    "snapshot_id": "canonical-cts-v1-snapshot-0.1"
+    "snapshot_id": "canonical-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "canonical-specs-v1-snapshot-0.1"
   },
   "suites": [
     {

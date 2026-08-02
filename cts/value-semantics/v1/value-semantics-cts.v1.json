@@ -9,7 +9,8 @@
     },
     "sut_protocol": "cts.protocol.v1",
     "description": "Shared AEON Value Semantics minimum consumer contract scaffold for v1",
-    "snapshot_id": "value-semantics-cts-v1-snapshot-0.1"
+    "snapshot_id": "value-semantics-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "value-semantics-specs-v1-snapshot-0.1"
   },
   "suites": [
     {

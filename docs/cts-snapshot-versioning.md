@@ -68,7 +68,7 @@ The repository validator enforces snapshot-id presence, naming shape, and
 uniqueness across published manifests.
 
 When a CTS snapshot is known to correspond to a specific specification snapshot,
-the manifest may also expose a documentation-facing `spec_snapshot_id`:
+the manifest can also expose a documentation-facing `spec_snapshot_id`:
 
 ```json
 {
@@ -80,8 +80,9 @@ the manifest may also expose a documentation-facing `spec_snapshot_id`:
 }
 ```
 
-`spec_snapshot_id` is advisory unless a future manifest profile makes it
-required. It records alignment; it does not change CTS expectations.
+Current v1 manifests record this alignment. `spec_snapshot_id` is advisory
+unless a future manifest profile makes it required. It records alignment; it
+does not change CTS expectations.
 
 ## Specification Snapshots
 

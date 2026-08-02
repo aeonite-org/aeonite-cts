@@ -10,7 +10,8 @@
     },
     "sut_protocol": "cts.protocol.v1",
     "description": "SANSA Query parser CTS scaffold for v1",
-    "snapshot_id": "sansa-query-parser-cts-v1-snapshot-0.1"
+    "snapshot_id": "sansa-query-parser-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "sansa-query-specs-v1-snapshot-0.1"
   },
   "suites": [
     {

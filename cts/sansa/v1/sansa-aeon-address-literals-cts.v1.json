@@ -10,7 +10,8 @@
     },
     "sut_protocol": "cts.protocol.v1",
     "description": "AEON embedded SANSA address literal CTS scaffold for v1",
-    "snapshot_id": "sansa-aeon-address-literals-cts-v1-snapshot-0.1"
+    "snapshot_id": "sansa-aeon-address-literals-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "sansa-aeon-address-literals-specs-v1-snapshot-0.1"
   },
   "suites": [
     {

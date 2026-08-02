@@ -51,6 +51,7 @@ This validates:
 
 - every JSON file parses
 - CTS manifest snapshot IDs are present, well-formed, and unique
+- CTS manifest spec snapshot IDs are well-formed when present
 - core/canonical/aeos-style manifests resolve to real suite files
 - inline suite manifests such as the annotations lane have valid test IDs
 - test IDs are unique within each manifest lane

@@ -4,7 +4,8 @@
     "lane": "finalize-map",
     "sut_protocol": "cts.protocol.v1",
     "description": "AEON finalized map CTS scaffold for v1",
-    "snapshot_id": "finalize-map-cts-v1-snapshot-0.1"
+    "snapshot_id": "finalize-map-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "finalize-map-specs-v1-snapshot-0.1"
   },
   "suites": [
     {

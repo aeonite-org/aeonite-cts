@@ -9,6 +9,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOT_ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*-cts-v[0-9]+-snapshot-[0-9]+\.[0-9]+$")
+SPEC_SNAPSHOT_ID_PATTERN = re.compile(
+    r"^[a-z0-9]+(?:-[a-z0-9]+)*-specs-v[0-9]+-snapshot-[0-9]+\.[0-9]+$"
+)
 
 
 def load_json(path: Path, errors: list[str]) -> object | None:
@@ -136,6 +139,18 @@ def validate_manifest_metadata(
         )
         return
     seen_snapshot_ids[snapshot_id] = manifest_path
+
+    spec_snapshot_id = meta.get("spec_snapshot_id")
+    if spec_snapshot_id is None:
+        return
+    if not isinstance(spec_snapshot_id, str) or not spec_snapshot_id:
+        errors.append(f"{lane_label}: manifest meta.spec_snapshot_id must be a non-empty string when present")
+        return
+    if not SPEC_SNAPSHOT_ID_PATTERN.fullmatch(spec_snapshot_id):
+        errors.append(
+            f"{lane_label}: manifest meta.spec_snapshot_id `{spec_snapshot_id}` must match "
+            "`<surface>-specs-v<spec-version>-snapshot-<snapshot-version>`"
+        )
 
 
 def main() -> int:

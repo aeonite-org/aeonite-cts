@@ -4,7 +4,8 @@
     "lane": "core",
     "sut_protocol": "cts.protocol.v1",
     "description": "AEON Core parse/addressing CTS scaffold for v1",
-    "snapshot_id": "core-cts-v1-snapshot-0.1"
+    "snapshot_id": "core-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "core-specs-v1-snapshot-0.1"
   },
   "suites": [
     {
