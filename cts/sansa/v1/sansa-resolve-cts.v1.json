@@ -8,7 +8,8 @@
       "surface": "core"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "SANSA Resolve CTS scaffold for v1"
+    "description": "SANSA Resolve CTS scaffold for v1",
+    "snapshot_id": "sansa-resolve-cts-v1-snapshot-0.1"
   },
   "suites": [
     {

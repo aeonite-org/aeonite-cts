@@ -2,7 +2,8 @@
   "meta": {
     "version": "0.1.0",
     "description": "AEON Annotation Stream Conformance Test Suite (orthogonal to AEOS envelope CTS)",
-    "scope": "source + emitted annotation stream only"
+    "scope": "source + emitted annotation stream only",
+    "snapshot_id": "annotation-stream-cts-v1-snapshot-0.1"
   },
   "suites": [
     {

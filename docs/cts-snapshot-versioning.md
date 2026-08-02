@@ -19,8 +19,8 @@ Examples:
 core-cts-v1-snapshot-0.1
 aes-cts-v1-snapshot-0.1
 aeos-validator-cts-v1-snapshot-0.1
-address-cts-v1-snapshot-0.1
-query-cts-v1-snapshot-0.1
+sansa-address-cts-v1-snapshot-0.1
+sansa-query-parser-cts-v1-snapshot-0.1
 mutate-cts-v1-snapshot-0.1
 instruction-cts-v1-snapshot-0.1
 ```
@@ -53,20 +53,58 @@ unless the implementation has claimed that newer snapshot.
 
 ## Manifest Metadata
 
-CTS manifests should expose both a machine snapshot id and a compact version:
+CTS manifests must expose a machine snapshot id in their `meta` object:
 
 ```json
 {
-  "metadata": {
+  "meta": {
     "version": "0.1.0",
     "snapshot_id": "mutate-cts-v1-snapshot-0.1"
   }
 }
 ```
 
-Existing manifests that only expose `version` should be treated as pre-snapshot
-metadata and migrated as part of the next manifest cleanup. Migration should not
-change test expectations by itself.
+The repository validator enforces snapshot-id presence, naming shape, and
+uniqueness across published manifests.
+
+When a CTS snapshot is known to correspond to a specific specification snapshot,
+the manifest may also expose a documentation-facing `spec_snapshot_id`:
+
+```json
+{
+  "meta": {
+    "version": "0.1.0",
+    "snapshot_id": "mutate-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "mutate-specs-v1-snapshot-0.1"
+  }
+}
+```
+
+`spec_snapshot_id` is advisory unless a future manifest profile makes it
+required. It records alignment; it does not change CTS expectations.
+
+## Specification Snapshots
+
+Specification snapshots use a parallel but distinct identifier:
+
+```text
+<surface>-specs-v<spec-version>-snapshot-<snapshot-version>
+```
+
+Examples:
+
+```text
+core-specs-v1-snapshot-0.1
+aeos-validator-specs-v1-snapshot-0.1
+sansa-address-specs-v1-snapshot-0.1
+mutate-specs-v1-snapshot-0.1
+instruction-specs-v1-snapshot-0.1
+```
+
+Spec snapshots are documentation and alignment markers. CTS snapshots are
+executable compatibility targets. A release may identify both so an
+implementation can say exactly which specification text it implemented and which
+CTS snapshot it passed.
 
 ## Implementation Claims
 

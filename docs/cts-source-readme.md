@@ -21,6 +21,7 @@ Conformance test suites for AEON.
 ## Snapshot Versioning
 - CTS compatibility snapshots use explicit identifiers such as `core-cts-v1-snapshot-0.1`, `aeos-validator-cts-v1-snapshot-0.1`, and `mutate-cts-v1-snapshot-0.1`.
 - Released snapshots are immutable compatibility targets. New cases belong in a draft, next, experimental, or newer snapshot.
+- Specification snapshots use the parallel `*-specs-v1-snapshot-*` convention as documentation/alignment markers.
 - Full rules live in [`cts-snapshot-versioning.md`](cts-snapshot-versioning.md).
 
 ## Protocol

@@ -9,7 +9,8 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Experimental SANSA Mutate structured-plan and policy plan-filter CTS scaffold for proposal-stage implementation slices"
+    "description": "Experimental SANSA Mutate structured-plan and policy plan-filter CTS scaffold for proposal-stage implementation slices",
+    "snapshot_id": "sansa-mutate-cts-v1-snapshot-0.1"
   },
   "suites": [
     {

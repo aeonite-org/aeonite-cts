@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SNAPSHOT_ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*-cts-v[0-9]+-snapshot-[0-9]+\.[0-9]+$")
 
 
 def load_json(path: Path, errors: list[str]) -> object | None:
@@ -103,6 +105,39 @@ def validate_inline_suite_manifest(manifest_path: Path, data: dict[str, object],
         validate_suite_tests(lane_label, f"inline suite `{suite_id}`", tests, seen_test_ids, errors)
 
 
+def validate_manifest_metadata(
+    manifest_path: Path,
+    data: dict[str, object],
+    seen_snapshot_ids: dict[str, Path],
+    errors: list[str],
+) -> None:
+    lane_label = str(manifest_path.relative_to(ROOT))
+    meta = data.get("meta")
+    if not isinstance(meta, dict):
+        errors.append(f"{lane_label}: manifest meta must be an object")
+        return
+
+    snapshot_id = meta.get("snapshot_id")
+    if not isinstance(snapshot_id, str) or not snapshot_id:
+        errors.append(f"{lane_label}: manifest meta.snapshot_id must be a non-empty string")
+        return
+
+    if not SNAPSHOT_ID_PATTERN.fullmatch(snapshot_id):
+        errors.append(
+            f"{lane_label}: manifest meta.snapshot_id `{snapshot_id}` must match "
+            "`<surface>-cts-v<spec-version>-snapshot-<snapshot-version>`"
+        )
+
+    previous_path = seen_snapshot_ids.get(snapshot_id)
+    if previous_path is not None:
+        errors.append(
+            f"{lane_label}: duplicate snapshot id `{snapshot_id}` also used by "
+            f"{previous_path.relative_to(ROOT)}"
+        )
+        return
+    seen_snapshot_ids[snapshot_id] = manifest_path
+
+
 def main() -> int:
     errors: list[str] = []
 
@@ -112,6 +147,7 @@ def main() -> int:
 
     manifests = sorted(ROOT.glob("cts/*/v1/*.json"))
     manifest_count = 0
+    seen_snapshot_ids: dict[str, Path] = {}
     for manifest_path in manifests:
         data = load_json(manifest_path, errors)
         if not isinstance(data, dict):
@@ -120,6 +156,7 @@ def main() -> int:
         if not isinstance(suites, list):
             continue
         manifest_count += 1
+        validate_manifest_metadata(manifest_path, data, seen_snapshot_ids, errors)
         if all(isinstance(entry, dict) and "file" in entry for entry in suites):
             validate_external_suite_manifest(manifest_path, data, errors)
         elif all(isinstance(entry, dict) and "tests" in entry for entry in suites):

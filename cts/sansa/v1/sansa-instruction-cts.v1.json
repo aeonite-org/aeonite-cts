@@ -9,7 +9,8 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Experimental SANSA Instruction CTS scaffold for proposal-stage parse, lower, plan, and target-surface behavior"
+    "description": "Experimental SANSA Instruction CTS scaffold for proposal-stage parse, lower, plan, and target-surface behavior",
+    "snapshot_id": "sansa-instruction-cts-v1-snapshot-0.1"
   },
   "suites": [
     {
