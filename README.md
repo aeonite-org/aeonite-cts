@@ -32,6 +32,11 @@ If a stress or fuzz asset is implementation hardening work but not part of a pub
 
 The current anti-drift coverage map is tracked in `CONFORMANCE-COVERAGE.md`.
 
+CTS compatibility snapshots are versioned explicitly. See
+`docs/cts-snapshot-versioning.md` for the naming convention, such as
+`mutate-cts-v1-snapshot-0.1`, and for the rule that released snapshots are
+immutable compatibility targets.
+
 ## Validation
 
 For a lightweight repository-integrity check of the published CTS assets, run:

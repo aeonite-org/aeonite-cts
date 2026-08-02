@@ -12,9 +12,16 @@ Conformance test suites for AEON.
 - `core/v1/` - core parse/addressing conformance suites.
 - `aes/v1/` - AES emission conformance suites.
 - `canonical/v1/` - canonical formatting conformance suites.
+- `sansa/v1/` - SANSA Address, Resolve, Query, Instruction, and Mutate conformance suites.
+- `value-semantics/v1/` - shared AEON value semantics consumer-contract suites.
 
 ## Planned Expansion
 - Expand `core/v1` and `aes/v1` from baseline + coverage suites to full conformance corpus.
+
+## Snapshot Versioning
+- CTS compatibility snapshots use explicit identifiers such as `core-cts-v1-snapshot-0.1`, `aeos-validator-cts-v1-snapshot-0.1`, and `mutate-cts-v1-snapshot-0.1`.
+- Released snapshots are immutable compatibility targets. New cases belong in a draft, next, experimental, or newer snapshot.
+- Full rules live in [`cts-snapshot-versioning.md`](cts-snapshot-versioning.md).
 
 ## Protocol
 - `protocol/v1/` - runner/SUT protocol documents.
