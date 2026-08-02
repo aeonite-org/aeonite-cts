@@ -3,7 +3,9 @@
     "version": "0.1.0",
     "lane": "finalize-json",
     "sut_protocol": "cts.protocol.v1",
-    "description": "AEON finalized JSON CTS scaffold for v1"
+    "description": "AEON finalized JSON CTS scaffold for v1",
+    "snapshot_id": "finalize-json-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "finalize-json-specs-v1-snapshot-0.1"
   },
   "suites": [
     {

@@ -1,0 +1,2932 @@
+{
+  "meta": {
+    "suite_id": "instruction",
+    "lane": "sansa-instruction",
+    "capability": "SANSA.Instruction",
+    "profile": "instruction-parse-lower-plan",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/instruction-v1.md",
+      "aeonite-specs/sansa/v1/proposals/mutate-v1.md"
+    ],
+    "description": "Experimental instruction parse/lower/plan behavior over host-neutral fixtures."
+  },
+  "id": "instruction",
+  "title": "SANSA Instruction Parse, Lower, Plan, And Target Coverage",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "instruction-inventory",
+        "root": {
+          "id": "$",
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "id": "inventory",
+              "name": "inventory",
+              "address": "$.inventory",
+              "representationKind": "object",
+              "children": [
+                {
+                  "id": "items",
+                  "name": "items",
+                  "address": "$.inventory.items",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "id": "item-0",
+                      "index": 0,
+                      "address": "$.inventory.items[0]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "id": "item-0-sku",
+                          "name": "sku",
+                          "address": "$.inventory.items[0].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "A-100",
+                          "revision": 0
+                        },
+                        {
+                          "id": "item-0-qty",
+                          "name": "qty",
+                          "address": "$.inventory.items[0].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 0,
+                          "revision": 0
+                        },
+                        {
+                          "id": "item-0-display-name",
+                          "name": "display name",
+                          "address": "$.inventory.items[0].[\"display name\"]",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "Adapter"
+                        },
+                        {
+                          "id": "item-0-tags",
+                          "name": "tags",
+                          "address": "$.inventory.items[0].tags",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "id": "item-0-tags-0",
+                              "index": 0,
+                              "address": "$.inventory.items[0].tags[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "core"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "item-0-sale-tags",
+                          "name": "sale tags",
+                          "address": "$.inventory.items[0].[\"sale tags\"]",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "id": "item-0-sale-tags-0",
+                              "index": 0,
+                              "address": "$.inventory.items[0].[\"sale tags\"][0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "seasonal"
+                            },
+                            {
+                              "id": "item-0-sale-tags-1",
+                              "index": 1,
+                              "address": "$.inventory.items[0].[\"sale tags\"][1]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "featured"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "item-1",
+                      "index": 1,
+                      "address": "$.inventory.items[1]",
+                      "representationKind": "object",
+                      "children": [
+                        {
+                          "id": "item-1-sku",
+                          "name": "sku",
+                          "address": "$.inventory.items[1].sku",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "B-200",
+                          "revision": 0
+                        },
+                        {
+                          "id": "item-1-qty",
+                          "name": "qty",
+                          "address": "$.inventory.items[1].qty",
+                          "semanticType": "number",
+                          "representationKind": "number",
+                          "value": 4,
+                          "revision": 0
+                        },
+                        {
+                          "id": "item-1-display-name",
+                          "name": "display name",
+                          "address": "$.inventory.items[1].[\"display name\"]",
+                          "semanticType": "string",
+                          "representationKind": "string",
+                          "value": "Driver"
+                        },
+                        {
+                          "id": "item-1-tags",
+                          "name": "tags",
+                          "address": "$.inventory.items[1].tags",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "id": "item-1-tags-0",
+                              "index": 0,
+                              "address": "$.inventory.items[1].tags[0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "core"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "item-1-sale-tags",
+                          "name": "sale tags",
+                          "address": "$.inventory.items[1].[\"sale tags\"]",
+                          "representationKind": "list",
+                          "children": [
+                            {
+                              "id": "item-1-sale-tags-0",
+                              "index": 0,
+                              "address": "$.inventory.items[1].[\"sale tags\"][0]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "standard"
+                            },
+                            {
+                              "id": "item-1-sale-tags-1",
+                              "index": 1,
+                              "address": "$.inventory.items[1].[\"sale tags\"][1]",
+                              "semanticType": "string",
+                              "representationKind": "string",
+                              "value": "display"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "other-tags",
+                  "name": "otherTags",
+                  "address": "$.inventory.otherTags",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "id": "other-tags-0",
+                      "index": 0,
+                      "address": "$.inventory.otherTags[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "other"
+                    }
+                  ]
+                },
+                {
+                  "id": "display-tags",
+                  "name": "display tags",
+                  "address": "$.inventory.[\"display tags\"]",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "id": "display-tags-0",
+                      "index": 0,
+                      "address": "$.inventory.[\"display tags\"][0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "primary"
+                    },
+                    {
+                      "id": "display-tags-1",
+                      "index": 1,
+                      "address": "$.inventory.[\"display tags\"][1]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "featured"
+                    }
+                  ]
+                },
+                {
+                  "id": "inventory-quote-key",
+                  "name": "quote\"key",
+                  "address": "$.inventory.[\"quote\\\"key\"]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "quoted"
+                }
+              ],
+              "attributeSpace": {
+                "id": "inventory-attributes",
+                "address": "$.inventory.@",
+                "representationKind": "attributeSpace",
+                "children": [
+                  {
+                    "id": "inventory-origin",
+                    "name": "origin",
+                    "address": "$.inventory.@.origin",
+                    "semanticType": "string",
+                    "representationKind": "string",
+                    "value": "fixture"
+                  },
+                  {
+                    "id": "inventory-source-role",
+                    "name": "source role",
+                    "address": "$.inventory.@.[\"source role\"]",
+                    "semanticType": "string",
+                    "representationKind": "string",
+                    "value": "catalog"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-instruction-001-parse-direct-replace",
+      "description": "Direct replace instruction parses to canonical instruction source.",
+      "tags": ["experimental", "parse"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.inventory.items[0].qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "replace $.inventory.items[0].qty with :int32, 10",
+        "clauses": ["replace"]
+      }
+    },
+    {
+      "id": "sansa-instruction-001a-parse-canonicalizes-claimed-provenance",
+      "description": "Claimed provenance clauses parse and canonicalize before mutation intent.",
+      "tags": ["experimental", "parse", "provenance"],
+      "input": {
+        "mode": "parse",
+        "source": "because \"manual correction\"\nby \"Bob\"\nreplace $.inventory.items[0].qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "because \"manual correction\"\nby \"Bob\"\nreplace $.inventory.items[0].qty with :int32, 10",
+        "clauses": ["because", "by", "replace"],
+        "provenanceReason": "manual correction",
+        "provenanceClaimedAuthor": "Bob"
+      }
+    },
+    {
+      "id": "sansa-instruction-002-lower-candidate-relative-replace",
+      "description": "Query-shaped instruction lowers candidate-relative targets into exact mutation requests.",
+      "tags": ["experimental", "lower"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .qty == 0\nreplace .qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002a-lower-candidate-relative-quoted-replace",
+      "description": "Candidate-relative replace targets may use quoted member selectors.",
+      "tags": ["experimental", "lower", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nreplace .[\"display name\"] with \"Renamed\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].[\"display name\"]",
+            "kind": "string",
+            "value": "Renamed"
+          },
+          {
+            "op": "replace",
+            "target": "$.inventory.items[1].[\"display name\"]",
+            "kind": "string",
+            "value": "Renamed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002b-lower-candidate-relative-quoted-remove",
+      "description": "Candidate-relative remove targets may use quoted member selectors.",
+      "tags": ["experimental", "lower", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nremove .[\"display name\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "remove",
+            "target": "$.inventory.items[0].[\"display name\"]"
+          },
+          {
+            "op": "remove",
+            "target": "$.inventory.items[1].[\"display name\"]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002c-lower-candidate-relative-quoted-insert",
+      "description": "Candidate-relative insert containers and anchors may use quoted member selectors.",
+      "tags": ["experimental", "lower", "ordered", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ninsert after .[\"sale tags\"][0] in .[\"sale tags\"] with \"quoted-sale\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[0].[\"sale tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[0].[\"sale tags\"][0]"
+            },
+            "kind": "string",
+            "value": "quoted-sale"
+          },
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].[\"sale tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[1].[\"sale tags\"][0]"
+            },
+            "kind": "string",
+            "value": "quoted-sale"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002d-lower-candidate-relative-quoted-move",
+      "description": "Candidate-relative move sources, containers, and anchors may use quoted member selectors.",
+      "tags": ["experimental", "lower", "ordered", "move", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nmove .[\"sale tags\"][0] after .[\"sale tags\"][1] in .[\"sale tags\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.items[0].[\"sale tags\"][0]",
+            "container": "$.inventory.items[0].[\"sale tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[0].[\"sale tags\"][1]"
+            }
+          },
+          {
+            "op": "move",
+            "source": "$.inventory.items[1].[\"sale tags\"][0]",
+            "container": "$.inventory.items[1].[\"sale tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[1].[\"sale tags\"][1]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002e-lower-candidate-relative-quoted-filter-and-require",
+      "description": "Candidate-relative where and require expressions may use quoted member selectors.",
+      "tags": ["experimental", "lower", "quoted-member", "precondition"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .[\"display name\"] == \"Adapter\"\nrequire .[\"display name\"] == \"Adapter\"\nreplace .qty with :int32, 11"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 11
+          }
+        ],
+        "preconditions": [
+          {
+            "expression": ".[\"display name\"] == \"Adapter\"",
+            "target": "$.inventory.items[0]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-002f-lower-candidate-relative-escaped-quoted-member",
+      "description": "Candidate-relative where and mutation targets may use escaped quoted member selectors.",
+      "tags": ["experimental", "lower", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory\nwhere .[\"quote\\\"key\"] == \"quoted\"\nreplace .[\"quote\\\"key\"] with \"escaped\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.[\"quote\\\"key\"]",
+            "kind": "string",
+            "value": "escaped"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-003-lower-candidate-relative-create",
+      "description": "Candidate-relative create lowers to one create operation per selected candidate.",
+      "tags": ["experimental", "lower"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ncreate status with \"active\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "target": "$.inventory.items[0]",
+            "name": "status",
+            "kind": "string",
+            "value": "active"
+          },
+          {
+            "op": "create",
+            "target": "$.inventory.items[1]",
+            "name": "status",
+            "kind": "string",
+            "value": "active"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-004-plan-preserves-source-provenance",
+      "description": "Instruction planning preserves source provenance and exact planned target metadata.",
+      "tags": ["experimental", "plan"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .qty == 0\nreplace .qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "sourceProvenanceType": "SansaInstruction",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-004a-plan-preserves-claimed-provenance",
+      "description": "Because and by clauses are inert instruction provenance and are preserved on source provenance.",
+      "tags": ["experimental", "plan", "provenance"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "because \"manual correction\"\nby \"Bob\"\nreplace $.inventory.items[0].qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "sourceProvenanceType": "SansaInstruction",
+        "sourceProvenanceReason": "manual correction",
+        "sourceProvenanceClaimedAuthor": "Bob",
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-004b-parse-rejects-reversed-claimed-provenance",
+      "description": "Claimed provenance clauses must preserve grammar order: because, then by.",
+      "tags": ["experimental", "parse", "provenance", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "by \"Bob\"\nbecause \"manual correction\"\nreplace $.inventory.items[0].qty with :int32, 10"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_CLAUSE_ORDER"
+      }
+    },
+    {
+      "id": "sansa-instruction-005-lower-reports-target-miss",
+      "description": "Candidate-relative target misses remain lowering failures.",
+      "tags": ["experimental", "lower", "diagnostic"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nreplace .missing with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "lower",
+        "error": "SANSA_INSTRUCTION_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-instruction-006-plan-reports-mutate-target-exists",
+      "description": "Lowered requests keep downstream Mutate planning failures distinct from lowering failures.",
+      "tags": ["experimental", "plan", "diagnostic"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ncreate sku with \"duplicate\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_TARGET_EXISTS"
+      }
+    },
+    {
+      "id": "sansa-instruction-007-target-aeon-accepts-compatible-plan",
+      "description": "Instruction target checks run after successful planning and can accept AEON-compatible intent.",
+      "tags": ["experimental", "target-surface"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "replace $.inventory.items[0].sku with \"A-101\""
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008-target-json-rejects-sansa-datatype-intent",
+      "description": "Instruction can lower to valid SANSA.Mutate intent that a JSON target surface cannot represent.",
+      "tags": ["experimental", "target-surface"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.selectorProbe with :sansa, $.inventory.items.*"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "sansa"
+      }
+    },
+    {
+      "id": "sansa-instruction-008a-target-json-accepts-plain-object",
+      "description": "JSON target validation accepts plain JSON-compatible object intent.",
+      "tags": ["experimental", "target-surface", "json", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.settingsJson with :object, { enabled = true }"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008b-target-json-accepts-plain-list",
+      "description": "JSON target validation accepts unparameterized JSON-compatible list intent.",
+      "tags": ["experimental", "target-surface", "json", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.aliasesJson with :list, [\"adapter\", \"driver\"]"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008c-target-json-rejects-parameterized-list",
+      "description": "JSON target validation rejects parameterized list datatype intent even when the payload is array-shaped.",
+      "tags": ["experimental", "target-surface", "json", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.aliasesTypedJson with :list<string>, [\"adapter\"]"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "list<string>"
+      }
+    },
+    {
+      "id": "sansa-instruction-008d-target-aeon-accepts-parameterized-list",
+      "description": "AEON target validation can accept parameterized list datatype intent that JSON rejects.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.aliasesAeon with :list<string>, [\"adapter\"]"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008e-target-aeon-accepts-parameterized-object",
+      "description": "AEON target validation can accept parameterized object datatype intent while leaving schema semantics to the target profile.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.settingsAeon with :object<node>, { enabled = true }"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008f-target-aeon-accepts-parameterized-tuple",
+      "description": "AEON target validation can accept parameterized tuple datatype intent while leaving tuple member semantics to the target profile.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.pairAeon with :tuple<string>, (\"sku\", \"A-100\")"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008g-target-aeon-accepts-parameterized-node",
+      "description": "AEON target validation can accept parameterized node datatype intent while leaving child semantics to the target profile.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badgeAeon with :node<node>, <badge(<label(\"new\")>)>"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008g1-target-aeon-accepts-node-custom-profile-claim",
+      "description": "AEON target validation accepts binding-side node<T> custom profile/domain claims.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container", "node"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.htmlDoc with :node<html>, <html(<body>)>"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-008g2-target-aeon-rejects-reserved-node-child-claim",
+      "description": "AEON target validation rejects binding-side node<T> reserved non-node value datatype claims.",
+      "tags": ["experimental", "target-surface", "aeon", "value", "container", "node"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badNodeString with :node<string>, <title(\"Hello\")>"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "node<string>"
+      }
+    },
+    {
+      "id": "sansa-instruction-009-parse-rejects-multiple-mutation-verbs",
+      "description": "One Instruction contains one mutation intent.",
+      "tags": ["experimental", "parse", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.inventory.qty with 10\nremove $.inventory.oldQty"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_MULTIPLE_MUTATION_VERBS"
+      }
+    },
+    {
+      "id": "sansa-instruction-009a-parse-rejects-repeated-create-verbs",
+      "description": "Repeated source-level mutation clauses are rejected even when they use the same verb.",
+      "tags": ["experimental", "parse", "diagnostic", "batch-boundary"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.status with \"active\"\ncreate $.inventory.flag with true"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_MULTIPLE_MUTATION_VERBS"
+      }
+    },
+    {
+      "id": "sansa-instruction-010-parse-canonicalizes-type-value-delimiter",
+      "description": "Type-first value annotation may omit the comma in source but canonical form includes it.",
+      "tags": ["experimental", "parse", "value"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.count with :int32 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "create $.inventory.count with :int32, 10",
+        "clauses": ["create"]
+      }
+    },
+    {
+      "id": "sansa-instruction-010a-parse-canonicalizes-replace-type-value-delimiter",
+      "description": "The optional comma delimiter is value syntax shared by value-carrying verbs, not create-specific syntax.",
+      "tags": ["experimental", "parse", "value"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.inventory.qty with :int32 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "replace $.inventory.qty with :int32, 10",
+        "clauses": ["replace"]
+      }
+    },
+    {
+      "id": "sansa-instruction-011-lower-candidate-relative-insert",
+      "description": "Candidate-relative ordered insert lowers container and anchor addresses for each selected candidate.",
+      "tags": ["experimental", "lower", "ordered"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ninsert after .tags[0] in .tags with \"sale\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[0].tags",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[0].tags[0]"
+            },
+            "kind": "string",
+            "value": "sale"
+          },
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].tags",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[1].tags[0]"
+            },
+            "kind": "string",
+            "value": "sale"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012-plan-direct-move",
+      "description": "Direct move instructions plan source, ordered container, and placement intent.",
+      "tags": ["experimental", "plan", "ordered"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.items[1] first in $.inventory.items"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.items[1]",
+            "container": "$.inventory.items",
+            "placement": {
+              "kind": "first"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a-lower-append-alias",
+      "description": "Append instruction syntax lowers as an insert-last operation rather than a distinct Mutate verb.",
+      "tags": ["experimental", "lower", "ordered", "alias"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "append $.inventory.items[1].tags with \"clearance\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].tags",
+            "placement": "last",
+            "kind": "string",
+            "value": "clearance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a1-parse-append-in-canonicalizes-to-insert-last",
+      "description": "Append-in syntax is accepted as source sugar and canonicalizes to insert last.",
+      "tags": ["experimental", "parse", "ordered", "alias"],
+      "input": {
+        "mode": "parse",
+        "source": "append in $.inventory.items[1].tags with \"clearance\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "insert last in $.inventory.items[1].tags with \"clearance\"",
+        "clauses": ["append"]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a2-lower-direct-insert-after",
+      "description": "Direct insert-after instructions lower anchor placement without using append sugar.",
+      "tags": ["experimental", "lower", "ordered"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "insert after $.inventory.items[1].tags[0] in $.inventory.items[1].tags with \"clearance\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].tags",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.items[1].tags[0]"
+            },
+            "kind": "string",
+            "value": "clearance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a2a-lower-direct-insert-with-quoted-container",
+      "description": "Direct insert instructions may use quoted member selectors for ordered containers and anchors.",
+      "tags": ["experimental", "lower", "ordered", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "insert before $.inventory.[\"display tags\"][1] in $.inventory.[\"display tags\"] with \"new\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.[\"display tags\"]",
+            "placement": {
+              "kind": "before",
+              "anchor": "$.inventory.[\"display tags\"][1]"
+            },
+            "kind": "string",
+            "value": "new"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a3-plan-direct-move-last",
+      "description": "Direct move-last instructions plan as same-container ordered moves.",
+      "tags": ["experimental", "plan", "ordered", "move"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.items[0] last in $.inventory.items"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.items[0]",
+            "container": "$.inventory.items",
+            "placement": {
+              "kind": "last"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012a4-plan-direct-move-with-quoted-container",
+      "description": "Direct move instructions may use quoted member selectors for ordered containers and anchors.",
+      "tags": ["experimental", "plan", "ordered", "move", "quoted-member"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.[\"display tags\"][0] after $.inventory.[\"display tags\"][1] in $.inventory.[\"display tags\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.[\"display tags\"][0]",
+            "container": "$.inventory.[\"display tags\"]",
+            "placement": {
+              "kind": "after",
+              "anchor": "$.inventory.[\"display tags\"][1]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-012b-lower-require-precondition",
+      "description": "Require clauses lower into candidate-scoped Mutate preconditions rather than filtering candidates.",
+      "tags": ["experimental", "lower", "precondition"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .sku == \"A-100\"\nrequire .qty == 0\nreplace .qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ],
+        "preconditions": [
+          {
+            "expression": ".qty == 0",
+            "target": "$.inventory.items[0]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-013-plan-object-container-literal",
+      "description": "Instruction object literals preserve object datatype and representation intent.",
+      "tags": ["experimental", "plan", "value", "container"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.settings with :object, { enabled = true, status = false }"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "settings",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "enabled": true,
+              "status": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-013a-plan-object-container-literal-with-quoted-field",
+      "description": "Instruction object literals may use AEON-style quoted field names when a key cannot be written as a bare identifier.",
+      "tags": ["experimental", "plan", "value", "container", "quoted-member"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.quotedSettings with :object, { \"bad.key\" = \"x\", enabled = true }"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "quotedSettings",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "bad.key": "x",
+              "enabled": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-013b-plan-object-container-literal-with-escaped-quoted-fields",
+      "description": "Instruction object quoted field names use quoted-payload escape rules and preserve decoded names in the mutation value.",
+      "tags": ["experimental", "plan", "value", "container", "quoted-member"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.quotedSettingsRich with :object, { \"display name\" = \"Adapter\", \"quote\\\"key\" = \"ok\" }"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "quotedSettingsRich",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "display name": "Adapter",
+              "quote\"key": "ok"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-014-plan-list-container-literal",
+      "description": "Instruction list literals preserve generic datatype intent and list representation intent.",
+      "tags": ["experimental", "plan", "value", "container"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.aliases with :list<string>, [\"adapter\", \"driver\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "aliases",
+            "datatype": "list<string>",
+            "kind": "list",
+            "value": ["adapter", "driver"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-015-plan-node-container-literal",
+      "description": "Instruction node literals preserve node datatype and representation intent.",
+      "tags": ["experimental", "plan", "value", "container"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.badge with :node, <badge(\"new\", 3)>"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "badge",
+            "datatype": "node",
+            "kind": "node",
+            "value": {
+              "tag": "badge",
+              "children": ["new", 3]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-015a-plan-tuple-container-literal",
+      "description": "Instruction tuple literals preserve tuple datatype and representation intent.",
+      "tags": ["experimental", "plan", "value", "container"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.pairing with :tuple, (\"sku\", 7)"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "pairing",
+            "datatype": "tuple",
+            "kind": "tuple",
+            "value": ["sku", 7]
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-015b-plan-typed-append-value",
+      "description": "Instruction ordered insert values preserve datatype intent and representation kind like create and replace values.",
+      "tags": ["experimental", "plan", "value", "ordered"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "append in $.inventory.items[0].tags with :csv[\",\"], \"new,tag\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[0].tags",
+            "placement": {
+              "kind": "last"
+            },
+            "datatype": "csv[\",\"]",
+            "kind": "string",
+            "value": "new,tag"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-016-parse-quoted-create-member",
+      "description": "Create destinations may use quoted member names when the member cannot be written as a bare identifier.",
+      "tags": ["experimental", "parse", "create"],
+      "input": {
+        "mode": "parse",
+        "source": "create \"display name\" with \"Adapter\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "create \"display name\" with \"Adapter\"",
+        "clauses": ["create"]
+      }
+    },
+    {
+      "id": "sansa-instruction-016a-lower-quoted-address-create-member",
+      "description": "Create destinations may end in quoted member selectors, which lower to parent plus decoded member name.",
+      "tags": ["experimental", "lower", "create", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.[\"display name\"] with :string, \"Adapter\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "display name",
+            "datatype": "string",
+            "kind": "string",
+            "value": "Adapter"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-016a1-lower-escaped-quoted-address-create-member",
+      "description": "Create destinations decode quoted member selector escapes before lowering to a mutation name.",
+      "tags": ["experimental", "lower", "create", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.[\"quote\\\"key\"] with \"escaped\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "quote\"key",
+            "kind": "string",
+            "value": "escaped"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-016b-lower-rejects-pattern-create-destination",
+      "description": "Create destinations must name one member; name-pattern selectors are selectors, not member destinations.",
+      "tags": ["experimental", "lower", "diagnostic", "create", "selector"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.(\"display*\") with \"Adapter\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_CREATE_DESTINATION_NOT_MEMBER"
+      }
+    },
+    {
+      "id": "sansa-instruction-016c-lower-rejects-wildcard-create-destination",
+      "description": "Create destinations must name one member; wildcard selectors are expanded selectors, not member destinations.",
+      "tags": ["experimental", "lower", "diagnostic", "create", "selector"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.* with \"Adapter\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_CREATE_DESTINATION_NOT_MEMBER"
+      }
+    },
+    {
+      "id": "sansa-instruction-017-lower-attribute-create-destination",
+      "description": "Attribute-space create destinations lower through the .@.attribute address form.",
+      "tags": ["experimental", "lower", "create", "attribute"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.@.selector with :sansa, $.inventory.items.*"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory.@",
+            "name": "selector",
+            "datatype": "sansa",
+            "kind": "sansa",
+            "value": "$.inventory.items.*"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-017a-lower-quoted-attribute-create-destination",
+      "description": "Attribute-space create destinations may use quoted final member selectors for attribute names that cannot be written as bare identifiers.",
+      "tags": ["experimental", "lower", "create", "attribute", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.@.[\"source role\"] with \"catalog\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory.@",
+            "name": "source role",
+            "kind": "string",
+            "value": "catalog"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-017b-lower-quoted-member-attribute-create-destination",
+      "description": "Quoted member selectors remain address syntax when they appear before an attribute-space selector in a create destination.",
+      "tags": ["experimental", "lower", "create", "attribute", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.[\"display name\"].@.[\"source role\"] with \"catalog\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory.[\"display name\"].@",
+            "name": "source role",
+            "kind": "string",
+            "value": "catalog"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-017c-lower-quoted-attribute-replace-target",
+      "description": "Replace targets may use quoted SANSA member selectors inside attribute-space paths.",
+      "tags": ["experimental", "lower", "replace", "attribute", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "replace $.inventory.@.[\"source role\"] with \"system\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.@.[\"source role\"]",
+            "kind": "string",
+            "value": "system"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-017d-lower-quoted-attribute-remove-target",
+      "description": "Remove targets may use quoted SANSA member selectors inside attribute-space paths.",
+      "tags": ["experimental", "lower", "remove", "attribute", "quoted-member"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "remove $.inventory.@.[\"source role\"]"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "remove",
+            "target": "$.inventory.@.[\"source role\"]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018-target-aeon-rejects-unsupported-generic-datatype-intent",
+      "description": "Instruction can express datatype intent that the AEON target surface rejects after planning.",
+      "tags": ["experimental", "target-surface", "value"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.textProbe with :string<null>, \"\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "string<null>"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180-target-json-rejects-attribute-space-create",
+      "description": "Instruction can plan an attribute-space create, but JSON target validation rejects the attribute-space role.",
+      "tags": ["experimental", "target-surface", "attribute", "json"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.@.reviewed with true"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorTargetFormat": "json"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a0-target-json-rejects-quoted-attribute-space-create",
+      "description": "JSON target validation rejects attribute-space creates even when the attribute name is a quoted SANSA member selector.",
+      "tags": ["experimental", "target-surface", "attribute", "json", "quoted-member"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.@.[\"source note\"] with \"catalog\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorTargetFormat": "json"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a0a-target-json-rejects-quoted-attribute-space-replace",
+      "description": "JSON target validation rejects attribute-space replaces even when the attribute name is a quoted SANSA member selector.",
+      "tags": ["experimental", "target-surface", "attribute", "json", "quoted-member", "replace"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "replace $.inventory.@.[\"source role\"] with \"system\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorTargetFormat": "json"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a0b-target-json-rejects-quoted-attribute-space-remove",
+      "description": "JSON target validation rejects attribute-space removes even when the attribute name is a quoted SANSA member selector.",
+      "tags": ["experimental", "target-surface", "attribute", "json", "quoted-member", "remove"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "remove $.inventory.@.[\"source role\"]"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_FEATURE",
+        "errorTargetFormat": "json"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a-parse-rejects-datatype-kind-mismatch",
+      "description": "Known datatype intent must match the literal family before instruction lowering.",
+      "tags": ["experimental", "parse", "value", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badToggle with :toggle, \"maybe\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a1-parse-rejects-quoted-number-literal",
+      "description": "Quoted number-looking text is a string literal family and is not compatible with number datatype intent.",
+      "tags": ["experimental", "parse", "value", "number", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badNumber with :number, \"42\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a2-parse-rejects-quoted-boolean-literal",
+      "description": "Quoted boolean-looking text is a string literal family and is not compatible with Boolean datatype intent.",
+      "tags": ["experimental", "parse", "value", "boolean", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badBoolean with :boolean, \"true\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180a3-parse-rejects-null-value-as-string",
+      "description": "Explicit null-family payloads are not coerced into string literals by string datatype intent.",
+      "tags": ["experimental", "parse", "value", "null", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badStringNull with :string, !notApplicable"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180b-parse-rejects-quoted-date-literal",
+      "description": "Quoted date-looking text is a string literal family and is not compatible with date datatype intent.",
+      "tags": ["experimental", "parse", "value", "date", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badDate with :date, \"2026-10-10\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180c-target-aeon-rejects-invalid-radix-datatype-metadata",
+      "description": "AEON target validation rejects reserved radix datatype metadata that AEON Core cannot represent.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "radix"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badRadix with :radix[03], %101"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "radix[03]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180c1-target-aeon-accepts-sansa-selector-value",
+      "description": "SANSA address literals may carry selector expressions as address data on an AEON target.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "sansa"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.selectorProbeAeon with :sansa, $.inventory.items.*.sku"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-0180c2-target-aeon-rejects-selector-reference-target",
+      "description": "AEON references use exact target paths; selector expansion is not part of reference target representability.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "reference"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badReference with :number, ~target.*"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180c3-parse-rejects-sansa-value-as-string",
+      "description": "A SANSA address literal payload remains address data; a string datatype intent does not coerce it to a string literal.",
+      "tags": ["experimental", "parse", "value", "sansa", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badAddressDatatype with :string, $.inventory.items.*.sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180d-target-aeon-rejects-unsupported-radix-alias",
+      "description": "AEON target validation rejects radixN aliases that are not reserved Core v1 shorthands.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "radix"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badRadixAlias with :radix16, %10"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "radix16"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180e-parse-rejects-quoted-encoding-literal",
+      "description": "Quoted encoding-looking text is a string literal family and is not compatible with encoding-family datatype intent.",
+      "tags": ["experimental", "parse", "value", "encoding", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badEncoding with :base64, \"abc+/==\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180e1-parse-rejects-quoted-hex-literal",
+      "description": "Quoted hex-looking text is a string literal family and is not compatible with hex datatype intent.",
+      "tags": ["experimental", "parse", "value", "hex", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badHex with :hex, \"fff\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180e2-parse-rejects-quoted-nan-literal",
+      "description": "Quoted NaN-looking text is a string literal family and is not compatible with NaN datatype intent.",
+      "tags": ["experimental", "parse", "value", "nan", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badNaN with :nan, \"NaN\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180e3-parse-rejects-quoted-infinity-literal",
+      "description": "Quoted Infinity-looking text is a string literal family and is not compatible with Infinity datatype intent.",
+      "tags": ["experimental", "parse", "value", "infinity", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.badInfinity with :infinity, \"+Infinity\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180f-target-aeon-accepts-quoted-separator-payload",
+      "description": "AEON target validation accepts separator payloads with quoted source segments.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "separator"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.parts with :sep[|], ^\"hello world\"|\"this, [is] fine\""
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-instruction-0180g-target-aeon-rejects-invalid-separator-datatype-metadata",
+      "description": "AEON target validation rejects separator metadata that AEON Core cannot represent.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "separator"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badSeparator with :sep[\",\"], ^\"hello, world\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "sep[\",\"]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180h-target-aeon-rejects-kadot-metadata",
+      "description": "AEON target validation rejects separator metadata on the unparameterized kadot datatype.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "separator"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badKadot with :kadot[.], ^1.2.3"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "kadot[.]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180i-target-json-rejects-nested-node-value",
+      "description": "JSON target validation reports value-path context when a nested payload value is not representable.",
+      "tags": ["experimental", "target-surface", "value", "diagnostic", "json"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.payload with :object, { badge = :node, <badge(\"new\")> }"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "json",
+        "errorValuePath": "value.badge"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180i1-target-json-rejects-nested-node-value-with-quoted-field-path",
+      "description": "JSON target validation quotes non-identifier field names in nested target value paths.",
+      "tags": ["experimental", "target-surface", "value", "diagnostic", "json", "quoted-member"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.payload with :object, { \"bad.key\" = :node, <badge(\"new\")> }"
+      },
+      "expected": {
+        "ok": false,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "json",
+        "errorValuePath": "value[\"bad.key\"]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180j-target-aeon-accepts-quoted-object-field",
+      "description": "AEON target validation accepts decoded quoted object field names that can be rendered as quoted AEON binding keys.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "quoted-member"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badQuotedField with :object, { \"bad.key\" = \"x\" }"
+      },
+      "expected": {
+        "ok": true,
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-0180j1-target-aeon-rejects-empty-quoted-object-field",
+      "description": "AEON target validation rejects empty decoded object field names even though the SANSA Instruction object literal is syntactically valid.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "quoted-member", "diagnostic"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.badEmptyField with :object, { \"\" = \"x\" }"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "aeon",
+        "errorValuePath": "operations[0].value[\"\"]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180j2-target-json-renders-escaped-quoted-object-field-path",
+      "description": "Target diagnostics escape decoded quoted object field names when rendering nested value paths.",
+      "tags": ["experimental", "target-surface", "value", "json", "quoted-member", "diagnostic"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.payloadQuotedEscaped with :object, { \"quote\\\"key\" = :node, <badge(\"new\")> }"
+      },
+      "expected": {
+        "ok": false,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "errorTargetFormat": "json",
+        "errorValuePath": "value[\"quote\\\"key\"]"
+      }
+    },
+    {
+      "id": "sansa-instruction-018a-plan-csv-scalar-datatype-intent",
+      "description": "Typed scalar values preserve datatype intent separately from string representation.",
+      "tags": ["experimental", "plan", "value", "scalar"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.format with :csv[\",\"], \"sku,name\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "format",
+            "datatype": "csv[\",\"]",
+            "kind": "string",
+            "value": "sku,name"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018a0-plan-custom-datatype-with-literal-family",
+      "description": "Custom datatype intent may pair with a known literal representation family without making the custom datatype a core family.",
+      "tags": ["experimental", "plan", "value", "scalar", "custom"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.brand with :brandColor, #ff00aa"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "brand",
+            "datatype": "brandColor",
+            "kind": "hex",
+            "value": "ff00aa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018a0a-parse-rejects-top-level-date-string-intent-mismatch",
+      "description": "Known top-level datatype intent must be compatible with the literal representation family before lowering.",
+      "tags": ["experimental", "parse", "value", "scalar", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.when with :date, \"2026-10-10\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-018a0b-parse-rejects-top-level-number-string-intent-mismatch",
+      "description": "Known top-level numeric datatype intent must not be paired with a quoted string literal payload.",
+      "tags": ["experimental", "parse", "value", "scalar", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.count with :number, \"2026-10-10\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-018a1-lower-warns-nested-value-intent-flattened",
+      "description": "Nested datatype intent is parsed but flattened out of conservative Mutate operations with a warning.",
+      "tags": ["experimental", "lower", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.settings with :object, { csv = :csv[\",\"], \"sku,name\" }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "settings",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "csv": "sku,name"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018a2-target-aeon-validates-flattened-nested-value-intent",
+      "description": "AEON target validation sees the conservative flattened plan after compatible nested datatype intent is checked and warned.",
+      "tags": ["experimental", "target-surface", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.nestedDateString with :object, { when = :date, 2026-10-10 }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-018a2a-target-json-validates-flattened-nested-tuple-intent",
+      "description": "Nested tuple datatype intent is warned and flattened before JSON target validation sees the conservative object payload.",
+      "tags": ["experimental", "target-surface", "value", "container", "diagnostic", "json"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.nestedPair with :object, { pair = :tuple, (\"sku\", 7) }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-018a2b-target-aeon-validates-flattened-nested-custom-datatype-intent",
+      "description": "Nested custom datatype intent is warned and flattened; AEON target validation sees the plain nested scalar payload.",
+      "tags": ["experimental", "target-surface", "value", "container", "diagnostic", "aeon"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.nestedRelationship with :object, { sibling = :relationship<sibling>[brother], \"Bob\" }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-018a3-parse-rejects-nested-value-intent-mismatch",
+      "description": "Nested datatype intent is checked for compatibility before it is flattened out of conservative Mutate operations.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.settings with :object, { when = :number, \"2026-10-10\" }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_NESTED_VALUE_INTENT_MISMATCH"
+      }
+    },
+    {
+      "id": "sansa-instruction-018a3a-lower-warns-nested-custom-datatype-intent-flattened",
+      "description": "Nested custom qualifier datatype intent is preserved in Instruction source but flattened out of conservative Mutate operations.",
+      "tags": ["experimental", "lower", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.relationships with :object, { sibling = :relationship<sibling>[brother], \"Bob\" }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_INTENT_FLATTENED"],
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "relationships",
+            "datatype": "object",
+            "kind": "object",
+            "value": {
+              "sibling": "Bob"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018a4-parse-warns-nested-representation-flattened",
+      "description": "Nested non-plain literal representation families are warned when flattened without explicit datatype intent.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.settings with :object, { copy = ~target }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_REPRESENTATION_FLATTENED"]
+      }
+    },
+    {
+      "id": "sansa-instruction-018a5-target-json-validates-flattened-nested-reference",
+      "description": "JSON target validation evaluates the flattened nested payload while preserving a warning that reference representation was dropped.",
+      "tags": ["experimental", "target-surface", "value", "container", "diagnostic", "json"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.nestedReference with :object, { copy = ~target }"
+      },
+      "expected": {
+        "ok": true,
+        "warnings": ["SANSA_INSTRUCTION_NESTED_VALUE_REPRESENTATION_FLATTENED"],
+        "targetDiagnostics": []
+      }
+    },
+    {
+      "id": "sansa-instruction-018b-plan-null-scalar-datatype-intent",
+      "description": "Typed explicit-null values preserve datatype intent separately from null representation.",
+      "tags": ["experimental", "plan", "value", "scalar", "null"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.absent with :null<string>, !notApplicable"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "absent",
+            "datatype": "null<string>",
+            "kind": "null",
+            "value": "notApplicable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018c-plan-reference-scalar-datatype-intent",
+      "description": "Reference-family values preserve datatype intent separately from reference representation.",
+      "tags": ["experimental", "plan", "value", "scalar", "reference"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.copy with :number, ~target"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "copy",
+            "datatype": "number",
+            "kind": "cloneReference",
+            "value": "target"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018d-plan-typed-replace-scalar-datatype-intent",
+      "description": "Typed replace values preserve explicit datatype intent separately from representation kind.",
+      "tags": ["experimental", "plan", "value", "scalar", "replace"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "replace $.inventory.items[0].sku with :string, \"A-101\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].sku",
+            "datatype": "string",
+            "kind": "string",
+            "value": "A-101"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018d1-plan-escaped-quoted-member-replace",
+      "description": "Replace targets may use escaped quoted member selectors and preserve the escaped canonical target path.",
+      "tags": ["experimental", "plan", "value", "scalar", "replace", "quoted-member"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "replace $.inventory.[\"quote\\\"key\"] with \"escaped\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.[\"quote\\\"key\"]",
+            "kind": "string",
+            "value": "escaped"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018e-plan-date-scalar-datatype-intent",
+      "description": "Date literals preserve date representation kind and explicit datatype intent.",
+      "tags": ["experimental", "plan", "value", "scalar", "date"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.released with :date, 2026-10-10"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "released",
+            "datatype": "date",
+            "kind": "date",
+            "value": "2026-10-10"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018e1-plan-reduced-datetime-scalar-datatype-intent",
+      "description": "Reduced-precision datetime literals preserve datetime representation kind and explicit datatype intent.",
+      "tags": ["experimental", "plan", "value", "scalar", "datetime"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.availableAt with :datetime, 2026-10-10T09Z"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "availableAt",
+            "datatype": "datetime",
+            "kind": "datetime",
+            "value": "2026-10-10T09Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-018f-plan-sansa-selector-value",
+      "description": "SANSA address literal values can carry selector syntax as data without being resolved by Instruction.",
+      "tags": ["experimental", "plan", "value", "scalar", "sansa"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.selectorProbe with :sansa, $.inventory.items[0..1].sku"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.inventory",
+            "name": "selectorProbe",
+            "datatype": "sansa",
+            "kind": "sansa",
+            "value": "$.inventory.items[0..1].sku"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-019-lower-rejects-positional-create-destination",
+      "description": "Create may name a new member but does not create positional children by address spelling.",
+      "tags": ["experimental", "lower", "diagnostic", "create"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "create $.inventory.items[2] with \"sale\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_CREATE_DESTINATION_NOT_MEMBER"
+      }
+    },
+    {
+      "id": "sansa-instruction-020-parse-rejects-extra-value-comma",
+      "description": "The optional comma is only the delimiter between explicit datatype intent and the value payload.",
+      "tags": ["experimental", "parse", "diagnostic", "value"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.status with :int32 344,"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-020a-parse-rejects-double-value-comma",
+      "description": "A second comma after datatype intent is not an argument separator and is rejected before lowering.",
+      "tags": ["experimental", "parse", "diagnostic", "value", "datatype"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.status with :int32,, 344"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-020b-parse-rejects-nested-double-value-comma",
+      "description": "Nested typed values use the same single datatype/value delimiter rule as top-level values.",
+      "tags": ["experimental", "parse", "diagnostic", "value", "datatype", "container"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.inventory.settings with :object, { count = :int32,, 344 }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-021-lower-candidate-relative-remove",
+      "description": "Candidate-relative remove lowers selected targets into exact remove operations.",
+      "tags": ["experimental", "lower", "remove"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .qty == 0\nremove .sku"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "remove",
+            "target": "$.inventory.items[0].sku"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-022-lower-candidate-relative-append-in-alias",
+      "description": "Candidate-relative append-in syntax lowers as insert-last against each selected container.",
+      "tags": ["experimental", "lower", "ordered", "alias"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nappend in .tags with \"new\""
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "insert",
+            "container": "$.inventory.items[0].tags",
+            "placement": "last",
+            "kind": "string",
+            "value": "new"
+          },
+          {
+            "op": "insert",
+            "container": "$.inventory.items[1].tags",
+            "placement": "last",
+            "kind": "string",
+            "value": "new"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-023-lower-candidate-relative-move",
+      "description": "Candidate-relative move lowers source and container addresses for each selected candidate.",
+      "tags": ["experimental", "lower", "ordered", "move"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nmove .tags[0] first in .tags"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "move",
+            "source": "$.inventory.items[0].tags[0]",
+            "container": "$.inventory.items[0].tags",
+            "placement": "first"
+          },
+          {
+            "op": "move",
+            "source": "$.inventory.items[1].tags[0]",
+            "container": "$.inventory.items[1].tags",
+            "placement": "first"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-024-lower-repeated-require-preconditions",
+      "description": "Repeated require clauses lower into multiple candidate-scoped Mutate preconditions.",
+      "tags": ["experimental", "lower", "precondition"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nwhere .sku == \"A-100\"\nrequire .qty == 0\nrequire .sku == \"A-100\"\nreplace .qty with :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "replace",
+            "target": "$.inventory.items[0].qty",
+            "datatype": "int32",
+            "kind": "number",
+            "value": 10
+          }
+        ],
+        "preconditions": [
+          {
+            "expression": ".qty == 0",
+            "target": "$.inventory.items[0]"
+          },
+          {
+            "expression": ".sku == \"A-100\"",
+            "target": "$.inventory.items[0]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sansa-instruction-024a-plan-direct-require-precondition-failure",
+      "description": "Direct require clauses lower into Mutate preconditions and fail during planning when false.",
+      "tags": ["experimental", "plan", "precondition", "diagnostic"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "require $.inventory.items[0].sku == \"Z-999\"\nreplace $.inventory.items[0].sku with \"A-101\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_PRECONDITION_FAILED"
+      }
+    },
+    {
+      "id": "sansa-instruction-025-target-json-rejects-tuple-container-value",
+      "description": "JSON target validation rejects tuple value intent after successful instruction planning.",
+      "tags": ["experimental", "target-surface", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.pair with :tuple, (\"sku\", 7)"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "tuple"
+      }
+    },
+    {
+      "id": "sansa-instruction-026-target-json-rejects-node-container-value",
+      "description": "JSON target validation rejects node value intent after successful instruction planning.",
+      "tags": ["experimental", "target-surface", "value", "container"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.badge with :node, <badge(\"new\", 3)>"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "node"
+      }
+    },
+    {
+      "id": "sansa-instruction-027-target-json-rejects-reference-value",
+      "description": "JSON target validation rejects AEON reference-family payloads after successful instruction planning.",
+      "tags": ["experimental", "target-surface", "value", "reference"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.copy with :number, ~target"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "cloneReference"
+      }
+    },
+    {
+      "id": "sansa-instruction-028-lower-reports-candidate-relative-remove-miss",
+      "description": "Candidate-relative remove reports missing targets as lowering failures.",
+      "tags": ["experimental", "lower", "diagnostic", "remove"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nremove .missing"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-instruction-029-plan-reports-candidate-relative-append-non-ordered-container",
+      "description": "Candidate-relative append can lower successfully and then fail Mutate planning when the resolved container is not ordered.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered", "alias"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nappend .sku with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_CONTAINER_NOT_ORDERED"
+      }
+    },
+    {
+      "id": "sansa-instruction-030-lower-reports-candidate-relative-insert-anchor-miss",
+      "description": "Candidate-relative insert reports missing anchors as lowering failures.",
+      "tags": ["experimental", "lower", "diagnostic", "ordered"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\ninsert after .tags[99] in .tags with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "lower",
+        "error": "SANSA_INSTRUCTION_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-instruction-031-plan-reports-insert-anchor-outside-container",
+      "description": "Ordered insert planning rejects anchors that are not direct children of the named container.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "insert before $.inventory.otherTags[0] in $.inventory.items[0].tags with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_INVALID_ANCHOR"
+      }
+    },
+    {
+      "id": "sansa-instruction-032-lower-reports-candidate-relative-move-source-miss",
+      "description": "Candidate-relative move reports missing source bindings as lowering failures.",
+      "tags": ["experimental", "lower", "diagnostic", "ordered", "move"],
+      "input": {
+        "mode": "lower",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nmove .tags[99] first in .tags"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_TARGET_MISS"
+      }
+    },
+    {
+      "id": "sansa-instruction-033-plan-reports-candidate-relative-move-non-ordered-container",
+      "description": "Candidate-relative move can lower successfully and then fail Mutate planning when the resolved container is not ordered.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered", "move"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "from $.inventory.items.*\nmove .sku first in .sku"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_CONTAINER_NOT_ORDERED"
+      }
+    },
+    {
+      "id": "sansa-instruction-034-plan-reports-cross-container-move",
+      "description": "Conservative move planning rejects moves into a different ordered container.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered", "move"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.items[0].tags[0] last in $.inventory.otherTags"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_INVALID_MOVE_CONTAINER"
+      }
+    },
+    {
+      "id": "sansa-instruction-035-plan-reports-move-source-as-anchor",
+      "description": "Conservative move planning rejects placements relative to the moved source binding itself.",
+      "tags": ["experimental", "plan", "diagnostic", "ordered", "move"],
+      "input": {
+        "mode": "plan",
+        "namespace": "instruction-inventory",
+        "source": "move $.inventory.items[0].tags[0] before $.inventory.items[0].tags[0] in $.inventory.items[0].tags"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "plan",
+        "error": "SANSA_MUTATE_INVALID_MOVE_ANCHOR"
+      }
+    },
+    {
+      "id": "sansa-instruction-036-parse-strips-comments",
+      "description": "Instruction comments are lexical trivia and do not appear in canonical source.",
+      "tags": ["experimental", "parse", "comments"],
+      "input": {
+        "mode": "parse",
+        "source": "because \"manual correction\" // source note\n/* choose selected item */\nreplace $.inventory.qty with /* typed payload */ :int32, 10"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "because \"manual correction\"\nreplace $.inventory.qty with :int32, 10",
+        "clauses": ["because", "replace"],
+        "provenanceReason": "manual correction"
+      }
+    },
+    {
+      "id": "sansa-instruction-037-parse-complex-datatype-intent",
+      "description": "Instruction datatype intent accepts SANSA qualifier grammar without assigning target semantics.",
+      "tags": ["experimental", "parse", "value", "datatype"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.relationship with :relationship<sibling>[brother], \"Bob\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "create $.relationship with :relationship<sibling>[brother], \"Bob\"",
+        "clauses": ["create"]
+      }
+    },
+    {
+      "id": "sansa-instruction-038-parse-rejects-unterminated-block-comment",
+      "description": "Unterminated block comments are instruction parse failures.",
+      "tags": ["experimental", "parse", "comments", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.qty with 1 /* unterminated"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_UNTERMINATED_BLOCK_COMMENT"
+      }
+    },
+    {
+      "id": "sansa-instruction-039-parse-rejects-empty-quoted-create-member",
+      "description": "Quoted create member names must not be empty.",
+      "tags": ["experimental", "parse", "create", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create \"\" with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_CREATE_DESTINATION"
+      }
+    },
+    {
+      "id": "sansa-instruction-040-parse-rejects-trailing-quoted-create-member-text",
+      "description": "Quoted create member destinations do not admit trailing tokens before with.",
+      "tags": ["experimental", "parse", "create", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create \"display\" extra with \"x\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_CREATE_DESTINATION"
+      }
+    },
+    {
+      "id": "sansa-instruction-041-parse-rejects-unterminated-object-value",
+      "description": "Unterminated object value literals are instruction value parse failures.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { enabled = true"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-042-parse-rejects-duplicate-object-field",
+      "description": "Instruction object value literals reject duplicate field names rather than silently taking the last value.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { enabled = true enabled = false }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_DUPLICATE_OBJECT_FIELD"
+      }
+    },
+    {
+      "id": "sansa-instruction-042a-parse-rejects-duplicate-quoted-object-field",
+      "description": "Quoted object field names participate in the same duplicate-name checks as bare field names.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic", "quoted-member"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { \"enabled\" = true enabled = false }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_DUPLICATE_OBJECT_FIELD"
+      }
+    },
+    {
+      "id": "sansa-instruction-042b-parse-rejects-address-style-object-field",
+      "description": "Instruction object value literals reject SANSA address-style bracket-quoted selectors as field-name syntax.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic", "quoted-member"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { [\"bad.key\"] = true }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-043-parse-rejects-empty-list-item",
+      "description": "Instruction list value literals reject empty items.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :list, [\"a\", , \"b\"]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_EXPECTED_VALUE"
+      }
+    },
+    {
+      "id": "sansa-instruction-044-parse-rejects-empty-tuple-item",
+      "description": "Instruction tuple value literals reject empty items.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :tuple, (\"a\", )"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_EXPECTED_VALUE"
+      }
+    },
+    {
+      "id": "sansa-instruction-045-parse-rejects-invalid-node-tag",
+      "description": "Instruction node value literals require an identifier-like tag.",
+      "tags": ["experimental", "parse", "value", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :node, <123(\"a\")>"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_NODE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-045a-parse-rejects-missing-typed-value-payload",
+      "description": "A datatype annotation must be followed by a literal payload before lowering.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :string,"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_EXPECTED_VALUE"
+      }
+    },
+    {
+      "id": "sansa-instruction-045b-parse-rejects-missing-nested-typed-value-payload",
+      "description": "Nested datatype annotations must also be followed by a literal payload before conservative lowering can flatten them.",
+      "tags": ["experimental", "parse", "value", "datatype", "container", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :object, { label = :string, }"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_EXPECTED_VALUE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046-parse-rejects-nested-datatype-union",
+      "description": "Instruction datatype intent uses SANSA qualifier grammar and inherits the nested-union restriction.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :list<string|number>, [1]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046a-parse-rejects-empty-datatype-annotation",
+      "description": "A leading colon must be followed by a datatype annotation before the value payload.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :, 1"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046b-parse-rejects-unterminated-datatype-parameters",
+      "description": "Datatype qualifier parameters must be closed before the value payload can be parsed.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :list<string, [1]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046c-parse-rejects-unterminated-datatype-arguments",
+      "description": "Datatype qualifier arguments must be closed before the value payload can be parsed.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :csv[\";\", \"a\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046d-parse-rejects-empty-datatype-parameters",
+      "description": "Datatype qualifier parameters require a qualifier term rather than an empty parameter list.",
+      "tags": ["experimental", "parse", "value", "datatype", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :list<>, [1]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_DATATYPE"
+      }
+    },
+    {
+      "id": "sansa-instruction-046e-parse-rejects-empty-reference-value",
+      "description": "Reference-family instruction literals require a non-empty target token before target-surface validation.",
+      "tags": ["experimental", "parse", "value", "reference", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :number, ~"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_REFERENCE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-046f-parse-rejects-whitespace-reference-value",
+      "description": "Reference-family instruction literal targets do not permit embedded whitespace.",
+      "tags": ["experimental", "parse", "value", "reference", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :number, ~ target"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_REFERENCE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-046g-parse-rejects-malformed-sansa-value",
+      "description": "Malformed SANSA address literal payloads preserve SANSA Address parser diagnostics.",
+      "tags": ["experimental", "parse", "value", "sansa", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :sansa, $.inventory..sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EXPECTED_IDENTIFIER"
+      }
+    },
+    {
+      "id": "sansa-instruction-047-parse-rejects-function-value-expression",
+      "description": "Instruction value payloads remain literal-only and reject query function expressions.",
+      "tags": ["experimental", "parse", "value", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.x with lower(\"A\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-048-parse-rejects-membership-value-expression",
+      "description": "Instruction value payloads remain literal-only and reject non-literal query expressions.",
+      "tags": ["experimental", "parse", "value", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "replace $.x with \"a\" in $.list.*"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_INVALID_VALUE_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-049-parse-rejects-invalid-date-range",
+      "description": "Instruction temporal value literals reject invalid calendar dates.",
+      "tags": ["experimental", "parse", "value", "temporal", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :date, 2025-02-29"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-049a-parse-rejects-invalid-separator-payload",
+      "description": "Instruction separator value literals reject raw slash characters inside payloads.",
+      "tags": ["experimental", "parse", "value", "separator", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :sep, ^root/main"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_SEPARATOR_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-050-parse-rejects-invalid-time-range",
+      "description": "Instruction temporal value literals reject invalid clock ranges.",
+      "tags": ["experimental", "parse", "value", "temporal", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :time, 24:00"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-051-parse-rejects-invalid-zrut-zone-comment-marker",
+      "description": "Instruction temporal value literals reject comment-looking markers inside contiguous ZRUT named-zone payloads.",
+      "tags": ["experimental", "parse", "value", "temporal", "zrut", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :zrut, 2025-01-01T09Z&Europe//Brussels"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    }
+  ]
+}

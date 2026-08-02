@@ -3,7 +3,9 @@
     "version": "0.1.0",
     "lane": "aes",
     "sut_protocol": "cts.protocol.v1",
-    "description": "AEON AES emission CTS scaffold for v1"
+    "description": "AEON AES emission CTS scaffold for v1",
+    "snapshot_id": "aes-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "aes-specs-v1-snapshot-0.1"
   },
   "suites": [
     {

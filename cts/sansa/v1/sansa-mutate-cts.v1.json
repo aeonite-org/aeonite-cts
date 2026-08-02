@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "sansa-mutate",
+    "capability": "SANSA.Mutate",
+    "profile": "mutate-plan-and-policy",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Experimental SANSA Mutate structured-plan and policy plan-filter CTS scaffold for proposal-stage implementation slices",
+    "snapshot_id": "sansa-mutate-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "sansa-mutate-specs-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "mutate-plan",
+      "file": "suites/07-mutate-plan.json"
+    }
+  ]
+}

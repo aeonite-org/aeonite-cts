@@ -724,6 +724,40 @@
         "addresses": []
       },
       "tags": ["sansa", "resolve", "local-space", "no-match"]
+    },
+    {
+      "id": "sansa-resolve-020-binding-limit-direct-expansion",
+      "description": "Resolve fails without a partial Binding Set when direct expansion exceeds the configured binding bound.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.items.*",
+        "maxBindings": 1
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_RESOLVE_BINDING_LIMIT_EXCEEDED",
+        "selectorIndex": 2,
+        "limit": 1,
+        "observed": 2
+      },
+      "tags": ["sansa", "resolve", "limit", "direct-expansion", "reject"]
+    },
+    {
+      "id": "sansa-resolve-021-binding-limit-descendant-expansion",
+      "description": "Descendant expansion stops materializing when the configured binding bound is exceeded.",
+      "input": {
+        "namespace": "inventory-basic",
+        "source": "$.inventory.**",
+        "maxBindings": 3
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_RESOLVE_BINDING_LIMIT_EXCEEDED",
+        "selectorIndex": 1,
+        "limit": 3,
+        "observed": 4
+      },
+      "tags": ["sansa", "resolve", "limit", "descendant-expansion", "reject"]
     }
   ]
 }

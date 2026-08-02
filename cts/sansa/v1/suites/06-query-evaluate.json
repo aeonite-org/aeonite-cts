@@ -66,6 +66,26 @@
                   }
                 },
                 {
+                  "name": "parentField",
+                  "address": "$.<\"params\">.parentField",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "?.^.category"
+                  }
+                },
+                {
+                  "name": "localTarget",
+                  "address": "$.<\"params\">.localTarget",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "$.<\"params\">.field"
+                  }
+                },
+                {
                   "name": "fieldText",
                   "address": "$.<\"params\">.fieldText",
                   "semanticType": "string",
@@ -100,6 +120,237 @@
             }
           },
           "children": [
+            {
+              "name": "consent",
+              "address": "$.consent",
+              "semanticType": "toggle",
+              "representationKind": "toggle",
+              "scalarKind": "toggle",
+              "value": "yes"
+            },
+            {
+              "name": "fallbackConsent",
+              "address": "$.fallbackConsent",
+              "semanticType": "toggle",
+              "representationKind": "toggle",
+              "scalarKind": "toggle",
+              "value": "on"
+            },
+            {
+              "name": "target",
+              "address": "$.target",
+              "semanticType": "number",
+              "representationKind": "number",
+              "value": 7
+            },
+            {
+              "name": "targetClone",
+              "address": "$.targetClone",
+              "semanticType": "number",
+              "representationKind": "cloneReference",
+              "scalarKind": "referenceForm",
+              "value": {
+                "type": "CloneReference",
+                "path": [
+                  "target"
+                ],
+                "canonical": "~target"
+              }
+            },
+            {
+              "name": "targetPointer",
+              "address": "$.targetPointer",
+              "semanticType": "number",
+              "representationKind": "pointerReference",
+              "scalarKind": "referenceForm",
+              "value": {
+                "type": "PointerReference",
+                "path": [
+                  "target"
+                ],
+                "canonical": "~>target"
+              }
+            },
+            {
+              "name": "types",
+              "address": "$.types",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "color",
+                  "address": "$.types.color",
+                  "semanticType": "hex",
+                  "representationKind": "hex",
+                  "scalarKind": "hex",
+                  "value": "ff00aa"
+                },
+                {
+                  "name": "colorCopy",
+                  "address": "$.types.colorCopy",
+                  "semanticType": "hex",
+                  "representationKind": "hex",
+                  "scalarKind": "hex",
+                  "value": "ff00aa"
+                },
+                {
+                  "name": "mask",
+                  "address": "$.types.mask",
+                  "semanticType": "radix[16]",
+                  "representationKind": "radix",
+                  "scalarKind": "radix",
+                  "value": "ff00aa"
+                },
+                {
+                  "name": "octal",
+                  "address": "$.types.octal",
+                  "semanticType": "radix8",
+                  "representationKind": "radix",
+                  "scalarKind": "radix",
+                  "value": "70"
+                },
+                {
+                  "name": "payload",
+                  "address": "$.types.payload",
+                  "semanticType": "encoding",
+                  "representationKind": "encoding",
+                  "scalarKind": "encoding",
+                  "value": "QmFzZTY0IQ=="
+                },
+                {
+                  "name": "version",
+                  "address": "$.types.version",
+                  "semanticType": "sep[.]",
+                  "representationKind": "separator",
+                  "scalarKind": "separator",
+                  "value": "0.11.0"
+                },
+                {
+                  "name": "released",
+                  "address": "$.types.released",
+                  "semanticType": "date",
+                  "representationKind": "date",
+                  "scalarKind": "date",
+                  "value": "2026-07-25"
+                },
+                {
+                  "name": "stamp",
+                  "address": "$.types.stamp",
+                  "semanticType": "datetime",
+                  "representationKind": "datetime",
+                  "scalarKind": "datetime",
+                  "value": "2026-07-25T09:30:00Z"
+                },
+                {
+                  "name": "window",
+                  "address": "$.types.window",
+                  "semanticType": "time",
+                  "representationKind": "time",
+                  "scalarKind": "time",
+                  "value": "09:30:00Z"
+                },
+                {
+                  "name": "zone",
+                  "address": "$.types.zone",
+                  "semanticType": "zrut",
+                  "representationKind": "zrut",
+                  "scalarKind": "zrut",
+                  "value": "2026-07-25T09:30:00Z&Australia/Melbourne"
+                },
+                {
+                  "name": "count",
+                  "address": "$.types.count",
+                  "semanticType": "int32",
+                  "representationKind": "number",
+                  "value": 2
+                },
+                {
+                  "name": "capacity",
+                  "address": "$.types.capacity",
+                  "semanticType": "uint64",
+                  "representationKind": "number",
+                  "value": 8
+                },
+                {
+                  "name": "ratio",
+                  "address": "$.types.ratio",
+                  "semanticType": "float64",
+                  "representationKind": "number",
+                  "value": 2.5
+                },
+                {
+                  "name": "aliasNumber",
+                  "address": "$.types.aliasNumber",
+                  "semanticType": "n",
+                  "representationKind": "number",
+                  "value": 9
+                },
+                {
+                  "name": "approved",
+                  "address": "$.types.approved",
+                  "semanticType": "bool",
+                  "representationKind": "boolean",
+                  "value": true
+                },
+                {
+                  "name": "note",
+                  "address": "$.types.note",
+                  "semanticType": "trimtick",
+                  "representationKind": "string",
+                  "value": "hello trimtick"
+                },
+                {
+                  "name": "summary",
+                  "address": "$.types.summary",
+                  "semanticType": "prose",
+                  "representationKind": "string",
+                  "value": "hello prose"
+                },
+                {
+                  "name": "payloadBase64",
+                  "address": "$.types.payloadBase64",
+                  "semanticType": "base64",
+                  "representationKind": "encoding",
+                  "scalarKind": "encoding",
+                  "value": "QmFzZTY0IQ=="
+                },
+                {
+                  "name": "payloadEmbed",
+                  "address": "$.types.payloadEmbed",
+                  "semanticType": "embed",
+                  "representationKind": "encoding",
+                  "scalarKind": "encoding",
+                  "value": "QmFzZTY0IQ=="
+                },
+                {
+                  "name": "payloadInline",
+                  "address": "$.types.payloadInline",
+                  "semanticType": "inline",
+                  "representationKind": "encoding",
+                  "scalarKind": "encoding",
+                  "value": "QmFzZTY0IQ=="
+                },
+                {
+                  "name": "semver",
+                  "address": "$.types.semver",
+                  "semanticType": "kadot",
+                  "representationKind": "separator",
+                  "scalarKind": "separator",
+                  "value": "3.14.15"
+                },
+                {
+                  "name": "selector",
+                  "address": "$.types.selector",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "scalarKind": "sansaAddress",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "$.inventory.items.*.sku",
+                    "canonical": "$.inventory.items.*.sku"
+                  }
+                }
+              ]
+            },
             {
               "name": "inventory",
               "address": "$.inventory",
@@ -497,6 +748,119 @@
               ]
             },
             {
+              "name": "containers",
+              "address": "$.containers",
+              "semanticType": "object",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "record",
+                  "address": "$.containers.record",
+                  "semanticType": "obj",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "id",
+                      "address": "$.containers.record.id",
+                      "semanticType": "number",
+                      "representationKind": "number",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "name": "packet",
+                  "address": "$.containers.packet",
+                  "semanticType": "envelope",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "ok",
+                      "address": "$.containers.packet.ok",
+                      "semanticType": "boolean",
+                      "representationKind": "boolean",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "name": "compact",
+                  "address": "$.containers.compact",
+                  "semanticType": "o",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "ok",
+                      "address": "$.containers.compact.ok",
+                      "semanticType": "boolean",
+                      "representationKind": "boolean",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "name": "series",
+                  "address": "$.containers.series",
+                  "semanticType": "list<number>",
+                  "representationKind": "list",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.containers.series[0]",
+                      "semanticType": "number",
+                      "representationKind": "number",
+                      "value": 1
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.containers.series[1]",
+                      "semanticType": "number",
+                      "representationKind": "number",
+                      "value": 2
+                    }
+                  ]
+                },
+                {
+                  "name": "pair",
+                  "address": "$.containers.pair",
+                  "semanticType": "tuple",
+                  "representationKind": "tuple",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.containers.pair[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "x"
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.containers.pair[1]",
+                      "semanticType": "number",
+                      "representationKind": "number",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "name": "nodeValue",
+                  "address": "$.containers.nodeValue",
+                  "semanticType": "node",
+                  "representationKind": "node",
+                  "nodeTag": "tag",
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.containers.nodeValue[0]",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "hello"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "name": "labels",
               "address": "$.labels",
               "representationKind": "list",
@@ -540,6 +904,55 @@
                       "semanticType": "string",
                       "representationKind": "string",
                       "value": "a"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "parts",
+              "address": "$.parts",
+              "representationKind": "list",
+              "children": [
+                {
+                  "index": 0,
+                  "address": "$.parts[0]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.parts[0].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "part-10"
+                    }
+                  ]
+                },
+                {
+                  "index": 1,
+                  "address": "$.parts[1]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.parts[1].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "part-2"
+                    }
+                  ]
+                },
+                {
+                  "index": 2,
+                  "address": "$.parts[2]",
+                  "representationKind": "object",
+                  "children": [
+                    {
+                      "name": "value",
+                      "address": "$.parts[2].value",
+                      "semanticType": "string",
+                      "representationKind": "string",
+                      "value": "part-1"
                     }
                   ]
                 }
@@ -760,6 +1173,56 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "order", "string", "unicode"]
+    },
+    {
+      "id": "sansa-query-evaluate-003a1-default-string-order-not-natural-ascii",
+      "description": "Default Query string ordering does not perform numeric-region natural sorting.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.parts.*\norder by .value asc\nselect .value",
+        "options": {
+          "valueSemantics": "aeon.value.default.v1"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.parts[2]",
+          "$.parts[0]",
+          "$.parts[1]"
+        ],
+        "selectedAddresses": [
+          ["$.parts[2].value"],
+          ["$.parts[0].value"],
+          ["$.parts[1].value"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "order", "string", "profile"]
+    },
+    {
+      "id": "sansa-query-evaluate-003a2-natural-ascii-string-order",
+      "description": "Explicit Natural ASCII value semantics compare ASCII digit runs numerically during Query ordering.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.parts.*\norder by .value asc\nselect .value",
+        "options": {
+          "valueSemantics": "aeon.value.string.natural.ascii.v1"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.parts[2]",
+          "$.parts[1]",
+          "$.parts[0]"
+        ],
+        "selectedAddresses": [
+          ["$.parts[2].value"],
+          ["$.parts[1].value"],
+          ["$.parts[0].value"]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "order", "string", "profile"]
     },
     {
       "id": "sansa-query-evaluate-003b-budget-from",
@@ -1062,8 +1525,8 @@
       "tags": ["sansa", "query", "evaluate", "negative", "missing", "null"]
     },
     {
-      "id": "sansa-query-evaluate-015a-is-value-ordinary",
-      "description": "isValue matches ordinary scalar values.",
+      "id": "sansa-query-evaluate-015a-is-value-concrete",
+      "description": "isValue matches concrete values.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items.*\nwhere isValue(.status)\nselect .sku"
@@ -1090,8 +1553,8 @@
       "tags": ["sansa", "query", "evaluate", "value", "missing"]
     },
     {
-      "id": "sansa-query-evaluate-015c-is-value-excludes-numeric-specials",
-      "description": "isValue excludes NaN and infinity while accepting ordinary finite numbers.",
+      "id": "sansa-query-evaluate-015c-is-value-excludes-nan-but-accepts-infinity",
+      "description": "isValue excludes NaN while accepting finite numbers and infinity as concrete values.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items.*\nwhere isValue(.metric) or isValue(.ceiling)\nselect .sku"
@@ -1099,7 +1562,8 @@
       "expected": {
         "ok": true,
         "resultAddresses": [
-          "$.inventory.items[0]"
+          "$.inventory.items[0]",
+          "$.inventory.items[3]"
         ]
       },
       "tags": ["sansa", "query", "evaluate", "value", "numeric-special"]
@@ -1119,7 +1583,7 @@
     },
     {
       "id": "sansa-query-evaluate-015e-is-value-literal",
-      "description": "isValue accepts ordinary scalar expression results, including literals.",
+      "description": "isValue accepts concrete expression results, including literals.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items[0]\nwhere isValue(\"sku\")\nselect .sku"
@@ -1148,6 +1612,36 @@
       "tags": ["sansa", "query", "evaluate", "nan", "numeric-special"]
     },
     {
+      "id": "sansa-query-evaluate-016a-null-generic-semantic-filter",
+      "description": "Semantic filters match the base of generic null datatype claims before null predicates inspect the value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.status#null) and isNullReason(.status, \"notSet\")\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[0]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "null", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-016b-nan-generic-semantic-filter",
+      "description": "Semantic filters match the base of generic NaN datatype claims before NaN predicates inspect the value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.metric#nan) and isNaN(.metric)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[2]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "nan", "semantic-filter", "numeric-special"]
+    },
+    {
       "id": "sansa-query-evaluate-017-infinity-predicate",
       "description": "isInfinity tests explicit Infinity values.",
       "input": {
@@ -1161,6 +1655,21 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "infinity", "numeric-special"]
+    },
+    {
+      "id": "sansa-query-evaluate-017a-infinity-generic-semantic-filter",
+      "description": "Semantic filters match the base of generic Infinity datatype claims before Infinity predicates inspect the value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items.*\nwhere exists(.ceiling#infinity) and isInfinity(.ceiling)\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.inventory.items[3]"
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "infinity", "semantic-filter", "numeric-special"]
     },
     {
       "id": "sansa-query-evaluate-018-nan-comparison-invalid",
@@ -1191,6 +1700,226 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "comparison", "number"]
+    },
+    {
+      "id": "sansa-query-evaluate-019a-numeric-subtype-filter-comparison",
+      "description": "Numeric subtype semantic labels can be selected with semantic filters and compared as finite numeric values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#int32\nwhere . >= 2\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.count"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.count"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "number", "numeric-subtype", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019b-numeric-subtype-cross-comparison",
+      "description": "Integer, unsigned integer, and floating numeric subtypes inherit finite numeric comparison once exposed as numeric values.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types\nwhere .count < .ratio and .capacity > .ratio\nselect .count"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.count"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "number", "numeric-subtype"]
+    },
+    {
+      "id": "sansa-query-evaluate-019c-number-alias-filter-comparison",
+      "description": "The AEON number alias label remains visible to semantic filters while comparing as a finite numeric value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#n\nwhere . > $.types.count\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.aliasNumber"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.aliasNumber"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "number", "alias", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019d-boolean-alias-filter-comparison",
+      "description": "The AEON bool alias label remains visible to semantic filters while comparing as a Boolean value.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#bool\nwhere . == true\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.approved"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.approved"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "boolean", "alias", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019e-string-family-alias-filter-comparison",
+      "description": "String-family reserved labels such as prose remain visible to semantic filters while comparing as strings.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#prose\nwhere . == \"hello prose\"\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.summary"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.summary"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "string", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019f-encoding-family-alias-filter-comparison",
+      "description": "Encoding-family reserved labels such as base64 remain visible to semantic filters while comparing as encoded payloads.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#base64\nwhere . == &QmFzZTY0IQ==\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.payloadBase64"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.payloadBase64"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "encoding", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019f1-embed-family-alias-filter",
+      "description": "The embed reserved encoding label remains visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#embed\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.payloadEmbed"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.payloadEmbed"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "encoding", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019f2-inline-family-alias-filter",
+      "description": "The inline reserved encoding label remains visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#inline\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.payloadInline"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.payloadInline"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "encoding", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019g-separator-family-alias-filter-comparison",
+      "description": "Separator-family reserved labels such as kadot remain visible to semantic filters while comparing by naïve separator payload order.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#kadot\nwhere . > ^3.0.0\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.semver"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.semver"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "separator", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019h-sansa-address-semantic-filter",
+      "description": "SANSA address literal datatype labels remain visible to semantic filters without activating the address.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#sansa\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.selector"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.selector"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "sansa-address", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-019i-sansa-address-representation-filter",
+      "description": "SANSA address literal representation kinds remain visible to representation filters without activating the address.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*%sansa\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.selector"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.selector"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "sansa-address", "representation-filter"]
     },
     {
       "id": "sansa-query-evaluate-020-string-equality",
@@ -1424,7 +2153,10 @@
       "description": "path activates a structured contextual SANSA Address Literal value in select expressions.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items[1]\nselect path($.<\"params\">.field)"
+        "source": "from $.inventory.items[1]\nselect path($.<\"params\">.field)",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -1472,7 +2204,10 @@
       "description": "path may be used in where, order by, and projection expressions.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from $.inventory.items.*\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect { sku = path($.<\"params\">.field) qty = .qty }"
+        "source": "from $.inventory.items.*\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect { sku = path($.<\"params\">.field) qty = .qty }",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -1543,7 +2278,10 @@
       "description": "path may activate a structured SANSA Address Literal as the from source.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from path($.<\"params\">.source)\nwhere .qty >= 4\nselect .sku"
+        "source": "from path($.<\"params\">.source)\nwhere .qty >= 4\nselect .sku",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -1584,7 +2322,10 @@
       "description": "isValue may inspect Binding Sets produced by path.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from path($.<\"params\">.source)\nwhere isValue(path($.<\"params\">.active))\nselect path($.<\"params\">.field)"
+        "source": "from path($.<\"params\">.source)\nwhere isValue(path($.<\"params\">.active))\nselect path($.<\"params\">.field)",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -1612,6 +2353,150 @@
       "tags": ["sansa", "query", "evaluate", "path", "value", "local-space"]
     },
     {
+      "id": "sansa-query-evaluate-029k-path-policy-required",
+      "description": "Dynamic address activation fails closed when the consumer supplies no activation policy.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.field)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_POLICY_REQUIRED",
+        "errorPhase": "select",
+        "candidateAddress": "$.inventory.items[0]"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029l-path-constrained-contextual",
+      "description": "A constrained policy may activate a contextual exact address within a permitted structural root.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[1]\nselect path($.<\"params\">.field)",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.inventory.items"],
+            "allowedSelectors": ["member", "position"],
+            "allowContextualRoot": true,
+            "maxAddressDepth": 2,
+            "maxBindings": 1
+          }
+        }
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.inventory.items[1]"],
+        "selectedAddresses": [["$.inventory.items[1].sku"]]
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "contextual"]
+    },
+    {
+      "id": "sansa-query-evaluate-029m-path-root-denied",
+      "description": "A syntactically valid activated address is denied when it falls outside every permitted root.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nselect .sku",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.types"],
+            "allowedSelectors": ["member", "wildcard"]
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "from"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "scope", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029n-path-selector-denied",
+      "description": "A constrained activation policy rejects selectors outside its capability surface.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nselect .sku",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.inventory.items"],
+            "allowedSelectors": ["member", "position"]
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "from"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "selector", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029o-path-parent-escape-denied",
+      "description": "Parent traversal is denied when its normalized target can escape the granted structural root.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nselect path($.<\"params\">.parentField)",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.inventory.items[0]"],
+            "allowedSelectors": ["member", "position", "parent"],
+            "allowContextualRoot": true
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "select",
+        "candidateAddress": "$.inventory.items[0]"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "parent", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029p-path-local-space-denied",
+      "description": "Local address-space traversal requires an explicit activation capability.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $\nselect path($.<\"params\">.localTarget)",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$"],
+            "allowedSelectors": ["member", "position"]
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "select",
+        "candidateAddress": "$"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "local-space", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-029q-path-binding-limit",
+      "description": "Activated address resolution fails without partial results when the binding bound is exceeded.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from path($.<\"params\">.source)\nselect .sku",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$.inventory.items"],
+            "allowedSelectors": ["member", "wildcard"],
+            "maxBindings": 2
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_BINDING_LIMIT_EXCEEDED",
+        "errorPhase": "from",
+        "errorLimit": 2,
+        "errorObserved": 3
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "budget", "negative"]
+    },
+    {
       "id": "sansa-query-evaluate-030-unary-not",
       "description": "Unary not negates a single binding Boolean scalar in Boolean context.",
       "input": {
@@ -1634,6 +2519,731 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "boolean", "not"]
+    },
+    {
+      "id": "sansa-query-evaluate-030a-toggle-equality",
+      "description": "AEON toggle literals compare in the toggle equality domain.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.consent\nwhere . == yes\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.consent"
+        ],
+        "selectedAddresses": [
+          [
+            "$.consent"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "toggle"]
+    },
+    {
+      "id": "sansa-query-evaluate-030b-toggle-spelling-not-coerced",
+      "description": "Different toggle spellings are not treated as Boolean aliases by default.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.fallbackConsent\nwhere . == yes\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "toggle", "coercion"]
+    },
+    {
+      "id": "sansa-query-evaluate-030c-toggle-boolean-not-coerced",
+      "description": "Toggle and Boolean values do not compare by implicit coercion.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.consent\nwhere . == true\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "comparison", "toggle", "boolean", "coercion", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030d-value-family-representation-filter",
+      "description": "Representation-kind filters can select AEON scalar value families such as hex.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*%hex\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.color",
+          "$.types.colorCopy"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.color"
+          ],
+          [
+            "$.types.colorCopy"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "representation-filter", "hex"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e-hex-equality",
+      "description": "Hex values compare by same-family canonical payload identity.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.color\nwhere . == $.types.colorCopy\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.color"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.color"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "hex"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e1-hex-literal-equality",
+      "description": "Hex values compare with same-family Query source literals by canonical payload identity.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.color\nwhere . == #ff00aa\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.color"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.color"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "hex", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e2-radix-literal-family-metadata",
+      "description": "Bare radix source literals do not silently match profile-specific radix-family metadata.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.mask\nwhere . == %ff00aa\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "radix", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e2a-radix-reserved-label-filter",
+      "description": "Reserved radix labels such as radix8 remain visible to semantic filters without implying radix conversion.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#radix8\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.octal"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.octal"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "radix", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e3-encoding-literal-equality",
+      "description": "Encoding values compare with same-family Query source literals by preserved payload.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.payload\nwhere . == &QmFzZTY0IQ==\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.payload"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.payload"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "encoding", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e4-separator-literal-equality",
+      "description": "Separator values compare with same-family Query source literals by whole payload.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.version\nwhere . == ^0.11.0\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.version"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.version"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "separator", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030f-hex-radix-not-coerced",
+      "description": "Hex and radix values do not compare by implicit coercion.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.color\nwhere . == $.types.mask\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "hex", "radix", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g-temporal-equality",
+      "description": "Same-family temporal values compare by canonical temporal payload identity.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.released\nwhere . == $.types.released\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.released"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.released"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1-temporal-literal-order",
+      "description": "Temporal source literals compare against same-family temporal bindings by canonical payload order.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#date\nwhere . > 2025-01-01\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.released"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.released"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1a-time-literal-order",
+      "description": "Time source literals compare against same-family time bindings by canonical payload order.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.window\nwhere . >= 09:00:00Z\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.window"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.window"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "time", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1b-datetime-literal-equality",
+      "description": "Datetime source literals compare against same-family datetime bindings by canonical payload identity.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.stamp\nwhere . == 2026-07-25T09:30:00Z\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.stamp"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.stamp"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "datetime", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g1c-zrut-literal-equality",
+      "description": "ZRUT source literals compare against same-family ZRUT bindings by preserved zone payload identity.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.zone\nwhere . == 2026-07-25T09:30:00Z&Australia/Melbourne\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.zone"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.zone"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "zrut", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g2-cross-family-temporal-comparison-rejected",
+      "description": "Different temporal families do not compare by implicit coercion.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.stamp\nwhere . > $.types.released\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030g3-null-literal-comparison-rejected",
+      "description": "Explicit null source literals parse, but null comparison is rejected in favor of null predicates.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0].status\nwhere . == !notSet\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "null", "literal", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h-reference-form-equality",
+      "description": "Reference forms compare by preserved reference form identity, not by implicit follow.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.targetClone\nwhere . == $.targetClone\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.targetClone"
+        ],
+        "selectedAddresses": [
+          [
+            "$.targetClone"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h1-reference-form-kind-not-coerced",
+      "description": "Clone and pointer reference forms do not compare equal even when their target path matches.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.targetPointer\nwhere . == $.targetClone\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "coercion"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h1a-clone-reference-representation-filter",
+      "description": "Clone references remain selectable by their concrete representation kind without implicit follow.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.*%cloneReference\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.targetClone"
+        ],
+        "selectedAddresses": [
+          [
+            "$.targetClone"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "reference", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h1b-pointer-reference-representation-filter",
+      "description": "Pointer references remain selectable by their concrete representation kind without implicit follow.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.*%pointerReference\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.targetPointer"
+        ],
+        "selectedAddresses": [
+          [
+            "$.targetPointer"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "reference", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h2-follow-reference-target-value",
+      "description": "follow(...) explicitly traverses a reference target before value comparison or projection.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.targetClone\nwhere follow(.) == 7\nselect follow(.)"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.targetClone"
+        ],
+        "selectedAddresses": [
+          [
+            "$.target"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "follow"]
+    },
+    {
+      "id": "sansa-query-evaluate-030h3-follow-rejects-non-reference",
+      "description": "follow(...) rejects non-reference operands instead of acting as a general resolver.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.target\nwhere follow(.) == 7\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "reference", "follow", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ia-container-object-semantic-filter",
+      "description": "Container datatype labels remain visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers#object\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ib-container-object-alias-semantic-filter",
+      "description": "Object aliases such as obj remain visible as semantic filter labels.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#obj\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.record"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.record"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "alias", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ic-container-envelope-semantic-filter",
+      "description": "Reserved object labels such as envelope remain visible as semantic filter labels.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#envelope\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.packet"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.packet"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "reserved-label", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ic1-container-short-object-alias-semantic-filter",
+      "description": "The short object alias o remains visible as a semantic filter label.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#o\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.compact"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.compact"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "alias", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030id-container-list-generic-semantic-filter",
+      "description": "Semantic filters match the base of generic list datatype claims.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#list\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.series"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.series"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "list", "generic", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ie-container-tuple-semantic-filter",
+      "description": "Tuple datatype labels remain visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#tuple\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.pair"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.pair"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "tuple", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030if-container-node-semantic-filter",
+      "description": "Node datatype labels remain visible to semantic filters.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*#node\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.nodeValue"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.nodeValue"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "node", "semantic-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ig-container-object-representation-filter",
+      "description": "Object-shaped containers remain selectable by representation kind regardless of datatype label or alias.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*%object\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.record",
+          "$.containers.packet",
+          "$.containers.compact"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.record"
+          ],
+          [
+            "$.containers.packet"
+          ],
+          [
+            "$.containers.compact"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "object", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ih-container-list-representation-filter",
+      "description": "List-shaped containers remain selectable by representation kind.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*%list\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.series"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.series"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "list", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ii-container-tuple-representation-filter",
+      "description": "Tuple-shaped containers remain selectable by representation kind.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*%tuple\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.pair"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.pair"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "tuple", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030ij-container-node-representation-filter",
+      "description": "Node-shaped containers remain selectable by representation kind.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.containers.*%node\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.containers.nodeValue"
+        ],
+        "selectedAddresses": [
+          [
+            "$.containers.nodeValue"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "container", "node", "representation-filter"]
+    },
+    {
+      "id": "sansa-query-evaluate-030i-container-structural-equality",
+      "description": "Resolved containers of the same container kind may participate in structural equality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table\nwhere .header == .header\nselect .header"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table"
+        ],
+        "selectedAddresses": [
+          [
+            "$.table.header"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "container"]
+    },
+    {
+      "id": "sansa-query-evaluate-030i1-container-structural-inequality",
+      "description": "Resolved containers of the same container kind may participate in structural inequality comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table\nwhere .header != .duplicateHeader\nselect .duplicateHeader"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.table"
+        ],
+        "selectedAddresses": [
+          [
+            "$.table.duplicateHeader"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "container"]
+    },
+    {
+      "id": "sansa-query-evaluate-030i2-container-kind-comparison-rejected",
+      "description": "Containers of different container kinds are not coerced for structural comparison.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table\nwhere .header == .content[0]\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "container", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030i3-container-ordering-rejected",
+      "description": "Structural container values are equality-comparable but not orderable by the minimum profile.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.table\nwhere .header > .header\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "container", "ordering", "negative"]
     },
     {
       "id": "sansa-query-evaluate-031-unary-not-existence",
@@ -2536,7 +4146,10 @@
       "description": "Recipe: dynamic source, dynamic Boolean predicate, dynamic order key, and dynamic projection.",
       "input": {
         "namespace": "inventory-values",
-        "source": "from path($.<\"params\">.source)\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect path($.<\"params\">.field)"
+        "source": "from path($.<\"params\">.source)\nwhere path($.<\"params\">.active) == false\norder by path($.<\"params\">.sort) desc\nselect path($.<\"params\">.field)",
+        "options": {
+          "addressActivation": "trusted"
+        }
       },
       "expected": {
         "ok": true,
@@ -2557,7 +4170,7 @@
     },
     {
       "id": "sansa-query-evaluate-061-recipe-status-presence",
-      "description": "Recipe: distinguish ordinary values, explicit nulls, and missing bindings in one predicate.",
+      "description": "Recipe: distinguish concrete values, explicit nulls, and missing bindings in one predicate.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.inventory.items.*\nwhere isValue(.status) or (exists(.status) and isNull(.status))\nselect .sku"

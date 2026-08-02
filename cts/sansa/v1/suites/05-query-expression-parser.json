@@ -158,6 +158,417 @@
       "tags": ["sansa", "query", "expression", "comparison"]
     },
     {
+      "id": "sansa-query-expression-003a-toggle-literal",
+      "description": "AEON toggle spellings parse as toggle literal expressions, not identifiers or Booleans.",
+      "input": {
+        "expression": ".consent == yes"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".consent == yes",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".consent"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "toggle",
+            "value": "yes"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "toggle"]
+    },
+    {
+      "id": "sansa-query-expression-003b-hex-literal",
+      "description": "AEON hex source literals parse as same-family Query literal expressions.",
+      "input": {
+        "expression": ".color == #Ff_00_Aa"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".color == #ff00aa",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".color"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "hex",
+            "value": "ff00aa"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "hex"]
+    },
+    {
+      "id": "sansa-query-expression-003c-radix-literal",
+      "description": "AEON radix source literals parse as same-family Query literal expressions.",
+      "input": {
+        "expression": ".mask == %ff00aa"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".mask == %ff00aa",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".mask"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "radix",
+            "value": "ff00aa"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "radix"]
+    },
+    {
+      "id": "sansa-query-expression-003d-encoding-literal",
+      "description": "AEON encoding source literals preserve encoding payload padding.",
+      "input": {
+        "expression": ".payload == &QmFzZTY0IQ=="
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".payload == &QmFzZTY0IQ==",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".payload"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "encoding",
+            "value": "QmFzZTY0IQ=="
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "encoding"]
+    },
+    {
+      "id": "sansa-query-expression-003e-separator-literal",
+      "description": "AEON separator source literals parse as separator payload literals.",
+      "input": {
+        "expression": ".version == ^0.11.0"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".version == ^0.11.0",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".version"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "separator",
+            "value": "0.11.0"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "separator"]
+    },
+    {
+      "id": "sansa-query-expression-003e1-quoted-separator-literal",
+      "description": "AEON separator source literals may contain quoted payload segments.",
+      "input": {
+        "expression": ".parts == ^\"hello world\"|\"this, [is] fine\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".parts == ^\"hello world\"|\"this, [is] fine\"",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".parts"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "separator",
+            "value": "\"hello world\"|\"this, [is] fine\""
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "separator"]
+    },
+    {
+      "id": "sansa-query-expression-003e2-invalid-separator-raw-slash",
+      "description": "AEON separator source literals reject raw slash characters inside the payload.",
+      "input": {
+        "expression": ".path == ^root/main"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_SEPARATOR_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "separator", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-003f-temporal-literal",
+      "description": "AEON temporal-looking source literals parse as temporal Query literal expressions.",
+      "input": {
+        "expression": ".released == 2026-07-25"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".released == 2026-07-25",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".released"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "date",
+            "value": "2026-07-25"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "date"]
+    },
+    {
+      "id": "sansa-query-expression-003f1-time-literal",
+      "description": "AEON time source literals parse as same-family Query literal expressions.",
+      "input": {
+        "expression": ".window >= 09:30:00Z"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".window >= 09:30:00Z",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": ">=",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".window"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "time",
+            "value": "09:30:00Z"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "time"]
+    },
+    {
+      "id": "sansa-query-expression-003f2-datetime-literal",
+      "description": "AEON datetime source literals parse as same-family Query literal expressions.",
+      "input": {
+        "expression": ".stamp == 2026-07-25T09:30:00Z"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".stamp == 2026-07-25T09:30:00Z",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".stamp"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "datetime",
+            "value": "2026-07-25T09:30:00Z"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "datetime"]
+    },
+    {
+      "id": "sansa-query-expression-003f3-zrut-literal",
+      "description": "AEON ZRUT source literals preserve the named-zone payload.",
+      "input": {
+        "expression": ".zone == 2026-07-25T09:30:00Z&Australia/Melbourne"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".zone == 2026-07-25T09:30:00Z&Australia/Melbourne",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".zone"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "zrut",
+            "value": "2026-07-25T09:30:00Z&Australia/Melbourne"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut"]
+    },
+    {
+      "id": "sansa-query-expression-003f3a-reduced-time-literal",
+      "description": "AEON reduced-precision time literals parse as time Query literal expressions.",
+      "input": {
+        "expression": ".window == 09:"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".window == 09:",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".window"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "time",
+            "value": "09:"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "time"]
+    },
+    {
+      "id": "sansa-query-expression-003f3b-reduced-datetime-literal",
+      "description": "AEON reduced-precision datetime literals parse as datetime Query literal expressions.",
+      "input": {
+        "expression": ".stamp == 2026-07-25T09Z"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".stamp == 2026-07-25T09Z",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".stamp"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "datetime",
+            "value": "2026-07-25T09Z"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "datetime"]
+    },
+    {
+      "id": "sansa-query-expression-003f3c-reduced-zrut-literal",
+      "description": "AEON reduced-precision ZRUT source literals preserve the named-zone payload.",
+      "input": {
+        "expression": ".zone == 2026-07-25T09Z&Europe/Belgium/Brussels"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".zone == 2026-07-25T09Z&Europe/Belgium/Brussels",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".zone"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "zrut",
+            "value": "2026-07-25T09Z&Europe/Belgium/Brussels"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut"]
+    },
+    {
+      "id": "sansa-query-expression-003f4-invalid-date-range",
+      "description": "Temporal date literals reject invalid calendar ranges.",
+      "input": {
+        "expression": ".released == 2025-02-29"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "date", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-003f5-invalid-time-range",
+      "description": "Temporal time literals reject invalid clock ranges.",
+      "input": {
+        "expression": ".window == 23:59:60"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "time", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-003f5a-invalid-zrut-zone",
+      "description": "Temporal ZRUT literals reject invalid named-zone slash placement.",
+      "input": {
+        "expression": ".zone == 2025-01-01T09Z&Europe//Brussels"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-003f5b-invalid-zrut-zone-block-comment-marker",
+      "description": "Temporal ZRUT literals reject block-comment-looking markers inside the contiguous named-zone payload.",
+      "input": {
+        "expression": ".zone == 2025-01-01T09Z&Europe/*Brussels*/"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-003g-null-literal",
+      "description": "AEON explicit-null source literals parse as null Query literal expressions.",
+      "input": {
+        "expression": ".status == !notSet"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".status == !notSet",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".status"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "null",
+            "value": null,
+            "nullReason": "notSet"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "null"]
+    },
+    {
       "id": "sansa-query-expression-004-boolean-precedence",
       "description": "Boolean expressions preserve not, and, or precedence",
       "input": {
@@ -286,7 +697,7 @@
       "tags": ["sansa", "query", "expression", "function", "null", "numeric-special"]
     },
     {
-      "id": "sansa-query-expression-007a-ordinary-value-predicate",
+      "id": "sansa-query-expression-007a-concrete-value-predicate",
       "description": "isValue parses as a deterministic function-call expression.",
       "input": {
         "expression": "isValue(.status)"
