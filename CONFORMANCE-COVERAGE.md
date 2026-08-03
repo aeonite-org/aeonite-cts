@@ -53,6 +53,7 @@ The status labels used here are:
 | custom-mode typed literal acceptance and fail-closed boundaries | baseline | `cts/core/v1/suites/01-baseline.json`, `cts/core/v1/suites/11-promoted-custom-literals.json`, `cts/core/v1/suites/12-promoted-custom-rejections.json` | baseline custom-datatype policy plus promoted custom-mode value-family acceptance, untyped fail-closed behavior, and reserved-datatype mismatch checks | `Aeon/stress-tests/snippets/positive-custom.aeon-cases`, `Aeon/stress-tests/snippets/negative-custom.aeon-cases` |
 | shared value equality, ordering, and concrete-value semantics | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers minimum-profile equality, ordering, NaN fail-closed behavior, infinity numeric-bound behavior, concrete value predicate classification, and portable default/codepoint profile selection | `aeonite-specs/aeon/v1/proposals/value-semantics-v1.md` |
 | AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
+| ASP conservative SANSA.Mutate lowering behavior | scaffold | `cts/asp/v1/asp-sansa-lowering-cts.v1.json`, `cts/asp/v1/suites/01-sansa-mutate-lowering.json` | experimental candidate coverage for exact binding and attribute lowering, inert provenance preservation, explicit datatype/kind intent, unsupported surfaces, policy phases, overlap diagnostics, and budget diagnostics | `altopelago/asp/conformance/fixtures/sansa-mutate-lowering.json` |
 
 ## Promotion rule
 
@@ -141,6 +142,18 @@ The following surfaces are treated as the current SANSA anti-drift behavior fami
 | query parser, expression structure, and evaluator scaffold | scaffold | `cts/sansa/v1/suites/04-query-parser.json`, `cts/sansa/v1/suites/05-query-expression-parser.json`, `cts/sansa/v1/suites/06-query-evaluate.json` | covers required clauses, clause ordering, duplicate rejection, `from` address validation, comments as trivia, order-key defaults, numeric slice bounds, initial expression AST shape, expression canonical rendering, filtered projection evaluation, order evaluation, cardinality predicate evaluation, built-in string function evaluation, slice evaluation, budget exhaustion diagnostics, and explicit unsupported-feature diagnostics |
 | experimental Instruction parse, lower, plan, and target-surface behavior | experimental | `cts/sansa/v1/suites/08-instruction.json` | covers direct parse canonicalization, type/value delimiter canonicalization, candidate-relative lowering, ordered insert and move intent, quoted create destinations, scalar and container literals, lowered operation planning with source provenance, lower-versus-plan diagnostics, one-intent parse rejection, and target-surface representability checks after successful planning |
 | experimental structured mutation planning and apply contracts | experimental | `cts/sansa/v1/suites/07-mutate-plan.json` | covers exact-target planning, create/replace/remove/ordered insert/same-container move, value-intent hints, provenance, preconditions and recheck, operation/precondition/value budgets, portability warnings, target-surface validation, experimental policy plan-filter boundaries, stale-target rejection, adapter capability flags, atomic-apply requirements, no-partial behavior before hooks run, and partial-result reporting for non-atomic hook failures |
+
+## ASP behavior families
+
+The following surfaces are treated as current ASP anti-drift behavior families:
+
+- conservative SANSA.Mutate lowering into concrete ASP transactions
+
+## ASP coverage map
+
+| ASP behavior family | status | current CTS owner | current coverage notes |
+| --- | --- | --- | --- |
+| conservative SANSA.Mutate lowering | scaffold | `cts/asp/v1/asp-sansa-lowering-cts.v1.json`, `cts/asp/v1/suites/01-sansa-mutate-lowering.json` | experimental CTS promotion candidate for the ASP bridge only; SANSA planning remains covered by the SANSA lane, while AEOS validation and storage commit remain separate contracts |
 
 ## Shared Value Semantics behavior families
 
