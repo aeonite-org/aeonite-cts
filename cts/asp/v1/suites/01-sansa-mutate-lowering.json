@@ -317,9 +317,9 @@
           "op": "insert",
           "container": "$.items",
           "placement": {
-            "kind": "last"
+            "kind": "first"
           },
-          "value": "second"
+          "value": "zeroth"
         }
       },
       "expected": {
@@ -468,6 +468,101 @@
           "code": "SANSA_PLAN_POLICY_DENIED",
           "phase": "asp.plan_authorization"
         }
+      }
+    },
+    {
+      "id": "asp-sansa-lowering-013-append-last-insert",
+      "tags": [
+        "experimental",
+        "append",
+        "order"
+      ],
+      "input": {
+        "tx_id": "tx_sansa_mutate_append_last",
+        "request": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": {
+            "kind": "last"
+          },
+          "value": "second"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "preconditions": [
+          {
+            "scope": "$.items",
+            "revision": 1
+          }
+        ],
+        "operations": [
+          {
+            "op": "put_assignment",
+            "path": "$.items[1]",
+            "value": {
+              "type": "StringLiteral",
+              "value": "second"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "asp-sansa-lowering-014-append-last-insert-batch",
+      "tags": [
+        "experimental",
+        "append",
+        "order",
+        "batch"
+      ],
+      "input": {
+        "tx_id": "tx_sansa_mutate_append_last_batch",
+        "request": [
+          {
+            "op": "insert",
+            "container": "$.items",
+            "placement": {
+              "kind": "last"
+            },
+            "value": "second"
+          },
+          {
+            "op": "insert",
+            "container": "$.items",
+            "placement": {
+              "kind": "last"
+            },
+            "value": "third"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "preconditions": [
+          {
+            "scope": "$.items",
+            "revision": 1
+          }
+        ],
+        "operations": [
+          {
+            "op": "put_assignment",
+            "path": "$.items[1]",
+            "value": {
+              "type": "StringLiteral",
+              "value": "second"
+            }
+          },
+          {
+            "op": "put_assignment",
+            "path": "$.items[2]",
+            "value": {
+              "type": "StringLiteral",
+              "value": "third"
+            }
+          }
+        ]
       }
     }
   ]
