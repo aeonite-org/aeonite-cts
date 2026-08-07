@@ -72,6 +72,15 @@
             "type": "StringLiteral",
             "value": "first"
           }
+        },
+        {
+          "op": "put_assignment",
+          "path": "$.items[1]",
+          "datatype": "string",
+          "value": {
+            "type": "StringLiteral",
+            "value": "second"
+          }
         }
       ]
     },
@@ -485,7 +494,7 @@
           "placement": {
             "kind": "last"
           },
-          "value": "second"
+          "value": "third"
         }
       },
       "expected": {
@@ -499,10 +508,10 @@
         "operations": [
           {
             "op": "put_assignment",
-            "path": "$.items[1]",
+            "path": "$.items[2]",
             "value": {
               "type": "StringLiteral",
-              "value": "second"
+              "value": "third"
             }
           }
         ]
@@ -525,7 +534,7 @@
             "placement": {
               "kind": "last"
             },
-            "value": "second"
+            "value": "third"
           },
           {
             "op": "insert",
@@ -533,7 +542,7 @@
             "placement": {
               "kind": "last"
             },
-            "value": "third"
+            "value": "fourth"
           }
         ]
       },
@@ -548,21 +557,107 @@
         "operations": [
           {
             "op": "put_assignment",
-            "path": "$.items[1]",
-            "value": {
-              "type": "StringLiteral",
-              "value": "second"
-            }
-          },
-          {
-            "op": "put_assignment",
             "path": "$.items[2]",
             "value": {
               "type": "StringLiteral",
               "value": "third"
             }
+          },
+          {
+            "op": "put_assignment",
+            "path": "$.items[3]",
+            "value": {
+              "type": "StringLiteral",
+              "value": "fourth"
+            }
           }
         ]
+      }
+    },
+    {
+      "id": "asp-sansa-lowering-015-reject-ordered-insert-before",
+      "tags": [
+        "experimental",
+        "unsupported",
+        "order",
+        "anchor"
+      ],
+      "input": {
+        "tx_id": "tx_sansa_mutate_reject_insert_before",
+        "request": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": {
+            "kind": "before",
+            "anchor": "$.items[0]"
+          },
+          "value": "zeroth"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "SANSA_MUTATE_OPERATION_UNSUPPORTED_BY_ASP",
+          "phase": "asp.lowering",
+          "op_index": 0
+        }
+      }
+    },
+    {
+      "id": "asp-sansa-lowering-016-reject-ordered-insert-after",
+      "tags": [
+        "experimental",
+        "unsupported",
+        "order",
+        "anchor"
+      ],
+      "input": {
+        "tx_id": "tx_sansa_mutate_reject_insert_after",
+        "request": {
+          "op": "insert",
+          "container": "$.items",
+          "placement": {
+            "kind": "after",
+            "anchor": "$.items[0]"
+          },
+          "value": "inserted"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "SANSA_MUTATE_OPERATION_UNSUPPORTED_BY_ASP",
+          "phase": "asp.lowering",
+          "op_index": 0
+        }
+      }
+    },
+    {
+      "id": "asp-sansa-lowering-017-reject-same-container-move",
+      "tags": [
+        "experimental",
+        "unsupported",
+        "order",
+        "move"
+      ],
+      "input": {
+        "tx_id": "tx_sansa_mutate_reject_same_container_move",
+        "request": {
+          "op": "move",
+          "source": "$.items[0]",
+          "container": "$.items",
+          "placement": {
+            "kind": "last"
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "SANSA_MUTATE_OPERATION_UNSUPPORTED_BY_ASP",
+          "phase": "asp.lowering",
+          "op_index": 0
+        }
       }
     }
   ]
