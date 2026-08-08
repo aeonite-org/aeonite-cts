@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "stable-identity-order-durability",
+    "capability": "AES-DB.StableIdentityOrderDurability",
+    "profile": "aes-db.stable-identity-order.record.v1",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Experimental canonical encoding, causal replay, recovery, and corruption behavior for AES-DB stable identity/order history",
+    "snapshot_id": "stable-identity-order-durability-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "stable-identity-order-durability",
+      "title": "AES-DB Stable Identity/Order Durability",
+      "file": "suites/01-stable-identity-order-durability.json"
+    }
+  ]
+}

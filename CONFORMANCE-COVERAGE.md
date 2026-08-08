@@ -148,12 +148,18 @@ The following surfaces are treated as the current SANSA anti-drift behavior fami
 The following surfaces are treated as current ASP anti-drift behavior families:
 
 - conservative SANSA.Mutate lowering into concrete ASP transactions
+- stable identity/order target-adapter behavior
+- stable identity/order SO negotiation and diagnostics
+- stable identity/order AES-DB durability
 
 ## ASP coverage map
 
 | ASP behavior family | status | current CTS owner | current coverage notes |
 | --- | --- | --- | --- |
 | conservative SANSA.Mutate lowering | scaffold | `cts/asp/v1/asp-sansa-lowering-cts.v1.json`, `cts/asp/v1/suites/01-sansa-mutate-lowering.json` | experimental CTS promotion candidate for the ASP bridge only; covers exact binding and attribute lowering, inert provenance, explicit datatype/kind intent, append-last lowering and batch append reservation, ordered insert anchor rejection for first/before/after, same-container move rejection, unsupported surfaces, policy phases, overlap diagnostics, and budget diagnostics; SANSA planning remains covered by the SANSA lane, while AEOS validation and storage commit remain separate contracts |
+| stable identity/order SO behavior | experimental | `cts/semantic-orchestrator/v1/stable-identity-order-so-cts.v1.json` | explicit opt-in negotiation, unchanged ASP v0 default, bounded retry policy, and stable outcome/phase classification |
+| stable identity/order target-adapter behavior | experimental | `cts/asp-target/v1/stable-identity-order-target-cts.v1.json` | authorization and validation sequencing, bounded insert recompilation, immutable reorder intent, idempotent retries, and collision classification |
+| stable identity/order AES-DB durability | experimental | `cts/aes-db/v1/stable-identity-order-durability-cts.v1.json` | canonical codec/replay, causal revisions, recoverable incomplete trailing frames, and fail-closed corruption |
 
 ## Shared Value Semantics behavior families
 
