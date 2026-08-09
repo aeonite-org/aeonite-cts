@@ -142,7 +142,7 @@
       "id": "core-custom-003-reserved-datatypes-remain-usable-in-custom-mode",
       "description": "Custom mode still accepts reserved datatypes over the same literal families while remaining typed",
       "input": {
-        "source": "widthText:string = `3cm`\nlaunch:boolean = true\nlimit:infinity = Infinity\ntoggle:toggle = yes\nswatch:hex = #FF32\nbits:radix = %1010111\nblob:encode = &FFF\nstart:date = 2025-01-01\nat:time = 09:30:00\nstamp:datetime = 2025-01-01T09:30:00Z\nzone:zrut = 2025-01-01T00:00:00Z&Australia/Melbourne\npath:sep = ^400x200\n",
+        "source": "widthText:string = `3cm`\nlaunch:boolean = true\nlimit:infinity = Infinity\ntoggle:toggle = yes\nswatch:hex = #FF32\nbits:radix = %1010111\nblob:encode = &FFF\nstart:date = 2025-01-01\nat:time = 09:30:00\nstamp:datetime = 2025-01-01T09:30:00Z\nzone:wtc = 2025-01-01T00:00:00Z&Australia/Melbourne\npath:sep = ^400x200\n",
         "mode": "custom"
       },
       "expected": {
@@ -204,7 +204,7 @@
             },
             {
               "path": "$.zone",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "kind": "binding"
             },
             {

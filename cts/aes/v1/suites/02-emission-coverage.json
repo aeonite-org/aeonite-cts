@@ -371,10 +371,10 @@
       "spec_refs": ["specs/04-official/v1/value-types-v1.md#41-object", "specs/04-official/v1/value-types-v1.md#331-infinity", "specs/04-official/v1/value-types-v1.md#332-nan", "specs/04-official/v1/value-types-v1.md#333-null", "specs/04-official/v1/value-types-v1.md#44-node"]
     },
     {
-      "id": "aes-emission-004b-named-zrut-zone-characters-pass",
-      "description": "AES emission preserves typed ZRUT bindings that use common named-zone identifiers containing dash and plus characters",
+      "id": "aes-emission-004b-named-wtc-zone-characters-pass",
+      "description": "AES emission preserves typed WTC bindings that use common temporal references containing dash and plus characters",
       "input": {
-        "source": "z1:zrut = 2025-01-01T09:30Z&America/Port-au-Prince\nz2:zrut = 2025-01-01T09:30Z&GB-Eire\nz3:zrut = 2025-01-01T09:30Z&Etc/GMT-1\nz4:zrut = 2025-01-01T09:30Z&Etc/GMT+1\n",
+        "source": "z1:wtc = 2025-01-01T09:30Z&America/Port-au-Prince\nz2:wtc = 2025-01-01T09:30Z&GB-Eire\nz3:wtc = 2025-01-01T09:30Z&Etc/GMT-1\nz4:wtc = 2025-01-01T09:30Z&Etc/GMT+1\n",
         "mode": "strict"
       },
       "expected": {
@@ -385,32 +385,32 @@
           "events": [
             {
               "path": "$.z1",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "value_kind": "DateTimeLiteral",
               "reference": null
             },
             {
               "path": "$.z2",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "value_kind": "DateTimeLiteral",
               "reference": null
             },
             {
               "path": "$.z3",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "value_kind": "DateTimeLiteral",
               "reference": null
             },
             {
               "path": "$.z4",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "value_kind": "DateTimeLiteral",
               "reference": null
             }
           ]
         }
       },
-      "tags": ["zrut", "datetime", "strict"],
+      "tags": ["wtc", "datetime", "strict"],
       "spec_refs": ["specs/04-official/v1/appendices/appendix-aes.md", "specs/04-official/v1/value-types-v1.md"]
     },
     {
