@@ -65,6 +65,34 @@
         "collisionOutcome": "semantic_conflict",
         "collisionErrorCodes": ["ORDERED_CHILD_INSERT_TX_ID_COLLISION"]
       }
+    },
+    {
+      "id": "stable-order-target-005-ordered-children-batch",
+      "tags": ["experimental", "batch", "authorization", "aeos", "durability"],
+      "input": { "action": "ordered_children_batch" },
+      "expected": {
+        "ok": true,
+        "outcome": "committed",
+        "phases": ["request", "resolved-plan", "commit", "validate"],
+        "documentRevision": 6,
+        "materialRevision": 1,
+        "nextMaterialIndex": 4,
+        "childStructuralIds": ["N", "I0", "I1", "M"]
+      }
+    },
+    {
+      "id": "stable-order-target-006-ordered-children-mutation",
+      "tags": ["experimental", "mixed-batch", "authorization", "aeos", "durability"],
+      "input": { "action": "ordered_children_mutation" },
+      "expected": {
+        "ok": true,
+        "outcome": "committed",
+        "phases": ["request", "resolved-plan", "commit", "validate"],
+        "documentRevision": 6,
+        "materialRevision": 1,
+        "nextMaterialIndex": 3,
+        "childStructuralIds": ["N", "I1", "I0"]
+      }
     }
   ]
 }
