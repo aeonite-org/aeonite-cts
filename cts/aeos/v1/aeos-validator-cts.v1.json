@@ -1,11 +1,11 @@
 {
   "meta": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "AEOS v1 Conformance Test Suite - manifest references suites/*.json (source of truth)",
     "source_of_truth": "cts/aeos/v1/suites/*.json",
     "generated_by": "suite-reference-manifest (2026-03-06)",
-    "snapshot_id": "aeos-validator-cts-v1-snapshot-0.1",
-    "spec_snapshot_id": "aeos-validator-specs-v1-snapshot-0.1"
+    "snapshot_id": "aeos-validator-cts-v1-snapshot-0.2",
+    "spec_snapshot_id": "aeos-validator-specs-v1-snapshot-0.2"
   },
   "suites": [
     {
