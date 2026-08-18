@@ -119,9 +119,9 @@
     },
     {
       "id": "core-whitespace-004-separator-spec-boundary-newlines-pass",
-      "description": "Newlines around separator spec bracket boundaries are accepted when the separator character remains contiguous",
+      "description": "Newlines around separator clarifier list boundaries are accepted when the separator string remains contiguous",
       "input": {
-        "source": "size:sep\n[\nx\n]\n= ^300x250\n",
+        "source": "size:sep\n[\n\"x\"\n]\n= ^300x250\n",
         "mode": "strict"
       },
       "expected": {
@@ -133,7 +133,7 @@
           "bindings": [
             {
               "path": "$.size",
-              "datatype": "sep[x]",
+              "datatype": "sep[\"x\"]",
               "kind": "binding"
             }
           ]
@@ -153,7 +153,7 @@
       "id": "core-whitespace-005-separator-space-before-comment-pass",
       "description": "A space before a trailing line comment ends a separator literal payload cleanly outside quoted segments",
       "input": {
-        "source": "g:sep[|] = ^aaa // d\n",
+        "source": "g:sep[\"|\"] = ^aaa // d\n",
         "mode": "strict"
       },
       "expected": {
@@ -165,7 +165,7 @@
           "bindings": [
             {
               "path": "$.g",
-              "datatype": "sep[|]",
+              "datatype": "sep[\"|\"]",
               "kind": "binding"
             }
           ]
@@ -187,7 +187,7 @@
       "id": "core-whitespace-006-separator-raw-space-reject",
       "description": "An unquoted interior space ends a separator payload and leaves trailing raw text as a syntax error",
       "input": {
-        "source": "g:sep[|] = ^aaa bbb\n",
+        "source": "g:sep[\"|\"] = ^aaa bbb\n",
         "mode": "strict"
       },
       "expected": {
@@ -240,7 +240,7 @@
       "id": "core-whitespace-008-line-separator-structural-reject",
       "description": "U+2028 LINE SEPARATOR is not a Core v1 structural newline token and fails closed in binding position",
       "input": {
-        "source": "a = \u2028\n",
+        "source": "a =  \n",
         "mode": "strict"
       },
       "expected": {

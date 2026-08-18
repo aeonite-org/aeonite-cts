@@ -610,7 +610,7 @@
       "id": "core-baseline-011-strict-removed-separator-alias-reject",
       "description": "Strict mode treats removed separator aliases like dim[...] as custom datatypes",
       "input": {
-        "source": "aeon:mode = \"strict\"\nsize:dim[x] = ^1920x1080",
+        "source": "aeon:mode = \"strict\"\nsize:dim[\"x\"] = ^1920x1080",
         "mode": "strict"
       },
       "expected": {
@@ -642,7 +642,7 @@
       "id": "core-baseline-012-strict-removed-separator-alias-allow-custom-pass",
       "description": "Strict mode accepts removed separator aliases when datatype policy is allow_custom",
       "input": {
-        "source": "aeon:mode = \"strict\"\nsize:dim[x] = ^1920x1080",
+        "source": "aeon:mode = \"strict\"\nsize:dim[\"x\"] = ^1920x1080",
         "mode": "strict",
         "options": {
           "datatype_policy": "allow_custom"
@@ -657,7 +657,7 @@
           "bindings": [
             {
               "path": "$.size",
-              "datatype": "dim[x]",
+              "datatype": "dim[\"x\"]",
               "kind": "binding"
             }
           ]
@@ -717,7 +717,7 @@
       "id": "core-baseline-014-strict-separator-short-alias-pass",
       "description": "Strict mode accepts sep as a reserved separator alias",
       "input": {
-        "source": "aeon:mode = \"strict\"\nparts:sep[|] = ^a|b",
+        "source": "aeon:mode = \"strict\"\nparts:sep[\"|\"] = ^a|b",
         "mode": "strict"
       },
       "expected": {
@@ -729,7 +729,7 @@
           "bindings": [
             {
               "path": "$.parts",
-              "datatype": "sep[|]",
+              "datatype": "sep[\"|\"]",
               "kind": "binding"
             }
           ]
@@ -854,7 +854,7 @@
       "id": "core-baseline-016-separator-depth-default-reject",
       "description": "Default max_separator_depth rejects chained separator specs",
       "input": {
-        "source": "matrix:grid[|][/] = ^1|2/3",
+        "source": "matrix:grid[\"|\", \"/\"] = ^1|2/3",
         "mode": "strict"
       },
       "expected": {
@@ -871,7 +871,12 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "depth-policy", "separator", "fail"],
+      "tags": [
+        "baseline",
+        "depth-policy",
+        "separator",
+        "fail"
+      ],
       "spec_refs": [
         "specs/04-official/v1/structure-syntax-v1.md",
         "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
@@ -881,7 +886,7 @@
       "id": "core-baseline-017-separator-depth-override-pass",
       "description": "Raised max_separator_depth accepts chained separator specs",
       "input": {
-        "source": "matrix:grid[|][>] = ^1|2>3",
+        "source": "matrix:grid[\"|\", \">\"] = ^1|2>3",
         "mode": "strict",
         "options": {
           "max_separator_depth": 8
@@ -896,13 +901,18 @@
           "bindings": [
             {
               "path": "$.matrix",
-              "datatype": "grid[|][>]",
+              "datatype": "grid[\"|\", \">\"]",
               "kind": "binding"
             }
           ]
         }
       },
-      "tags": ["baseline", "depth-policy", "separator", "override"],
+      "tags": [
+        "baseline",
+        "depth-policy",
+        "separator",
+        "override"
+      ],
       "spec_refs": [
         "specs/04-official/v1/structure-syntax-v1.md",
         "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
@@ -929,7 +939,12 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "depth-policy", "generic", "fail"],
+      "tags": [
+        "baseline",
+        "depth-policy",
+        "generic",
+        "fail"
+      ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md",
         "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
@@ -990,7 +1005,12 @@
           ]
         }
       },
-      "tags": ["baseline", "depth-policy", "generic", "override"],
+      "tags": [
+        "baseline",
+        "depth-policy",
+        "generic",
+        "override"
+      ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md",
         "specs/04-official/v1/AEON-v1-compliance.md#5-depth-policy-requirements"
@@ -1018,7 +1038,12 @@
           ]
         }
       },
-      "tags": ["baseline", "comments", "shebang", "host-directive"],
+      "tags": [
+        "baseline",
+        "comments",
+        "shebang",
+        "host-directive"
+      ],
       "spec_refs": [
         "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
         "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
@@ -1045,7 +1070,12 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "comments", "shebang", "reject"],
+      "tags": [
+        "baseline",
+        "comments",
+        "shebang",
+        "reject"
+      ],
       "spec_refs": [
         "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
         "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
@@ -1073,7 +1103,13 @@
           ]
         }
       },
-      "tags": ["baseline", "comments", "bom", "shebang", "host-directive"],
+      "tags": [
+        "baseline",
+        "comments",
+        "bom",
+        "shebang",
+        "host-directive"
+      ],
       "spec_refs": [
         "specs/04-official/v1/comments-annotations-v1.md#25-host-channel",
         "specs/04-official/v1/AEON-v1-compliance.md#6-comment-and-annotation-requirements"
@@ -1101,7 +1137,11 @@
           ]
         }
       },
-      "tags": ["baseline", "datatype-policy", "transport"],
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "transport"
+      ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
         "specs/04-official/v1/AEON-v1-compliance.md#72-mode-driven-datatype-acceptance"
@@ -1129,7 +1169,11 @@
           ]
         }
       },
-      "tags": ["baseline", "datatype-policy", "custom"],
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "custom"
+      ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
         "specs/04-official/v1/AEON-v1-compliance.md#72-mode-driven-datatype-acceptance"
@@ -1156,7 +1200,11 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "datatype-policy", "custom"],
+      "tags": [
+        "baseline",
+        "datatype-policy",
+        "custom"
+      ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
         "specs/04-official/v1/AEON-v1-compliance.md#71-explicit-datatype-compatibility"
@@ -1183,7 +1231,13 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "transport", "datatype", "generics", "reject"],
+      "tags": [
+        "baseline",
+        "transport",
+        "datatype",
+        "generics",
+        "reject"
+      ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy"
@@ -1210,7 +1264,13 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "transport", "datatype", "brackets", "reject"],
+      "tags": [
+        "baseline",
+        "transport",
+        "datatype",
+        "brackets",
+        "reject"
+      ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
         "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy"
@@ -1237,7 +1297,13 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "transport", "datatype", "radix", "reject"],
+      "tags": [
+        "baseline",
+        "transport",
+        "datatype",
+        "radix",
+        "reject"
+      ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md#37-radix"
       ]
@@ -1257,7 +1323,17 @@
           "parse_ok": true
         }
       },
-      "tags": ["baseline", "transport", "datatype", "generics", "objects", "nodes", "null", "nan", "infinity"],
+      "tags": [
+        "baseline",
+        "transport",
+        "datatype",
+        "generics",
+        "objects",
+        "nodes",
+        "null",
+        "nan",
+        "infinity"
+      ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md#41-object",
         "specs/04-official/v1/value-types-v1.md#331-infinity",
@@ -1287,7 +1363,14 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "transport", "datatype", "generics", "nodes", "reject"],
+      "tags": [
+        "baseline",
+        "transport",
+        "datatype",
+        "generics",
+        "nodes",
+        "reject"
+      ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md#44-node"
       ]
@@ -1313,7 +1396,13 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "transport", "nodes", "generics", "reject"],
+      "tags": [
+        "baseline",
+        "transport",
+        "nodes",
+        "generics",
+        "reject"
+      ],
       "spec_refs": [
         "specs/04-official/v1/appendices/appendix-node-model.md"
       ]
@@ -1339,33 +1428,45 @@
           "parse_ok": false
         }
       },
-      "tags": ["baseline", "transport", "nodes", "brackets", "reject"],
+      "tags": [
+        "baseline",
+        "transport",
+        "nodes",
+        "brackets",
+        "reject"
+      ],
       "spec_refs": [
         "specs/04-official/v1/appendices/appendix-node-model.md"
       ]
     },
     {
-      "id": "core-baseline-031-transport-multichar-reserved-separator-reject",
-      "description": "Transport mode rejects multi-character separator specs on reserved separator datatypes",
+      "id": "core-baseline-031-transport-numeric-separator-clarifier-pass",
+      "description": "Transport mode accepts numeric separator clarifier values at the core syntax level",
       "input": {
         "source": "aeon:mode = \"transport\"\ns:sep[22] = ^300x200",
         "mode": "transport"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "INVALID_SEPARATOR_CHAR",
-            "path": "$",
-            "phase": null
-          }
-        ],
+        "ok": true,
+        "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": false
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.s",
+              "datatype": "sep[22]",
+              "kind": "binding"
+            }
+          ]
         }
       },
-      "tags": ["baseline", "transport", "separators", "reject"],
+      "tags": [
+        "baseline",
+        "transport",
+        "separators",
+        "datatype"
+      ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md#34-separator-literal"
       ]

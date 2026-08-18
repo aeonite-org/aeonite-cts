@@ -390,7 +390,7 @@
       "id": "core-snippet-transport-009-typed-bracketed-custom-literals-pass",
       "description": "Transport mode still accepts explicitly typed bracketed custom datatypes over valid radix and separator literal families",
       "input": {
-        "source": "f:custom[2] = %10101\ng:custom[.] = ^1.1.1\nh:custom[1] = ^1.1.1\n",
+        "source": "f:custom[2] = %10101\ng:custom[\".\"] = ^1.1.1\nh:custom[1] = ^1.1.1\n",
         "mode": "transport"
       },
       "expected": {
@@ -407,7 +407,7 @@
             },
             {
               "path": "$.g",
-              "datatype": "custom[.]",
+              "datatype": "custom[\".\"]",
               "kind": "binding"
             },
             {

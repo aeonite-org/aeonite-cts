@@ -202,7 +202,7 @@
               ]
             },
             "key": "sep",
-            "datatype": "sep[.]",
+            "datatype": "sep[\".\"]",
             "value": {
               "type": "SeparatorLiteral",
               "raw": "^hello.world",

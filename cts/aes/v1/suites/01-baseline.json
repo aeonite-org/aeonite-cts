@@ -207,7 +207,7 @@
       "id": "aes-baseline-005-strict-removed-separator-alias-reject",
       "description": "Strict mode treats removed separator aliases like dim[...] as custom datatypes at the AES boundary",
       "input": {
-        "source": "aeon:mode = \"strict\"\nsize:dim[x] = ^1920x1080",
+        "source": "aeon:mode = \"strict\"\nsize:dim[\"x\"] = ^1920x1080",
         "mode": "strict"
       },
       "expected": {
@@ -238,7 +238,7 @@
       "id": "aes-baseline-006-strict-removed-separator-alias-allow-custom-pass",
       "description": "Strict mode emits removed separator aliases when datatype policy is allow_custom",
       "input": {
-        "source": "aeon:mode = \"strict\"\nsize:dim[x] = ^1920x1080",
+        "source": "aeon:mode = \"strict\"\nsize:dim[\"x\"] = ^1920x1080",
         "mode": "strict",
         "options": {
           "datatype_policy": "allow_custom"
@@ -252,7 +252,7 @@
           "events": [
             {
               "path": "$.size",
-              "datatype": "dim[x]",
+              "datatype": "dim[\"x\"]",
               "value_kind": "SeparatorLiteral",
               "reference": null
             }
@@ -476,7 +476,7 @@
       "id": "aes-baseline-008-separator-short-alias-emits-separator-value",
       "description": "Strict mode emits sep as a reserved separator alias",
       "input": {
-        "source": "aeon:mode = \"strict\"\nparts:sep[|] = ^a|b",
+        "source": "aeon:mode = \"strict\"\nparts:sep[\"|\"] = ^a|b",
         "mode": "strict"
       },
       "expected": {
@@ -487,7 +487,7 @@
           "events": [
             {
               "path": "$.parts",
-              "datatype": "sep[|]",
+              "datatype": "sep[\"|\"]",
               "value_kind": "SeparatorLiteral",
               "reference": null
             }
@@ -540,7 +540,7 @@
       "id": "aes-baseline-010-separator-depth-default-reject",
       "description": "Default max_separator_depth rejects chained separator specs before AES emission",
       "input": {
-        "source": "matrix:grid[|][>] = ^1|2>3",
+        "source": "matrix:grid[\"|\", \">\"] = ^1|2>3",
         "mode": "strict"
       },
       "expected": {
@@ -567,7 +567,7 @@
       "id": "aes-baseline-011-separator-depth-override-pass",
       "description": "Raised max_separator_depth emits chained separator specs deterministically",
       "input": {
-        "source": "matrix:grid[|][>] = ^1|2>3",
+        "source": "matrix:grid[\"|\", \">\"] = ^1|2>3",
         "mode": "strict",
         "options": {
           "max_separator_depth": 8
@@ -581,7 +581,7 @@
           "events": [
             {
               "path": "$.matrix",
-              "datatype": "grid[|][>]",
+              "datatype": "grid[\"|\", \">\"]",
               "value_kind": "SeparatorLiteral",
               "reference": null
             }

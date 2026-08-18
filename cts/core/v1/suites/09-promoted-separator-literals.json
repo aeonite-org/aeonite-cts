@@ -15,7 +15,7 @@
       "id": "core-sep-001-raw-whitelist-payload-accepted",
       "description": "Separator literals accept raw payloads built only from the separator raw-character whitelist",
       "input": {
-        "source": "size:sep[x] = ^300x250\n",
+        "source": "size:sep[\"x\"] = ^300x250\n",
         "mode": "strict"
       },
       "expected": {
@@ -27,7 +27,7 @@
           "bindings": [
             {
               "path": "$.size",
-              "datatype": "sep[x]",
+              "datatype": "sep[\"x\"]",
               "kind": "binding"
             }
           ]
@@ -46,7 +46,7 @@
       "id": "core-sep-002-quoted-segments-accepted",
       "description": "Separator literals accept ordinary quoted string segments for payload content that falls outside the raw whitelist",
       "input": {
-        "source": "parts:sep[|] = ^\"hello world\"|\"this, [is] fine\"\n",
+        "source": "parts:sep[\"|\"] = ^\"hello world\"|\"this, [is] fine\"\n",
         "mode": "strict"
       },
       "expected": {
@@ -58,7 +58,7 @@
           "bindings": [
             {
               "path": "$.parts",
-              "datatype": "sep[|]",
+              "datatype": "sep[\"|\"]",
               "kind": "binding"
             }
           ]
@@ -77,7 +77,7 @@
       "id": "core-sep-003-raw-slash-payload-rejects",
       "description": "Raw separator payloads reject slash characters unless they appear inside quoted segments",
       "input": {
-        "source": "file:sep[|] = ^root/main/file.aeon\n",
+        "source": "file:sep[\"|\"] = ^root/main/file.aeon\n",
         "mode": "strict"
       },
       "expected": {
@@ -102,7 +102,7 @@
       "id": "core-sep-004-raw-comma-payload-rejects",
       "description": "Raw separator payloads reject comma characters unless they appear inside quoted segments",
       "input": {
-        "source": "coords:sep[|] = ^1,2,3\n",
+        "source": "coords:sep[\"|\"] = ^1,2,3\n",
         "mode": "strict"
       },
       "expected": {
@@ -219,7 +219,7 @@
       "id": "core-sep-006-separator-datatype-rejects-list-node",
       "description": "A sep-typed binding rejects list literals even when the list contains a separator literal",
       "input": {
-        "source": "filex:sep[|] = [^\"root/main/file.aeon\"]\n",
+        "source": "filex:sep[\"|\"] = [^\"root/main/file.aeon\"]\n",
         "mode": "strict"
       },
       "expected": {
@@ -246,7 +246,7 @@
       "id": "core-sep-007-unterminated-quoted-segment-rejects",
       "description": "Separator literals reject quoted payload segments that do not terminate before the line ends",
       "input": {
-        "source": "bad:sep[|] = ^\"hello\n",
+        "source": "bad:sep[\"|\"] = ^\"hello\n",
         "mode": "strict"
       },
       "expected": {
@@ -272,7 +272,7 @@
       "id": "core-sep-008-angle-and-caret-separator-specs-accepted",
       "description": "Reserved sep datatypes accept bracket specs drawn from the explicit separator whitelist, including <, >, and ^",
       "input": {
-        "source": "left:sep[<] = ^a<b\nright:sep[>] = ^a>b\nup:sep[^] = ^a^b\n",
+        "source": "left:sep[\"<\"] = ^a<b\nright:sep[\">\"] = ^a>b\nup:sep[\"^\"] = ^a^b\n",
         "mode": "strict"
       },
       "expected": {
@@ -284,17 +284,17 @@
           "bindings": [
             {
               "path": "$.left",
-              "datatype": "sep[<]",
+              "datatype": "sep[\"<\"]",
               "kind": "binding"
             },
             {
               "path": "$.right",
-              "datatype": "sep[>]",
+              "datatype": "sep[\">\"]",
               "kind": "binding"
             },
             {
               "path": "$.up",
-              "datatype": "sep[^]",
+              "datatype": "sep[\"^\"]",
               "kind": "binding"
             }
           ]
@@ -311,8 +311,8 @@
       ]
     },
     {
-      "id": "core-sep-009-invalid-separator-spec-char-rejects",
-      "description": "Reserved separator datatypes reject bracket specs outside the explicit separator whitelist",
+      "id": "core-sep-009-unquoted-separator-clarifier-rejects",
+      "description": "Reserved separator datatypes reject old unquoted separator clarifier syntax",
       "input": {
         "source": "bad:sep[/] = ^root/main\n",
         "mode": "strict"
@@ -321,7 +321,7 @@
         "ok": false,
         "errors": [
           {
-            "code": "INVALID_SEPARATOR_CHAR"
+            "code": "SYNTAX_ERROR"
           }
         ],
         "warnings": []
@@ -338,16 +338,19 @@
     },
     {
       "id": "core-sep-010-inline-boundary-collision-rejects",
-      "description": "Inline separator-literal boundary collisions fail closed and surface at least INVALID_SEPARATOR_CHAR",
+      "description": "Inline separator-literal boundary collisions fail closed with deterministic syntax or depth errors",
       "input": {
-        "source": "badInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\nbadSepType1:matrix[,][;] = ^1,2,3;4,5,6\nbadSepType2:sep[,] = ^0,0,0,\n",
+        "source": "badInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\nbadSepType1:matrix[\",\", \";\"] = ^1,2,3;4,5,6\nbadSepType2:sep[,] = ^0,0,0,\n",
         "mode": "strict"
       },
       "expected": {
         "ok": false,
         "errors": [
           {
-            "code": "INVALID_SEPARATOR_CHAR"
+            "code": "SEPARATOR_DEPTH_EXCEEDED"
+          },
+          {
+            "code": "SYNTAX_ERROR"
           }
         ],
         "warnings": []

@@ -308,25 +308,31 @@
       ]
     },
     {
-      "id": "core-numenc-006e-radix-float-base-brackets-reject",
-      "description": "Radix datatype bases reject fractional bracket forms",
+      "id": "core-numenc-006e-radix-float-clarifier-accepted",
+      "description": "Radix datatype clarifiers accept fractional numeric values at the core syntax level",
       "input": {
         "source": "float:radix[.2] = %1\n",
         "mode": "strict"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "SYNTAX_ERROR"
-          }
-        ],
-        "warnings": []
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.float",
+              "datatype": "radix[0.2]",
+              "kind": "binding"
+            }
+          ]
+        }
       },
       "tags": [
         "strict",
         "radix",
-        "rejection",
+        "literals",
         "datatype"
       ],
       "spec_refs": [
@@ -334,25 +340,31 @@
       ]
     },
     {
-      "id": "core-numenc-006f-radix-low-base-brackets-reject",
-      "description": "Radix datatype bases reject values below 2",
+      "id": "core-numenc-006f-radix-low-clarifier-accepted",
+      "description": "Radix datatype clarifiers accept low numeric values at the core syntax level",
       "input": {
         "source": "low:radix[1] = %1\n",
         "mode": "strict"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "SYNTAX_ERROR"
-          }
-        ],
-        "warnings": []
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.low",
+              "datatype": "radix[1]",
+              "kind": "binding"
+            }
+          ]
+        }
       },
       "tags": [
         "strict",
         "radix",
-        "rejection",
+        "literals",
         "datatype"
       ],
       "spec_refs": [
@@ -360,25 +372,31 @@
       ]
     },
     {
-      "id": "core-numenc-006g-radix-high-base-brackets-reject",
-      "description": "Radix datatype bases reject values above 64",
+      "id": "core-numenc-006g-radix-high-clarifier-accepted",
+      "description": "Radix datatype clarifiers accept high numeric values at the core syntax level",
       "input": {
         "source": "high:radix[65] = %1\n",
         "mode": "strict"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "SYNTAX_ERROR"
-          }
-        ],
-        "warnings": []
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.high",
+              "datatype": "radix[65]",
+              "kind": "binding"
+            }
+          ]
+        }
       },
       "tags": [
         "strict",
         "radix",
-        "rejection",
+        "literals",
         "datatype"
       ],
       "spec_refs": [
@@ -387,7 +405,7 @@
     },
     {
       "id": "core-numenc-006h-radix-multiple-base-brackets-reject",
-      "description": "Radix datatype bases reject extra bracket specifiers after the base metadata",
+      "description": "Radix datatype clarifiers reject repeated bracket lists after the first list",
       "input": {
         "source": "extra:radix[2][2] = %1\n",
         "mode": "strict"

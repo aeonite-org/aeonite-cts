@@ -201,34 +201,35 @@
       ]
     },
     {
-      "id": "core-custom-reject-006-bracketed-custom-scalar-bindings-reject",
-      "description": "Bracketed custom datatypes reject plain scalar numbers when no separator or radix literal is present",
+      "id": "core-custom-006-clarified-custom-scalar-bindings-pass",
+      "description": "Clarified custom datatypes do not infer container shape from clarifier values",
       "input": {
-        "source": "aeon:mode = \"custom\"\nd:custom[3] = 3\ne:custom[.] = 3\n",
+        "source": "aeon:mode = \"custom\"\nd:custom[3] = 3\ne:custom[\".\"] = 3\n",
         "mode": "custom"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "DATATYPE_LITERAL_MISMATCH",
-            "phaseLabel": "Core Validation"
-          },
-          {
-            "code": "DATATYPE_LITERAL_MISMATCH",
-            "phaseLabel": "Core Validation"
-          }
-        ],
+        "ok": true,
+        "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": false
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.d",
+              "datatype": "custom[3]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.e",
+              "datatype": "custom[\".\"]",
+              "kind": "binding"
+            }
+          ]
         }
       },
       "tags": [
         "custom",
-        "rejection",
-        "separator",
-        "radix",
+        "clarifiers",
         "validation"
       ],
       "spec_refs": [

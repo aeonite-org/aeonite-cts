@@ -277,7 +277,7 @@
       "id": "core-custom-005-bracketed-custom-separator-matrix-accepted",
       "description": "Bracketed custom datatypes in custom mode accept valid separator and radix literal combinations",
       "input": {
-        "source": "radixCase:custom[2] = %10101\nseparatorCase:custom[.] = ^1.1.1\nambiguousCase:custom[1] = ^1.1.1\n",
+        "source": "radixCase:custom[2] = %10101\nseparatorCase:custom[\".\"] = ^1.1.1\nambiguousCase:custom[1] = ^1.1.1\n",
         "mode": "custom"
       },
       "expected": {
@@ -294,7 +294,7 @@
             },
             {
               "path": "$.separatorCase",
-              "datatype": "custom[.]",
+              "datatype": "custom[\".\"]",
               "kind": "binding"
             },
             {

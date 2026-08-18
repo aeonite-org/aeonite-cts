@@ -44,15 +44,15 @@
     },
     {
       "id": "core-edge-002-separator-invalid-raw-chars-reject",
-      "description": "Separator literals fail closed when raw payloads rely on characters that are only legal inside quoted segments",
+      "description": "Separator literals fail closed when old unquoted clarifier syntax is used with raw payloads",
       "input": {
-        "source": "badSlash:sep[/] = ^root/main/file.aeon\nbadSpace:sep[|] = ^aaa bbb\n"
+        "source": "badSlash:sep[/] = ^root/main/file.aeon\nbadSpace:sep[\"|\"] = ^aaa bbb\n"
       },
       "expected": {
         "ok": false,
         "errors": [
           {
-            "code": "INVALID_SEPARATOR_CHAR",
+            "code": "SYNTAX_ERROR",
             "path": "$",
             "phase": null
           }
@@ -76,7 +76,7 @@
       "id": "core-edge-003-separator-unterminated-quoted-segment-rejects",
       "description": "Separator literals fail closed on unterminated quoted payload segments",
       "input": {
-        "source": "badQuote:sep[|] = ^\"hello\n"
+        "source": "badQuote:sep[\"|\"] = ^\"hello\n"
       },
       "expected": {
         "ok": false,
