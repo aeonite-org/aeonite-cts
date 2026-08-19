@@ -447,6 +447,48 @@
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "core-strict-013-reserved-datatype-clarifiers-preserved",
+      "description": "Core preserves datatype clarifiers on reserved datatype labels without assigning profile-specific meaning",
+      "input": {
+        "source": "a:n[10] = 22\nb:string[333] = \"hello world\"\nr:radix2[4] = %111\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "n[10]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "datatype": "string[333]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.r",
+              "datatype": "radix2[4]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "clarifiers",
+        "profile-semantics"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/contracts/contracts-v1.md"
+      ]
     }
   ]
 }

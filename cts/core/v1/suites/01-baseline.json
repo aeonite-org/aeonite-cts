@@ -1244,32 +1244,33 @@
       ]
     },
     {
-      "id": "core-baseline-027-transport-meaningless-reserved-bracket-reject",
-      "description": "Transport mode rejects meaningless bracket adornments on reserved scalar datatypes",
+      "id": "core-baseline-027-transport-reserved-clarifier-preserved",
+      "description": "Transport mode preserves clarifiers on reserved scalar datatypes without assigning Core meaning",
       "input": {
         "source": "aeon:mode = \"transport\"\na:number[2] = 0",
         "mode": "transport"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "SYNTAX_ERROR",
-            "path": "$",
-            "phase": null
-          }
-        ],
+        "ok": true,
+        "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": false
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "number[2]",
+              "kind": "binding"
+            }
+          ]
         }
       },
       "tags": [
         "baseline",
         "transport",
         "datatype",
-        "brackets",
-        "reject"
+        "clarifiers",
+        "profile-semantics"
       ],
       "spec_refs": [
         "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
@@ -1277,24 +1278,25 @@
       ]
     },
     {
-      "id": "core-baseline-028-transport-fixed-radix-alias-bracket-reject",
-      "description": "Transport mode rejects bracket adornments on fixed radix aliases",
+      "id": "core-baseline-028-transport-fixed-radix-alias-clarifier-preserved",
+      "description": "Transport mode preserves clarifiers on fixed radix aliases without assigning Core meaning",
       "input": {
         "source": "aeon:mode = \"transport\"\nr:radix2[2] = %10101",
         "mode": "transport"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "SYNTAX_ERROR",
-            "path": "$",
-            "phase": null
-          }
-        ],
+        "ok": true,
+        "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": false
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.r",
+              "datatype": "radix2[2]",
+              "kind": "binding"
+            }
+          ]
         }
       },
       "tags": [
@@ -1302,7 +1304,8 @@
         "transport",
         "datatype",
         "radix",
-        "reject"
+        "clarifiers",
+        "profile-semantics"
       ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md#37-radix"
