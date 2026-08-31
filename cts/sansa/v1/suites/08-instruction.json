@@ -1577,14 +1577,14 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "aeon",
-        "source": "create $.inventory.badRadix with :radix[03], %101"
+        "source": "create $.inventory.badRadix with :radix[65], %101"
       },
       "expected": {
         "ok": false,
         "errorPhase": "target",
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorTargetFormat": "aeon",
-        "errorDatatype": "radix[03]"
+        "errorDatatype": "radix[65]"
       }
     },
     {
@@ -1743,14 +1743,14 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "aeon",
-        "source": "create $.inventory.badKadot with :kadot[.], ^1.2.3"
+        "source": "create $.inventory.badKadot with :kadot[\".\"], ^1.2.3"
       },
       "expected": {
         "ok": false,
         "errorPhase": "target",
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorTargetFormat": "aeon",
-        "errorDatatype": "kadot[.]"
+        "errorDatatype": "kadot[\".\"]"
       }
     },
     {

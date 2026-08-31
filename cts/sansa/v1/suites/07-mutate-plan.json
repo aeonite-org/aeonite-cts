@@ -875,7 +875,7 @@
           "op": "create",
           "parent": "$.inventory",
           "name": "badRadixDatatype",
-          "datatype": "radix[03]",
+          "datatype": "radix[65]",
           "kind": "radix",
           "value": "101"
         },
@@ -887,7 +887,7 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorPhase": "target",
         "errorTargetFormat": "aeon",
-        "errorDatatype": "radix[03]"
+        "errorDatatype": "radix[65]"
       }
     },
     {
@@ -1014,7 +1014,7 @@
           "op": "create",
           "parent": "$.inventory",
           "name": "badKadot",
-          "datatype": "kadot[.]",
+          "datatype": "kadot[\".\"]",
           "kind": "separator",
           "value": "1.2.3"
         },
@@ -1026,7 +1026,7 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorPhase": "target",
         "errorTargetFormat": "aeon",
-        "errorDatatype": "kadot[.]"
+        "errorDatatype": "kadot[\".\"]"
       }
     },
     {
