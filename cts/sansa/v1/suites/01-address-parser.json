@@ -220,25 +220,25 @@
       "id": "sansa-address-009-qualified-rich-host-surface",
       "description": "SANSA qualifier grammar can express host-defined type parameters and arguments",
       "input": {
-        "source": "$.claim:type<type>[arg]"
+        "source": "$.claim:type<type>[\"arg\"]"
       },
       "expected": {
         "ok": true,
-        "canonical": "$.claim:type<type>[arg]",
+        "canonical": "$.claim:type<type>[\"arg\"]",
         "exact": true,
         "qualifier_terms": ["type"]
       },
       "tags": ["sansa", "address", "qualifier", "host-surface"]
     },
     {
-      "id": "sansa-address-010-qualified-repeated-arguments",
-      "description": "Repeated square-bracket qualifier arguments avoid raw comma separation",
+      "id": "sansa-address-010-qualified-clarifier-list",
+      "description": "Qualifier clarifiers use a single bracketed list",
       "input": {
-        "source": "$.key:string[\",\"][\".\"]"
+        "source": "$.key:string[\",\",\".\"]"
       },
       "expected": {
         "ok": true,
-        "canonical": "$.key:string[\",\"][\".\"]",
+        "canonical": "$.key:string[\",\",\".\"]",
         "exact": true,
         "qualifier_terms": ["string"]
       },
@@ -266,7 +266,19 @@
       },
       "expected": {
         "ok": false,
-        "error": "SANSA_INVALID_QUALIFIER_ARGUMENT_CHAR"
+        "error": "SANSA_EXPECTED_QUALIFIER_ARGUMENT"
+      },
+      "tags": ["sansa", "address", "reject", "qualifier"]
+    },
+    {
+      "id": "sansa-address-013-reject-repeated-clarifier-lists",
+      "description": "Repeated square-bracket qualifier clarifier lists are not valid",
+      "input": {
+        "source": "$.key:string[\",\"][\".\"]"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INVALID_QUALIFIER"
       },
       "tags": ["sansa", "address", "reject", "qualifier"]
     },

@@ -105,10 +105,10 @@
       ]
     },
     {
-      "id": "core-strict-004-local-zrut-accepted",
-      "description": "ZRUT literals with the Local zone alias remain accepted in strict typed bindings",
+      "id": "core-strict-004-local-wtc-accepted",
+      "description": "WTC literals with the Local zone alias remain accepted in strict typed bindings",
       "input": {
-        "source": "zdt8:zrut = 2025-01-01T09:30Z&Local\n",
+        "source": "zdt8:wtc = 2025-01-01T09:30Z&Local\n",
         "mode": "strict"
       },
       "expected": {
@@ -120,7 +120,7 @@
           "bindings": [
             {
               "path": "$.zdt8",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "kind": "binding"
             }
           ]
@@ -128,7 +128,7 @@
       },
       "tags": [
         "strict",
-        "zrut",
+        "wtc",
         "literals"
       ],
       "spec_refs": [
@@ -136,10 +136,10 @@
       ]
     },
     {
-      "id": "core-strict-004b-named-zrut-zone-characters-accepted",
-      "description": "ZRUT literals accept common named-zone identifiers containing dash and plus characters",
+      "id": "core-strict-004b-named-wtc-zone-characters-accepted",
+      "description": "WTC literals accept common temporal references containing dash and plus characters",
       "input": {
-        "source": "z1:zrut = 2025-01-01T09:30Z&America/Port-au-Prince\nz2:zrut = 2025-01-01T09:30Z&GB-Eire\nz3:zrut = 2025-01-01T09:30Z&Etc/GMT-1\nz4:zrut = 2025-01-01T09:30Z&Etc/GMT+1\n",
+        "source": "z1:wtc = 2025-01-01T09:30Z&America/Port-au-Prince\nz2:wtc = 2025-01-01T09:30Z&GB-Eire\nz3:wtc = 2025-01-01T09:30Z&Etc/GMT-1\nz4:wtc = 2025-01-01T09:30Z&Etc/GMT+1\n",
         "mode": "strict"
       },
       "expected": {
@@ -151,22 +151,22 @@
           "bindings": [
             {
               "path": "$.z1",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "kind": "binding"
             },
             {
               "path": "$.z2",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "kind": "binding"
             },
             {
               "path": "$.z3",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "kind": "binding"
             },
             {
               "path": "$.z4",
-              "datatype": "zrut",
+              "datatype": "wtc",
               "kind": "binding"
             }
           ]
@@ -174,7 +174,7 @@
       },
       "tags": [
         "strict",
-        "zrut",
+        "wtc",
         "literals",
         "regression"
       ],
@@ -235,10 +235,10 @@
       ]
     },
     {
-      "id": "core-strict-007-invalid-zrut-datetime-rejects",
-      "description": "Malformed ZRUT zone suffixes reject as invalid datetime literals during parsing",
+      "id": "core-strict-007-invalid-wtc-datetime-rejects",
+      "description": "Malformed WTC reference suffixes reject as invalid datetime literals during parsing",
       "input": {
-        "source": "dt:zrut = 2025-01-01T09:30Z&/\n",
+        "source": "dt:wtc = 2025-01-01T09:30Z&/\n",
         "mode": "strict"
       },
       "expected": {
@@ -253,7 +253,7 @@
       },
       "tags": [
         "strict",
-        "zrut",
+        "wtc",
         "rejection"
       ],
       "spec_refs": [
@@ -287,10 +287,10 @@
       ]
     },
     {
-      "id": "core-strict-009-invalid-zrut-zone-punctuation-rejects",
-      "description": "Malformed ZRUT named-zone suffixes with punctuation reject during parsing",
+      "id": "core-strict-009-invalid-wtc-zone-punctuation-rejects",
+      "description": "Malformed WTC reference suffixes with punctuation reject during parsing",
       "input": {
-        "source": "dt:zrut = 2025-01-01T09:30Z&Area/City!\n",
+        "source": "dt:wtc = 2025-01-01T09:30Z&Area/City!\n",
         "mode": "strict"
       },
       "expected": {
@@ -305,7 +305,7 @@
       },
       "tags": [
         "strict",
-        "zrut",
+        "wtc",
         "rejection",
         "regression"
       ],
@@ -446,6 +446,48 @@
       ],
       "spec_refs": [
         "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-strict-013-reserved-datatype-clarifiers-preserved",
+      "description": "Core preserves datatype clarifiers on reserved datatype labels without assigning profile-specific meaning",
+      "input": {
+        "source": "a:n[10] = 22\nb:string[333] = \"hello world\"\nr:radix2[4] = %111\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.a",
+              "datatype": "n[10]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "datatype": "string[333]",
+              "kind": "binding"
+            },
+            {
+              "path": "$.r",
+              "datatype": "radix2[4]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "clarifiers",
+        "profile-semantics"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/contracts/contracts-v1.md"
       ]
     }
   ]

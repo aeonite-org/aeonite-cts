@@ -294,7 +294,7 @@
       "id": "core-addr-003-separator-literal",
       "description": "Separator literal parses in strict mode with datatype signature",
       "input": {
-        "source": "sep:sep[|] = ^0|0|0|",
+        "source": "sep:sep[\"|\"] = ^0|0|0|",
         "mode": "strict"
       },
       "expected": {
@@ -306,7 +306,7 @@
           "bindings": [
             {
               "path": "$.sep",
-              "datatype": "sep[|]",
+              "datatype": "sep[\"|\"]",
               "kind": "binding"
             }
           ]
@@ -598,7 +598,7 @@
       "id": "core-addr-012-invalid-separator-char-in-type-annotation-reject",
       "description": "Separator type annotations reject reserved boundary characters such as comma",
       "input": {
-        "source": "badSepType1:matrix[,][;] = ^1,2,3;4,5,6",
+        "source": "badSepType1:matrix[\",\", \";\"] = ^1,2,3;4,5,6",
         "mode": "transport"
       },
       "expected": {

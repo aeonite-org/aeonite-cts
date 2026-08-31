@@ -1577,14 +1577,14 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "aeon",
-        "source": "create $.inventory.badRadix with :radix[03], %101"
+        "source": "create $.inventory.badRadix with :radix[65], %101"
       },
       "expected": {
         "ok": false,
         "errorPhase": "target",
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorTargetFormat": "aeon",
-        "errorDatatype": "radix[03]"
+        "errorDatatype": "radix[65]"
       }
     },
     {
@@ -1711,7 +1711,7 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "aeon",
-        "source": "create $.inventory.parts with :sep[|], ^\"hello world\"|\"this, [is] fine\""
+        "source": "create $.inventory.parts with :sep[\"|\"], ^\"hello world\"|\"this, [is] fine\""
       },
       "expected": {
         "ok": true
@@ -1743,14 +1743,14 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "aeon",
-        "source": "create $.inventory.badKadot with :kadot[.], ^1.2.3"
+        "source": "create $.inventory.badKadot with :kadot[\".\"], ^1.2.3"
       },
       "expected": {
         "ok": false,
         "errorPhase": "target",
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorTargetFormat": "aeon",
-        "errorDatatype": "kadot[.]"
+        "errorDatatype": "kadot[\".\"]"
       }
     },
     {
@@ -1980,7 +1980,7 @@
         "mode": "target",
         "namespace": "instruction-inventory",
         "target": "aeon",
-        "source": "create $.inventory.nestedRelationship with :object, { sibling = :relationship<sibling>[brother], \"Bob\" }"
+        "source": "create $.inventory.nestedRelationship with :object, { sibling = :relationship<sibling>[\"brother\"], \"Bob\" }"
       },
       "expected": {
         "ok": true,
@@ -2008,7 +2008,7 @@
       "input": {
         "mode": "lower",
         "namespace": "instruction-inventory",
-        "source": "create $.inventory.relationships with :object, { sibling = :relationship<sibling>[brother], \"Bob\" }"
+        "source": "create $.inventory.relationships with :object, { sibling = :relationship<sibling>[\"brother\"], \"Bob\" }"
       },
       "expected": {
         "ok": true,
@@ -2582,11 +2582,11 @@
       "tags": ["experimental", "parse", "value", "datatype"],
       "input": {
         "mode": "parse",
-        "source": "create $.relationship with :relationship<sibling>[brother], \"Bob\""
+        "source": "create $.relationship with :relationship<sibling>[\"brother\"], \"Bob\""
       },
       "expected": {
         "ok": true,
-        "canonical": "create $.relationship with :relationship<sibling>[brother], \"Bob\"",
+        "canonical": "create $.relationship with :relationship<sibling>[\"brother\"], \"Bob\"",
         "clauses": ["create"]
       }
     },
@@ -2916,12 +2916,12 @@
       }
     },
     {
-      "id": "sansa-instruction-051-parse-rejects-invalid-zrut-zone-comment-marker",
-      "description": "Instruction temporal value literals reject comment-looking markers inside contiguous ZRUT named-zone payloads.",
-      "tags": ["experimental", "parse", "value", "temporal", "zrut", "diagnostic"],
+      "id": "sansa-instruction-051-parse-rejects-invalid-wtc-zone-comment-marker",
+      "description": "Instruction temporal value literals reject comment-looking markers inside contiguous WTC temporal-reference payloads.",
+      "tags": ["experimental", "parse", "value", "temporal", "wtc", "diagnostic"],
       "input": {
         "mode": "parse",
-        "source": "create $.x with :zrut, 2025-01-01T09Z&Europe//Brussels"
+        "source": "create $.x with :wtc, 2025-01-01T09Z&Europe//Brussels"
       },
       "expected": {
         "ok": false,

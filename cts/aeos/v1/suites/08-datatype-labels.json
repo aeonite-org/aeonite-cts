@@ -1,8 +1,8 @@
 {
   "meta": {
     "suite_id": "datatype-labels",
-    "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
-    "constraint_primitives": ["datatype"]
+    "spec_refs": ["specs/04-official/v1/aeos-v1.md"],
+    "constraint_primitives": ["datatype", "any_of", "selector_paths"]
   },
   "id": "datatype-labels",
   "title": "Datatype Label Constraints",
@@ -11,41 +11,23 @@
   ],
   "tests": [
     {
-      "id": "datatype_present_declarative",
-      "description": "Datatype label present but not enforced (no capacity checks)",
+      "id": "datatype_annotation_declarative_without_constraint",
+      "description": "A datatype annotation remains declarative when no datatype constraint requests label enforcement",
       "input": {
         "aes": [
           {
-            "path": {
-              "segments": [
-                {
-                  "type": "root"
-                },
-                {
-                  "type": "member",
-                  "key": "id"
-                }
-              ]
-            },
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "id" } ] },
             "key": "id",
-            "value": {
-              "type": "StringLiteral",
-              "raw": "\"ABC123\"",
-              "value": "ABC123"
-            },
-            "span": [
-              10,
-              11
-            ]
+            "datatype": "product-id",
+            "value": { "type": "StringLiteral", "raw": "\"ABC123\"", "value": "ABC123" },
+            "span": [10, 11]
           }
         ],
         "schema": {
           "rules": [
             {
               "path": "$.id",
-              "constraints": {
-                "datatype": "product-id"
-              }
+              "constraints": { "type": "StringLiteral" }
             }
           ]
         }
@@ -56,39 +38,118 @@
         "warnings": [],
         "guarantees": {}
       },
-      "assert": {
-        "no_mutation": true
-      }
+      "assert": { "no_mutation": true }
     },
     {
-      "id": "datatype_allowlist_reject",
-      "description": "Unknown datatype when allow-list provided should emit missing_reference_target (or specific code).",
+      "id": "datatype_exact_match",
+      "description": "An ordinary path rule accepts an AES event carrying the exact constrained datatype label",
       "input": {
-        "aes": [],
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "id" } ] },
+            "key": "id",
+            "datatype": "product-id",
+            "value": { "type": "StringLiteral", "raw": "\"ABC123\"", "value": "ABC123" },
+            "span": [10, 11]
+          }
+        ],
         "schema": {
           "rules": [
             {
-              "path": "$.x",
-              "constraints": {
-                "datatype": "unknown-type"
-              }
+              "path": "$.id",
+              "constraints": { "type": "StringLiteral", "datatype": "product-id" }
             }
-          ],
-          "datatype_allowlist": [
-            "product-id",
-            "user-id"
+          ]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
+      "id": "datatype_mismatch",
+      "description": "An ordinary path rule rejects an AES event carrying a different datatype label",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "id" } ] },
+            "key": "id",
+            "datatype": "user-id",
+            "value": { "type": "StringLiteral", "raw": "\"ABC123\"", "value": "ABC123" },
+            "span": [10, 11]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.id",
+              "constraints": { "type": "StringLiteral", "datatype": "product-id" }
+            }
           ]
         }
       },
       "expected": {
         "ok": false,
         "errors": [
+          { "path": "$.id", "code": "type_mismatch", "phase": "schema_validation", "span": [10, 11] }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "datatype_missing",
+      "description": "An ordinary path rule rejects an AES event with no datatype when an exact datatype is constrained",
+      "input": {
+        "aes": [
           {
-            "path": "$.x",
-            "code": "datatype_allowlist_reject",
-            "phase": "schema_validation",
-            "span": null
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "id" } ] },
+            "key": "id",
+            "value": { "type": "StringLiteral", "raw": "\"ABC123\"", "value": "ABC123" },
+            "span": [10, 11]
           }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.id",
+              "constraints": { "type": "StringLiteral", "datatype": "product-id" }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "path": "$.id", "code": "type_mismatch", "phase": "schema_validation", "span": [10, 11] }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "datatype_allowlist_reject",
+      "description": "A constrained datatype outside the schema allowlist is rejected before value validation",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.x",
+              "constraints": { "datatype": "unknown-type" }
+            }
+          ],
+          "datatype_allowlist": ["product-id", "user-id"]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "path": "$.x", "code": "datatype_allowlist_reject", "phase": "schema_validation", "span": null }
         ],
         "warnings": [],
         "guarantees": {}
@@ -96,31 +157,76 @@
     },
     {
       "id": "datatype_pass_with_allowlist",
-      "description": "Known datatype in allow-list passes with no enforcement",
+      "description": "An allowed datatype constraint passes when the AES event carries the same label",
       "input": {
         "aes": [
           {
-            "path": {
-              "segments": [
-                {
-                  "type": "root"
-                },
-                {
-                  "type": "member",
-                  "key": "id"
-                }
-              ]
-            },
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "id" } ] },
             "key": "id",
-            "value": {
-              "type": "StringLiteral",
-              "raw": "\"U-1\"",
-              "value": "U-1"
-            },
-            "span": [
-              12,
-              13
-            ]
+            "datatype": "user-id",
+            "value": { "type": "StringLiteral", "raw": "\"U-1\"", "value": "U-1" },
+            "span": [12, 13]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.id",
+              "constraints": { "datatype": "user-id" }
+            }
+          ],
+          "datatype_allowlist": ["product-id", "user-id"]
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "datatype_selector_mismatch",
+      "description": "A selector-expanded rule enforces its datatype constraint on every matched AES path",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "items" }, { "type": "index", "index": 0 }, { "type": "member", "key": "id" } ] },
+            "key": "id",
+            "datatype": "product-id",
+            "value": { "type": "StringLiteral", "raw": "\"ABC123\"", "value": "ABC123" },
+            "span": [20, 21]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "selector": "$.items.*.id",
+              "constraints": { "datatype": "user-id" }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "path": "$.items[0].id", "code": "type_mismatch", "phase": "schema_validation", "span": [20, 21] }
+        ],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "datatype_any_of_match",
+      "description": "An any_of constraint accepts an event when one branch carries its exact datatype label",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "id" } ] },
+            "key": "id",
+            "datatype": "user-id",
+            "value": { "type": "StringLiteral", "raw": "\"U-1\"", "value": "U-1" },
+            "span": [30, 31]
           }
         ],
         "schema": {
@@ -128,19 +234,54 @@
             {
               "path": "$.id",
               "constraints": {
-                "datatype": "user-id"
+                "any_of": [
+                  { "type": "StringLiteral", "datatype": "product-id" },
+                  { "type": "StringLiteral", "datatype": "user-id" }
+                ]
               }
             }
-          ],
-          "datatype_allowlist": [
-            "product-id",
-            "user-id"
           ]
         }
       },
       "expected": {
         "ok": true,
         "errors": [],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "datatype_any_of_mismatch",
+      "description": "An any_of constraint rejects an event when no branch carries its datatype label",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [ { "type": "root" }, { "type": "member", "key": "id" } ] },
+            "key": "id",
+            "datatype": "order-id",
+            "value": { "type": "StringLiteral", "raw": "\"O-1\"", "value": "O-1" },
+            "span": [32, 33]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.id",
+              "constraints": {
+                "any_of": [
+                  { "type": "StringLiteral", "datatype": "product-id" },
+                  { "type": "StringLiteral", "datatype": "user-id" }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "path": "$.id", "code": "type_mismatch", "phase": "schema_validation", "span": [32, 33] }
+        ],
         "warnings": [],
         "guarantees": {}
       }

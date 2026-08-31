@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "lane": "sansa-instruction",
     "capability": "SANSA.Instruction",
     "profile": "instruction-parse-lower-plan",
@@ -10,8 +10,8 @@
     },
     "sut_protocol": "cts.protocol.v1",
     "description": "Experimental SANSA Instruction CTS scaffold for proposal-stage parse, lower, plan, and target-surface behavior",
-    "snapshot_id": "sansa-instruction-cts-v1-snapshot-0.1",
-    "spec_snapshot_id": "sansa-instruction-specs-v1-snapshot-0.1"
+    "snapshot_id": "sansa-instruction-cts-v1-snapshot-0.2",
+    "spec_snapshot_id": "sansa-instruction-specs-v1-snapshot-0.2"
   },
   "suites": [
     {

@@ -219,7 +219,7 @@
                 {
                   "name": "version",
                   "address": "$.types.version",
-                  "semanticType": "sep[.]",
+                  "semanticType": "sep[\".\"]",
                   "representationKind": "separator",
                   "scalarKind": "separator",
                   "value": "0.11.0"
@@ -251,9 +251,9 @@
                 {
                   "name": "zone",
                   "address": "$.types.zone",
-                  "semanticType": "zrut",
-                  "representationKind": "zrut",
-                  "scalarKind": "zrut",
+                  "semanticType": "wtc",
+                  "representationKind": "wtc",
+                  "scalarKind": "wtc",
                   "value": "2026-07-25T09:30:00Z&Australia/Melbourne"
                 },
                 {
@@ -2799,8 +2799,8 @@
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "datetime", "literal"]
     },
     {
-      "id": "sansa-query-evaluate-030g1c-zrut-literal-equality",
-      "description": "ZRUT source literals compare against same-family ZRUT bindings by preserved zone payload identity.",
+      "id": "sansa-query-evaluate-030g1c-wtc-literal-equality",
+      "description": "WTC source literals compare against same-family WTC bindings by preserved temporal-reference payload identity.",
       "input": {
         "namespace": "inventory-values",
         "source": "from $.types.zone\nwhere . == 2026-07-25T09:30:00Z&Australia/Melbourne\nselect ."
@@ -2816,7 +2816,7 @@
           ]
         ]
       },
-      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "zrut", "literal"]
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "wtc", "literal"]
     },
     {
       "id": "sansa-query-evaluate-030g2-cross-family-temporal-comparison-rejected",

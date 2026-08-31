@@ -395,8 +395,8 @@
       "tags": ["sansa", "query", "expression", "literal", "temporal", "datetime"]
     },
     {
-      "id": "sansa-query-expression-003f3-zrut-literal",
-      "description": "AEON ZRUT source literals preserve the named-zone payload.",
+      "id": "sansa-query-expression-003f3-wtc-literal",
+      "description": "AEON WTC source literals preserve the temporal-reference payload.",
       "input": {
         "expression": ".zone == 2026-07-25T09:30:00Z&Australia/Melbourne"
       },
@@ -412,12 +412,12 @@
           },
           "right": {
             "type": "literalExpression",
-            "kind": "zrut",
+            "kind": "wtc",
             "value": "2026-07-25T09:30:00Z&Australia/Melbourne"
           }
         }
       },
-      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut"]
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "wtc"]
     },
     {
       "id": "sansa-query-expression-003f3a-reduced-time-literal",
@@ -470,8 +470,8 @@
       "tags": ["sansa", "query", "expression", "literal", "temporal", "datetime"]
     },
     {
-      "id": "sansa-query-expression-003f3c-reduced-zrut-literal",
-      "description": "AEON reduced-precision ZRUT source literals preserve the named-zone payload.",
+      "id": "sansa-query-expression-003f3c-reduced-wtc-literal",
+      "description": "AEON reduced-precision WTC source literals preserve the temporal-reference payload.",
       "input": {
         "expression": ".zone == 2026-07-25T09Z&Europe/Belgium/Brussels"
       },
@@ -487,12 +487,12 @@
           },
           "right": {
             "type": "literalExpression",
-            "kind": "zrut",
+            "kind": "wtc",
             "value": "2026-07-25T09Z&Europe/Belgium/Brussels"
           }
         }
       },
-      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut"]
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "wtc"]
     },
     {
       "id": "sansa-query-expression-003f4-invalid-date-range",
@@ -519,8 +519,8 @@
       "tags": ["sansa", "query", "expression", "literal", "temporal", "time", "negative"]
     },
     {
-      "id": "sansa-query-expression-003f5a-invalid-zrut-zone",
-      "description": "Temporal ZRUT literals reject invalid named-zone slash placement.",
+      "id": "sansa-query-expression-003f5a-invalid-wtc-zone",
+      "description": "Temporal WTC literals reject invalid temporal-reference slash placement.",
       "input": {
         "expression": ".zone == 2025-01-01T09Z&Europe//Brussels"
       },
@@ -528,11 +528,11 @@
         "ok": false,
         "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
       },
-      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut", "negative"]
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "wtc", "negative"]
     },
     {
-      "id": "sansa-query-expression-003f5b-invalid-zrut-zone-block-comment-marker",
-      "description": "Temporal ZRUT literals reject block-comment-looking markers inside the contiguous named-zone payload.",
+      "id": "sansa-query-expression-003f5b-invalid-wtc-zone-block-comment-marker",
+      "description": "Temporal WTC literals reject block-comment-looking markers inside the contiguous temporal-reference payload.",
       "input": {
         "expression": ".zone == 2025-01-01T09Z&Europe/*Brussels*/"
       },
@@ -540,7 +540,7 @@
         "ok": false,
         "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
       },
-      "tags": ["sansa", "query", "expression", "literal", "temporal", "zrut", "negative"]
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "wtc", "negative"]
     },
     {
       "id": "sansa-query-expression-003g-null-literal",

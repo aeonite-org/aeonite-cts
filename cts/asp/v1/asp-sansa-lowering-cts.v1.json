@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "asp-sansa-lowering",
+    "capability": "ASP.SANSA.MutateLowering",
+    "profile": "conservative-exact-write",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Experimental ASP lowering CTS candidate for conservative exact SANSA.Mutate requests over an ASP snapshot",
+    "snapshot_id": "asp-sansa-lowering-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "sansa-mutate-lowering",
+      "title": "ASP Conservative SANSA Mutate Lowering",
+      "file": "suites/01-sansa-mutate-lowering.json"
+    }
+  ]
+}

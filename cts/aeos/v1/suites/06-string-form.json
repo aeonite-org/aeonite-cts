@@ -202,7 +202,7 @@
               ]
             },
             "key": "sep",
-            "datatype": "sep[.]",
+            "datatype": "sep[\".\"]",
             "value": {
               "type": "SeparatorLiteral",
               "raw": "^hello.world",
@@ -369,8 +369,8 @@
       }
     },
     {
-      "id": "zrut_pattern_violation",
-      "description": "ZRUT payload that does not match the declared pattern should fail",
+      "id": "wtc_pattern_violation",
+      "description": "WTC payload that does not match the declared pattern should fail",
       "input": {
         "aes": [
           {
@@ -387,7 +387,7 @@
             },
             "key": "stamp",
             "value": {
-              "type": "ZRUTDateTimeLiteral",
+              "type": "WTCDateTimeLiteral",
               "raw": "@2026-05-25T12:34:56&local",
               "value": "2026-05-25T12:34:56&local"
             },
@@ -402,7 +402,7 @@
             {
               "path": "$.stamp",
               "constraints": {
-                "type": "ZRUTDateTimeLiteral",
+                "type": "WTCDateTimeLiteral",
                 "pattern": "&UTC$"
               }
             }
