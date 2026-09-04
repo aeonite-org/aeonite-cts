@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.2.0",
+    "version": "0.3.0",
     "lane": "sansa-resolve",
     "capability": "SANSA.Resolve",
     "profile": "resolve",
@@ -10,7 +10,7 @@
     },
     "sut_protocol": "cts.protocol.v1",
     "description": "Experimental next SANSA Resolve snapshot with portable AES node navigation",
-    "snapshot_id": "sansa-resolve-cts-v1-snapshot-0.2"
+    "snapshot_id": "sansa-resolve-cts-v1-snapshot-0.3"
   },
   "suites": [
     {
