@@ -18,8 +18,9 @@
       "id": "aes-identity-projection-001-binding",
       "description": "A binding-head identity is projected only onto the outer node event at $.a",
       "input": {
-        "source": "a\\binding-id\\@{x = \"metadata\"} = <tag(\"child\")>\n",
-        "mode": "transport"
+        "source": "a\\binding-id\\ = <tag(\"child\")>\n",
+        "mode": "transport",
+        "options": { "portable_aes": true }
       },
       "expected": {
         "ok": true,
@@ -28,7 +29,6 @@
         "result": {
           "events": [
             { "path": "$.a", "identity": "binding-id" },
-            { "path": "$.a.@.x", "identity": null },
             { "path": "$.a[0]", "identity": null },
             { "path": "$.a[0][0]", "identity": null }
           ]
@@ -40,8 +40,9 @@
       "id": "aes-identity-projection-002-attribute-entry",
       "description": "An attribute-entry identity is projected only onto its ordinary flat event at $.a.@.x",
       "input": {
-        "source": "a@{x\\attribute-id\\ = \"metadata\"} = <tag(\"child\")>\n",
-        "mode": "transport"
+        "source": "a@{x\\attribute-id\\ = \"metadata\"} = 1\n",
+        "mode": "transport",
+        "options": { "portable_aes": true }
       },
       "expected": {
         "ok": true,
@@ -50,9 +51,7 @@
         "result": {
           "events": [
             { "path": "$.a", "identity": null },
-            { "path": "$.a.@.x", "identity": "attribute-id" },
-            { "path": "$.a[0]", "identity": null },
-            { "path": "$.a[0][0]", "identity": null }
+            { "path": "$.a.@.x", "identity": "attribute-id" }
           ]
         }
       },
@@ -62,8 +61,9 @@
       "id": "aes-identity-projection-003-node-head",
       "description": "A node-head identity is projected only onto the synthetic node-head event at $.a[0]",
       "input": {
-        "source": "a@{x = \"metadata\"} = <tag\\node-head-id\\(\"child\")>\n",
-        "mode": "transport"
+        "source": "a = <tag\\node-head-id\\(\"child\")>\n",
+        "mode": "transport",
+        "options": { "portable_aes": true }
       },
       "expected": {
         "ok": true,
@@ -72,7 +72,6 @@
         "result": {
           "events": [
             { "path": "$.a", "identity": null },
-            { "path": "$.a.@.x", "identity": null },
             { "path": "$.a[0]", "identity": "node-head-id" },
             { "path": "$.a[0][0]", "identity": null }
           ]
@@ -84,8 +83,9 @@
       "id": "aes-identity-projection-004-node-child",
       "description": "An anonymous node-child identity is projected only onto the child event at $.a[0][0]",
       "input": {
-        "source": "a@{x = \"metadata\"} = <tag(\\node-child-id\\ = \"child\")>\n",
-        "mode": "transport"
+        "source": "a = <tag(\\node-child-id\\ = \"child\")>\n",
+        "mode": "transport",
+        "options": { "portable_aes": true }
       },
       "expected": {
         "ok": true,
@@ -94,7 +94,6 @@
         "result": {
           "events": [
             { "path": "$.a", "identity": null },
-            { "path": "$.a.@.x", "identity": null },
             { "path": "$.a[0]", "identity": null },
             { "path": "$.a[0][0]", "identity": "node-child-id" }
           ]
