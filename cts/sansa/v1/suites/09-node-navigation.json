@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "suite_id": "portable-node-navigation",
+    "lane": "sansa-resolve",
+    "capability": "SANSA.Resolve",
+    "profile": "resolve",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sansa/v1/proposals/addressing-v1.md",
+      "aeonite-specs/sansa/v1/proposals/resolve-v1.md",
+      "altopelago/aes/specifications/aes.events.md"
+    ],
+    "description": "Portable AES node fixtures expose node heads between the outer node and indexed content."
+  },
+  "id": "portable-node-navigation",
+  "title": "SANSA Portable Node Navigation",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "portable-node",
+        "supportsParentTraversal": true,
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "document",
+              "address": "$.document",
+              "representationKind": "node",
+              "children": [
+                {
+                  "index": 0,
+                  "address": "$.document[0]",
+                  "representationKind": "node-head",
+                  "value": "article",
+                  "attributeSpace": {
+                    "address": "$.document[0].@",
+                    "representationKind": "object",
+                    "children": [
+                      {
+                        "name": "role",
+                        "address": "$.document[0].@.role",
+                        "representationKind": "string",
+                        "value": "main"
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "index": 0,
+                      "address": "$.document[0][0]",
+                      "representationKind": "string",
+                      "value": "intro"
+                    },
+                    {
+                      "index": 1,
+                      "address": "$.document[0][1]",
+                      "representationKind": "node",
+                      "children": [
+                        {
+                          "index": 0,
+                          "address": "$.document[0][1][0]",
+                          "representationKind": "node-head",
+                          "value": "strong",
+                          "children": [
+                            {
+                              "index": 0,
+                              "address": "$.document[0][1][0][0]",
+                              "representationKind": "string",
+                              "value": "important"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-node-001-exact-head",
+      "description": "The first indexed child of a node is its node head.",
+      "input": { "namespace": "portable-node", "source": "$.document[0]" },
+      "expected": { "ok": true, "addresses": ["$.document[0]"] },
+      "tags": ["sansa", "resolve", "node", "node-head"]
+    },
+    {
+      "id": "sansa-node-002-exact-content",
+      "description": "Node content is indexed beneath the selected node head.",
+      "input": { "namespace": "portable-node", "source": "$.document[0][0]" },
+      "expected": { "ok": true, "addresses": ["$.document[0][0]"] },
+      "tags": ["sansa", "resolve", "node", "content"]
+    },
+    {
+      "id": "sansa-node-003-nested-content",
+      "description": "Nested node content repeats the node, head, content hierarchy.",
+      "input": { "namespace": "portable-node", "source": "$.document[0][1][0][0]" },
+      "expected": { "ok": true, "addresses": ["$.document[0][1][0][0]"] },
+      "tags": ["sansa", "resolve", "node", "nested"]
+    },
+    {
+      "id": "sansa-node-004-node-expansion",
+      "description": "Direct expansion of an outer node returns heads, not content.",
+      "input": { "namespace": "portable-node", "source": "$.document.*" },
+      "expected": { "ok": true, "addresses": ["$.document[0]"] },
+      "tags": ["sansa", "resolve", "node", "direct-expansion"]
+    },
+    {
+      "id": "sansa-node-005-head-expansion",
+      "description": "Direct expansion of a node head returns that head's content.",
+      "input": { "namespace": "portable-node", "source": "$.document[0].*" },
+      "expected": { "ok": true, "addresses": ["$.document[0][0]", "$.document[0][1]"] },
+      "tags": ["sansa", "resolve", "node-head", "direct-expansion"]
+    },
+    {
+      "id": "sansa-node-006-descendant-preorder",
+      "description": "Descendant traversal preserves structural preorder across node heads.",
+      "input": { "namespace": "portable-node", "source": "$.document.**" },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.document[0]",
+          "$.document[0][0]",
+          "$.document[0][1]",
+          "$.document[0][1][0]",
+          "$.document[0][1][0][0]"
+        ]
+      },
+      "tags": ["sansa", "resolve", "node", "descendant-expansion", "order"]
+    },
+    {
+      "id": "sansa-node-007-kind-filter",
+      "description": "Hyphenated portable representation kinds can select node heads.",
+      "input": { "namespace": "portable-node", "source": "$.document.**%node-head" },
+      "expected": { "ok": true, "addresses": ["$.document[0]", "$.document[0][1][0]"] },
+      "tags": ["sansa", "resolve", "filter", "node-head"]
+    },
+    {
+      "id": "sansa-node-008-parent-head",
+      "description": "The parent of node content is its node head.",
+      "input": { "namespace": "portable-node", "source": "$.document[0][1].^%node-head" },
+      "expected": { "ok": true, "addresses": ["$.document[0]"] },
+      "tags": ["sansa", "resolve", "parent", "node-head"]
+    },
+    {
+      "id": "sansa-node-009-parent-node",
+      "description": "The parent of a nested node head is the outer node container.",
+      "input": { "namespace": "portable-node", "source": "$.document[0][1][0].^%node" },
+      "expected": { "ok": true, "addresses": ["$.document[0][1]"] },
+      "tags": ["sansa", "resolve", "parent", "node"]
+    },
+    {
+      "id": "sansa-node-010-head-attribute",
+      "description": "Node-head attributes remain addressable from the head binding.",
+      "input": { "namespace": "portable-node", "source": "$.document[0].@.role" },
+      "expected": { "ok": true, "addresses": ["$.document[0].@.role"] },
+      "tags": ["sansa", "resolve", "node-head", "attribute"]
+    },
+    {
+      "id": "sansa-node-011-no-collapsed-content",
+      "description": "A former direct node-content path is not silently reinterpreted as content.",
+      "input": { "namespace": "portable-node", "source": "$.document[1]" },
+      "expected": { "ok": true, "addresses": [] },
+      "tags": ["sansa", "resolve", "node", "compatibility", "reject-legacy"]
+    }
+  ]
+}
