@@ -89,7 +89,7 @@
       "id": "core-custom-002-custom-datatype-temporal-and-separator-matrix-accepted",
       "description": "Custom mode accepts typed custom datatypes over temporal and separator literal families",
       "input": {
-        "source": "startDate:unit = 2025-01-01\nstartDatetime:unit = 2025-01-01T09:30:00Z\nstartTime:unit = 09:30:00\nstartZrut:unit = 2025-01-01T00:00:00Z&Australia/Melbourne\nsize:unit = ^400x200\n",
+        "source": "startDate:unit = 2025-01-01\nstartDatetime:unit = 2025-01-01T09:30:00Z\nstartTime:unit = 09:30:00\nstartWtc:unit = 2025-01-01T00:00:00Z&Australia/Melbourne\nsize:unit = ^400x200\n",
         "mode": "custom"
       },
       "expected": {
@@ -115,7 +115,7 @@
               "kind": "binding"
             },
             {
-              "path": "$.startZrut",
+              "path": "$.startWtc",
               "datatype": "unit",
               "kind": "binding"
             },

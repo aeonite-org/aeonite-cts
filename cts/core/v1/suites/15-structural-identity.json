@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "suite_id": "structural-identity",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/structure-syntax-v1.md"
+    ]
+  },
+  "id": "structural-identity",
+  "title": "Structural Identity",
+  "tests": [
+    {
+      "id": "core-structural-identity-001-named-and-anonymous-heads-pass",
+      "description": "Structural identities are accepted on named bindings and anonymous container child heads",
+      "input": {
+        "source": "palette\\root-id\\ = [\\red_1\\ = \"red\", \\green-2\\:string = \"green\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.palette",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.palette[0]",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.palette[1]",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["structural-identity", "transport", "containers", "pass"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identity"
+      ]
+    },
+    {
+      "id": "core-structural-identity-002-duplicate-reject",
+      "description": "Structural identities are document-wide unique",
+      "input": {
+        "source": "first\\same\\ = 1\nsecond\\same\\ = 2\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_STRUCTURAL_IDENTITY",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": ["structural-identity", "uniqueness", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identity"
+      ]
+    },
+    {
+      "id": "core-structural-identity-003-invalid-character-reject",
+      "description": "Structural identities reject characters outside the portable identifier alphabet",
+      "input": {
+        "source": "value\\not.valid\\ = 1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_STRUCTURAL_IDENTITY",
+            "phaseLabel": "Lexical Analysis"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": ["structural-identity", "lexical-boundary", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identity"
+      ]
+    },
+    {
+      "id": "core-structural-identity-004-attribute-entry-head-reject",
+      "description": "Structural identities are not valid on attribute-entry heads",
+      "input": {
+        "source": "value@{source\\meta-id\\:string = \"user\"} = 1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": ["structural-identity", "attributes", "placement", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
+      ]
+    },
+    {
+      "id": "core-structural-identity-005-literal-node-head-reject",
+      "description": "Structural identities are not valid on the literal head inside node syntax",
+      "input": {
+        "source": "value = <tag\\head-id\\>\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "phaseLabel": "Parsing"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": ["structural-identity", "nodes", "placement", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
+      ]
+    }
+  ]
+}

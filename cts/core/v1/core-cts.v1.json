@@ -63,6 +63,10 @@
     {
       "id": "core-resource-policy",
       "file": "suites/14-resource-policy.json"
+    },
+    {
+      "id": "structural-identity",
+      "file": "suites/15-structural-identity.json"
     }
   ]
 }
