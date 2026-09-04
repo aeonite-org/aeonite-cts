@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "suite_id": "structural-identity-projection",
+    "lane": "aes",
+    "profile": "aes.complete.v0",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
+    ],
+    "draft_refs": [
+      "altopelago/aes/specifications/telex.aes.md#5-portable-event-profile"
+    ]
+  },
+  "id": "structural-identity-projection",
+  "title": "Portable AES Structural Identity Projection",
+  "tests": [
+    {
+      "id": "aes-identity-projection-001-binding",
+      "description": "A binding-head identity is projected only onto the outer node event at $.a",
+      "input": {
+        "source": "a\\binding-id\\@{x = \"metadata\"} = <tag(\"child\")>\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.a", "identity": "binding-id" },
+            { "path": "$.a.@.x", "identity": null },
+            { "path": "$.a[0]", "identity": null },
+            { "path": "$.a[0][0]", "identity": null }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "structural-identity", "binding", "projection"]
+    },
+    {
+      "id": "aes-identity-projection-002-attribute-entry",
+      "description": "An attribute-entry identity is projected only onto its ordinary flat event at $.a.@.x",
+      "input": {
+        "source": "a@{x\\attribute-id\\ = \"metadata\"} = <tag(\"child\")>\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.a", "identity": null },
+            { "path": "$.a.@.x", "identity": "attribute-id" },
+            { "path": "$.a[0]", "identity": null },
+            { "path": "$.a[0][0]", "identity": null }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "structural-identity", "attributes", "projection"]
+    },
+    {
+      "id": "aes-identity-projection-003-node-head",
+      "description": "A node-head identity is projected only onto the synthetic node-head event at $.a[0]",
+      "input": {
+        "source": "a@{x = \"metadata\"} = <tag\\node-head-id\\(\"child\")>\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.a", "identity": null },
+            { "path": "$.a.@.x", "identity": null },
+            { "path": "$.a[0]", "identity": "node-head-id" },
+            { "path": "$.a[0][0]", "identity": null }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "structural-identity", "node-head", "projection"]
+    },
+    {
+      "id": "aes-identity-projection-004-node-child",
+      "description": "An anonymous node-child identity is projected only onto the child event at $.a[0][0]",
+      "input": {
+        "source": "a@{x = \"metadata\"} = <tag(\\node-child-id\\ = \"child\")>\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.a", "identity": null },
+            { "path": "$.a.@.x", "identity": null },
+            { "path": "$.a[0]", "identity": null },
+            { "path": "$.a[0][0]", "identity": "node-child-id" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "structural-identity", "node-child", "projection"]
+    }
+  ]
+}
