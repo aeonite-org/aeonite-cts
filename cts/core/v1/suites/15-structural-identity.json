@@ -92,45 +92,131 @@
       ]
     },
     {
-      "id": "core-structural-identity-004-attribute-entry-head-reject",
-      "description": "Structural identities are not valid on attribute-entry heads",
+      "id": "core-structural-identity-004-attribute-entry-head-pass",
+      "description": "Structural identities are accepted on attribute-entry heads",
       "input": {
         "source": "value@{source\\meta-id\\:string = \"user\"} = 1\n",
         "mode": "transport"
       },
       "expected": {
-        "ok": false,
-        "errors": [
-          {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
-          }
-        ],
-        "warnings": []
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.value",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
       },
-      "tags": ["structural-identity", "attributes", "placement", "reject"],
+      "tags": ["structural-identity", "attributes", "placement", "pass"],
       "spec_refs": [
         "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
       ]
     },
     {
-      "id": "core-structural-identity-005-literal-node-head-reject",
-      "description": "Structural identities are not valid on the literal head inside node syntax",
+      "id": "core-structural-identity-005-literal-node-head-pass",
+      "description": "Structural identities are accepted on the literal head inside node syntax",
       "input": {
         "source": "value = <tag\\head-id\\>\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.value",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["structural-identity", "nodes", "placement", "pass"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
+      ]
+    },
+    {
+      "id": "core-structural-identity-006-all-head-locations-pass",
+      "description": "Structural identities are independently preserved across all four headed occurrence locations",
+      "input": {
+        "source": "root\\binding-id\\@{meta\\attr-id\\:string = \"x\"} = [\\anonymous-id\\ = <tag\\node-head-id\\>]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.root",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.root[0]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["structural-identity", "attributes", "containers", "nodes", "placement", "pass"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
+      ]
+    },
+    {
+      "id": "core-structural-identity-007-cross-location-duplicate-reject",
+      "description": "Structural identities remain document-wide unique across attribute-entry and node heads",
+      "input": {
+        "source": "value@{source\\same\\ = \"x\"} = <tag\\same\\>\n",
         "mode": "transport"
       },
       "expected": {
         "ok": false,
         "errors": [
           {
-            "code": "SYNTAX_ERROR",
-            "phaseLabel": "Parsing"
+            "code": "DUPLICATE_STRUCTURAL_IDENTITY",
+            "phaseLabel": "Core Validation"
           }
         ],
         "warnings": []
       },
-      "tags": ["structural-identity", "nodes", "placement", "reject"],
+      "tags": ["structural-identity", "attributes", "nodes", "uniqueness", "reject"],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
+      ]
+    },
+    {
+      "id": "core-structural-identity-008-binding-anonymous-duplicate-reject",
+      "description": "Document-wide uniqueness also spans ordinary binding and anonymous container child heads",
+      "input": {
+        "source": "items\\same\\ = [\\same\\ = \"x\"]\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_STRUCTURAL_IDENTITY",
+            "phaseLabel": "Core Validation"
+          }
+        ],
+        "warnings": []
+      },
+      "tags": ["structural-identity", "containers", "uniqueness", "reject"],
       "spec_refs": [
         "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
       ]

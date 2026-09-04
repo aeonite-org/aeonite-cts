@@ -19,6 +19,10 @@
     {
       "id": "whitespace-boundary-canonicalization",
       "file": "suites/03-whitespace-boundary-canonicalization.json"
+    },
+    {
+      "id": "structural-identity-canonicalization",
+      "file": "suites/04-structural-identity-canonicalization.json"
     }
   ]
 }
