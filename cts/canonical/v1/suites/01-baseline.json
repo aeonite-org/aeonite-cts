@@ -430,6 +430,26 @@
         "specs/04-official/v1/addressing-references-v1.md",
         "specs/04-official/v1/value-types-v1.md"
       ]
+    },
+    {
+      "id": "canonical-baseline-017-wtc-anchor-and-reference-preservation",
+      "description": "Canonicalization preserves WTC civil, numeric-offset, UTC, named, local, and geographic representation",
+      "input": {
+        "source": "utcGeo:wtc = 2034-12-31T22:00Z&-36.7590183/144.2826718/213\ncivilLocal:wtc = 2025-01-01T09:30&local\noffsetNamed:wtc = 2025-01-01T09:30+11:00&Australia/Melbourne"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\ncivilLocal:wtc = 2025-01-01T09:30&local\noffsetNamed:wtc = 2025-01-01T09:30+11:00&Australia/Melbourne\nutcGeo:wtc = 2034-12-31T22:00Z&-36.7590183/144.2826718/213"
+        }
+      },
+      "tags": ["baseline", "wtc", "temporal", "preservation"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specification/conventions/aeon-gp-temporal-v1"
+      ]
     }
   ]
 }
