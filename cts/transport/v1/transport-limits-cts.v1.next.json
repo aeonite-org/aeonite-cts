@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "transport-limits",
+    "profile": "altopelago.aeonic-limits.v1",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Experimental transport framing limit boundaries",
+    "snapshot_id": "transport-limits-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "transport-limit-boundaries",
+      "file": "suites/01-limit-boundaries.json"
+    }
+  ]
+}

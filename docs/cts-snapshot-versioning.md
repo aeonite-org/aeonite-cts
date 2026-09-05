@@ -125,6 +125,12 @@ CI for an implementation should run required checks against the pinned
 snapshot. It may also run draft, next, or experimental snapshots as advisory
 checks, but advisory failures must not invalidate the claimed stable snapshot.
 
+A next manifest may reuse suite files from an immutable released snapshot and
+declare `exclude_tests` on a suite reference. Exclusions alter only the
+including manifest; they do not alter the referenced suite or released target.
+Every excluded id must exist in that suite, and replacement expectations should
+use new test ids so the old and new meanings remain independently identifiable.
+
 ## Tags And Releases
 
 Repository tags may group many snapshot ids into one release, but the tag is not

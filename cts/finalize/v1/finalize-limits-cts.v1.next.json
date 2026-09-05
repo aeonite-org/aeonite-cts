@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "finalize-json",
+    "profile": "altopelago.aeonic-limits.v1",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Experimental cross-language finalization limit boundaries",
+    "snapshot_id": "finalize-limits-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "finalization-limit-boundaries",
+      "file": "suites/02-limit-boundaries.json"
+    }
+  ]
+}

@@ -38,6 +38,16 @@ CTS compatibility snapshots are versioned explicitly. See
 immutable compatibility targets. Specification snapshots use the parallel
 `*-specs-v1-snapshot-*` convention for documentation alignment.
 
+The released Core snapshot remains `core-cts-v1-snapshot-0.2`. Current
+development targets the experimental, consolidated
+`cts/core/v1/core-cts.v1.next.json` manifest. It reuses the immutable released
+suites, explicitly excludes four superseded limit expectations, and adds their
+next-semantics replacements plus the complete Aeonic limit boundary suite.
+The smaller `core-limits-cts.v1.next.json` manifest remains available for
+limit-only checks.
+Finalization and transport limits use the same pattern through
+`finalize-limits-cts.v1.next.json` and `transport-limits-cts.v1.next.json`.
+
 ## Validation
 
 For a lightweight repository-integrity check of the published CTS assets, run:

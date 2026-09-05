@@ -82,7 +82,43 @@ def validate_external_suite_manifest(manifest_path: Path, data: dict[str, object
         if not isinstance(tests, list):
             errors.append(f"{suite_path.relative_to(ROOT)}: tests must be a list")
             continue
-        validate_suite_tests(lane_label, str(suite_path.relative_to(ROOT)), tests, seen_test_ids, errors)
+
+        exclude_tests = suite_ref.get("exclude_tests", [])
+        if not isinstance(exclude_tests, list) or not all(
+            isinstance(test_id, str) and test_id for test_id in exclude_tests
+        ):
+            errors.append(
+                f"{lane_label}: suite `{suite_id}` exclude_tests must be a list of non-empty strings"
+            )
+            continue
+        if len(exclude_tests) != len(set(exclude_tests)):
+            errors.append(f"{lane_label}: suite `{suite_id}` exclude_tests contains duplicates")
+            continue
+
+        suite_test_ids = {
+            test.get("id")
+            for test in tests
+            if isinstance(test, dict) and isinstance(test.get("id"), str)
+        }
+        missing_exclusions = sorted(set(exclude_tests).difference(suite_test_ids))
+        for test_id in missing_exclusions:
+            errors.append(
+                f"{lane_label}: suite `{suite_id}` excludes unknown test id `{test_id}`"
+            )
+
+        excluded = set(exclude_tests)
+        included_tests = [
+            test
+            for test in tests
+            if not (isinstance(test, dict) and test.get("id") in excluded)
+        ]
+        validate_suite_tests(
+            lane_label,
+            str(suite_path.relative_to(ROOT)),
+            included_tests,
+            seen_test_ids,
+            errors,
+        )
 
 
 def validate_inline_suite_manifest(manifest_path: Path, data: dict[str, object], errors: list[str]) -> None:

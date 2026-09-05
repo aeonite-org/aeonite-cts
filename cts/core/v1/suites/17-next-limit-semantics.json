@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "suite_id": "next-limit-semantics",
+    "spec_refs": ["aes/limits/altopelago.aeonic-limits.v1"],
+    "replaces_released_tests": [
+      "core-baseline-016-separator-depth-default-reject",
+      "core-baseline-018-generic-depth-default-reject",
+      "core-addr-012-invalid-separator-char-in-type-annotation-reject",
+      "core-sep-010-inline-boundary-collision-rejects"
+    ]
+  },
+  "id": "next-limit-semantics",
+  "title": "Next Core Aeonic Limit Semantics",
+  "tests": [
+    {
+      "id": "core-next-001-clarifier-values-default-reject",
+      "description": "Multiple clarifier values exceed the default max_clarifier_values limit.",
+      "input": {
+        "source": "matrix:grid[\"|\", \"/\"] = ^1|2/3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "CLARIFIER_VALUES_EXCEEDED", "path": "$" }],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["limits", "max-clarifier-values", "replacement"]
+    },
+    {
+      "id": "core-next-002-generic-depth-default-pass",
+      "description": "One nested generic edge equals the default max_generic_depth limit.",
+      "input": {
+        "source": "t:tuple<tuple<n, n>, tuple<n, n>> = ((1,2),(1,2))",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.t", "datatype": "tuple<tuple<n, n>, tuple<n, n>>", "kind": "binding" },
+            { "path": "$.t[0]", "datatype": null, "kind": "binding" },
+            { "path": "$.t[0][0]", "datatype": null, "kind": "binding" },
+            { "path": "$.t[0][1]", "datatype": null, "kind": "binding" },
+            { "path": "$.t[1]", "datatype": null, "kind": "binding" },
+            { "path": "$.t[1][0]", "datatype": null, "kind": "binding" },
+            { "path": "$.t[1][1]", "datatype": null, "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["limits", "max-generic-depth", "replacement"]
+    },
+    {
+      "id": "core-next-003-invalid-clarifier-value-count-reject",
+      "description": "Multiple separator clarifiers fail under max_clarifier_values, independently of separator recursion depth.",
+      "input": {
+        "source": "badSepType1:matrix[\",\", \";\"] = ^1,2,3;4,5,6",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "CLARIFIER_VALUES_EXCEEDED", "path": "$" }],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["limits", "max-clarifier-values", "replacement"]
+    },
+    {
+      "id": "core-next-004-inline-boundary-collision-rejects",
+      "description": "Inline separator boundary collisions fail with clarifier-count and syntax diagnostics.",
+      "input": {
+        "source": "badInline1 = [ ^0,0 , 0,1 ]\nbadInline2 = [ ^0,0,0,1 ]\nbadInline3 = [ ^300x250 ]\nbadSepType1:matrix[\",\", \";\"] = ^1,2,3;4,5,6\nbadSepType2:sep[,] = ^0,0,0,\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "code": "CLARIFIER_VALUES_EXCEEDED" },
+          { "code": "SYNTAX_ERROR" }
+        ],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["limits", "max-clarifier-values", "syntax", "replacement"]
+    }
+  ]
+}

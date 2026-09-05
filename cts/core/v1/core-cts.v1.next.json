@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "core",
+    "profile": "altopelago.aeonic-limits.v1",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Next Core target with revised Aeonic limit semantics",
+    "snapshot_id": "core-next-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json",
+      "exclude_tests": [
+        "core-baseline-016-separator-depth-default-reject",
+        "core-baseline-018-generic-depth-default-reject"
+      ]
+    },
+    {
+      "id": "addressing-and-syntax",
+      "file": "suites/02-addressing-and-syntax.json",
+      "exclude_tests": [
+        "core-addr-012-invalid-separator-char-in-type-annotation-reject"
+      ]
+    },
+    {
+      "id": "attributes-and-references",
+      "file": "suites/03-attributes-and-references.json"
+    },
+    {
+      "id": "fail-closed-semantics",
+      "file": "suites/04-fail-closed-semantics.json"
+    },
+    {
+      "id": "promoted-edge-rejections",
+      "file": "suites/05-promoted-edge-rejections.json"
+    },
+    {
+      "id": "promoted-domain-fixtures",
+      "file": "suites/06-promoted-domain-fixtures.json"
+    },
+    {
+      "id": "promoted-snippet-transport",
+      "file": "suites/07-promoted-snippet-transport.json"
+    },
+    {
+      "id": "promoted-strict-literals",
+      "file": "suites/08-promoted-strict-literals.json"
+    },
+    {
+      "id": "promoted-separator-literals",
+      "file": "suites/09-promoted-separator-literals.json",
+      "exclude_tests": [
+        "core-sep-010-inline-boundary-collision-rejects"
+      ]
+    },
+    {
+      "id": "promoted-numeric-and-encoding-literals",
+      "file": "suites/10-promoted-numeric-and-encoding-literals.json"
+    },
+    {
+      "id": "promoted-custom-literals",
+      "file": "suites/11-promoted-custom-literals.json"
+    },
+    {
+      "id": "promoted-custom-rejections",
+      "file": "suites/12-promoted-custom-rejections.json"
+    },
+    {
+      "id": "promoted-whitespace-boundaries",
+      "file": "suites/13-promoted-whitespace-boundaries.json"
+    },
+    {
+      "id": "core-resource-policy",
+      "file": "suites/14-resource-policy.json"
+    },
+    {
+      "id": "structural-identity",
+      "file": "suites/15-structural-identity.json"
+    },
+    {
+      "id": "aeonic-limit-boundaries",
+      "file": "suites/16-aeonic-limit-boundaries.json"
+    },
+    {
+      "id": "next-limit-semantics",
+      "file": "suites/17-next-limit-semantics.json"
+    }
+  ]
+}
