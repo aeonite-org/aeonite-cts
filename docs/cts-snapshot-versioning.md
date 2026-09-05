@@ -67,6 +67,21 @@ CTS manifests must expose a machine snapshot id in their `meta` object:
 The repository validator enforces snapshot-id presence, naming shape, and
 uniqueness across published manifests.
 
+An immutable manifest should also expose its snapshot in the filename:
+
+```text
+<surface>-cts.v<spec-version>.snapshot-<snapshot-version>.json
+```
+
+For example, `telex-cts.v0.snapshot-0.1.json` is a stable path as well as a
+manifest carrying `telex-cts-v0-snapshot-0.1`. Mutable development manifests
+use `.next.json` and must not be presented as stable external targets.
+
+An immutable external-suite manifest may pin each referenced suite with a
+`content_sha256` value. When present, the repository validator checks that the
+64-character lowercase digest matches the exact suite bytes. This prevents a
+stable manifest path from silently acquiring changed expectations.
+
 When a CTS snapshot is known to correspond to a specific specification snapshot,
 the manifest can also expose a documentation-facing `spec_snapshot_id`:
 

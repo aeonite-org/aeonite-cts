@@ -14,7 +14,11 @@
   "suites": [
     {
       "id": "baseline",
-      "file": "suites/01-baseline.json"
+      "file": "suites/01-baseline.json",
+      "exclude_tests": [
+        "aes-baseline-010-separator-depth-default-reject",
+        "aes-baseline-012-generic-depth-default-reject"
+      ]
     },
     {
       "id": "emission-coverage",
@@ -27,6 +31,10 @@
     {
       "id": "structural-identity-projection",
       "file": "suites/04-structural-identity-projection.json"
+    },
+    {
+      "id": "next-limit-semantics",
+      "file": "suites/05-next-limit-semantics.json"
     }
   ]
 }

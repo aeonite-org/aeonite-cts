@@ -8,7 +8,7 @@
       "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
     ],
     "draft_refs": [
-      "altopelago/aes/specifications/telex.aes.md#5-portable-event-profile"
+      "aeonite-specs/sources/aes/v0/aes-events-v0.aeon#5-flat-structure-and-identity"
     ]
   },
   "id": "structural-identity-projection",

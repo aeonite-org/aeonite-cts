@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "status": "released",
+    "lane": "aes-events",
+    "profile": "aes.complete.v0",
+    "event_contract": "aes.events.v0",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Immutable transport-neutral portable AES v0 event validation snapshot",
+    "snapshot_id": "aes-events-cts-v0-snapshot-0.1",
+    "spec_snapshot_id": "aes-events-specs-v0-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "event-and-profile-validation",
+      "file": "suites/01-event-and-profile-validation.json",
+      "content_sha256": "5df56cc85ce6f6b0ec365758b1869f840387324302a156bffde8613bc08245f9"
+    }
+  ]
+}

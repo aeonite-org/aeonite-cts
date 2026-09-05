@@ -1,0 +1,675 @@
+{
+  "meta": {
+    "suite_id": "syntax-and-canonicalization",
+    "lane": "aes-telex",
+    "format_version": "0",
+    "event_contract": "aes.events.v0",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aes/v0/telex-aes-v0.aeon#4-physical-format",
+      "aeonite-specs/sources/aes/v0/telex-aes-v0.aeon#6-canonical-telex"
+    ]
+  },
+  "id": "syntax-and-canonicalization",
+  "title": "Telex v0 Syntax and Canonicalization",
+  "tests": [
+    {
+      "id": "telex-syntax-001-empty-default",
+      "description": "An empty stream selects the complete profile by default",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.complete.v0",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "canonical": true,
+        "records": []
+      },
+      "tags": [
+        "syntax",
+        "profile-default",
+        "empty"
+      ]
+    },
+    {
+      "id": "telex-syntax-002-canonical-scalar",
+      "description": "A canonical scalar stanza decodes without changing field order or payload",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.message\nkind=StringLiteral\nvalue=hello\n"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.complete.v0",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "canonical": true,
+        "records": [
+          {
+            "path": "$.message",
+            "kind": "StringLiteral",
+            "value": "hello"
+          }
+        ]
+      },
+      "tags": [
+        "syntax",
+        "scalar",
+        "canonical"
+      ]
+    },
+    {
+      "id": "telex-syntax-003-explicit-partial",
+      "description": "An explicit partial profile is stream metadata rather than an event",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\nprofile=aes.partial.v0\n"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.partial.v0",
+        "profile_explicit": true,
+        "projection": null,
+        "projection_explicit": false,
+        "canonical": true,
+        "records": []
+      },
+      "tags": [
+        "syntax",
+        "profile-partial",
+        "header"
+      ]
+    },
+    {
+      "id": "telex-syntax-004-payload-escapes",
+      "description": "Telex escapes decode independently of JSON or AEON source escaping",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.message\nkind=StringLiteral\nvalue=line\\nwave=🌊\\\\end\n"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.complete.v0",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "canonical": true,
+        "records": [
+          {
+            "path": "$.message",
+            "kind": "StringLiteral",
+            "value": "line\nwave=🌊\\end"
+          }
+        ]
+      },
+      "tags": [
+        "syntax",
+        "escaping",
+        "unicode"
+      ]
+    },
+    {
+      "id": "telex-syntax-005-tolerant-crlf",
+      "description": "A tolerant parser accepts CRLF and reports non-canonical input",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\r\n\r\npath=$.a\r\nkind=NumberLiteral\r\nvalue=1\r\n"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.complete.v0",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "canonical": false,
+        "records": [
+          {
+            "path": "$.a",
+            "kind": "NumberLiteral",
+            "value": "1"
+          }
+        ]
+      },
+      "tags": [
+        "syntax",
+        "tolerant",
+        "crlf"
+      ]
+    },
+    {
+      "id": "telex-syntax-006-canonicalize-order-and-escape",
+      "description": "Canonicalization orders core fields and shortens a Unicode escape",
+      "operation": "canonicalize",
+      "input": {
+        "telex": "telex.aes=0\r\n\r\nkind=StringLiteral\r\npath=$.a\r\nvalue=\\u{000041}\r\n"
+      },
+      "expected": {
+        "ok": true,
+        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\nvalue=A\n"
+      },
+      "tags": [
+        "canonicalization",
+        "field-order",
+        "escaping"
+      ]
+    },
+    {
+      "id": "telex-syntax-007-duplicate-field",
+      "description": "A stanza cannot repeat a field",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.a\npath=$.b\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_DUPLICATE_FIELD",
+          "line": 4
+        }
+      },
+      "tags": [
+        "syntax",
+        "failure",
+        "duplicate"
+      ]
+    },
+    {
+      "id": "telex-syntax-008-invalid-preamble",
+      "description": "An unsupported or malformed preamble fails explicitly",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=1\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_INVALID_PREAMBLE",
+          "line": 1
+        }
+      },
+      "tags": [
+        "syntax",
+        "failure",
+        "version"
+      ]
+    },
+    {
+      "id": "telex-syntax-009-empty-profile",
+      "description": "An explicit profile identifier cannot be empty",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\nprofile=\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_EMPTY_PROFILE",
+          "line": 2
+        }
+      },
+      "tags": [
+        "syntax",
+        "failure",
+        "profile"
+      ]
+    },
+    {
+      "id": "telex-syntax-010-missing-header-separator",
+      "description": "Events require a blank separator after stream metadata",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\nprofile=aes.partial.v0\npath=$.a\nkind=NumberLiteral\nvalue=1\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_MISSING_HEADER_SEPARATOR",
+          "line": 3
+        }
+      },
+      "tags": [
+        "syntax",
+        "failure",
+        "framing"
+      ]
+    },
+    {
+      "id": "telex-syntax-011-unknown-escape",
+      "description": "Payload escapes use only the Telex escape vocabulary",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\nvalue=bad\\q\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_UNKNOWN_ESCAPE",
+          "line": 5
+        }
+      },
+      "tags": [
+        "syntax",
+        "failure",
+        "escaping"
+      ]
+    },
+    {
+      "id": "telex-syntax-012-canonicalize-explicit-profile",
+      "description": "Canonicalization retains an explicitly declared profile",
+      "operation": "canonicalize",
+      "input": {
+        "telex": "telex.aes=0\nprofile=aes.partial.v0\n\nkind=NumberLiteral\npath=$.a.b\nvalue=1\n"
+      },
+      "expected": {
+        "ok": true,
+        "telex": "telex.aes=0\nprofile=aes.partial.v0\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
+      },
+      "tags": [
+        "canonicalization",
+        "profile",
+        "partial"
+      ]
+    },
+    {
+      "id": "telex-syntax-013-canonicalization-preserves-event-order",
+      "description": "Canonicalization orders fields but never sorts events by path",
+      "operation": "canonicalize",
+      "input": {
+        "telex": "telex.aes=0\nprofile=aes.partial.v0\n\nkind=NumberLiteral\npath=$.z\nvalue=1\n\nkind=NumberLiteral\npath=$.a\nvalue=2\n"
+      },
+      "expected": {
+        "ok": true,
+        "telex": "telex.aes=0\nprofile=aes.partial.v0\n\npath=$.z\nkind=NumberLiteral\nvalue=1\n\npath=$.a\nkind=NumberLiteral\nvalue=2\n"
+      },
+      "tags": [
+        "canonicalization",
+        "event-order",
+        "partial"
+      ]
+    },
+    {
+      "id": "telex-syntax-014-explicit-document-projection",
+      "description": "An explicit AEON document projection enables flat header records without making them body events",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\nprojection=aeon.document.v0\n\nheader=$.[\"aeon:mode\"]\nkind=StringLiteral\nvalue=strict\n\npath=$.a\nkind=NumberLiteral\nvalue=1\n"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.complete.v0",
+        "profile_explicit": false,
+        "projection": "aeon.document.v0",
+        "projection_explicit": true,
+        "canonical": true,
+        "records": [
+          {
+            "header": "$.[\"aeon:mode\"]",
+            "kind": "StringLiteral",
+            "value": "strict"
+          },
+          {
+            "path": "$.a",
+            "kind": "NumberLiteral",
+            "value": "1"
+          }
+        ]
+      },
+      "tags": [
+        "syntax",
+        "projection",
+        "header"
+      ]
+    },
+    {
+      "id": "telex-syntax-015-canonicalize-projection-order",
+      "description": "Canonicalization orders profile before projection and header before other record fields",
+      "operation": "canonicalize",
+      "input": {
+        "telex": "telex.aes=0\nprojection=aeon.document.v0\nprofile=aes.complete.v0\n\nkind=StringLiteral\nheader=$.[\"aeon:mode\"]\nvalue=strict\n"
+      },
+      "expected": {
+        "ok": true,
+        "telex": "telex.aes=0\nprofile=aes.complete.v0\nprojection=aeon.document.v0\n\nheader=$.[\"aeon:mode\"]\nkind=StringLiteral\nvalue=strict\n"
+      },
+      "tags": [
+        "canonicalization",
+        "projection",
+        "field-order"
+      ]
+    },
+    {
+      "id": "telex-syntax-016-empty-projection",
+      "description": "An explicit projection identifier cannot be empty",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\nprojection=\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_EMPTY_PROJECTION",
+          "line": 2
+        }
+      },
+      "tags": [
+        "syntax",
+        "projection",
+        "failure"
+      ]
+    },
+    {
+      "id": "telex-syntax-017-wtc-lexical-preservation",
+      "description": "Canonicalization preserves civil, explicit-offset, and UTC WTC payloads without resolving or rewriting their references",
+      "operation": "canonicalize",
+      "input": {
+        "telex": "telex.aes=0\n\nvalue=2025-01-01T09:30&local\ndatatype=wtc\nkind=WTCDateTimeLiteral\npath=$.civilLocal\n\nvalue=2025-01-01T09:30+11:00&Australia/Melbourne\ndatatype=wtc\nkind=WTCDateTimeLiteral\npath=$.offsetNamed\n\nvalue=2034-12-31T22:00Z&-36.7590183/144.2826718/213\ndatatype=wtc\nkind=WTCDateTimeLiteral\npath=$.utcGeo\n"
+      },
+      "expected": {
+        "ok": true,
+        "telex": "telex.aes=0\n\npath=$.civilLocal\nkind=WTCDateTimeLiteral\ndatatype=wtc\nvalue=2025-01-01T09:30&local\n\npath=$.offsetNamed\nkind=WTCDateTimeLiteral\ndatatype=wtc\nvalue=2025-01-01T09:30+11:00&Australia/Melbourne\n\npath=$.utcGeo\nkind=WTCDateTimeLiteral\ndatatype=wtc\nvalue=2034-12-31T22:00Z&-36.7590183/144.2826718/213\n"
+      },
+      "tags": [
+        "canonicalization",
+        "wtc",
+        "temporal",
+        "preservation"
+      ]
+    },
+    {
+      "id": "telex-syntax-018-empty-without-final-lf",
+      "description": "A zero-record stream without its final LF is decodable but non-canonical",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.complete.v0",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "canonical": false,
+        "records": []
+      },
+      "tags": [
+        "syntax",
+        "empty",
+        "eof",
+        "non-canonical"
+      ]
+    },
+    {
+      "id": "telex-syntax-019-empty-with-blank-line",
+      "description": "A zero-record stream with a trailing blank line is decodable but non-canonical",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\n"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.complete.v0",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "canonical": false,
+        "records": []
+      },
+      "tags": [
+        "syntax",
+        "empty",
+        "separator",
+        "non-canonical"
+      ]
+    },
+    {
+      "id": "telex-syntax-020-canonicalize-unicode-escape-case-and-padding",
+      "description": "Lowercase and padded Unicode escapes decode but canonicalize to shortest uppercase spelling",
+      "operation": "canonicalize",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\nvalue=\\u{1f}\\u{000041}\n"
+      },
+      "expected": {
+        "ok": true,
+        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\nvalue=\\u{1F}A\n"
+      },
+      "tags": [
+        "canonicalization",
+        "escaping",
+        "unicode",
+        "case",
+        "padding"
+      ]
+    },
+    {
+      "id": "telex-syntax-021-leading-digit-extension-segment",
+      "description": "Every dotted field-name segment begins with a lowercase ASCII letter",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\nx.42base.flag=value\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_INVALID_FIELD_NAME",
+          "line": 5
+        }
+      },
+      "tags": [
+        "syntax",
+        "field-name",
+        "extension",
+        "failure"
+      ]
+    },
+    {
+      "id": "telex-syntax-022-bare-carriage-return",
+      "description": "A bare carriage return is not a Telex line ending or payload character",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\r"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_BARE_CR",
+          "line": null
+        }
+      },
+      "tags": [
+        "syntax",
+        "line-ending",
+        "control",
+        "failure"
+      ]
+    },
+    {
+      "id": "telex-syntax-023-raw-line-feed-splits-payload",
+      "description": "A raw LF ends the field and following payload text must itself be a field line",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\nvalue=first\nsecond\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_INVALID_FIELD_LINE",
+          "line": 6
+        }
+      },
+      "tags": [
+        "syntax",
+        "framing",
+        "line-feed",
+        "failure"
+      ]
+    },
+    {
+      "id": "telex-syntax-024-expanded-datatype",
+      "description": "A compact datatype line expands to the three logical AES datatype fields without numeric precision loss",
+      "operation": "parse",
+      "input": {
+        "limits": {
+          "max_clarifier_values": 2
+        },
+        "telex": "telex.aes=0\n\npath=$.value\nkind=TupleLiteral\ndatatype=tuple<tuple<int, 9007199254740993>[16], string>[\"x\", \"x\"]\n"
+      },
+      "expected": {
+        "ok": true,
+        "version": "0",
+        "profile": "aes.complete.v0",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "canonical": true,
+        "records": [
+          {
+            "path": "$.value",
+            "kind": "TupleLiteral",
+            "datatype": "tuple",
+            "generics": [
+              {
+                "datatype": "tuple",
+                "generics": [
+                  {
+                    "datatype": "int",
+                    "generics": [],
+                    "clarifiers": []
+                  },
+                  {
+                    "kind": "NumberLiteral",
+                    "value": "9007199254740993"
+                  }
+                ],
+                "clarifiers": [
+                  {
+                    "kind": "NumberLiteral",
+                    "value": "16"
+                  }
+                ]
+              },
+              {
+                "datatype": "string",
+                "generics": [],
+                "clarifiers": []
+              }
+            ],
+            "clarifiers": [
+              {
+                "kind": "StringLiteral",
+                "value": "x"
+              },
+              {
+                "kind": "StringLiteral",
+                "value": "x"
+              }
+            ]
+          }
+        ]
+      },
+      "tags": [
+        "syntax",
+        "datatype",
+        "generics",
+        "clarifiers",
+        "precision"
+      ]
+    },
+    {
+      "id": "telex-syntax-025-canonicalize-datatype",
+      "description": "Canonicalization reconstructs compact datatype syntax from the expanded logical structure",
+      "operation": "canonicalize",
+      "input": {
+        "limits": {
+          "max_clarifier_values": 2
+        },
+        "telex": "telex.aes=0\n\npath=$.value\nkind=SeparatorLiteral\ndatatype=csv[\".\",\".\"]\nvalue=one.two.three\n"
+      },
+      "expected": {
+        "ok": true,
+        "telex": "telex.aes=0\n\npath=$.value\nkind=SeparatorLiteral\ndatatype=csv[\".\", \".\"]\nvalue=one.two.three\n"
+      },
+      "tags": [
+        "canonicalization",
+        "datatype",
+        "clarifiers",
+        "duplicates"
+      ]
+    },
+    {
+      "id": "telex-syntax-026-invalid-datatype",
+      "description": "A compact datatype descriptor must be structurally decodable",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.value\nkind=ListNode\ndatatype=list<>\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_INVALID_DATATYPE",
+          "line": 5
+        }
+      },
+      "tags": [
+        "syntax",
+        "datatype",
+        "failure"
+      ]
+    },
+    {
+      "id": "telex-syntax-027-logical-datatype-field-on-wire",
+      "description": "Logical generic and clarifier arrays are encoded only through the compact datatype line",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.value\nkind=ListNode\ngenerics=int\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_INVALID_DATATYPE",
+          "line": 5
+        }
+      },
+      "tags": [
+        "syntax",
+        "datatype",
+        "mapping",
+        "failure"
+      ]
+    },
+    {
+      "id": "telex-syntax-028-default-datatype-depth",
+      "description": "The default Telex decoder rejects generic depth greater than one without truncating the descriptor",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=0\n\npath=$.value\nkind=ListNode\ndatatype=list<list<list<int>>>\n"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "TELEX_DATATYPE_LIMIT",
+          "line": 5
+        }
+      },
+      "tags": [
+        "syntax",
+        "datatype",
+        "depth",
+        "resource-limit",
+        "failure"
+      ]
+    }
+  ]
+}

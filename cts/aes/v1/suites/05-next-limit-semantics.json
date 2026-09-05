@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "suite_id": "next-limit-semantics",
+    "spec_refs": ["altopelago/aes/notes/altopelago-aeonic-limits-v1.md"],
+    "replaces_released_tests": [
+      "aes-baseline-010-separator-depth-default-reject",
+      "aes-baseline-012-generic-depth-default-reject"
+    ]
+  },
+  "id": "next-limit-semantics",
+  "title": "Next AES Projection Limit Semantics",
+  "tests": [
+    {
+      "id": "aes-next-001-clarifier-values-default-reject",
+      "description": "Multiple clarifier values exceed the default max_clarifier_values limit before AES projection.",
+      "input": {
+        "source": "matrix:grid[\"|\", \">\"] = ^1|2>3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CLARIFIER_VALUES_EXCEEDED",
+            "path": "$"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      },
+      "tags": ["limits", "max-clarifier-values", "replacement"]
+    },
+    {
+      "id": "aes-next-002-generic-depth-default-pass",
+      "description": "One nested generic edge equals the default max_generic_depth limit and projects normally.",
+      "input": {
+        "source": "t:tuple<tuple<n, n>, tuple<n, n>> = ((1,2),(1,2))",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.t",
+              "datatype": "tuple<tuple<n, n>, tuple<n, n>>",
+              "value_kind": "TupleLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[0]",
+              "datatype": null,
+              "value_kind": "TupleLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[0][0]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[0][1]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[1]",
+              "datatype": null,
+              "value_kind": "TupleLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[1][0]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            },
+            {
+              "path": "$.t[1][1]",
+              "datatype": null,
+              "value_kind": "NumberLiteral",
+              "reference": null
+            }
+          ]
+        }
+      },
+      "tags": ["limits", "max-generic-depth", "replacement"]
+    }
+  ]
+}
