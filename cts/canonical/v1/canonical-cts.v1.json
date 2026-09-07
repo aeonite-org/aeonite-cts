@@ -23,6 +23,10 @@
     {
       "id": "structural-identity-canonicalization",
       "file": "suites/04-structural-identity-canonicalization.json"
+    },
+    {
+      "id": "string-escapes",
+      "file": "suites/05-string-escapes.json"
     }
   ]
 }
