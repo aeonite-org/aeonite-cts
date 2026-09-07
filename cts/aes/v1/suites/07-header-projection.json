@@ -125,9 +125,9 @@
     },
     {
       "id": "aes-header-006-quoted-prefix-payload",
-      "description": "A quoted aeon-prefixed payload key remains in the body plane beside an actual header field.",
+      "description": "A quoted payload key matching an actual shorthand header name remains independently addressable in the body plane.",
       "input": {
-        "source": "aeon:mode = \"transport\"\n\"aeon:payload\" = 1\n",
+        "source": "aeon:mode = \"transport\"\n\"aeon:mode\" = 1\n",
         "mode": "transport",
         "options": { "portable_aes": true, "include_headers": true }
       },
@@ -139,11 +139,11 @@
           "projection": "aeon.document.v0",
           "events": [
             { "header": "$.[\"aeon:mode\"]", "value_kind": "StringLiteral" },
-            { "path": "$.[\"aeon:payload\"]", "value_kind": "NumberLiteral" }
+            { "path": "$.[\"aeon:mode\"]", "value_kind": "NumberLiteral" }
           ]
         }
       },
-      "tags": ["experimental", "portable-aes", "headers", "quoted-key", "plane-disambiguation"]
+      "tags": ["experimental", "portable-aes", "headers", "quoted-key", "same-name", "plane-disambiguation"]
     }
   ]
 }
