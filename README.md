@@ -55,6 +55,13 @@ and profile-validation vectors. The immutable
 canonicalization, and format-limit vectors. Each manifest pins the SHA-256
 digest of every referenced suite; JavaScript and Rust pass both targets.
 
+The experimental `aes-path-translation-cts-v0-snapshot-0.1` target adds three
+AEON-specific interoperability vectors without modifying either released AES
+v0 snapshot. It covers recursive source-to-event node expansion, reverse
+materialization of node-content references, and rejection of a direct
+synthetic `NodeHead` reference. TypeScript, Rust, Python, and PHP run the same
+target through `altopelago/aeon/scripts/aes-path-translation-cts.sh`.
+
 ## Validation
 
 For a lightweight repository-integrity check of the published CTS assets, run:
