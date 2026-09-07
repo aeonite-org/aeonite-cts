@@ -39,6 +39,10 @@
     {
       "id": "source-provenance-spans",
       "file": "suites/06-source-provenance-spans.json"
+    },
+    {
+      "id": "header-projection",
+      "file": "suites/07-header-projection.json"
     }
   ]
 }
