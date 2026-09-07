@@ -43,6 +43,10 @@
     {
       "id": "header-projection",
       "file": "suites/07-header-projection.json"
+    },
+    {
+      "id": "portable-value-payloads",
+      "file": "suites/08-portable-value-payloads.json"
     }
   ]
 }
