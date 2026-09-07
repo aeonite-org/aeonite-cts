@@ -35,6 +35,10 @@
     {
       "id": "next-limit-semantics",
       "file": "suites/05-next-limit-semantics.json"
+    },
+    {
+      "id": "source-provenance-spans",
+      "file": "suites/06-source-provenance-spans.json"
     }
   ]
 }

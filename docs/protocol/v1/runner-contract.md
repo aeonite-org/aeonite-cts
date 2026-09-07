@@ -63,6 +63,12 @@ Rules:
 - `code`: required, non-empty string.
 - `path`: required, string or `null`.
 - `span`: required, `[start,end]` or `null`.
+  - `start` and `end` are non-negative, zero-based UTF-8 byte offsets into the exact case source after JSON decoding.
+  - `start` is inclusive, `end` is exclusive, and `start <= end`.
+  - The SUT MUST NOT remove a UTF-8 byte-order mark, translate newlines, normalise Unicode, or otherwise rewrite the source before calculating offsets.
+  - For valid UTF-8 source, both endpoints MUST be Unicode scalar boundaries.
+  - An empty span is permitted when the lane defines an insertion-point or end-of-input diagnostic. A lane or profile MAY impose a stricter non-empty requirement.
+  - `null` is used when no source location exists; the SUT MUST NOT guess a span.
 - `phase`: required, number or `null`.
 - `message`: optional; non-normative by default.
 
