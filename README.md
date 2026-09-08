@@ -38,13 +38,13 @@ CTS compatibility snapshots are versioned explicitly. See
 immutable compatibility targets. Specification snapshots use the parallel
 `*-specs-v1-snapshot-*` convention for documentation alignment.
 
-The released Core snapshot remains `core-cts-v1-snapshot-0.2`. Current
-development targets the experimental, consolidated
-`cts/core/v1/core-cts.v1.next.json` manifest. It reuses the immutable released
-suites, explicitly excludes four superseded limit expectations, and adds their
-next-semantics replacements plus the complete Aeonic limit boundary suite.
-The smaller `core-limits-cts.v1.next.json` manifest remains available for
-limit-only checks.
+The current released Core target is `core-cts-v1-snapshot-0.3`, exposed by
+`cts/core/v1/core-cts.v1.snapshot-0.3.json`. It preserves the historical 0.2
+cases, excludes four superseded limit expectations, and adds their unified
+Aeonic-limit replacements plus the complete boundary suite. Every referenced
+suite is content-hash pinned. The historical 0.2 target remains unchanged at
+`core-cts.v1.json`; the `.next` and smaller `core-limits-cts.v1.next.json`
+manifests remain available for ongoing and limit-only development.
 Finalization and transport limits use the same pattern through
 `finalize-limits-cts.v1.next.json` and `transport-limits-cts.v1.next.json`.
 
