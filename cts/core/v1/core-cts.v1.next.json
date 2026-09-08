@@ -97,6 +97,10 @@
     {
       "id": "core-next-special-number-literals",
       "file": "suites/19-next-special-number-literals.json"
+    },
+    {
+      "id": "next-contextual-datatype-names",
+      "file": "suites/20-next-contextual-datatype-names.json"
     }
   ]
 }
