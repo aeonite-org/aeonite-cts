@@ -47,6 +47,9 @@ suite is content-hash pinned. The historical 0.2 target remains unchanged at
 manifests remain available for ongoing and limit-only development.
 Finalization and transport limits use the same pattern through
 `finalize-limits-cts.v1.next.json` and `transport-limits-cts.v1.next.json`.
+The experimental `finalize-json-cts.v1.next.json` and
+`finalize-map-cts.v1.next.json` targets define the strict-versus-transport
+compatibility policy for special values without changing released snapshots.
 
 Portable AES v0 has two stable, authority-separated targets. The immutable
 `aes-events-cts-v0-snapshot-0.1` manifest contains 38 transport-neutral record

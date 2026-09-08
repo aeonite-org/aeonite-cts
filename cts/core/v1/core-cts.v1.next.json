@@ -93,6 +93,10 @@
     {
       "id": "next-profile-custom-clarifiers",
       "file": "suites/18-next-profile-custom-clarifiers.json"
+    },
+    {
+      "id": "core-next-special-number-literals",
+      "file": "suites/19-next-special-number-literals.json"
     }
   ]
 }
