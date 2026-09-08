@@ -8,7 +8,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Next Core target with revised Aeonic limit semantics",
+    "description": "Next Core target with revised Aeonic limit and GP profile semantics",
     "snapshot_id": "core-next-cts-v1-snapshot-0.1"
   },
   "suites": [
@@ -89,6 +89,10 @@
     {
       "id": "next-limit-semantics",
       "file": "suites/17-next-limit-semantics.json"
+    },
+    {
+      "id": "next-profile-custom-clarifiers",
+      "file": "suites/18-next-profile-custom-clarifiers.json"
     }
   ]
 }

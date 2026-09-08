@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "suite_id": "next-profile-custom-clarifiers",
+    "spec_refs": [
+      "specs/04-official/v1/AEON-spec-v1.md#6-type-system",
+      "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy"
+    ]
+  },
+  "id": "next-profile-custom-clarifiers",
+  "title": "Next GP Profile Custom Datatype Clarifiers",
+  "tests": [
+    {
+      "id": "core-next-profile-001-custom-separator-and-radix-clarifiers-pass",
+      "description": "The GP profile permits opaque clarifiers on custom datatypes whose assigned values are separator or radix literals.",
+      "input": {
+        "source": "aeon:mode = \"custom\"\naeon:profile = \"aeon.gp.profile.v1\"\nversion:ver[\".\"] = ^1.2.0\nseparatorNumeric:custom[2] = ^a2a\nradixNumeric:bits[2] = %10101\nradixString:bits[\"binary\"] = %10101",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.version", "datatype": "ver[\".\"]", "kind": "binding" },
+            { "path": "$.separatorNumeric", "datatype": "custom[2]", "kind": "binding" },
+            { "path": "$.radixNumeric", "datatype": "bits[2]", "kind": "binding" },
+            { "path": "$.radixString", "datatype": "bits[\"binary\"]", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["profile-semantics", "custom", "clarifiers", "separator", "radix"]
+    }
+  ]
+}
