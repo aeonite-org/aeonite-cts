@@ -28,7 +28,7 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 
 - Protocol: `cts/protocol/v1`
 - Core lane manifest: `cts/core/v1/core-cts.v1.snapshot-0.3.json`
-- AES lane manifest: `cts/aes/v1/aes-cts.v1.json`
+- AES lane manifest: `cts/aes/v1/aes-cts.v1.snapshot-0.3.json`
 - Canonical lane manifest: `cts/canonical/v1/canonical-cts.v1.json`
 - Annotations lane manifest: `cts/annotations/v1/annotation-stream-cts.v1.json`
 - AEOS lane manifest: `cts/aeos/v1/aeos-validator-cts.v1.json`

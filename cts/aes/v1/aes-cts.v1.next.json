@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.3.0",
+    "version": "0.4.0",
     "lane": "aes",
     "profile": "aes.complete.v0",
     "conformance": {
@@ -8,8 +8,8 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Experimental next AES snapshot for the portable flat event projection",
-    "snapshot_id": "aes-cts-v1-snapshot-0.3"
+    "description": "Experimental next AES snapshot after the portable projection 0.3 baseline",
+    "snapshot_id": "aes-cts-v1-snapshot-0.4"
   },
   "suites": [
     {

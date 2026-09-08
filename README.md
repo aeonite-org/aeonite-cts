@@ -65,6 +65,15 @@ materialization of node-content references, and rejection of a direct
 synthetic `NodeHead` reference. TypeScript, Rust, Python, and PHP run the same
 target through `altopelago/aeon/scripts/aes-path-translation-cts.sh`.
 
+The current released AEON-to-portable-AES projection target is
+`aes-cts-v1-snapshot-0.3`, exposed by
+`cts/aes/v1/aes-cts.v1.snapshot-0.3.json`. Its 82 vectors cover the complete
+portable projection, structural identities, unified Aeonic limits, exact-source
+spans, header planes, and canonical value payloads. Every referenced suite is
+content-hash pinned. The historical 0.2 target remains unchanged at
+`aes-cts.v1.json`; `aes-cts.v1.next.json` now names the mutable 0.4 development
+target.
+
 ## Validation
 
 For a lightweight repository-integrity check of the published CTS assets, run:

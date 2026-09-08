@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "version": "0.3.0",
+    "status": "released",
+    "lane": "aes",
+    "profile": "aes.complete.v0",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Immutable AEON v1 to portable AES projection compatibility snapshot",
+    "snapshot_id": "aes-cts-v1-snapshot-0.3",
+    "spec_snapshot_id": "aes-specs-v1-snapshot-0.3"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json",
+      "content_sha256": "81486cea9ee00faaaacc90d985afadd645c01a2bb99d90423fbb69f00c62e80d",
+      "exclude_tests": [
+        "aes-baseline-010-separator-depth-default-reject",
+        "aes-baseline-012-generic-depth-default-reject"
+      ]
+    },
+    {
+      "id": "emission-coverage",
+      "file": "suites/02-emission-coverage.json",
+      "content_sha256": "85d8bdc6314efef4117df1d768bb1fd982f5b8ca6a2a56333daae7f5adfe46bd"
+    },
+    {
+      "id": "attributes-and-references",
+      "file": "suites/03-attributes-and-references.json",
+      "content_sha256": "c1aa5b73149a95e7a28fceb339e5ea56449a480f44d45f5dbd78e358626c7f84"
+    },
+    {
+      "id": "structural-identity-projection",
+      "file": "suites/04-structural-identity-projection.json",
+      "content_sha256": "c83ff25fdefd7db43313d2c5565e4d26f5a67dffa57d9e49cb9a92caa964719b"
+    },
+    {
+      "id": "next-limit-semantics",
+      "file": "suites/05-next-limit-semantics.json",
+      "content_sha256": "b92f360b3c8b11107c321da27e05dfb1e01132b8f876ff8807957f60571269c0"
+    },
+    {
+      "id": "source-provenance-spans",
+      "file": "suites/06-source-provenance-spans.json",
+      "content_sha256": "8d729b0433c4a6e1c760def98a69bde710a830f5e1d589e5cac3a18ac2c387f6"
+    },
+    {
+      "id": "header-projection",
+      "file": "suites/07-header-projection.json",
+      "content_sha256": "4111030083e21ae1e3c651c19366df6196fd60556f788db2f5715949f9849281"
+    },
+    {
+      "id": "portable-value-payloads",
+      "file": "suites/08-portable-value-payloads.json",
+      "content_sha256": "94a083ad2f8f33dbc771eb24ee3521d30bc803b15e294b697eca41adc04cd76e"
+    }
+  ]
+}
