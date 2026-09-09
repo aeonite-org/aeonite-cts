@@ -3,12 +3,12 @@
     "version": "0.1.0",
     "status": "experimental",
     "lane": "aes-path-translation",
-    "profile": "aes.complete.v0",
-    "event_contract": "aes.events.v0",
-    "source_projection": "aeon.v1-to-aes.events.v0",
+    "profile": "aes.complete.v1",
+    "event_contract": "aes.events.v1",
+    "source_projection": "aeon.v1-to-aes.events.v1",
     "sut_protocol": "cts.protocol.v1",
     "description": "Experimental AEON source-path and portable AES event-path translation acceptance target",
-    "snapshot_id": "aes-path-translation-cts-v0-snapshot-0.1"
+    "snapshot_id": "aes-path-translation-cts-v1-snapshot-0.1"
   },
   "suites": [
     {

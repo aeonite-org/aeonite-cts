@@ -51,14 +51,14 @@ The experimental `finalize-json-cts.v1.next.json` and
 `finalize-map-cts.v1.next.json` targets define the strict-versus-transport
 compatibility policy for special values without changing released snapshots.
 
-Portable AES v0 has two stable, authority-separated targets. The immutable
-`aes-events-cts-v0-snapshot-0.1` manifest contains 38 transport-neutral record
+Portable AES v1 has two stable, authority-separated targets. The immutable
+`aes-events-cts-v1-snapshot-0.1` manifest contains 38 transport-neutral record
 and profile-validation vectors. The immutable
-`telex-cts-v0-snapshot-0.1` manifest contains 50 Telex syntax,
+`telex-cts-v1-snapshot-0.1` manifest contains 50 Telex syntax,
 canonicalization, and format-limit vectors. Each manifest pins the SHA-256
 digest of every referenced suite; JavaScript and Rust pass both targets.
 
-The experimental `aes-path-translation-cts-v0-snapshot-0.1` target adds three
+The experimental `aes-path-translation-cts-v1-snapshot-0.1` target adds three
 AEON-specific interoperability vectors without modifying either released AES
 v0 snapshot. It covers recursive source-to-event node expansion, reverse
 materialization of node-content references, and rejection of a direct

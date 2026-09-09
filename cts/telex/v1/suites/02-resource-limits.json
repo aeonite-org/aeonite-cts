@@ -2,16 +2,16 @@
   "meta": {
     "suite_id": "resource-limits",
     "lane": "aes-telex",
-    "format_version": "0",
-    "event_contract": "aes.events.v0",
+    "format_version": "1",
+    "event_contract": "aes.events.v1",
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
-      "aeonite-specs/sources/aes/v0/telex-aes-v0.aeon#9-security-and-resource-bounds",
-      "aeonite-specs/sources/aes/v0/aes-events-v0.aeon#12-validation-and-diagnostics"
+      "aeonite-specs/sources/aes/v1/telex-aes-v1.aeon#9-security-and-resource-bounds",
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#12-validation-and-diagnostics"
     ]
   },
   "id": "resource-limits",
-  "title": "Telex v0 Resource Limits",
+  "title": "Telex v1 Resource Limits",
   "tests": [
     {
       "id": "telex-limit-001-input-bytes-at-limit",
@@ -21,11 +21,11 @@
         "limits": {
           "max_input_bytes": 12
         },
-        "telex": "telex.aes=0\n"
+        "telex": "telex.aes=1\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n"
+        "telex": "telex.aes=1\n"
       },
       "tags": [
         "limits",
@@ -41,7 +41,7 @@
         "limits": {
           "max_input_bytes": 11
         },
-        "telex": "telex.aes=0\n"
+        "telex": "telex.aes=1\n"
       },
       "expected": {
         "ok": false,
@@ -64,11 +64,11 @@
         "limits": {
           "max_line_bytes": 11
         },
-        "telex": "telex.aes=0\n"
+        "telex": "telex.aes=1\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n"
+        "telex": "telex.aes=1\n"
       },
       "tags": [
         "limits",
@@ -84,7 +84,7 @@
         "limits": {
           "max_line_bytes": 10
         },
-        "telex": "telex.aes=0\n"
+        "telex": "telex.aes=1\n"
       },
       "expected": {
         "ok": false,
@@ -107,11 +107,11 @@
         "limits": {
           "max_fields_per_event": 3
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=NumberLiteral\nvalue=1\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=NumberLiteral\nvalue=1\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n\npath=$.a\nkind=NumberLiteral\nvalue=1\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=NumberLiteral\nvalue=1\n"
       },
       "tags": [
         "limits",
@@ -127,7 +127,7 @@
         "limits": {
           "max_fields_per_event": 2
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=NumberLiteral\nvalue=1\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=NumberLiteral\nvalue=1\n"
       },
       "expected": {
         "ok": false,
@@ -150,11 +150,11 @@
         "limits": {
           "max_events": 2
         },
-        "telex": "telex.aes=0\n\npath=$.a\n\npath=$.b\n"
+        "telex": "telex.aes=1\n\npath=$.a\n\npath=$.b\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n\npath=$.a\n\npath=$.b\n"
+        "telex": "telex.aes=1\n\npath=$.a\n\npath=$.b\n"
       },
       "tags": [
         "limits",
@@ -170,7 +170,7 @@
         "limits": {
           "max_events": 1
         },
-        "telex": "telex.aes=0\n\npath=$.a\n\npath=$.b\n"
+        "telex": "telex.aes=1\n\npath=$.a\n\npath=$.b\n"
       },
       "expected": {
         "ok": false,
@@ -193,11 +193,11 @@
         "limits": {
           "max_decoded_payload_bytes": 16
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=StringLiteral\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=StringLiteral\n"
       },
       "tags": [
         "limits",
@@ -213,7 +213,7 @@
         "limits": {
           "max_decoded_payload_bytes": 15
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=StringLiteral\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=StringLiteral\n"
       },
       "expected": {
         "ok": false,
@@ -236,11 +236,11 @@
         "limits": {
           "max_path_depth": 2
         },
-        "telex": "telex.aes=0\nprofile=aes.partial.v0\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
+        "telex": "telex.aes=1\nprofile=aes.partial.v1\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
       },
       "expected": {
         "valid": true,
-        "profile": "aes.partial.v0",
+        "profile": "aes.partial.v1",
         "diagnostic_codes": []
       },
       "tags": [
@@ -257,11 +257,11 @@
         "limits": {
           "max_path_depth": 1
         },
-        "telex": "telex.aes=0\nprofile=aes.partial.v0\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
+        "telex": "telex.aes=1\nprofile=aes.partial.v1\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
       },
       "expected": {
         "valid": false,
-        "profile": "aes.partial.v0",
+        "profile": "aes.partial.v1",
         "diagnostic_codes": [
           "AES_LIMIT_EXCEEDED"
         ]
@@ -280,11 +280,11 @@
         "limits": {
           "max_path_characters": 5
         },
-        "telex": "telex.aes=0\nprofile=aes.partial.v0\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
+        "telex": "telex.aes=1\nprofile=aes.partial.v1\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
       },
       "expected": {
         "valid": true,
-        "profile": "aes.partial.v0",
+        "profile": "aes.partial.v1",
         "diagnostic_codes": []
       },
       "tags": [
@@ -301,11 +301,11 @@
         "limits": {
           "max_path_characters": 4
         },
-        "telex": "telex.aes=0\nprofile=aes.partial.v0\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
+        "telex": "telex.aes=1\nprofile=aes.partial.v1\n\npath=$.a.b\nkind=NumberLiteral\nvalue=1\n"
       },
       "expected": {
         "valid": false,
-        "profile": "aes.partial.v0",
+        "profile": "aes.partial.v1",
         "diagnostic_codes": [
           "AES_LIMIT_EXCEEDED"
         ]
@@ -324,11 +324,11 @@
         "limits": {
           "max_generic_depth": 1
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=ListNode\ndatatype=list<list<int>>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=ListNode\ndatatype=list<list<int>>\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n\npath=$.a\nkind=ListNode\ndatatype=list<list<int>>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=ListNode\ndatatype=list<list<int>>\n"
       },
       "tags": [
         "limits",
@@ -344,7 +344,7 @@
         "limits": {
           "max_generic_depth": 0
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=ListNode\ndatatype=list<list<int>>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=ListNode\ndatatype=list<list<int>>\n"
       },
       "expected": {
         "ok": false,
@@ -367,11 +367,11 @@
         "limits": {
           "max_generic_arguments": 2
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, int>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, int>\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, int>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, int>\n"
       },
       "tags": [
         "limits",
@@ -387,7 +387,7 @@
         "limits": {
           "max_generic_arguments": 1
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, int>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, int>\n"
       },
       "expected": {
         "ok": false,
@@ -410,11 +410,11 @@
         "limits": {
           "max_clarifier_values": 2
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=SeparatorLiteral\ndatatype=csv[\".\", \".\"]\nvalue=x\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=SeparatorLiteral\ndatatype=csv[\".\", \".\"]\nvalue=x\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n\npath=$.a\nkind=SeparatorLiteral\ndatatype=csv[\".\", \".\"]\nvalue=x\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=SeparatorLiteral\ndatatype=csv[\".\", \".\"]\nvalue=x\n"
       },
       "tags": [
         "limits",
@@ -430,7 +430,7 @@
         "limits": {
           "max_clarifier_values": 1
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=SeparatorLiteral\ndatatype=csv[\".\", \".\"]\nvalue=x\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=SeparatorLiteral\ndatatype=csv[\".\", \".\"]\nvalue=x\n"
       },
       "expected": {
         "ok": false,
@@ -453,11 +453,11 @@
         "limits": {
           "max_datatype_components": 3
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, 2>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, 2>\n"
       },
       "expected": {
         "ok": true,
-        "telex": "telex.aes=0\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, 2>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, 2>\n"
       },
       "tags": [
         "limits",
@@ -473,7 +473,7 @@
         "limits": {
           "max_datatype_components": 2
         },
-        "telex": "telex.aes=0\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, 2>\n"
+        "telex": "telex.aes=1\n\npath=$.a\nkind=TupleLiteral\ndatatype=tuple<int, 2>\n"
       },
       "expected": {
         "ok": false,

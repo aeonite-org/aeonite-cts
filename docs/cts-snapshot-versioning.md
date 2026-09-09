@@ -73,8 +73,8 @@ An immutable manifest should also expose its snapshot in the filename:
 <surface>-cts.v<spec-version>.snapshot-<snapshot-version>.json
 ```
 
-For example, `telex-cts.v0.snapshot-0.1.json` is a stable path as well as a
-manifest carrying `telex-cts-v0-snapshot-0.1`. Mutable development manifests
+For example, `telex-cts.v1.snapshot-0.1.json` is a stable path as well as a
+manifest carrying `telex-cts-v1-snapshot-0.1`. Mutable development manifests
 use `.next.json` and must not be presented as stable external targets.
 
 An immutable external-suite manifest may pin each referenced suite with a

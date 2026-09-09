@@ -2,7 +2,7 @@
   "meta": {
     "version": "0.4.0",
     "lane": "aes",
-    "profile": "aes.complete.v0",
+    "profile": "aes.complete.v1",
     "conformance": {
       "surface": "experimental",
       "experimental_default": "exclude"

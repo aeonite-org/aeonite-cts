@@ -2,13 +2,13 @@
   "meta": {
     "suite_id": "portable-value-payloads",
     "lane": "aes",
-    "profile": "aes.complete.v0",
+    "profile": "aes.complete.v1",
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
       "specs/04-official/v1/appendices/appendix-aes.md"
     ],
     "draft_refs": [
-      "aeonite-specs/sources/aes/v0/aes-events-v0.aeon#4-2-value-kinds"
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#4-2-value-kinds"
     ]
   },
   "id": "portable-value-payloads",

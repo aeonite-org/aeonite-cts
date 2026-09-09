@@ -2,12 +2,12 @@
   "meta": {
     "suite_id": "header-projection",
     "lane": "aes",
-    "profile": "aes.complete.v0",
-    "projection": "aeon.document.v0",
+    "profile": "aes.complete.v1",
+    "projection": "aeon.document.v1",
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
-      "aeonite-specs/sources/aes/v0/aes-events-v0.aeon#header-control-plane",
-      "aeonite-specs/sources/aes/v0/telex-aes-v0.aeon"
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#header-control-plane",
+      "aeonite-specs/sources/aes/v1/telex-aes-v1.aeon"
     ]
   },
   "id": "header-projection",
@@ -26,7 +26,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "projection": "aeon.document.v0",
+          "projection": "aeon.document.v1",
           "events": [
             { "header": "$.[\"aeon:mode\"]", "value_kind": "StringLiteral" },
             { "header": "$.[\"aeon:conventions\"]", "value_kind": "ListNode" },
@@ -51,7 +51,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "projection": "aeon.document.v0",
+          "projection": "aeon.document.v1",
           "events": [
             { "header": "$.[\"aeon:mode\"]", "value_kind": "StringLiteral" },
             { "header": "$.[\"aeon:conventions\"]", "value_kind": "ListNode" },
@@ -115,7 +115,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "projection": "aeon.document.v0",
+          "projection": "aeon.document.v1",
           "events": [
             { "path": "$.a", "value_kind": "NumberLiteral" }
           ]
@@ -136,7 +136,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "projection": "aeon.document.v0",
+          "projection": "aeon.document.v1",
           "events": [
             { "header": "$.[\"aeon:mode\"]", "value_kind": "StringLiteral" },
             { "path": "$.[\"aeon:mode\"]", "value_kind": "NumberLiteral" }

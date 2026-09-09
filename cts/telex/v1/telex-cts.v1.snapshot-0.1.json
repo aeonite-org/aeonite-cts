@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "status": "released",
+    "lane": "aes-telex",
+    "format": "telex.aes",
+    "format_version": "1",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Immutable Telex v1 syntax, canonicalization, and format-limit snapshot",
+    "snapshot_id": "telex-cts-v1-snapshot-0.1",
+    "spec_snapshot_id": "telex-specs-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "syntax-and-canonicalization",
+      "file": "suites/01-syntax-and-canonicalization.json",
+      "content_sha256": "5ff4cec20c2b9f65da8b12fb79a79271555fda1352240e53fa9caa90a4b5c267"
+    },
+    {
+      "id": "resource-limits",
+      "file": "suites/02-resource-limits.json",
+      "content_sha256": "dae4a8056485030ca8b5665fcd02ef39dec6f64f4d70345801e58f4f4cc752f5"
+    }
+  ]
+}

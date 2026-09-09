@@ -2,11 +2,11 @@
   "meta": {
     "suite_id": "source-provenance-spans",
     "lane": "aes",
-    "profile": "aes.complete.v0",
+    "profile": "aes.complete.v1",
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
       "aeonite-specs/sources/appendices/v1/appendix-spans.aeon#exact-source-contract",
-      "aeonite-specs/sources/aes/v0/aes-events-v0.aeon"
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon"
     ]
   },
   "id": "source-provenance-spans",

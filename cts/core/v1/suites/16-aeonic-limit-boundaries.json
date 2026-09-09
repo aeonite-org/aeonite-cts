@@ -24,7 +24,7 @@
     "limits_defaults": {
       "limits_id": "altopelago.aeonic-limits.v1",
       "limits_version": "1.0.0",
-      "profile_claims": ["aeon.gp.profile.v1", "aes.complete.v0", "aes.partial.v0"],
+      "profile_claims": ["aeon.gp.profile.v1", "aes.complete.v1", "aes.partial.v1"],
       "structure": {
         "max_attribute_depth": 1,
         "max_generic_depth": 1,
