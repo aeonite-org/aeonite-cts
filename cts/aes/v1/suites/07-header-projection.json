@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "suite_id": "header-projection",
+    "lane": "aes",
+    "profile": "aes.complete.v1",
+    "projection": "aeon.document.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#header-control-plane",
+      "aeonite-specs/sources/aes/v1/telex-aes-v1.aeon"
+    ]
+  },
+  "id": "header-projection",
+  "title": "Portable AES Header Projection",
+  "tests": [
+    {
+      "id": "aes-header-001-structured-document-projection",
+      "description": "A structured AEON header projects into a complete ordered header plane before body events.",
+      "input": {
+        "source": "aeon:header = {\n  mode = \"transport\"\n  conventions = [\"one\", \"two\"]\n}\na = 1\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "projection": "aeon.document.v1",
+          "events": [
+            { "header": "$.[\"aeon:mode\"]", "value_kind": "StringLiteral" },
+            { "header": "$.[\"aeon:conventions\"]", "value_kind": "ListNode" },
+            { "header": "$.[\"aeon:conventions\"][0]", "value_kind": "StringLiteral" },
+            { "header": "$.[\"aeon:conventions\"][1]", "value_kind": "StringLiteral" },
+            { "path": "$.a", "value_kind": "NumberLiteral" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "headers", "structured", "document-projection"]
+    },
+    {
+      "id": "aes-header-002-shorthand-document-projection",
+      "description": "Equivalent shorthand fields normalize to the same ordered header-plane records.",
+      "input": {
+        "source": "aeon:mode = \"transport\"\naeon:conventions = [\"one\", \"two\"]\na = 1\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "projection": "aeon.document.v1",
+          "events": [
+            { "header": "$.[\"aeon:mode\"]", "value_kind": "StringLiteral" },
+            { "header": "$.[\"aeon:conventions\"]", "value_kind": "ListNode" },
+            { "header": "$.[\"aeon:conventions\"][0]", "value_kind": "StringLiteral" },
+            { "header": "$.[\"aeon:conventions\"][1]", "value_kind": "StringLiteral" },
+            { "path": "$.a", "value_kind": "NumberLiteral" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "headers", "shorthand", "document-projection"]
+    },
+    {
+      "id": "aes-header-003-mixed-forms-conflict",
+      "description": "Mixing structured and shorthand header forms fails closed before projection.",
+      "input": {
+        "source": "aeon:header = { mode = \"transport\" }\naeon:encoding = \"utf-8\"\na = 1\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "code": "HEADER_CONFLICT", "path": "$" }
+        ],
+        "warnings": [],
+        "result": { "events": [] }
+      },
+      "tags": ["experimental", "portable-aes", "headers", "conflict", "fail-closed"]
+    },
+    {
+      "id": "aes-header-004-default-body-only",
+      "description": "The default portable projection excludes a valid header and emits only body events.",
+      "input": {
+        "source": "aeon:mode = \"transport\"\na = 1\n",
+        "mode": "transport",
+        "options": { "portable_aes": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "projection": null,
+          "events": [
+            { "path": "$.a", "value_kind": "NumberLiteral" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "headers", "body-only", "default-projection"]
+    },
+    {
+      "id": "aes-header-005-empty-header-plane",
+      "description": "Selecting the document projection is explicit even when the source has no header records.",
+      "input": {
+        "source": "a = 1\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "projection": "aeon.document.v1",
+          "events": [
+            { "path": "$.a", "value_kind": "NumberLiteral" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "headers", "empty-header-plane", "document-projection"]
+    },
+    {
+      "id": "aes-header-006-quoted-prefix-payload",
+      "description": "A quoted payload key matching an actual shorthand header name remains independently addressable in the body plane.",
+      "input": {
+        "source": "aeon:mode = \"transport\"\n\"aeon:mode\" = 1\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "projection": "aeon.document.v1",
+          "events": [
+            { "header": "$.[\"aeon:mode\"]", "value_kind": "StringLiteral" },
+            { "path": "$.[\"aeon:mode\"]", "value_kind": "NumberLiteral" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "headers", "quoted-key", "same-name", "plane-disambiguation"]
+    }
+  ]
+}

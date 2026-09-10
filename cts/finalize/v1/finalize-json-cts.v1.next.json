@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "finalize-json",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Next finalized JSON target with explicit compatibility severity boundaries",
+    "snapshot_id": "finalize-json-next-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "finalize-json-baseline",
+      "file": "suites/01-baseline.json"
+    },
+    {
+      "id": "finalize-json-profile-policy",
+      "file": "suites/03-json-profile-policy.json"
+    }
+  ]
+}

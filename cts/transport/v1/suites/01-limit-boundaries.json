@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "suite_id": "transport-limit-boundaries",
+    "spec_refs": ["aes/limits/altopelago.aeonic-limits.v1"],
+    "constraint_primitives": [
+      "inclusive_limit",
+      "max_frame_bytes",
+      "max_buffer_bytes",
+      "max_header_bytes"
+    ]
+  },
+  "id": "transport-limit-boundaries",
+  "title": "Transport Limit Boundaries",
+  "tests": [
+    {
+      "id": "transport-limits-001-frame-encode-at-limit",
+      "input": { "operation": "encode_frame", "payload": "abc", "max_frame_bytes": 3 },
+      "expected": { "error_code": null, "result": { "encoded_bytes": 7 } }
+    },
+    {
+      "id": "transport-limits-002-frame-encode-one-over",
+      "input": { "operation": "encode_frame", "payload": "abcd", "max_frame_bytes": 3 },
+      "expected": { "error_code": "FRAME_TOO_LARGE" }
+    },
+    {
+      "id": "transport-limits-003-frame-decode-at-limit",
+      "input": { "operation": "decode_frame", "buffer": [0, 0, 0, 3, 1, 2, 3], "max_frame_bytes": 3 },
+      "expected": { "error_code": null, "result": { "frame_bytes": 3 } }
+    },
+    {
+      "id": "transport-limits-004-frame-decode-one-over",
+      "input": { "operation": "decode_frame", "buffer": [0, 0, 0, 4], "max_frame_bytes": 3 },
+      "expected": { "error_code": "FRAME_TOO_LARGE" }
+    },
+    {
+      "id": "transport-limits-005-buffer-at-limit",
+      "input": { "operation": "decoder_push", "chunk": [0, 0, 0, 1], "max_buffer_bytes": 4 },
+      "expected": { "error_code": null, "result": { "frame_count": 0 } }
+    },
+    {
+      "id": "transport-limits-006-buffer-one-over",
+      "input": { "operation": "decoder_push", "chunk": [0, 0, 0, 1, 0], "max_buffer_bytes": 4 },
+      "expected": { "error_code": "BUFFER_TOO_LARGE" }
+    },
+    {
+      "id": "transport-limits-007-header-at-limit",
+      "input": { "operation": "inspect_header", "source": "a", "max_header_bytes": 1 },
+      "expected": { "error_code": null, "result": { "header_error_count": 0 } }
+    },
+    {
+      "id": "transport-limits-008-header-one-over",
+      "input": { "operation": "inspect_header", "source": "ab", "max_header_bytes": 1 },
+      "expected": { "error_code": "HEADER_TOO_LARGE", "result": { "header_error_count": 1 } }
+    }
+  ]
+}

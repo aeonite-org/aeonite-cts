@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "suite_id": "portable-value-payloads",
+    "lane": "aes",
+    "profile": "aes.complete.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/appendices/appendix-aes.md"
+    ],
+    "draft_refs": [
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#4-2-value-kinds"
+    ]
+  },
+  "id": "portable-value-payloads",
+  "title": "Portable AES Representation Kinds and Canonical Payloads",
+  "tests": [
+    {
+      "id": "aes-portable-values-001-scalar-matrix",
+      "description": "Portable projection uses the normative representation kind and normalized string payload for every scalar family",
+      "input": {
+        "source": "text:string = \"hello\"\nnumber:number = 4_2\ninfinity:infinity = -Infinity\nnan:nan = NaN\nnull:null = !\"unBound\"\nboolean:boolean = true\ntoggle:toggle = on\nhex:hex = #ff\nradix:radix[2] = %1010\nencoding:encoding = &SGk=\nseparator:sep[\".\"] = ^a.b\nv12:sansa = $.items.*\ndate:date = 2026-09-07\ntime:time = 10:30:00Z\ndatetime:datetime = 2026-09-07T10:30:00Z\nworld:wtc = 2026-09-07T10:30:00Z&Australia/Melbourne\n",
+        "mode": "strict",
+        "options": { "portable_aes": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.text", "value_kind": "StringLiteral", "value": "hello" },
+            { "path": "$.number", "value_kind": "NumberLiteral", "value": "42" },
+            { "path": "$.infinity", "value_kind": "InfinityLiteral", "value": "-Infinity" },
+            { "path": "$.nan", "value_kind": "NaNLiteral", "value": "NaN" },
+            { "path": "$.null", "value_kind": "NullLiteral", "value": "unBound" },
+            { "path": "$.boolean", "value_kind": "BooleanLiteral", "value": "true" },
+            { "path": "$.toggle", "value_kind": "ToggleLiteral", "value": "on" },
+            { "path": "$.hex", "value_kind": "HexLiteral", "value": "ff" },
+            { "path": "$.radix", "value_kind": "RadixLiteral", "value": "1010" },
+            { "path": "$.encoding", "value_kind": "EncodingLiteral", "value": "SGk=" },
+            { "path": "$.separator", "value_kind": "SeparatorLiteral", "value": "a.b" },
+            { "path": "$.v12", "value_kind": "SansaAddressLiteral", "value": "$.items.*" },
+            { "path": "$.date", "value_kind": "DateLiteral", "value": "2026-09-07" },
+            { "path": "$.time", "value_kind": "TimeLiteral", "value": "10:30:00Z" },
+            { "path": "$.datetime", "value_kind": "DateTimeLiteral", "value": "2026-09-07T10:30:00Z" },
+            { "path": "$.world", "value_kind": "WTCDateTimeLiteral", "value": "2026-09-07T10:30:00Z&Australia/Melbourne" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "values", "canonical-payloads"]
+    },
+    {
+      "id": "aes-portable-values-002-source-spelling-normalized",
+      "description": "Source-only numeric separator spelling does not survive the portable boundary",
+      "input": {
+        "source": "grouped = 4_2\nplain = 42\n",
+        "mode": "transport",
+        "options": { "portable_aes": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.grouped", "value_kind": "NumberLiteral", "value": "42" },
+            { "path": "$.plain", "value_kind": "NumberLiteral", "value": "42" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "normalization", "source-spelling"]
+    },
+    {
+      "id": "aes-portable-values-003-reference-kinds",
+      "description": "Clone and pointer references remain distinct kinds with canonical portable event-path payloads",
+      "input": {
+        "source": "target = 1\nclone = ~target\npointer = ~>target\n",
+        "mode": "transport",
+        "options": { "portable_aes": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.target", "value_kind": "NumberLiteral", "value": "1" },
+            { "path": "$.clone", "value_kind": "CloneReference", "value": "$.target", "reference": "$.target" },
+            { "path": "$.pointer", "value_kind": "PointerReference", "value": "$.target", "reference": "$.target" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "references", "canonical-payloads"]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "suite_id": "source-event-path-translation",
+    "lane": "aes-path-translation",
+    "profile": "aes.complete.v1",
+    "event_contract": "aes.events.v1",
+    "source_projection": "aeon.v1-to-aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#6-paths-and-aeon-projection",
+      "aeonite-specs/sources/aes/v1/aes-compatibility-v1.aeon#4-portable-to-legacy-projection"
+    ]
+  },
+  "id": "source-event-path-translation",
+  "title": "AEON Source and Portable AES Event Path Translation",
+  "tests": [
+    {
+      "id": "aes-path-translation-001-recursive-node-projection",
+      "description": "Forward projection inserts one head index at every crossed node boundary and retargets clone and pointer payloads into the event-path domain",
+      "operation": "project-aeon",
+      "input": {
+        "source": "a = <outer(<inner(\"leaf\")>)>\ncopyInner = ~a[0]\npointerLeaf = ~>a[0][0]\n",
+        "options": {
+          "portable_aes": true,
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.a", "value_kind": "NodeLiteral" },
+            { "path": "$.a[0]", "value_kind": "NodeHead" },
+            { "path": "$.a[0][0]", "value_kind": "NodeLiteral" },
+            { "path": "$.a[0][0][0]", "value_kind": "NodeHead" },
+            { "path": "$.a[0][0][0][0]", "value_kind": "StringLiteral" },
+            { "path": "$.copyInner", "value_kind": "CloneReference", "reference": "$.a[0][0]" },
+            { "path": "$.pointerLeaf", "value_kind": "PointerReference", "reference": "$.a[0][0][0][0]" }
+          ]
+        }
+      },
+      "tags": ["portable-aes", "paths", "nodes", "references", "forward-projection"]
+    },
+    {
+      "id": "aes-path-translation-002-content-reference-reverse",
+      "description": "Portable references to node content retain the intended occurrence through recursive reverse materialization",
+      "operation": "materialize-telex",
+      "input": {
+        "telex": "telex.aes=1\n\npath=$.a\nkind=NodeLiteral\n\npath=$.a[0]\nkind=NodeHead\nvalue=outer\n\npath=$.a[0][0]\nkind=NodeLiteral\n\npath=$.a[0][0][0]\nkind=NodeHead\nvalue=inner\n\npath=$.a[0][0][0][0]\nkind=StringLiteral\nvalue=leaf\n\npath=$.copyInner\nkind=CloneReference\nvalue=$.a[0][0]\n\npath=$.copyLeaf\nkind=CloneReference\nvalue=$.a[0][0][0][0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "document": {
+            "a": {
+              "$node": "outer",
+              "$children": [
+                {
+                  "$node": "inner",
+                  "$children": ["leaf"]
+                }
+              ]
+            },
+            "copyInner": {
+              "$node": "inner",
+              "$children": ["leaf"]
+            },
+            "copyLeaf": "leaf"
+          }
+        }
+      },
+      "tags": ["portable-aes", "paths", "nodes", "references", "reverse-projection"]
+    },
+    {
+      "id": "aes-path-translation-003-synthetic-head-reference-reject",
+      "description": "A direct reference to portable $.a[0] is the synthetic NodeHead and must not be reinterpreted as the legacy first child",
+      "operation": "materialize-telex",
+      "input": {
+        "telex": "telex.aes=1\n\npath=$.a\nkind=NodeLiteral\n\npath=$.a[0]\nkind=NodeHead\nvalue=outer\n\npath=$.a[0][0]\nkind=StringLiteral\nvalue=first-child\n\npath=$.alias\nkind=CloneReference\nvalue=$.a[0]\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "code": "FINALIZE_ORPHAN_NODE_HEAD", "path": "$.a[0]" }
+        ],
+        "warnings": []
+      },
+      "tags": ["portable-aes", "paths", "nodes", "references", "reverse-projection", "fail-closed"]
+    }
+  ]
+}

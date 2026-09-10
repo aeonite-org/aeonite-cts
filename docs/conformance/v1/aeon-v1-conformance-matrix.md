@@ -27,8 +27,8 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 ## CTS Baseline
 
 - Protocol: `cts/protocol/v1`
-- Core lane manifest: `cts/core/v1/core-cts.v1.json`
-- AES lane manifest: `cts/aes/v1/aes-cts.v1.json`
+- Core lane manifest: `cts/core/v1/core-cts.v1.snapshot-0.3.json`
+- AES lane manifest: `cts/aes/v1/aes-cts.v1.snapshot-0.3.json`
 - Canonical lane manifest: `cts/canonical/v1/canonical-cts.v1.json`
 - Annotations lane manifest: `cts/annotations/v1/annotation-stream-cts.v1.json`
 - AEOS lane manifest: `cts/aeos/v1/aeos-validator-cts.v1.json`
@@ -39,6 +39,8 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 | ----------------------------- | --------------------------------------------- | --------------------- | ------------------------------------------------------------- |
 | `AEON-spec-v1.md` §4          | core value families baseline                  | `core`, `aes`         | `cts/core/v1:suites/01-baseline.json`                         |
 |                               |                                               |                       | `cts/aes/v1:suites/01-baseline.json`                          |
+|                               | string delimiters, escapes, Unicode, and newline rejection | `core`, `canonical` | `cts/core/v1:suites/05-promoted-edge-rejections.json`         |
+|                               |                                               |                       | `cts/canonical/v1:suites/05-string-escapes.json`              |
 |                               | transport-only accepted value forms           | `core`, `aes`         | `cts/core/v1:suites/06-transport-acceptance.json`             |
 |                               |                                               |                       | `cts/aes/v1:suites/05-transport-emission-coverage.json`       |
 | `AEON-spec-v1.md` §5          | structural syntax surface                     | `core`                | `cts/core/v1:suites/02-addressing-and-syntax.json`            |
@@ -60,6 +62,7 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 |                               |                                               |                       | `cts/aeos/v1:suites/01-baseline.json`                         |
 | `AEON-spec-v1.md` §11         | canonical formatting determinism              | `canonical`           | `cts/canonical/v1/suites/01-baseline.json`                    |
 |                               | node canonicalization and legacy node reject  | `canonical`           | `cts/canonical/v1/suites/02-node-canonicalization.json`       |
+|                               | canonical string decoding and multiline escaping | `canonical`        | `cts/canonical/v1/suites/05-string-escapes.json`              |
 | `aeon-core-compliance-v1.md` §3    | syntax and key requirements                   | `core`                | `cts/core/v1:suites/01-baseline.json`                         |
 |                               |                                               |                       | `cts/core/v1:suites/02-addressing-and-syntax.json`            |
 |                               |                                               |                       | `cts/core/v1:suites/07-syntax-invalid.json`                   |

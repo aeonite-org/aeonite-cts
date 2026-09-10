@@ -102,6 +102,8 @@ A conformant validator MUST emit a result object with the following minimum stru
 * `ok: false` indicates validation failure
 * Validators MUST NOT output a modified AES
 
+Diagnostic spans use the `cts.protocol.v1` coordinate contract: zero-based, inclusive-start/exclusive-end UTF-8 byte offsets into the exact, unnormalised source artifact. A validator MUST propagate source-backed spans unchanged and MUST use `null` rather than inventing a source location.
+
 ---
 
 ### 3.3 Diagnostic Codes

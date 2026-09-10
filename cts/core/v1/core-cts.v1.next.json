@@ -1,20 +1,31 @@
 {
   "meta": {
-    "version": "0.2.0",
+    "version": "0.1.0",
     "lane": "core",
+    "profile": "altopelago.aeonic-limits.v1",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
     "sut_protocol": "cts.protocol.v1",
-    "description": "AEON Core parse/addressing CTS scaffold for v1",
-    "snapshot_id": "core-cts-v1-snapshot-0.2",
-    "spec_snapshot_id": "core-specs-v1-snapshot-0.2"
+    "description": "Next Core target with revised Aeonic limit and GP profile semantics",
+    "snapshot_id": "core-next-cts-v1-snapshot-0.1"
   },
   "suites": [
     {
       "id": "baseline",
-      "file": "suites/01-baseline.json"
+      "file": "suites/01-baseline.json",
+      "exclude_tests": [
+        "core-baseline-016-separator-depth-default-reject",
+        "core-baseline-018-generic-depth-default-reject"
+      ]
     },
     {
       "id": "addressing-and-syntax",
-      "file": "suites/02-addressing-and-syntax.json"
+      "file": "suites/02-addressing-and-syntax.json",
+      "exclude_tests": [
+        "core-addr-012-invalid-separator-char-in-type-annotation-reject"
+      ]
     },
     {
       "id": "attributes-and-references",
@@ -42,7 +53,10 @@
     },
     {
       "id": "promoted-separator-literals",
-      "file": "suites/09-promoted-separator-literals.json"
+      "file": "suites/09-promoted-separator-literals.json",
+      "exclude_tests": [
+        "core-sep-010-inline-boundary-collision-rejects"
+      ]
     },
     {
       "id": "promoted-numeric-and-encoding-literals",
@@ -67,6 +81,26 @@
     {
       "id": "structural-identity",
       "file": "suites/15-structural-identity.json"
+    },
+    {
+      "id": "aeonic-limit-boundaries",
+      "file": "suites/16-aeonic-limit-boundaries.json"
+    },
+    {
+      "id": "next-limit-semantics",
+      "file": "suites/17-next-limit-semantics.json"
+    },
+    {
+      "id": "next-profile-custom-clarifiers",
+      "file": "suites/18-next-profile-custom-clarifiers.json"
+    },
+    {
+      "id": "core-next-special-number-literals",
+      "file": "suites/19-next-special-number-literals.json"
+    },
+    {
+      "id": "next-contextual-datatype-names",
+      "file": "suites/20-next-contextual-datatype-names.json"
     }
   ]
 }

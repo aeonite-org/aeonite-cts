@@ -122,7 +122,7 @@ Each entry in `errors` and `warnings` MUST conform to:
 - `path` MUST be a canonical AEON path string (e.g., `$.user.name`) or `null` if the diagnostic does not relate to a specific path.
 - `code` MUST be a non-empty string identifying the violation. Codes are defined per spec version in the error model appendix.
 - `phase` MUST be a positive integer corresponding to the processing phase that produced the diagnostic (e.g., `5` for type constraints, `6` for schema validation, `7` for reference resolution, `8` for finalization).
-- `span` MUST be `[start, end]` where `start` and `end` are zero-based character offsets into the original AEON source, or `null` for diagnostics where no source location is available (e.g., a missing required path). The SUT MUST NOT guess span values.
+- `span` MUST be `[start, end]` where `start` and `end` are zero-based UTF-8 byte offsets into the exact, unnormalised AEON source supplied by the case. `start` is inclusive, `end` is exclusive, and `start <= end`. The SUT MUST count a UTF-8 byte-order mark and CRLF bytes and MUST NOT normalise Unicode or newlines before calculating offsets. For valid UTF-8 input, both endpoints MUST be Unicode scalar boundaries. An empty interval is permitted only where the lane defines an insertion-point or end-of-input diagnostic. Use `null` when no source location is available (e.g., a missing required path); the SUT MUST NOT guess span values.
 
 ---
 

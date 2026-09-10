@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "suite_id": "source-provenance-spans",
+    "lane": "aes",
+    "profile": "aes.complete.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/appendices/v1/appendix-spans.aeon#exact-source-contract",
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon"
+    ]
+  },
+  "id": "source-provenance-spans",
+  "title": "Portable AES Exact-Source Provenance Spans",
+  "tests": [
+    {
+      "id": "aes-source-span-001-ascii",
+      "description": "ASCII source uses a half-open UTF-8 byte interval and an exact-source digest.",
+      "input": {
+        "source": "a = \"plain\"\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "source_provenance": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "value_kind": "StringLiteral",
+              "origin": "sha256:7303c36dc96c07b478246e02edece29eb863397ce4c6227d1ad8005e275fd0fa",
+              "span": "0:11"
+            }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "provenance", "span", "ascii"]
+    },
+    {
+      "id": "aes-source-span-002-non-ascii",
+      "description": "A non-ASCII scalar is counted by its UTF-8 byte width rather than as one character offset.",
+      "input": {
+        "source": "a = \"café\"\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "source_provenance": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "value_kind": "StringLiteral",
+              "origin": "sha256:51d45ac51f5c9816c39a1e5d93d279dcdc7a5bad39d1bbcbe3037601a2464f16",
+              "span": "0:11"
+            }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "provenance", "span", "utf-8"]
+    },
+    {
+      "id": "aes-source-span-003-combining-sequence",
+      "description": "A decomposed combining sequence preserves its lexical bytes and is not Unicode-normalised.",
+      "input": {
+        "source": "a = \"nai\u0308ve\"\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "source_provenance": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "value_kind": "StringLiteral",
+              "origin": "sha256:6fa099a7ac81ea846bd79d7706d9be946b8b3863f99ed83c5fe6401f59699abf",
+              "span": "0:13"
+            }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "provenance", "span", "combining-sequence"]
+    },
+    {
+      "id": "aes-source-span-004-astral-scalar",
+      "description": "An astral scalar occupies four bytes in the portable span coordinate space.",
+      "input": {
+        "source": "a = \"😀\"\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "source_provenance": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "value_kind": "StringLiteral",
+              "origin": "sha256:083b7b24d9ef5620e2fcf53ae1114153da3a5ba7bb03875cd229ba75073261d9",
+              "span": "0:10"
+            }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "provenance", "span", "astral"]
+    },
+    {
+      "id": "aes-source-span-005-bom-and-crlf",
+      "description": "A UTF-8 BOM and CRLF remain in the origin coordinate space even though neither belongs to the binding span.",
+      "input": {
+        "source": "\ufeffa = \"x\"\r\n",
+        "mode": "transport",
+        "options": { "portable_aes": true, "source_provenance": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "value_kind": "StringLiteral",
+              "origin": "sha256:0abda4b207a9881de673ec0dbe70511f66201455afe35a7e1f1984dcdeb73809",
+              "span": "3:10"
+            }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "provenance", "span", "bom", "crlf"]
+    },
+    {
+      "id": "aes-source-span-006-source-absent",
+      "description": "Portable projection without exact source bytes omits both origin and the otherwise unbound local span.",
+      "input": {
+        "source": "a = \"plain\"\n",
+        "mode": "transport",
+        "options": { "portable_aes": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "value_kind": "StringLiteral",
+              "origin": null,
+              "span": null
+            }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "provenance", "span", "source-absent"]
+    }
+  ]
+}

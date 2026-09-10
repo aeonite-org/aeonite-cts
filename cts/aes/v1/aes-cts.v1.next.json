@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "version": "0.4.0",
+    "lane": "aes",
+    "profile": "aes.complete.v1",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Experimental next AES snapshot after the portable projection 0.3 baseline",
+    "snapshot_id": "aes-cts-v1-snapshot-0.4"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json",
+      "exclude_tests": [
+        "aes-baseline-010-separator-depth-default-reject",
+        "aes-baseline-012-generic-depth-default-reject"
+      ]
+    },
+    {
+      "id": "emission-coverage",
+      "file": "suites/02-emission-coverage.json"
+    },
+    {
+      "id": "attributes-and-references",
+      "file": "suites/03-attributes-and-references.json"
+    },
+    {
+      "id": "structural-identity-projection",
+      "file": "suites/04-structural-identity-projection.json"
+    },
+    {
+      "id": "next-limit-semantics",
+      "file": "suites/05-next-limit-semantics.json"
+    },
+    {
+      "id": "source-provenance-spans",
+      "file": "suites/06-source-provenance-spans.json"
+    },
+    {
+      "id": "header-projection",
+      "file": "suites/07-header-projection.json"
+    },
+    {
+      "id": "portable-value-payloads",
+      "file": "suites/08-portable-value-payloads.json"
+    }
+  ]
+}

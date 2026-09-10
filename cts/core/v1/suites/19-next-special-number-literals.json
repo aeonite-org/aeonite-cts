@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "suite_id": "core-next-special-number-literals",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/value-types-v1.md"
+    ]
+  },
+  "id": "core-next-special-number-literals",
+  "title": "Next Special Number Literal Boundaries",
+  "tests": [
+    {
+      "id": "core-next-special-number-001-strict-infinity-datatype-pass",
+      "description": "Strict Core accepts Infinity when it is paired with the reserved infinity datatype",
+      "input": {
+        "source": "n:infinity = Infinity\n",
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.n",
+              "datatype": "infinity",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "strict",
+        "infinity",
+        "accept"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    },
+    {
+      "id": "core-next-special-number-002-custom-infinity-label-pass",
+      "description": "The custom datatype policy accepts a case-sensitive custom Infinity label over an Infinity literal",
+      "input": {
+        "source": "n:Infinity = Infinity\n",
+        "mode": "custom",
+        "options": {
+          "effective_mode": "strict",
+          "datatype_policy": "allow_custom"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.n",
+              "datatype": "Infinity",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "custom",
+        "infinity",
+        "datatype-policy",
+        "accept"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/AEON-spec-v1.md#8-behavior-modes-and-datatype-policy",
+        "specs/04-official/v1/value-types-v1.md"
+      ]
+    }
+  ]
+}

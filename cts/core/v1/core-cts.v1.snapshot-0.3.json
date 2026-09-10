@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "version": "0.3.0",
+    "lane": "core",
+    "profile": "altopelago.aeonic-limits.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "AEON Core v1 compatibility snapshot with unified Aeonic limit semantics",
+    "snapshot_id": "core-cts-v1-snapshot-0.3"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json",
+      "content_sha256": "a02f01d20e627015024f2609654021dfae38d519893993926d1ee7cb69b98f04",
+      "exclude_tests": [
+        "core-baseline-016-separator-depth-default-reject",
+        "core-baseline-018-generic-depth-default-reject"
+      ]
+    },
+    {
+      "id": "addressing-and-syntax",
+      "file": "suites/02-addressing-and-syntax.json",
+      "content_sha256": "3a55e4cd57a781e27f4d7ba8a6f5c609d2e58ba98a3911fcaa2f0b27540c9638",
+      "exclude_tests": [
+        "core-addr-012-invalid-separator-char-in-type-annotation-reject"
+      ]
+    },
+    {
+      "id": "attributes-and-references",
+      "file": "suites/03-attributes-and-references.json",
+      "content_sha256": "d53e86ce3cde752a6b03bb3bae1eaaeab06281509e37e8abd2144f72b51b30b9"
+    },
+    {
+      "id": "fail-closed-semantics",
+      "file": "suites/04-fail-closed-semantics.json",
+      "content_sha256": "51fcf321a9ea13e115236c4624535ae1ce39e5d9770efddc7bfee671314626ab"
+    },
+    {
+      "id": "promoted-edge-rejections",
+      "file": "suites/05-promoted-edge-rejections.json",
+      "content_sha256": "83b0c826950ad7cf938f279c6521a368c09414deb3d3a83385a839387b4160c4"
+    },
+    {
+      "id": "promoted-domain-fixtures",
+      "file": "suites/06-promoted-domain-fixtures.json",
+      "content_sha256": "95a36778b8939113023e13d564d7ed66918eea54bd9c1d521eff7c012bc45459"
+    },
+    {
+      "id": "promoted-snippet-transport",
+      "file": "suites/07-promoted-snippet-transport.json",
+      "content_sha256": "15d2ae6650d63a7c3ae54948839418c9a449146ebaf87b25ce622ea6b488d5aa"
+    },
+    {
+      "id": "promoted-strict-literals",
+      "file": "suites/08-promoted-strict-literals.json",
+      "content_sha256": "ec5febaeacf642f8d920961fc73a108433ba9aa3c33274e83af0d766f93609c0"
+    },
+    {
+      "id": "promoted-separator-literals",
+      "file": "suites/09-promoted-separator-literals.json",
+      "content_sha256": "df2e83749ee2fb8212820a98ba34d879c0d1fc7f6fa0b8f0d6d139e002fbd075",
+      "exclude_tests": [
+        "core-sep-010-inline-boundary-collision-rejects"
+      ]
+    },
+    {
+      "id": "promoted-numeric-and-encoding-literals",
+      "file": "suites/10-promoted-numeric-and-encoding-literals.json",
+      "content_sha256": "c46b0c7ad1351dab52c94a1840d348acb92a5c4be406f37667219dc5fb162517"
+    },
+    {
+      "id": "promoted-custom-literals",
+      "file": "suites/11-promoted-custom-literals.json",
+      "content_sha256": "a04df7e673c6f37a954e72515fcbeb1d33f5edd1403b17ca0e61deb598c321ff"
+    },
+    {
+      "id": "promoted-custom-rejections",
+      "file": "suites/12-promoted-custom-rejections.json",
+      "content_sha256": "555a966cbc8ff28bc252d77100d9aa16c316de22407c92bea75ca3cb03dbecfe"
+    },
+    {
+      "id": "promoted-whitespace-boundaries",
+      "file": "suites/13-promoted-whitespace-boundaries.json",
+      "content_sha256": "3e7ff0318432b729f826339b717faf25a8791ad3e17e11c9e37f7fef29148baa"
+    },
+    {
+      "id": "core-resource-policy",
+      "file": "suites/14-resource-policy.json",
+      "content_sha256": "9ba7ed3a693c3ea49cb7d92375af5ba4a3f6151df5121df75aedd29902388640"
+    },
+    {
+      "id": "structural-identity",
+      "file": "suites/15-structural-identity.json",
+      "content_sha256": "da9caa298617362c1c8e81be87704a75fab9c4b67885a7f1f8465426e6466577"
+    },
+    {
+      "id": "aeonic-limit-boundaries",
+      "file": "suites/16-aeonic-limit-boundaries.json",
+      "content_sha256": "fea3fc1540edefd3cbd0d39a1d0a2c8ddf2b6bd38fa5462a796a1e35a7475d9f"
+    },
+    {
+      "id": "next-limit-semantics",
+      "file": "suites/17-next-limit-semantics.json",
+      "content_sha256": "af5a74764590894603eac46c762ef83429407fa189c2ab3551836163e4aa8885"
+    }
+  ]
+}

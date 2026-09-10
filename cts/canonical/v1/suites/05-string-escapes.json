@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "suite_id": "string-escapes",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/value-types-v1.md#31-string",
+      "specs/04-official/v1/value-types-v1.md#32-trimtick",
+      "specs/04-official/v1/appendices/appendix-error-model.md"
+    ]
+  },
+  "id": "string-escapes",
+  "title": "Canonical String Escapes and Delimiters",
+  "tests": [
+    {
+      "id": "canonical-string-001-complete-escape-vocabulary-all-delimiters",
+      "description": "Every v1 escape form decodes identically in double, single, backtick, and trimtick strings and is re-escaped into parseable canonical trimticks",
+      "input": {
+        "source": "double = \"quote:\\\" apostrophe:\\' tick:\\` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\b formfeed:\\f unicode:\\u0041 braced:\\u{1F600} pair:\\uD83D\\uDE00\"\nsingle = 'quote:\\\" apostrophe:\\' tick:\\` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\b formfeed:\\f unicode:\\u0041 braced:\\u{1F600} pair:\\uD83D\\uDE00'\nbacktick = `quote:\\\" apostrophe:\\' tick:\\` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\b formfeed:\\f unicode:\\u0041 braced:\\u{1F600} pair:\\uD83D\\uDE00`\ntrimtick = >`quote:\\\" apostrophe:\\' tick:\\` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\b formfeed:\\f unicode:\\u0041 braced:\\u{1F600} pair:\\uD83D\\uDE00`"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nbacktick = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\ndouble = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\nsingle = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\ntrimtick = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\n"
+        }
+      },
+      "tags": ["canonical", "strings", "escapes", "trimticks", "unicode"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-002-literal-multiline-backtick-and-trimtick",
+      "description": "Literal newlines remain valid only in backtick-based string forms",
+      "input": {
+        "source": "backtick = `line1\nline2`\ntrimtick = >`\n  line1\n  line2\n`"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nbacktick = >`\n  line1\n  line2\n`\ntrimtick = >`\n  line1\n  line2\n`\n"
+        }
+      },
+      "tags": ["canonical", "strings", "multiline", "trimticks"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#32-trimtick"]
+    },
+    {
+      "id": "canonical-string-003-invalid-double-quoted-escape-rejects",
+      "description": "Unsupported escapes in double-quoted strings fail closed",
+      "input": {"source": "value = \"x\\q\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-004-invalid-single-quoted-escape-rejects",
+      "description": "Unsupported escapes in single-quoted strings fail closed",
+      "input": {"source": "value = 'x\\q'"},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-005-invalid-backtick-escape-rejects",
+      "description": "Unsupported escapes in backtick strings fail closed",
+      "input": {"source": "value = `x\\q`"},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "backticks", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-006-invalid-trimtick-escape-rejects",
+      "description": "Unsupported escapes in trimtick strings fail closed",
+      "input": {"source": "value = >`x\\q`"},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "trimticks", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#32-trimtick"]
+    },
+    {
+      "id": "canonical-string-007-incomplete-fixed-unicode-rejects",
+      "description": "Fixed-width Unicode escapes require exactly four hexadecimal digits",
+      "input": {"source": "value = \"\\u12\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-008-empty-braced-unicode-rejects",
+      "description": "Braced Unicode escapes require at least one hexadecimal digit",
+      "input": {"source": "value = \"\\u{}\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-009-overlong-braced-unicode-rejects",
+      "description": "Braced Unicode escapes reject more than six hexadecimal digits",
+      "input": {"source": "value = \"\\u{0000000}\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-010-unterminated-braced-unicode-rejects",
+      "description": "Braced Unicode escapes require their closing brace",
+      "input": {"source": "value = \"\\u{41\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-011-nonhex-braced-unicode-rejects",
+      "description": "Braced Unicode escapes reject non-hexadecimal digits",
+      "input": {"source": "value = \"\\u{4G}\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-012-out-of-range-braced-unicode-rejects",
+      "description": "Braced Unicode escapes reject values above the Unicode scalar range",
+      "input": {"source": "value = \"\\u{110000}\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-013-braced-surrogate-rejects",
+      "description": "Braced Unicode escapes reject surrogate code points rather than emitting invalid scalar text",
+      "input": {"source": "value = \"\\u{D800}\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "surrogate", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-013b-braced-surrogate-pair-spelling-rejects",
+      "description": "A braced surrogate cannot be rescued by a following fixed-width low surrogate because braced escapes encode scalar values directly",
+      "input": {"source": "value = \"\\u{D800}\\uDC00\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "surrogate", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-014-lone-high-surrogate-rejects",
+      "description": "A fixed-width high surrogate must be followed by a low surrogate escape",
+      "input": {"source": "value = \"\\uD800\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "surrogate", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-015-lone-low-surrogate-rejects",
+      "description": "A fixed-width low surrogate cannot appear without a preceding high surrogate",
+      "input": {"source": "value = \"\\uDC00\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "surrogate", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-016-invalid-surrogate-pair-rejects",
+      "description": "A high surrogate followed by a non-low code unit fails closed",
+      "input": {"source": "value = \"\\uD800\\u0041\""},
+      "expected": {"ok": false, "errors": [{"code": "INVALID_ESCAPE", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "escapes", "unicode", "surrogate", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-017-raw-newline-double-quoted-rejects",
+      "description": "Literal newlines in double-quoted strings fail closed",
+      "input": {"source": "value = \"line1\nline2\""},
+      "expected": {"ok": false, "errors": [{"code": "UNTERMINATED_STRING", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "newlines", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    },
+    {
+      "id": "canonical-string-018-raw-newline-single-quoted-rejects",
+      "description": "Literal newlines in single-quoted strings fail closed",
+      "input": {"source": "value = 'line1\nline2'"},
+      "expected": {"ok": false, "errors": [{"code": "UNTERMINATED_STRING", "path": "$", "phase": null}], "warnings": [], "result": {}},
+      "tags": ["canonical", "strings", "newlines", "reject"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#31-string"]
+    }
+  ]
+}

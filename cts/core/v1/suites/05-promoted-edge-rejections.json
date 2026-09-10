@@ -466,6 +466,114 @@
         "specs/04-official/v1/value-types-v1.md",
         "specs/04-official/v1/appendices/appendix-error-model.md"
       ]
+    },
+    {
+      "id": "core-edge-017-invalid-single-quoted-escape-rejects",
+      "description": "Malformed escapes in single-quoted strings fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "a = 'x\\q'\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{"code": "INVALID_ESCAPE"}],
+        "warnings": [],
+        "result": {"parse_ok": false}
+      },
+      "tags": ["fail-closed", "strings", "escapes"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-018-invalid-backtick-escape-rejects",
+      "description": "Malformed escapes in backtick strings fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "a = `x\\q`\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{"code": "INVALID_ESCAPE"}],
+        "warnings": [],
+        "result": {"parse_ok": false}
+      },
+      "tags": ["fail-closed", "strings", "escapes", "backticks"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-019-invalid-trimtick-escape-rejects",
+      "description": "Malformed escapes in trimtick strings fail closed with INVALID_ESCAPE",
+      "input": {
+        "source": "a = >`x\\q`\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{"code": "INVALID_ESCAPE"}],
+        "warnings": [],
+        "result": {"parse_ok": false}
+      },
+      "tags": ["fail-closed", "strings", "escapes", "trimticks"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-020-braced-surrogate-escape-rejects",
+      "description": "Braced Unicode escapes reject surrogate code points with INVALID_ESCAPE",
+      "input": {
+        "source": "a = \"\\u{D800}\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{"code": "INVALID_ESCAPE"}],
+        "warnings": [],
+        "result": {"parse_ok": false}
+      },
+      "tags": ["fail-closed", "strings", "escapes", "unicode", "surrogate"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-020b-braced-surrogate-pair-spelling-rejects",
+      "description": "Braced surrogate escapes remain invalid even when followed by a fixed-width low surrogate",
+      "input": {
+        "source": "a = \"\\u{D800}\\uDC00\"\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{"code": "INVALID_ESCAPE"}],
+        "warnings": [],
+        "result": {"parse_ok": false}
+      },
+      "tags": ["fail-closed", "strings", "escapes", "unicode", "surrogate"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
+    },
+    {
+      "id": "core-edge-021-raw-newline-in-single-quoted-string-rejects",
+      "description": "Raw newlines inside single-quoted strings fail closed with UNTERMINATED_STRING",
+      "input": {
+        "source": "a = 'line1\nline2'\n"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{"code": "UNTERMINATED_STRING"}],
+        "warnings": [],
+        "result": {"parse_ok": false}
+      },
+      "tags": ["fail-closed", "strings", "newlines"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-error-model.md"
+      ]
     }
   ]
 }

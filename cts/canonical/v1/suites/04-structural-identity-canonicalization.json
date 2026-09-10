@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "suite_id": "structural-identity-canonicalization",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
+    ]
+  },
+  "id": "structural-identity-canonicalization",
+  "title": "Structural Identity Canonicalization",
+  "tests": [
+    {
+      "id": "canonical-structural-identity-001-all-head-locations-preserved",
+      "description": "Canonical output preserves independent identities on ordinary, attribute-entry, anonymous child, and literal-node heads",
+      "input": {
+        "source": "root\\binding-id\\@{meta\\attr-id\\:string = \"x\"} = [\\anonymous-id\\ = <tag\\node-head-id\\>]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nroot\\binding-id\\@{meta\\attr-id\\:string = \"x\"} = [\n  \\anonymous-id\\ = <tag\\node-head-id\\>\n]"
+        }
+      },
+      "tags": [
+        "canonical",
+        "structural-identity",
+        "attributes",
+        "containers",
+        "nodes"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/structure-syntax-v1.md#structural-identities"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "suite_id": "finalize-map-special-values",
+    "lane": "finalize-map",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "specs/04-official/v1/value-types-v1.md",
+      "specs/04-official/v1/appendices/appendix-aes.md"
+    ]
+  },
+  "id": "finalize-map-special-values",
+  "title": "Finalize Map Special Values",
+  "tests": [
+    {
+      "id": "finalize-map-special-001-strict-special-values-pass",
+      "description": "Strict map finalization retains AEON special and unsafe numeric values without applying JSON compatibility diagnostics",
+      "input": {
+        "source": "infinite:infinity = Infinity\nnotNumber:nan = NaN\nreason:null = !\"postponed\"\nlarge:number = 9007199254740993.0\n",
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict",
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "entries": [
+            {
+              "path": "$.infinite"
+            },
+            {
+              "path": "$.notNumber"
+            },
+            {
+              "path": "$.reason"
+            },
+            {
+              "path": "$.large"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "finalize",
+        "map",
+        "strict",
+        "special-values"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-aes.md"
+      ]
+    },
+    {
+      "id": "finalize-map-special-002-custom-infinity-pass",
+      "description": "Map finalization accepts an Infinity literal carried by an allowed custom datatype label",
+      "input": {
+        "source": "n:Infinity = Infinity\n",
+        "mode": "custom",
+        "options": {
+          "effective_mode": "strict",
+          "datatype_policy": "allow_custom",
+          "scope": "payload",
+          "materialization": "all"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "entries": [
+            {
+              "path": "$.n"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "finalize",
+        "map",
+        "custom",
+        "infinity"
+      ],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md",
+        "specs/04-official/v1/appendices/appendix-aes.md"
+      ]
+    }
+  ]
+}

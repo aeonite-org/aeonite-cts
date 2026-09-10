@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -68,6 +69,20 @@ def validate_external_suite_manifest(manifest_path: Path, data: dict[str, object
             errors.append(f"{lane_label}: missing suite file {suite_file}")
             continue
 
+        content_sha256 = suite_ref.get("content_sha256")
+        if content_sha256 is not None:
+            if not isinstance(content_sha256, str) or not re.fullmatch(r"[0-9a-f]{64}", content_sha256):
+                errors.append(
+                    f"{lane_label}: suite `{suite_id}` content_sha256 must be 64 lowercase hex characters"
+                )
+            else:
+                actual_sha256 = hashlib.sha256(suite_path.read_bytes()).hexdigest()
+                if actual_sha256 != content_sha256:
+                    errors.append(
+                        f"{lane_label}: suite `{suite_id}` content digest mismatch: "
+                        f"expected {content_sha256}, got {actual_sha256}"
+                    )
+
         suite_data = load_json(suite_path, errors)
         if not isinstance(suite_data, dict):
             continue
@@ -82,7 +97,43 @@ def validate_external_suite_manifest(manifest_path: Path, data: dict[str, object
         if not isinstance(tests, list):
             errors.append(f"{suite_path.relative_to(ROOT)}: tests must be a list")
             continue
-        validate_suite_tests(lane_label, str(suite_path.relative_to(ROOT)), tests, seen_test_ids, errors)
+
+        exclude_tests = suite_ref.get("exclude_tests", [])
+        if not isinstance(exclude_tests, list) or not all(
+            isinstance(test_id, str) and test_id for test_id in exclude_tests
+        ):
+            errors.append(
+                f"{lane_label}: suite `{suite_id}` exclude_tests must be a list of non-empty strings"
+            )
+            continue
+        if len(exclude_tests) != len(set(exclude_tests)):
+            errors.append(f"{lane_label}: suite `{suite_id}` exclude_tests contains duplicates")
+            continue
+
+        suite_test_ids = {
+            test.get("id")
+            for test in tests
+            if isinstance(test, dict) and isinstance(test.get("id"), str)
+        }
+        missing_exclusions = sorted(set(exclude_tests).difference(suite_test_ids))
+        for test_id in missing_exclusions:
+            errors.append(
+                f"{lane_label}: suite `{suite_id}` excludes unknown test id `{test_id}`"
+            )
+
+        excluded = set(exclude_tests)
+        included_tests = [
+            test
+            for test in tests
+            if not (isinstance(test, dict) and test.get("id") in excluded)
+        ]
+        validate_suite_tests(
+            lane_label,
+            str(suite_path.relative_to(ROOT)),
+            included_tests,
+            seen_test_ids,
+            errors,
+        )
 
 
 def validate_inline_suite_manifest(manifest_path: Path, data: dict[str, object], errors: list[str]) -> None:
@@ -160,7 +211,7 @@ def main() -> int:
     for path in json_files:
         load_json(path, errors)
 
-    manifests = sorted(ROOT.glob("cts/*/v1/*.json"))
+    manifests = sorted(ROOT.glob("cts/*/v*/*.json"))
     manifest_count = 0
     seen_snapshot_ids: dict[str, Path] = {}
     for manifest_path in manifests:

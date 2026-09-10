@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "core",
+    "profile": "altopelago.aeonic-limits.v1",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Experimental cross-language AEON Core limit boundaries",
+    "snapshot_id": "core-limits-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "aeonic-limit-boundaries",
+      "file": "suites/16-aeonic-limit-boundaries.json"
+    }
+  ]
+}
