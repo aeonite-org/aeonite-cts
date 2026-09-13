@@ -662,6 +662,101 @@
       "assert": { "no_mutation": true }
     },
     {
+      "id": "numeric_null_datatype_bound_schema_rejected",
+      "description": "An explicit null datatype-rule bound is invalid rather than equivalent to an omitted bound",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [],
+          "datatype_rules": {
+            "number": { "min_value": null }
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "datatype_rules.number", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
+      "id": "numeric_reversed_datatype_bounds_schema_rejected",
+      "description": "Datatype-wide numeric bounds receive the same ordering validation as path rules",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [],
+          "datatype_rules": {
+            "number": { "min_value": "2", "max_value": "1" }
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "datatype_rules.number", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
+      "id": "numeric_unicode_digit_bound_schema_rejected",
+      "description": "Numeric bounds use the ASCII-only AEON number grammar",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            { "path": "$.value", "constraints": { "min_value": "١" } }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.value", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
+      "id": "numeric_attribute_min_violation",
+      "description": "Numeric bounds apply to attribute entries as well as ordinary bindings",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "value" }] },
+            "key": "value",
+            "value": { "type": "NumberLiteral", "raw": "3", "value": "3" },
+            "annotations": {
+              "amount": { "value": { "type": "NumberLiteral", "raw": "9", "value": "9" } }
+            },
+            "span": [0, 1]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.value",
+              "constraints": {
+                "attributes": {
+                  "amount": { "min_value": "10" }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.value.@.amount", "code": "numeric_form_violation", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
       "id": "numeric_pass_case",
       "description": "Integer literal meets sign and digit constraints",
       "input": {
