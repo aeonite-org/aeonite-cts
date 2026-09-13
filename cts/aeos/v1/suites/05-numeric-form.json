@@ -2,7 +2,7 @@
   "meta": {
     "suite_id": "numeric-form",
     "spec_refs": ["specs/03-releases/r5/AEOS-spec-r5.md"],
-    "constraint_primitives": ["sign", "min_digits", "max_digits", "radix", "allow_unspecified_radix"]
+    "constraint_primitives": ["sign", "min_digits", "max_digits", "radix", "allow_unspecified_radix", "min_value", "max_value"]
   },
   "id": "numeric-form",
   "title": "Numeric Form Constraints",
@@ -533,6 +533,133 @@
       "assert": {
         "no_mutation": true
       }
+    },
+    {
+      "id": "numeric_exact_decimal_max_violation",
+      "description": "Decimal range comparison remains exact beyond binary floating-point precision",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "value" }] },
+            "key": "value",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "0.1000000000000000000000000000000001",
+              "value": "0.1000000000000000000000000000000001"
+            },
+            "span": [0, 36]
+          }
+        ],
+        "schema": {
+          "rules": [
+            { "path": "$.value", "constraints": { "type": "FloatLiteral", "max_value": "0.1" } }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.value", "code": "numeric_form_violation", "phase": "schema_validation", "span": [0, 36] }],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
+      "id": "numeric_arbitrary_precision_integer_max_violation",
+      "description": "Integer range comparison is not limited to JavaScript safe integers or signed 128-bit values",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "value" }] },
+            "key": "value",
+            "value": {
+              "type": "NumberLiteral",
+              "raw": "170141183460469231731687303715884105729",
+              "value": "170141183460469231731687303715884105729"
+            },
+            "span": [0, 39]
+          }
+        ],
+        "schema": {
+          "rules": [
+            { "path": "$.value", "constraints": { "type": "IntegerLiteral", "max_value": "170141183460469231731687303715884105728" } }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.value", "code": "numeric_form_violation", "phase": "schema_validation", "span": [0, 39] }],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
+      "id": "numeric_invalid_bound_schema_rejected",
+      "description": "Numeric value bounds must contain valid finite canonical AEON number lexemes",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            { "path": "$.value", "constraints": { "min_value": "not-a-number" } }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.value", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
+      "id": "numeric_reversed_bounds_schema_rejected",
+      "description": "A minimum numeric value may not exceed the maximum numeric value",
+      "input": {
+        "aes": [],
+        "schema": {
+          "rules": [
+            { "path": "$.value", "constraints": { "min_value": "2", "max_value": "1" } }
+          ]
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.value", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      },
+      "assert": { "no_mutation": true }
+    },
+    {
+      "id": "numeric_any_of_selects_matching_range",
+      "description": "Any-of branch selection includes exact numeric value bounds",
+      "input": {
+        "aes": [
+          {
+            "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "value" }] },
+            "key": "value",
+            "value": { "type": "NumberLiteral", "raw": "15", "value": "15" },
+            "span": [0, 2]
+          }
+        ],
+        "schema": {
+          "rules": [
+            {
+              "path": "$.value",
+              "constraints": {
+                "any_of": [
+                  { "type": "IntegerLiteral", "max_value": "10" },
+                  { "type": "IntegerLiteral", "min_value": "11", "max_value": "20" }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": { "ok": true, "errors": [], "warnings": [], "guarantees": {} },
+      "assert": { "no_mutation": true }
     },
     {
       "id": "numeric_pass_case",
