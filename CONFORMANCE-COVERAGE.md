@@ -62,7 +62,7 @@ The status labels used here are:
 | consumer-selected Aeonic resource-limit boundaries | baseline | `cts/core/v1/core-cts.v1.snapshot-0.3.json`, `cts/core/v1/suites/16-aeonic-limit-boundaries.json`, `cts/core/v1/suites/17-next-limit-semantics.json` | immutable, hash-pinned Core 0.3 target covers at-limit acceptance and one-over rejection for all 16 AEON parsing/compilation counters and replaces four superseded 0.2 expectations; the 271-vector target passes in TypeScript, Rust, Python, and PHP | AltoPelago AES limits contract and four implementation suites |
 | clone finalization and transport framing limit boundaries | experimental | `cts/finalize/v1/finalize-limits-cts.v1.next.json`, `cts/transport/v1/transport-limits-cts.v1.next.json` | covers inclusive reference-depth and cumulative materialized-weight limits across TypeScript, Rust, and Python; covers frame encode/decode, buffer, and header byte limits for the current TypeScript framing implementation | AltoPelago AES limits contract and implementation finalization/transport suites |
 | custom-mode typed literal acceptance and fail-closed boundaries | baseline | `cts/core/v1/suites/01-baseline.json`, `cts/core/v1/suites/11-promoted-custom-literals.json`, `cts/core/v1/suites/12-promoted-custom-rejections.json` | baseline custom-datatype policy plus promoted custom-mode value-family acceptance, untyped fail-closed behavior, and reserved-datatype mismatch checks | `Aeon/stress-tests/snippets/positive-custom.aeon-cases`, `Aeon/stress-tests/snippets/negative-custom.aeon-cases` |
-| shared value equality, ordering, and concrete-value semantics | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers minimum-profile equality, ordering, NaN fail-closed behavior, infinity numeric-bound behavior, concrete value predicate classification, and portable default/codepoint profile selection | `aeonite-specs/aeon/v1/proposals/value-semantics-v1.md` |
+| shared value equality, ordering, concrete-value, and explicit same-base radix numeric semantics | scaffold | `cts/value-semantics/v1/value-semantics-cts.v1.next.json`, `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json`, `cts/value-semantics/v1/suites/02-radix-numeric-same-base.json` | covers minimum-profile equality and ordering, NaN fail-closed behavior, infinity numeric-bound behavior, concrete value predicate classification, portable default/codepoint profile selection, and exact opt-in radix equality/order across bases 2 through 64 with fail-closed base and digit diagnostics | `aeonite-specs/aes/v1/aeonic-semantic-language-v1#same-base-radix-numeric-profile` |
 | AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
 
 ## Promotion rule
@@ -163,6 +163,7 @@ The following surfaces are treated as the current Shared AEON Value Semantics an
 - NaN fail-closed behavior
 - infinity numeric-bound behavior
 - concrete value predicate behavior
+- explicit same-base radix numeric behavior
 
 ## Shared Value Semantics coverage map
 
@@ -172,6 +173,7 @@ The following surfaces are treated as the current Shared AEON Value Semantics an
 | equality behavior | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers finite numbers, infinity, strings, Booleans, NaN rejection, explicit null rejection, and mixed-category rejection |
 | ordering behavior | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers finite numeric ordering, infinity numeric-bound ordering, Boolean ordering rejection, NaN ordering rejection, and explicit null ordering rejection |
 | concrete value predicates | scaffold | `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` | covers the minimum-profile `isValue` basis: true for concrete values and false for Missing, explicit null, explicit absence values, NaN, and Binding Sets |
+| same-base radix numeric equality and ordering | scaffold | `cts/value-semantics/v1/suites/02-radix-numeric-same-base.json` | covers representation-preserving defaults, decimal trailing zeroes, `notEqual`, binary fractions, reserved aliases, bases 37 and 64, case-sensitive digit values, signed zero, visual separators, leading radix points, values above host safe-integer range, and deterministic missing-base, mixed-base, invalid-digit, and invalid-separator diagnostics |
 
 ## AEOS review note
 
