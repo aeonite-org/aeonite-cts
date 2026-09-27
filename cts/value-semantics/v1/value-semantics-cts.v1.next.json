@@ -3,12 +3,12 @@
     "version": "0.2.0",
     "lane": "value-semantics",
     "capability": "AEON.ValueSemantics",
-    "profile": "minimum-consumer-plus-radix-numeric",
+    "profile": "minimum-consumer-plus-radix-numeric-profiles",
     "conformance": {
       "surface": "proposal-scaffold-next"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Shared AEON Value Semantics development target with the explicit same-base radix numeric profile",
+    "description": "Shared AEON Value Semantics development target with explicit radix numeric profiles and representation-preserving radix scale",
     "snapshot_id": "value-semantics-cts-v1-snapshot-0.2",
     "spec_snapshot_id": "value-semantics-specs-v1-snapshot-0.2"
   },
@@ -20,6 +20,14 @@
     {
       "id": "radix-numeric-same-base",
       "file": "suites/02-radix-numeric-same-base.json"
+    },
+    {
+      "id": "radix-numeric-cross-base",
+      "file": "suites/03-radix-numeric-cross-base.json"
+    },
+    {
+      "id": "radix-fractional-scale",
+      "file": "suites/04-radix-fractional-scale.json"
     }
   ]
 }

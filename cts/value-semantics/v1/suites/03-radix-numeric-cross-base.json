@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "suite_id": "radix-numeric-cross-base",
+    "lane": "value-semantics",
+    "capability": "AEON.ValueSemantics",
+    "profile": "aeon.value.radix.numeric.cross-base.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/aes/v1/aeonic-semantic-language-v1#cross-base-radix-numeric-profile"
+    ],
+    "description": "Exact numeric equality and ordering for radix-family values with independently resolved bases."
+  },
+  "id": "radix-numeric-cross-base",
+  "title": "AEON Value Semantics Cross-Base Radix Numeric Profile",
+  "tests": [
+    {
+      "id": "value_semantics_064_cross_base_binary_decimal_equality",
+      "description": "Binary ten and decimal two compare numerically equal under the cross-base profile.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[2]", "value": "10" },
+        "right": { "category": "radix", "semanticType": "decimal", "value": "2" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_065_cross_base_fraction_equality",
+      "description": "Finite fractions are compared as exact rational values across bases.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "radixBase": 2, "value": ".1" },
+        "right": { "category": "radix", "radixBase": 10, "value": ".5" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_066_cross_base_nonterminating_relation",
+      "description": "One third is greater than the finite decimal approximation 0.333 without rounding either operand.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "radixBase": 3, "value": ".1" },
+        "right": { "category": "radix", "radixBase": 10, "value": ".333" }
+      },
+      "expected": { "outcome": "value", "relation": "greater" }
+    },
+    {
+      "id": "value_semantics_067_cross_base_negative_order",
+      "description": "Exact cross-base magnitude comparison reverses for negative values.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "radixBase": 16, "value": "-A" },
+        "right": { "category": "radix", "radixBase": 10, "value": "-9" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_068_cross_base_signed_zero_equality",
+      "description": "Signed zero spellings remain equal when their declared bases differ.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "radixBase": 2, "value": "-0.0" },
+        "right": { "category": "radix", "radixBase": 64, "value": "+0.000" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_069_cross_base_full_alphabet_equality",
+      "description": "The highest base-64 digit has exact value 63 across bases.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[64]", "value": "!" },
+        "right": { "category": "radix", "semanticType": "decimal", "value": "63" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_070_cross_base_large_integer_exact",
+      "description": "Cross-base comparison remains exact above host safe-integer range.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "radixBase": 16, "value": "20000000000001" },
+        "right": { "category": "radix", "radixBase": 10, "value": "9007199254740993" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_071_cross_base_invalid_digit_fails_closed",
+      "description": "Each operand is validated against its own resolved base before conversion.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "radixBase": 2, "value": "102" },
+        "right": { "category": "radix", "radixBase": 10, "value": "6" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "invalid_radix_value" }
+    },
+    {
+      "id": "value_semantics_072_cross_base_missing_bases_fail_closed",
+      "description": "The cross-base profile does not guess a base when neither operand supplies one.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "value": "10" },
+        "right": { "category": "radix", "value": "2" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "radix_base_required" }
+    },
+    {
+      "id": "value_semantics_073_cross_base_untyped_operand_inherits_typed_base",
+      "description": "An untyped query-style operand inherits its counterpart's base rather than triggering cross-base conversion.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.cross-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[8]", "value": "10" },
+        "right": { "category": "radix", "value": "010.0" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    }
+  ]
+}

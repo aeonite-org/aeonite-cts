@@ -74,10 +74,17 @@ target through `altopelago/aeon/scripts/aes-path-translation-cts.sh`.
 
 The mutable `value-semantics-cts-v1-snapshot-0.2` development target preserves
 the 0.1 minimum-consumer suite and adds the explicit
-`aeon.value.radix.numeric.same-base.v1` profile. Its radix vectors distinguish
-default representation identity from opt-in numeric equality and ordering,
-exercise the base-range boundaries and full digit alphabet, and require fail-closed
-diagnostics for missing bases, mixed bases, and invalid digits.
+`aeon.value.radix.numeric.same-base.v1` and
+`aeon.value.radix.numeric.cross-base.v1` profiles. Their radix vectors
+distinguish default representation identity from opt-in numeric equality and
+ordering, exercise the base-range boundaries and full digit alphabet, verify
+exact rational comparison across independently resolved bases, and require
+fail-closed diagnostics for missing bases, mixed bases under the same-base
+profile, and invalid digits.
+
+The value-semantics lane also covers profile-independent `radixScale(...)`
+representation metadata, including preserved trailing zeroes and base-aware
+validation.
 
 The current released AEON-to-portable-AES projection target is
 `aes-cts-v1-snapshot-0.3`, exposed by
