@@ -101,6 +101,10 @@
     {
       "id": "next-contextual-datatype-names",
       "file": "suites/20-next-contextual-datatype-names.json"
+    },
+    {
+      "id": "temporal-precision-and-boundaries",
+      "file": "suites/21-temporal-precision-and-boundaries.json"
     }
   ]
 }
