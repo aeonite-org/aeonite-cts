@@ -2149,6 +2149,28 @@
       "tags": ["sansa", "query", "evaluate", "current-binding", "function", "string"]
     },
     {
+      "id": "sansa-query-evaluate-029bb-radix-fractional-scale",
+      "description": "radixScale exposes preserved fractional digit counts without selecting a numeric comparison profile.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.mask\nselect { padded = radixScale(%19.9900) compact = radixScale(%19.99) integer = radixScale(%101) }"
+      },
+      "expected": {
+        "ok": true,
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "padded": 4,
+              "compact": 2,
+              "integer": 0
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "function", "radix", "representation", "scale"]
+    },
+    {
       "id": "sansa-query-evaluate-029c-path-select",
       "description": "path activates a structured contextual SANSA Address Literal value in select expressions.",
       "input": {

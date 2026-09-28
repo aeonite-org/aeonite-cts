@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "suite_id": "radix-fractional-scale",
+    "lane": "value-semantics",
+    "capability": "AEON.ValueSemantics",
+    "profile": "profile-independent",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/aes/v1/aeonic-semantic-language-v1#radix-fractional-scale"
+    ],
+    "description": "Representation-preserving fractional digit counts for radix-family values."
+  },
+  "id": "radix-fractional-scale",
+  "title": "AEON Value Semantics Radix Fractional Scale",
+  "tests": [
+    {
+      "id": "value_semantics_074_decimal_trailing_zero_scale",
+      "description": "Trailing decimal zeroes remain part of represented fractional scale.",
+      "operation": "radixScale",
+      "input": { "value": { "category": "radix", "semanticType": "decimal", "value": "19.9900" } },
+      "expected": { "outcome": "value", "value": 4 }
+    },
+    {
+      "id": "value_semantics_075_decimal_compact_scale",
+      "description": "The numerically equal compact decimal representation has a smaller scale.",
+      "operation": "radixScale",
+      "input": { "value": { "category": "radix", "semanticType": "decimal", "value": "19.99" } },
+      "expected": { "outcome": "value", "value": 2 }
+    },
+    {
+      "id": "value_semantics_076_radix_integer_scale",
+      "description": "A radix representation without a point has scale zero.",
+      "operation": "radixScale",
+      "input": { "value": { "category": "radix", "radixBase": 2, "value": "101" } },
+      "expected": { "outcome": "value", "value": 0 }
+    },
+    {
+      "id": "value_semantics_077_visual_separators_do_not_count",
+      "description": "Visual separators inside the fractional sequence do not contribute to scale.",
+      "operation": "radixScale",
+      "input": { "value": { "category": "radix", "radixBase": 2, "value": "-.0_0" } },
+      "expected": { "outcome": "value", "value": 2 }
+    },
+    {
+      "id": "value_semantics_078_full_alphabet_fraction_scale",
+      "description": "Fractional scale works across the complete base-64 digit alphabet.",
+      "operation": "radixScale",
+      "input": { "value": { "category": "radix", "radixBase": 64, "value": "A.!&" } },
+      "expected": { "outcome": "value", "value": 2 }
+    },
+    {
+      "id": "value_semantics_079_invalid_digit_fails_closed",
+      "description": "Trusted base metadata is used to reject digits outside the radix.",
+      "operation": "radixScale",
+      "input": { "value": { "category": "radix", "radixBase": 10, "value": "A.0" } },
+      "expected": { "outcome": "diagnostic", "reason": "invalid_radix_value" }
+    },
+    {
+      "id": "value_semantics_080_non_radix_fails_closed",
+      "description": "Fractional radix scale does not coerce ordinary finite numbers.",
+      "operation": "radixScale",
+      "input": { "value": { "category": "finiteNumber", "value": "19.9900" } },
+      "expected": { "outcome": "diagnostic", "reason": "radix_required" }
+    },
+    {
+      "id": "value_semantics_081_trailing_point_fails_closed",
+      "description": "A radix point without fractional digits is invalid.",
+      "operation": "radixScale",
+      "input": { "value": { "category": "radix", "radixBase": 10, "value": "19." } },
+      "expected": { "outcome": "diagnostic", "reason": "invalid_radix_value" }
+    }
+  ]
+}

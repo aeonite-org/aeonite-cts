@@ -1,0 +1,193 @@
+{
+  "meta": {
+    "suite_id": "radix-numeric-same-base",
+    "lane": "value-semantics",
+    "capability": "AEON.ValueSemantics",
+    "profile": "aeon.value.radix.numeric.same-base.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/aes/v1/aeonic-semantic-language-v1#same-base-radix-numeric-profile"
+    ],
+    "description": "Exact numeric equality and ordering for radix-family values with one shared resolved base."
+  },
+  "id": "radix-numeric-same-base",
+  "title": "AEON Value Semantics Same-Base Radix Numeric Profile",
+  "tests": [
+    {
+      "id": "value_semantics_048_radix_default_preserves_decimal_representation",
+      "description": "The default profile keeps decimal radix representations distinct.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.default.v1",
+        "left": { "category": "radix", "semanticType": "decimal", "value": "19.9900" },
+        "right": { "category": "radix", "semanticType": "decimal", "value": "19.99" }
+      },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_049_radix_default_ordering_fails_closed",
+      "description": "The default profile does not silently give radix representations numeric order.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.default.v1",
+        "left": { "category": "radix", "semanticType": "decimal", "value": "19.99" },
+        "right": { "category": "radix", "semanticType": "decimal", "value": "20.00" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "not_orderable" }
+    },
+    {
+      "id": "value_semantics_050_radix_numeric_decimal_trailing_zero_equality",
+      "description": "The explicit numeric profile ignores insignificant trailing fractional zeroes.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "decimal", "value": "19.9900" },
+        "right": { "category": "radix", "value": "19.99" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_051_radix_numeric_decimal_not_equal",
+      "description": "notEqual uses the same exact numeric relation as equal.",
+      "operation": "notEqual",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "decimal", "value": "19.9900" },
+        "right": { "category": "radix", "radixBase": 10, "value": "19.99" }
+      },
+      "expected": { "outcome": "value", "value": false }
+    },
+    {
+      "id": "value_semantics_052_radix_numeric_binary_fraction_order",
+      "description": "Same-base fractional ordering is exact outside host binary floating-point conversion.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[2]", "value": "10.01" },
+        "right": { "category": "radix", "radixBase": 2, "value": "10.1" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_053_radix_numeric_alias_resolves_base",
+      "description": "A reserved radix alias resolves its named base for an untyped counterpart.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "radix8", "value": "070" },
+        "right": { "category": "radix", "value": "70" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_054_radix_numeric_base64_digit_order",
+      "description": "The full radix alphabet orders uppercase, lowercase, ampersand, and exclamation digits by digit value.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[64]", "value": "a&" },
+        "right": { "category": "radix", "radixBase": 64, "value": "a!" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_055_radix_numeric_digit_case_is_significant",
+      "description": "Uppercase and lowercase radix digits retain their distinct digit values.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[37]", "value": "A" },
+        "right": { "category": "radix", "value": "a" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_056_radix_numeric_signed_zero_equality",
+      "description": "Signed zero and fractional zero spellings compare numerically equal.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "decimal", "value": "-0.0" },
+        "right": { "category": "radix", "value": "+0.000" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_057_radix_numeric_visual_separators",
+      "description": "Valid visual underscores do not contribute a digit to the numeric value.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[2]", "value": "10_10.0_1" },
+        "right": { "category": "radix", "value": "1010.01" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_058_radix_numeric_leading_point",
+      "description": "A Core-valid leading radix point participates in exact numeric comparison.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[6]", "value": ".30" },
+        "right": { "category": "radix", "value": "0.3" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_059_radix_numeric_large_value_is_exact",
+      "description": "Large radix integers compare without host safe-integer truncation.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "decimal", "value": "90071992547409931234567890" },
+        "right": { "category": "radix", "value": "90071992547409931234567891" }
+      },
+      "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_060_radix_numeric_missing_base_fails_closed",
+      "description": "Two untyped radix operands do not authorize a guessed base.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "value": "10" },
+        "right": { "category": "radix", "value": "10" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "radix_base_required" }
+    },
+    {
+      "id": "value_semantics_061_radix_numeric_mixed_bases_fail_closed",
+      "description": "The same-base profile rejects cross-base comparison rather than converting implicitly.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[2]", "value": "10" },
+        "right": { "category": "radix", "semanticType": "decimal", "value": "2" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "mixed_radix_bases" }
+    },
+    {
+      "id": "value_semantics_062_radix_numeric_invalid_digit_fails_closed",
+      "description": "A digit outside the resolved base is rejected before comparison.",
+      "operation": "compare",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "radix[2]", "value": "102" },
+        "right": { "category": "radix", "value": "10" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "invalid_radix_value" }
+    },
+    {
+      "id": "value_semantics_063_radix_numeric_invalid_separator_fails_closed",
+      "description": "Visual separators remain subject to the Core between-digits placement rule.",
+      "operation": "equal",
+      "input": {
+        "profile": "aeon.value.radix.numeric.same-base.v1",
+        "left": { "category": "radix", "semanticType": "decimal", "value": "1__0" },
+        "right": { "category": "radix", "value": "10" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "invalid_radix_value" }
+    }
+  ]
+}

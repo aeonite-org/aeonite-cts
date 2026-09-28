@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "suite_id": "temporal-field-constraints",
+    "spec_refs": ["aeos/v1/AEOS-spec-v1#temporal-field-constraints"],
+    "constraint_primitives": ["TEMPORAL_MAX_SECOND", "TEMPORAL_MIN_YEAR", "TEMPORAL_MAX_YEAR", "TEMPORAL_CONTEXT_POLICY"]
+  },
+  "id": "temporal-field-constraints",
+  "title": "Temporal Field Constraints",
+  "tests": [
+    {
+      "id": "temporal_001_ordinary_second_pass",
+      "description": "A represented second at the general-purpose maximum passes",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "datatype": "datetime",
+          "value": { "type": "DateTimeLiteral", "raw": "2027-01-31T23:59:59Z", "value": "2027-01-31T23:59:59Z" },
+          "span": [0, 20]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_second": 59, "temporal_min_year": 1, "temporal_max_year": 9999 } }] }
+      },
+      "expected": { "ok": true, "errors": [], "warnings": [], "guarantees": {} }
+    },
+    {
+      "id": "temporal_002_leap_second_rejected_by_gp_bound",
+      "description": "A structurally preserved second 60 is rejected by a general-purpose schema bound",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "datatype": "datetime",
+          "value": { "type": "DateTimeLiteral", "raw": "2016-12-31T23:59:60.5Z", "value": "2016-12-31T23:59:60.5Z" },
+          "span": [0, 22]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_second": 59 } }] }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "temporal_field_constraint_mismatch", "phase": "schema_validation", "span": [0, 22] }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_003_reduced_precision_not_zero_filled",
+      "description": "A reduced-precision value with no seconds field is not treated as second zero",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "value": { "type": "DateTimeLiteral", "raw": "2027-01-31T23:59Z", "value": "2027-01-31T23:59Z" },
+          "span": [0, 17]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_second": 0 } }] }
+      },
+      "expected": { "ok": true, "errors": [], "warnings": [], "guarantees": {} }
+    },
+    {
+      "id": "temporal_004_year_bound_mismatch",
+      "description": "A represented year outside a schema's admitted range fails",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "date" }] },
+          "key": "date",
+          "value": { "type": "DateLiteral", "raw": "2026-01-01", "value": "2026-01-01" },
+          "span": [0, 10]
+        }],
+        "schema": { "rules": [{ "path": "$.date", "constraints": { "temporal_min_year": 2027, "temporal_max_year": 2030 } }] }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.date", "code": "temporal_field_constraint_mismatch", "phase": "schema_validation", "span": [0, 10] }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_005_constraint_inapplicable",
+      "description": "Temporal field constraints reject incompatible literal kinds",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "value" }] },
+          "key": "value",
+          "value": { "type": "StringLiteral", "raw": "\"not temporal\"", "value": "not temporal" },
+          "span": [0, 14]
+        }],
+        "schema": { "rules": [{ "path": "$.value", "constraints": { "temporal_max_second": 59 } }] }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.value", "code": "constraint_inapplicable", "phase": "schema_validation", "span": [0, 14] }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_006_invalid_second_bound",
+      "description": "A temporal maximum second above Core's structural maximum is invalid schema",
+      "input": { "aes": [], "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_second": 61 } }] } },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_007_fractional_constraint_rejected",
+      "description": "Temporal bounds must be integers",
+      "input": { "aes": [], "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_second": 59.5 } }] } },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_008_reversed_year_bounds_rejected",
+      "description": "The temporal minimum year cannot exceed the maximum year",
+      "input": { "aes": [], "schema": { "rules": [{ "path": "$.date", "constraints": { "temporal_min_year": 2027, "temporal_max_year": 2026 } }] } },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.date", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_009_datatype_rule_rejects_leap_second",
+      "description": "The general-purpose behavior is executable through datatype_rules",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "datatype": "wtc",
+          "value": { "type": "WTCDateTimeLiteral", "raw": "2017-01-01T10:59:60+11:00&Australia/Melbourne", "value": "2017-01-01T10:59:60+11:00&Australia/Melbourne" },
+          "span": [0, 48]
+        }],
+        "schema": {
+          "datatype_rules": {
+            "wtc": { "type": "WTCDateTimeLiteral", "temporal_max_second": 59, "temporal_min_year": 1, "temporal_max_year": 9999 }
+          },
+          "rules": []
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "temporal_field_constraint_mismatch", "phase": "schema_validation", "span": [0, 48] }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_010_gp_context_conflict",
+      "description": "The GP temporal context policy rejects a UTC-relative anchor combined with a non-UTC timescale",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "datatype": "wtc",
+          "value": { "type": "WTCDateTimeLiteral", "raw": "2026-01-01T09:10:10Z&TAI", "value": "2026-01-01T09:10:10Z&TAI" },
+          "span": [0, 27]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_context_policy": "aeon.gp.temporal.v1" } }] }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "temporal_context_conflict", "phase": "schema_validation", "span": [0, 27] }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_011_gp_context_unknown_offset_precedence",
+      "description": "Unknown offset remains unresolved and does not conflict with a non-UTC timescale label",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "datatype": "wtc",
+          "value": { "type": "WTCDateTimeLiteral", "raw": "2026-01-01T09:10:10-00:00&TAI", "value": "2026-01-01T09:10:10-00:00&TAI" },
+          "span": [0, 32]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_context_policy": "aeon.gp.temporal.v1" } }] }
+      },
+      "expected": { "ok": true, "errors": [], "warnings": [], "guarantees": {} }
+    },
+    {
+      "id": "temporal_012_invalid_context_policy",
+      "description": "Documents cannot select arbitrary executable temporal context policies",
+      "input": { "aes": [], "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_context_policy": "document-selected" } }] } },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    }
+  ]
+}

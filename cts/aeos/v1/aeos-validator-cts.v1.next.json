@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "description": "Experimental AEOS temporal-policy target for the draft temporal claims proposal",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "source_of_truth": "cts/aeos/v1/suites/24-temporal-field-constraints.json",
+    "sut_protocol": "cts.protocol.v1",
+    "snapshot_id": "aeos-validator-next-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "temporal-field-constraints",
+      "title": "Temporal Field Constraints",
+      "file": "suites/24-temporal-field-constraints.json"
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "suite_id": "temporal-precision-and-boundaries",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": ["aeon/v1/temporal-precision-calendar-values"]
+  },
+  "id": "temporal-precision-and-boundaries",
+  "title": "Temporal Precision and Structural Boundaries",
+  "tests": [
+    {
+      "id": "core-temporal-001-fractional-and-leap-temporals-accepted",
+      "description": "Core preserves arbitrary fractional precision and structurally plausible positive leap-second claims across temporal anchors",
+      "input": {
+        "source": "fraction:time = 23:59:59.340000\nleapUtc:datetime = 2016-12-31T23:59:60.5Z\nleapWest:datetime = 2016-12-31T18:59:60-05:00\nleapEast:datetime = 2017-01-01T12:59:60+13:00\nleapZone:wtc = 2017-01-01T10:59:60+11:00&Australia/Melbourne\nnamedPlace:wtc = 2026-01-01T09:10:00+01:00&+/Antarctica/Elisabeth\ntai:wtc = 2026-01-01T09:10:10&TAI\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.fraction", "datatype": "time", "kind": "binding" },
+            { "path": "$.leapUtc", "datatype": "datetime", "kind": "binding" },
+            { "path": "$.leapWest", "datatype": "datetime", "kind": "binding" },
+            { "path": "$.leapEast", "datatype": "datetime", "kind": "binding" },
+            { "path": "$.leapZone", "datatype": "wtc", "kind": "binding" },
+            { "path": "$.namedPlace", "datatype": "wtc", "kind": "binding" },
+            { "path": "$.tai", "datatype": "wtc", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["strict", "temporal", "fractional-seconds", "leap-second", "wtc"]
+    },
+    {
+      "id": "core-temporal-002-year-boundaries-accepted",
+      "description": "The four-digit Core year domain includes 0001 and 9999",
+      "input": { "source": "lower:date = 0001-01-01\nupper:date = 9999-12-31\n", "mode": "strict" },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.lower", "datatype": "date", "kind": "binding" },
+            { "path": "$.upper", "datatype": "date", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["strict", "temporal", "year-boundary"]
+    },
+    {
+      "id": "core-temporal-003-year-zero-rejects",
+      "description": "The four-digit Core year domain excludes year 0000",
+      "input": { "source": "zero:date = 0000-01-01\n", "mode": "strict" },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "INVALID_DATE", "phaseLabel": "Parsing" }],
+        "warnings": []
+      },
+      "tags": ["strict", "temporal", "year-zero", "rejection"]
+    },
+    {
+      "id": "core-temporal-004-malformed-fraction-rejects",
+      "description": "A fractional seconds marker requires at least one decimal digit",
+      "input": { "source": "bad:time = 23:59:59.\n", "mode": "strict" },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "INVALID_TIME", "phaseLabel": "Parsing" }],
+        "warnings": []
+      },
+      "tags": ["strict", "temporal", "fractional-seconds", "rejection"]
+    },
+    {
+      "id": "core-temporal-005-second-61-rejects",
+      "description": "Core admits second 60 but rejects seconds above the structural range",
+      "input": { "source": "bad:time = 23:59:61\n", "mode": "strict" },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "INVALID_TIME", "phaseLabel": "Parsing" }],
+        "warnings": []
+      },
+      "tags": ["strict", "temporal", "second-boundary", "rejection"]
+    },
+    {
+      "id": "core-temporal-006-long-fraction-preserved",
+      "description": "Core accepts a long fractional coefficient within ordinary input resource limits instead of imposing a millisecond, microsecond, or nanosecond ceiling",
+      "input": {
+        "source": "long:time = 12:34:56.12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.long", "datatype": "time", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["strict", "temporal", "fractional-seconds", "resource-boundary"]
+    }
+  ]
+}
