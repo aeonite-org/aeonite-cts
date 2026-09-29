@@ -104,6 +104,64 @@
         }
       },
       "tags": ["strict", "temporal", "fractional-seconds", "resource-boundary"]
+    },
+    {
+      "id": "core-temporal-007-reduced-date-granularity-accepted",
+      "description": "Core preserves year-, month-, and day-granularity dates as DateLiteral values",
+      "input": {
+        "source": "year:date = 2024-\nmonth:date = 2024-02\nday:date = 2024-02-29\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.year", "datatype": "date", "kind": "binding" },
+            { "path": "$.month", "datatype": "date", "kind": "binding" },
+            { "path": "$.day", "datatype": "date", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["strict", "temporal", "date", "reduced-granularity"]
+    },
+    {
+      "id": "core-temporal-008-invalid-reduced-dates-reject",
+      "description": "Reduced-granularity dates retain year and month range and width validation",
+      "input": {
+        "source": "zero:date = 0000-\nmonthZero:date = 2024-00\nmonthHigh:date = 2024-13\nshortMonth:date = 2024-2\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "code": "INVALID_DATE", "phaseLabel": "Parsing" },
+          { "code": "INVALID_DATE", "phaseLabel": "Parsing" },
+          { "code": "INVALID_DATE", "phaseLabel": "Parsing" },
+          { "code": "INVALID_DATE", "phaseLabel": "Parsing" }
+        ],
+        "warnings": []
+      },
+      "tags": ["strict", "temporal", "date", "reduced-granularity", "rejection"]
+    },
+    {
+      "id": "core-temporal-009-reduced-date-datetime-rejects",
+      "description": "Datetime date components remain complete YYYY-MM-DD values",
+      "input": {
+        "source": "year:datetime = 2024-T09:30\nmonth:datetime = 2024-02T09:30\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "code": "INVALID_DATETIME", "phaseLabel": "Parsing" },
+          { "code": "INVALID_DATETIME", "phaseLabel": "Parsing" }
+        ],
+        "warnings": []
+      },
+      "tags": ["strict", "temporal", "datetime", "reduced-granularity", "rejection"]
     }
   ]
 }

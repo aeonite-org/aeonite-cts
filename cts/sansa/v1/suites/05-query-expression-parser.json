@@ -470,6 +470,43 @@
       "tags": ["sansa", "query", "expression", "literal", "temporal", "datetime"]
     },
     {
+      "id": "sansa-query-expression-003f3b1-reduced-date-literals",
+      "description": "Year- and month-granularity AEON dates parse as date Query literal expressions.",
+      "input": {
+        "expression": "temporalRelation(2024-, 2024-02) == \"contains\""
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "temporalRelation(2024-, 2024-02) == \"contains\"",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "functionCallExpression",
+            "name": "temporalRelation",
+            "arguments": [
+              {
+                "type": "literalExpression",
+                "kind": "date",
+                "value": "2024-"
+              },
+              {
+                "type": "literalExpression",
+                "kind": "date",
+                "value": "2024-02"
+              }
+            ]
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "string",
+            "value": "contains"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "temporal", "date", "reduced-granularity"]
+    },
+    {
       "id": "sansa-query-expression-003f3c-reduced-wtc-literal",
       "description": "AEON reduced-precision WTC source literals preserve the temporal-reference payload.",
       "input": {
@@ -510,7 +547,7 @@
       "id": "sansa-query-expression-003f5-invalid-time-range",
       "description": "Temporal time literals reject invalid clock ranges.",
       "input": {
-        "expression": ".window == 23:59:60"
+        "expression": ".window == 23:59:61"
       },
       "expected": {
         "ok": false,

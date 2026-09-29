@@ -2821,6 +2821,26 @@
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "datetime", "literal"]
     },
     {
+      "id": "sansa-query-evaluate-030g1b1-reduced-date-containment",
+      "description": "Year-granularity date literals contain dates completed within that calendar year.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.released\nwhere temporalRelation(2026-, .) == \"contains\"\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.released"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.released"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "temporal", "date", "reduced-granularity"]
+    },
+    {
       "id": "sansa-query-evaluate-030g1c-wtc-literal-equality",
       "description": "WTC source literals compare against same-family WTC bindings by preserved temporal-reference payload identity.",
       "input": {
