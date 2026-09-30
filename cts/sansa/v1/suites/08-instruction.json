@@ -1718,6 +1718,52 @@
       }
     },
     {
+      "id": "sansa-instruction-0180f1-target-aeon-accepts-symbol-literal",
+      "description": "AEON target validation accepts non-empty symbolic payloads without string coercion.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "symbol"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.stage with :symbol, |in review\\|blocked|"
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-instruction-0180f2-target-aeon-accepts-custom-datatype-symbol-literal",
+      "description": "A custom semantic datatype may retain symbolic representation intent under the ordinary custom-datatype rules.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "symbol", "custom-datatype"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.customStage with :workflowStage, |approved|"
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-instruction-0180f3-target-aeon-rejects-symbol-clarifier-metadata",
+      "description": "The reserved symbol datatype has no bracket clarifier surface in the AEON GP profile.",
+      "tags": ["experimental", "target-surface", "value", "aeon", "symbol", "clarifier", "negative"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "aeon",
+        "source": "create $.inventory.clarifiedStage with :symbol[\"workflow\"], |approved|"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "aeon",
+        "errorDatatype": "symbol[\"workflow\"]"
+      }
+    },
+    {
       "id": "sansa-instruction-0180g-target-aeon-rejects-invalid-separator-datatype-metadata",
       "description": "AEON target validation rejects separator metadata that AEON Core cannot represent.",
       "tags": ["experimental", "target-surface", "value", "aeon", "separator"],
@@ -1751,6 +1797,24 @@
         "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
         "errorTargetFormat": "aeon",
         "errorDatatype": "kadot[\".\"]"
+      }
+    },
+    {
+      "id": "sansa-instruction-0180h1-target-json-rejects-symbol-intent",
+      "description": "Strict JSON target validation rejects the distinct symbol datatype and representation family rather than silently materializing a string.",
+      "tags": ["experimental", "target-surface", "value", "json", "symbol"],
+      "input": {
+        "mode": "target",
+        "namespace": "instruction-inventory",
+        "target": "json",
+        "source": "create $.inventory.stage with :symbol, |approved|"
+      },
+      "expected": {
+        "ok": false,
+        "errorPhase": "target",
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
+        "errorTargetFormat": "json",
+        "errorDatatype": "symbol"
       }
     },
     {
@@ -2900,6 +2964,19 @@
       "expected": {
         "ok": false,
         "error": "SANSA_QUERY_INVALID_SEPARATOR_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-instruction-049b-parse-rejects-empty-symbol-payload",
+      "description": "Instruction symbol value literals reject empty payloads.",
+      "tags": ["experimental", "parse", "value", "symbol", "diagnostic"],
+      "input": {
+        "mode": "parse",
+        "source": "create $.x with :symbol, ||"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_SYMBOL_LITERAL"
       }
     },
     {

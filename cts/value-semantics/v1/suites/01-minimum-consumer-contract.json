@@ -281,6 +281,13 @@
       "expected": { "outcome": "value", "value": true }
     },
     {
+      "id": "value_semantics_027a_is_value_symbol_true",
+      "description": "A symbol is a concrete value.",
+      "operation": "isValue",
+      "input": { "value": { "category": "symbol", "value": "approved" } },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
       "id": "value_semantics_028_is_value_container_true",
       "description": "Containers are concrete values.",
       "operation": "isValue",
@@ -425,6 +432,36 @@
         "right": { "category": "separator", "value": "0.9.9" }
       },
       "expected": { "outcome": "value", "relation": "less" }
+    },
+    {
+      "id": "value_semantics_042a_symbol_payload_identity",
+      "description": "Symbol equality compares decoded payloads exactly.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "symbol", "value": "approved" },
+        "right": { "category": "symbol", "value": "approved" }
+      },
+      "expected": { "outcome": "value", "value": true }
+    },
+    {
+      "id": "value_semantics_042b_symbol_string_no_coercion",
+      "description": "Symbols do not compare equal to strings with the same payload text.",
+      "operation": "equal",
+      "input": {
+        "left": { "category": "symbol", "value": "approved" },
+        "right": { "category": "string", "value": "approved" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "mixed_categories" }
+    },
+    {
+      "id": "value_semantics_042c_symbol_ordering_fails_closed",
+      "description": "The minimum profile defines no intrinsic ordering for symbols.",
+      "operation": "compare",
+      "input": {
+        "left": { "category": "symbol", "value": "approved" },
+        "right": { "category": "symbol", "value": "pending" }
+      },
+      "expected": { "outcome": "diagnostic", "reason": "not_orderable" }
     },
     {
       "id": "value_semantics_043_sansa_address_identity_true",

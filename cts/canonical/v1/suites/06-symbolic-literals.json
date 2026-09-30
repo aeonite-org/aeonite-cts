@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "suite_id": "canonical-symbolic-literals",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/appendices/v1/appendix-canonical-form.aeon#symbolic-literals"
+    ]
+  },
+  "id": "canonical-symbolic-literals",
+  "title": "Canonical Symbolic Literals",
+  "tests": [
+    {
+      "id": "canonical-symbol-001-minimal-escaping",
+      "description": "Canonical symbols leave quotes literal and escape pipe delimiters",
+      "input": { "source": "stage:symbol = |say \"yes\" and \\|wait\\||\n" },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nstage:symbol = |say \"yes\" and \\|wait\\||\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "symbol", "escapes"]
+    }
+  ]
+}

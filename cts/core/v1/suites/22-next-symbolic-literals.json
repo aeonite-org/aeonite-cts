@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "suite_id": "next-symbolic-literals",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#symbolic-literal"
+    ]
+  },
+  "id": "next-symbolic-literals",
+  "title": "Next Symbolic Literal Syntax and Typing",
+  "tests": [
+    {
+      "id": "core-symbol-001-transport-inference",
+      "description": "Transport mode infers SymbolicLiteral and preserves spaces and escaped pipes",
+      "input": {
+        "source": "stage = |this has \\| spaces|\n",
+        "mode": "transport",
+        "options": { "effective_mode": "transport" }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.stage", "datatype": null, "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["experimental", "symbol", "transport", "escapes"]
+    },
+    {
+      "id": "core-symbol-002-strict-reserved-datatype",
+      "description": "Strict mode accepts the reserved symbol datatype over a symbolic literal",
+      "input": {
+        "source": "stage:symbol = |approved|\n",
+        "mode": "strict",
+        "options": { "effective_mode": "strict" }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.stage", "datatype": "symbol", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["experimental", "symbol", "strict", "datatype"]
+    },
+    {
+      "id": "core-symbol-003-custom-datatype",
+      "description": "Custom mode permits an ordinary custom datatype over a symbolic literal",
+      "input": {
+        "source": "stage:status = |approved|\n",
+        "mode": "custom",
+        "options": { "effective_mode": "custom", "datatype_policy": "allow_custom" }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.stage", "datatype": "status", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["experimental", "symbol", "custom", "datatype"]
+    },
+    {
+      "id": "core-symbol-004-empty-rejects",
+      "description": "A symbolic literal must have a nonempty decoded payload",
+      "input": { "source": "stage = ||\n", "mode": "transport" },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "INVALID_SYMBOLIC_LITERAL", "path": "$" }],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": ["experimental", "symbol", "reject", "empty"]
+    },
+    {
+      "id": "core-symbol-005-raw-newline-rejects",
+      "description": "A raw newline cannot occur inside a symbolic literal",
+      "input": { "source": "stage = |first\nsecond|\n", "mode": "transport" },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "UNTERMINATED_SYMBOLIC_LITERAL", "path": "$" }],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": ["experimental", "symbol", "reject", "newline"]
+    },
+    {
+      "id": "core-symbol-006-string-mismatch",
+      "description": "The reserved symbol datatype rejects a string literal",
+      "input": {
+        "source": "stage:symbol = \"approved\"\n",
+        "mode": "strict",
+        "options": { "effective_mode": "strict" }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "DATATYPE_LITERAL_MISMATCH", "path": "$.stage" }],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": ["experimental", "symbol", "strict", "mismatch"]
+    }
+  ]
+}
