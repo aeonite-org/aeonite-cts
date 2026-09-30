@@ -147,15 +147,40 @@
       "tags": ["strict", "temporal", "date", "reduced-granularity", "rejection"]
     },
     {
-      "id": "core-temporal-009-reduced-date-datetime-rejects",
-      "description": "Datetime date components remain complete YYYY-MM-DD values",
+      "id": "core-temporal-009-reduced-date-datetime-accepted",
+      "description": "Datetime and WTC values preserve year- and month-granularity date components",
       "input": {
-        "source": "year:datetime = 2024-T09:30\nmonth:datetime = 2024-02T09:30\n",
+        "source": "year:datetime = 2024-T10:10:00\nmonth:datetime = 2024-12T10:10:00Z\nyearZone:wtc = 2024-T10:10:00&Europe\nmonthZone:wtc = 2024-12T10:&Europe\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.year", "datatype": "datetime", "kind": "binding" },
+            { "path": "$.month", "datatype": "datetime", "kind": "binding" },
+            { "path": "$.yearZone", "datatype": "wtc", "kind": "binding" },
+            { "path": "$.monthZone", "datatype": "wtc", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["strict", "temporal", "datetime", "wtc", "reduced-granularity"]
+    },
+    {
+      "id": "core-temporal-010-invalid-reduced-date-datetime-rejects",
+      "description": "Reduced date components in datetime values retain year and month range and width validation",
+      "input": {
+        "source": "zero:datetime = 0000-T10:10\nmonthZero:datetime = 2024-00T10:10\nmonthHigh:datetime = 2024-13T10:10\nshortMonth:datetime = 2024-2T10:10\n",
         "mode": "strict"
       },
       "expected": {
         "ok": false,
         "errors": [
+          { "code": "INVALID_DATETIME", "phaseLabel": "Parsing" },
+          { "code": "INVALID_DATETIME", "phaseLabel": "Parsing" },
           { "code": "INVALID_DATETIME", "phaseLabel": "Parsing" },
           { "code": "INVALID_DATETIME", "phaseLabel": "Parsing" }
         ],
