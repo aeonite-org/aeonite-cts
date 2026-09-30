@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "version": "0.2.0",
+    "status": "released",
+    "lane": "aes-film",
+    "format": "film.aes",
+    "format_version": "1",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "byte_encoding": "lowercase-hex",
+    "description": "Immutable Film v1 reader snapshot with the append-only SymbolicLiteral kind mapping",
+    "snapshot_id": "film-cts-v1-snapshot-0.2",
+    "spec_snapshot_id": "film-specs-v1-snapshot-0.2"
+  },
+  "suites": [
+    {
+      "id": "framing-and-canonicalization",
+      "file": "suites/01-framing-and-canonicalization.json",
+      "content_sha256": "afc3bcbd16e6e4cf6c88c34be1fb0874f2162e9d7b6351a21e7eb4f31c90e98c"
+    },
+    {
+      "id": "records-and-transcoding",
+      "file": "suites/02-records-and-transcoding.json",
+      "content_sha256": "1c0434f4fba311bd08932e704b3299d478783cd111bbff27740c43b8eb10168f",
+      "exclude_tests": [
+        "film-record-012-kind-above-v1-range",
+        "film-record-026-all-assigned-kind-codes"
+      ]
+    },
+    {
+      "id": "records-and-symbolic-literals",
+      "file": "suites/04-symbolic-literal-kind.json",
+      "content_sha256": "cce48ed1bcf6b1e9aba5401b06a95c3fe56a301bb990e2f6cb7300b82e8a08f6"
+    },
+    {
+      "id": "resource-limits",
+      "file": "suites/03-resource-limits.json",
+      "content_sha256": "85d506482f489b05d0235eaf561a9326b82a77186a9fa2411b220e31512792e9"
+    }
+  ]
+}
