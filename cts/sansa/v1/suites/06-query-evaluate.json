@@ -225,6 +225,14 @@
                   "value": "0.11.0"
                 },
                 {
+                  "name": "stage",
+                  "address": "$.types.stage",
+                  "semanticType": "symbol",
+                  "representationKind": "symbol",
+                  "scalarKind": "symbol",
+                  "value": "approved"
+                },
+                {
                   "name": "released",
                   "address": "$.types.released",
                   "semanticType": "date",
@@ -2726,6 +2734,52 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "separator", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e5-symbol-literal-equality",
+      "description": "Symbol values compare with same-family Query source literals by exact decoded payload.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.*#symbol%symbol\nwhere . == |approved|\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [
+          "$.types.stage"
+        ],
+        "selectedAddresses": [
+          [
+            "$.types.stage"
+          ]
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "symbol", "literal"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e6-symbol-string-not-coerced",
+      "description": "Symbol values do not compare equal to string values with the same text.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.stage\nwhere . == \"approved\"\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "symbol", "string", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-030e7-symbol-ordering-rejected",
+      "description": "Symbol values have no intrinsic ordering relation.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.types.stage\nwhere . < |pending|\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON"
+      },
+      "tags": ["sansa", "query", "evaluate", "value-family", "comparison", "symbol", "ordering", "negative"]
     },
     {
       "id": "sansa-query-evaluate-030f-hex-radix-not-coerced",

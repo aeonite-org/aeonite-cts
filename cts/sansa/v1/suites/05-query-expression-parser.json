@@ -320,6 +320,55 @@
       "tags": ["sansa", "query", "expression", "literal", "separator", "negative"]
     },
     {
+      "id": "sansa-query-expression-003e3-symbol-literal",
+      "description": "AEON symbol source literals parse as decoded symbolic payloads and preserve the canonical pipe-delimited spelling.",
+      "input": {
+        "expression": ".stage == |in review\\|blocked|"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": ".stage == |in review\\|blocked|",
+        "ast": {
+          "type": "binaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "resolutionExpression",
+            "canonical": ".stage"
+          },
+          "right": {
+            "type": "literalExpression",
+            "kind": "symbol",
+            "value": "in review|blocked"
+          }
+        }
+      },
+      "tags": ["sansa", "query", "expression", "literal", "symbol"]
+    },
+    {
+      "id": "sansa-query-expression-003e4-invalid-empty-symbol-literal",
+      "description": "AEON symbol source literals reject empty payloads.",
+      "input": {
+        "expression": ".stage == ||"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_SYMBOL_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "symbol", "negative"]
+    },
+    {
+      "id": "sansa-query-expression-003e5-invalid-unterminated-symbol-literal",
+      "description": "AEON symbol source literals require a closing pipe delimiter.",
+      "input": {
+        "expression": ".stage == |pending"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_SYMBOL_LITERAL"
+      },
+      "tags": ["sansa", "query", "expression", "literal", "symbol", "negative"]
+    },
+    {
       "id": "sansa-query-expression-003f-temporal-literal",
       "description": "AEON temporal-looking source literals parse as temporal Query literal expressions.",
       "input": {
