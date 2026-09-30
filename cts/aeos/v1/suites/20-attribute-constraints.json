@@ -1,7 +1,7 @@
 {
   "meta": {
     "suite_id": "attribute-constraints",
-    "spec_refs": ["aeos/v1/AEOS-spec-v1#attributes"],
+    "spec_refs": ["docs/proposals/aeos-attribute-aware-constraints.md"],
     "constraint_primitives": ["attributes", "closed_attributes"]
   },
   "id": "attribute-constraints",

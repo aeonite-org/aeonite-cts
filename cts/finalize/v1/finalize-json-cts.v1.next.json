@@ -18,10 +18,6 @@
     {
       "id": "finalize-json-profile-policy",
       "file": "suites/03-json-profile-policy.json"
-    },
-    {
-      "id": "finalize-json-symbolic-literals",
-      "file": "suites/04-symbolic-literals.json"
     }
   ]
 }

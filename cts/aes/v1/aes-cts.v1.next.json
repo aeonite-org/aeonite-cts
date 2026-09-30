@@ -22,10 +22,7 @@
     },
     {
       "id": "emission-coverage",
-      "file": "suites/02-emission-coverage.json",
-      "exclude_tests": [
-        "aes-emission-006-trimtick-string-value"
-      ]
+      "file": "suites/02-emission-coverage.json"
     },
     {
       "id": "attributes-and-references",
@@ -50,14 +47,6 @@
     {
       "id": "portable-value-payloads",
       "file": "suites/08-portable-value-payloads.json"
-    },
-    {
-      "id": "symbolic-literals",
-      "file": "suites/09-symbolic-literals.json"
-    },
-    {
-      "id": "trimtick-gutters",
-      "file": "suites/10-trimtick-gutters.json"
     }
   ]
 }

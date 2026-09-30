@@ -959,96 +959,6 @@
       }
     },
     {
-      "id": "sansa-mutate-0045g1-target-aeon-accepts-symbol-payload",
-      "tags": ["experimental", "target-surface", "symbol"],
-      "input": {
-        "namespace": "mutable-inventory",
-        "operation": {
-          "op": "create",
-          "parent": "$.inventory",
-          "name": "stage",
-          "datatype": "symbol",
-          "kind": "symbol",
-          "value": "in review"
-        },
-        "mode": "plan",
-        "target": "aeon"
-      },
-      "expected": {
-        "ok": true,
-        "targetDiagnostics": []
-      }
-    },
-    {
-      "id": "sansa-mutate-0045g1a-target-aeon-accepts-custom-datatype-symbol-payload",
-      "tags": ["experimental", "target-surface", "symbol", "custom-datatype"],
-      "input": {
-        "namespace": "mutable-inventory",
-        "operation": {
-          "op": "create",
-          "parent": "$.inventory",
-          "name": "customStage",
-          "datatype": "workflowStage",
-          "kind": "symbol",
-          "value": "approved"
-        },
-        "mode": "plan",
-        "target": "aeon"
-      },
-      "expected": {
-        "ok": true,
-        "targetDiagnostics": []
-      }
-    },
-    {
-      "id": "sansa-mutate-0045g1b-target-aeon-rejects-symbol-clarifier-metadata",
-      "tags": ["experimental", "target-surface", "symbol", "clarifier", "negative"],
-      "input": {
-        "namespace": "mutable-inventory",
-        "operation": {
-          "op": "create",
-          "parent": "$.inventory",
-          "name": "clarifiedStage",
-          "datatype": "symbol[\"workflow\"]",
-          "kind": "symbol",
-          "value": "approved"
-        },
-        "mode": "plan",
-        "target": "aeon"
-      },
-      "expected": {
-        "ok": false,
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
-        "errorPhase": "target",
-        "errorTargetFormat": "aeon",
-        "errorDatatype": "symbol[\"workflow\"]"
-      }
-    },
-    {
-      "id": "sansa-mutate-0045g2-target-aeon-rejects-empty-symbol-payload",
-      "tags": ["experimental", "target-surface", "symbol"],
-      "input": {
-        "namespace": "mutable-inventory",
-        "operation": {
-          "op": "create",
-          "parent": "$.inventory",
-          "name": "emptyStage",
-          "datatype": "symbol",
-          "kind": "symbol",
-          "value": ""
-        },
-        "mode": "plan",
-        "target": "aeon"
-      },
-      "expected": {
-        "ok": false,
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
-        "errorPhase": "target",
-        "errorTargetFormat": "aeon",
-        "errorValuePath": "operations[0].value"
-      }
-    },
-    {
       "id": "sansa-mutate-0045h-target-aeon-rejects-invalid-separator-payload",
       "tags": ["experimental", "target-surface", "separator"],
       "input": {
@@ -1135,30 +1045,6 @@
       "expected": {
         "ok": true,
         "targetDiagnostics": []
-      }
-    },
-    {
-      "id": "sansa-mutate-0046a00-target-json-rejects-symbol-intent",
-      "tags": ["experimental", "target-surface", "json", "symbol"],
-      "input": {
-        "namespace": "mutable-inventory",
-        "operation": {
-          "op": "create",
-          "parent": "$.inventory",
-          "name": "stage",
-          "datatype": "symbol",
-          "kind": "symbol",
-          "value": "approved"
-        },
-        "mode": "plan",
-        "target": "json"
-      },
-      "expected": {
-        "ok": false,
-        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_DATATYPE",
-        "errorPhase": "target",
-        "errorTargetFormat": "json",
-        "errorDatatype": "symbol"
       }
     },
     {

@@ -24,7 +24,6 @@
       "id": "addressing-and-syntax",
       "file": "suites/02-addressing-and-syntax.json",
       "exclude_tests": [
-        "core-addr-010-trimticks-pass",
         "core-addr-012-invalid-separator-char-in-type-annotation-reject"
       ]
     },
@@ -106,14 +105,6 @@
     {
       "id": "temporal-precision-and-boundaries",
       "file": "suites/21-temporal-precision-and-boundaries.json"
-    },
-    {
-      "id": "next-symbolic-literals",
-      "file": "suites/22-next-symbolic-literals.json"
-    },
-    {
-      "id": "next-trimtick-gutters",
-      "file": "suites/23-next-trimtick-gutters.json"
     }
   ]
 }

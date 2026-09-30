@@ -48,6 +48,7 @@
                 "type": "StringLiteral",
                 "delimiter": "`",
                 "trimticks": {
+                  "markerWidth": 1,
                   "rawValue": "\n\tone\n\ttwo\n"
                 }
               }
