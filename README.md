@@ -65,12 +65,13 @@ and profile-validation vectors. The immutable
 canonicalization, and format-limit vectors. Each manifest pins the SHA-256
 digest of every referenced suite; JavaScript and Rust pass both targets.
 
-The immutable `film-cts-v1-snapshot-0.1` manifest contains 72 Film v1 binary
-framing, canonicalization, portable-record, Telex-transcoding, and resource-limit
-vectors. It is aligned with `film-specs-v1-snapshot-0.1`; all three referenced
-suites are pinned by exact-byte SHA-256 digests. JavaScript and Rust pass the
-reader target independently. Durable Film writers remain outside this snapshot's
-implementation claim.
+The immutable `film-cts-v1-snapshot-0.2` manifest contains 73 Film v1 binary
+framing, canonicalization, portable-record, Telex-transcoding, and
+resource-limit vectors. It is aligned with `film-specs-v1-snapshot-0.2` and
+adds the append-only `SymbolicLiteral` kind mapping while retaining explicit
+rejection of the next unassigned code. Every referenced suite is pinned by an
+exact-byte SHA-256 digest. The historical 0.1 snapshot remains unchanged.
+Durable Film writers remain outside this snapshot's implementation claim.
 
 The experimental `aes-path-translation-cts-v1-snapshot-0.1` target adds three
 AEON-specific interoperability vectors without modifying either released AES
