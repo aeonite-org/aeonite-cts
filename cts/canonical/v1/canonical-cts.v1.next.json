@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "version": "0.2.0",
+    "lane": "canonical",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Next canonical formatting target including symbolic literals",
+    "snapshot_id": "canonical-next-cts-v1-snapshot-0.2"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json"
+    },
+    {
+      "id": "node-canonicalization",
+      "file": "suites/02-node-canonicalization.json"
+    },
+    {
+      "id": "whitespace-boundary-canonicalization",
+      "file": "suites/03-whitespace-boundary-canonicalization.json"
+    },
+    {
+      "id": "structural-identity-canonicalization",
+      "file": "suites/04-structural-identity-canonicalization.json"
+    },
+    {
+      "id": "string-escapes",
+      "file": "suites/05-string-escapes.json"
+    },
+    {
+      "id": "canonical-symbolic-literals",
+      "file": "suites/06-symbolic-literals.json"
+    }
+  ]
+}

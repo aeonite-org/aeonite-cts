@@ -105,6 +105,10 @@
     {
       "id": "temporal-precision-and-boundaries",
       "file": "suites/21-temporal-precision-and-boundaries.json"
+    },
+    {
+      "id": "next-symbolic-literals",
+      "file": "suites/22-next-symbolic-literals.json"
     }
   ]
 }

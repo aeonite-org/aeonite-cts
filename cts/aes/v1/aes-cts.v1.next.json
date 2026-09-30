@@ -47,6 +47,10 @@
     {
       "id": "portable-value-payloads",
       "file": "suites/08-portable-value-payloads.json"
+    },
+    {
+      "id": "symbolic-literals",
+      "file": "suites/09-symbolic-literals.json"
     }
   ]
 }

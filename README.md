@@ -50,6 +50,9 @@ Finalization and transport limits use the same pattern through
 The experimental `finalize-json-cts.v1.next.json` and
 `finalize-map-cts.v1.next.json` targets define the strict-versus-transport
 compatibility policy for special values without changing released snapshots.
+The mutable Core, AES projection, canonical, and finalize next targets also
+cover pipe-delimited symbolic literals, including reserved/custom datatype
+behavior, decoded AES payloads, canonical escaping, and lossy JSON diagnostics.
 
 Portable AES v1 has two stable, authority-separated targets. The immutable
 `aes-events-cts-v1-snapshot-0.1` manifest contains 38 transport-neutral record
