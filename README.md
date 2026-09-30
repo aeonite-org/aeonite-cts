@@ -38,13 +38,14 @@ CTS compatibility snapshots are versioned explicitly. See
 immutable compatibility targets. Specification snapshots use the parallel
 `*-specs-v1-snapshot-*` convention for documentation alignment.
 
-The current released Core target is `core-cts-v1-snapshot-0.3`, exposed by
-`cts/core/v1/core-cts.v1.snapshot-0.3.json`. It preserves the historical 0.2
-cases, excludes four superseded limit expectations, and adds their unified
-Aeonic-limit replacements plus the complete boundary suite. Every referenced
-suite is content-hash pinned. The historical 0.2 target remains unchanged at
-`core-cts.v1.json`; the `.next` and smaller `core-limits-cts.v1.next.json`
-manifests remain available for ongoing and limit-only development.
+The current released Core target is `core-cts-v1-snapshot-0.4`, exposed by
+`cts/core/v1/core-cts.v1.snapshot-0.4.json`. Its 294 vectors promote symbolic
+literals, reduced temporal precision, and the single-marker trimtick grammar
+while retaining the unified Aeonic-limit coverage. Every referenced suite is
+content-hash pinned. The historical 0.3 target remains unchanged at
+`core-cts.v1.snapshot-0.3.json`; the `.next` and smaller
+`core-limits-cts.v1.next.json` manifests remain available for ongoing and
+limit-only development.
 Finalization and transport limits use the same pattern through
 `finalize-limits-cts.v1.next.json` and `transport-limits-cts.v1.next.json`.
 The experimental `finalize-json-cts.v1.next.json` and
@@ -53,9 +54,9 @@ compatibility policy for special values without changing released snapshots.
 The mutable Core, AES projection, canonical, and finalize next targets also
 cover pipe-delimited symbolic literals, including reserved/custom datatype
 behavior, decoded AES payloads, canonical escaping, and lossy JSON diagnostics.
-The mutable Core and AES projection targets additionally cover the single-marker
-trimtick grammar and exact space-or-tab gutter normalization. Released snapshots
-retain their historical width-bearing trimtick cases unchanged.
+The Core and AES 0.4 snapshots cover the single-marker trimtick grammar and
+exact space-or-tab gutter normalization. Historical released snapshots retain
+their width-bearing trimtick cases unchanged.
 
 Portable AES v1 has two stable, authority-separated targets. The immutable
 `aes-events-cts-v1-snapshot-0.1` manifest contains 38 transport-neutral record
@@ -93,13 +94,12 @@ representation metadata, including preserved trailing zeroes and base-aware
 validation.
 
 The current released AEON-to-portable-AES projection target is
-`aes-cts-v1-snapshot-0.3`, exposed by
-`cts/aes/v1/aes-cts.v1.snapshot-0.3.json`. Its 82 vectors cover the complete
-portable projection, structural identities, unified Aeonic limits, exact-source
-spans, header planes, and canonical value payloads. Every referenced suite is
-content-hash pinned. The historical 0.2 target remains unchanged at
-`aes-cts.v1.json`; `aes-cts.v1.next.json` now names the mutable 0.4 development
-target.
+`aes-cts-v1-snapshot-0.4`, exposed by
+`cts/aes/v1/aes-cts.v1.snapshot-0.4.json`. Its 83 vectors retain the complete
+portable projection and add symbolic-literal payloads plus single-marker
+trimtick normalization. Every referenced suite is content-hash pinned. The
+historical 0.3 target remains unchanged at `aes-cts.v1.snapshot-0.3.json`;
+`aes-cts.v1.next.json` remains the mutable development target.
 
 ## Validation
 
