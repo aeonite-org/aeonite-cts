@@ -132,6 +132,7 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 | reference-form constraints and schema-owned reference policy | baseline | `cts/aeos/v1/suites/16-reference-forms.json` | covers schema-owned reference require/forbid behavior, clone-vs-pointer distinction, invalid schema combinations, and schema-wide reference policy while keeping materialization behavior out of AEOS conformance |
 | Core-versus-AEOS authority boundary preservation | baseline | `cts/aeos/v1/suites/01-baseline.json`, `cts/aeos/v1/suites/16-reference-forms.json` | preserves that missing reference targets and related legality checks remain Core-owned even when AEOS constrains reference form |
 | literal widening and cardinality constraints | baseline | `cts/aeos/v1/suites/21-literal-widening-cardinality.json` | covers nullable typed values, null sentinel matching, Infinity/NaN numeric widening, toggle pair matching, and min/max immediate child counts |
+| temporal field and GP selector constraints | experimental | `cts/aeos/v1/suites/24-temporal-field-constraints.json` | covers seconds and year bounds, nine-digit fractional precision, zero-digit precision policy, temporal-context conflicts, and representation-kind selector application to untyped temporal literals |
 
 ## SANSA behavior families
 

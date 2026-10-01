@@ -2,7 +2,7 @@
   "meta": {
     "suite_id": "temporal-field-constraints",
     "spec_refs": ["aeos/v1/AEOS-spec-v1#temporal-field-constraints"],
-    "constraint_primitives": ["TEMPORAL_MAX_SECOND", "TEMPORAL_MIN_YEAR", "TEMPORAL_MAX_YEAR", "TEMPORAL_CONTEXT_POLICY"]
+    "constraint_primitives": ["TEMPORAL_MAX_SECOND", "TEMPORAL_MAX_FRACTION_DIGITS", "TEMPORAL_MIN_YEAR", "TEMPORAL_MAX_YEAR", "TEMPORAL_CONTEXT_POLICY"]
   },
   "id": "temporal-field-constraints",
   "title": "Temporal Field Constraints",
@@ -194,6 +194,110 @@
       "expected": {
         "ok": false,
         "errors": [{ "path": "$.at", "code": "unknown_constraint_key", "phase": "schema_validation", "span": null }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_013_nine_fraction_digits_pass",
+      "description": "The GP nanosecond precision ceiling admits nine authored fractional digits",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "value": { "type": "TimeLiteral", "raw": "23:55:59.999999999", "value": "23:55:59.999999999" },
+          "span": [0, 18]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_fraction_digits": 9 } }] }
+      },
+      "expected": { "ok": true, "errors": [], "warnings": [], "guarantees": {} }
+    },
+    {
+      "id": "temporal_014_ten_fraction_digits_rejected",
+      "description": "Fractional precision counts authored digits, including a trailing zero",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "value": { "type": "TimeLiteral", "raw": "23:55:59.1234567890", "value": "23:55:59.1234567890" },
+          "span": [0, 19]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_fraction_digits": 9 } }] }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "temporal_field_constraint_mismatch", "phase": "schema_validation", "span": [0, 19] }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_015_zero_fraction_digits_admits_whole_second",
+      "description": "A zero precision ceiling admits a complete whole-second value with no fractional part",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "value": { "type": "DateTimeLiteral", "raw": "2027-01-31T23:59:59Z", "value": "2027-01-31T23:59:59Z" },
+          "span": [0, 20]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_fraction_digits": 0 } }] }
+      },
+      "expected": { "ok": true, "errors": [], "warnings": [], "guarantees": {} }
+    },
+    {
+      "id": "temporal_016_zero_fraction_digits_rejects_fraction",
+      "description": "A zero precision ceiling rejects any authored fractional digit",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "value": { "type": "DateTimeLiteral", "raw": "2027-01-31T23:59:59.0Z", "value": "2027-01-31T23:59:59.0Z" },
+          "span": [0, 22]
+        }],
+        "schema": { "rules": [{ "path": "$.at", "constraints": { "temporal_max_fraction_digits": 0 } }] }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "temporal_field_constraint_mismatch", "phase": "schema_validation", "span": [0, 22] }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_017_type_selector_rejects_untyped_leap_second",
+      "description": "A GP-style representation selector applies the seconds ceiling to an untyped temporal literal",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "value": { "type": "TimeLiteral", "raw": "23:55:60.5", "value": "23:55:60.5" },
+          "span": [0, 11]
+        }],
+        "schema": { "rules": [{ "selector": "$.**%TimeLiteral", "constraints": { "temporal_max_second": 59, "temporal_max_fraction_digits": 9 } }] }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "temporal_field_constraint_mismatch", "phase": "schema_validation", "span": [0, 11] }],
+        "warnings": [],
+        "guarantees": {}
+      }
+    },
+    {
+      "id": "temporal_018_type_selector_rejects_untyped_excess_precision",
+      "description": "A GP-style representation selector applies the precision ceiling to an untyped temporal literal",
+      "input": {
+        "aes": [{
+          "path": { "segments": [{ "type": "root" }, { "type": "member", "key": "at" }] },
+          "key": "at",
+          "value": { "type": "TimeLiteral", "raw": "23:55:59.1234567890", "value": "23:55:59.1234567890" },
+          "span": [0, 19]
+        }],
+        "schema": { "rules": [{ "selector": "$.**%TimeLiteral", "constraints": { "temporal_max_second": 59, "temporal_max_fraction_digits": 9 } }] }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "path": "$.at", "code": "temporal_field_constraint_mismatch", "phase": "schema_validation", "span": [0, 19] }],
         "warnings": [],
         "guarantees": {}
       }
