@@ -23,6 +23,36 @@
         }
       },
       "tags": ["experimental", "canonical", "symbol", "escapes"]
+    },
+    {
+      "id": "canonical-symbol-002-inline-and-container-round-trip",
+      "description": "Canonical symbols retain their literal family in attributes and typed containers",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nitem@{stage:symbol = |in review|}:string = \"ok\"\nstates:list<symbol> = [|approved|, |needs \\| review|]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nitem@{stage:symbol = |in review|}:string = \"ok\"\nstates:list<symbol> = [|approved|, |needs \\| review|]\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "symbol", "attributes", "containers", "round-trip"]
+    },
+    {
+      "id": "canonical-symbol-003-decoded-control-escaping",
+      "description": "A decoded line break remains inside the symbolic literal family and is re-escaped canonically",
+      "input": { "source": "stage:symbol = |first\\nsecond|\n" },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nstage:symbol = |first\\nsecond|\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "symbol", "controls", "round-trip"]
     }
   ]
 }
