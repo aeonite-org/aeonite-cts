@@ -38,6 +38,10 @@
     {
       "id": "canonical-temporal-literals",
       "file": "suites/07-temporal-literals.json"
+    },
+    {
+      "id": "next-canonical-literal-flow",
+      "file": "suites/08-next-literal-flow-regressions.json"
     }
   ]
 }

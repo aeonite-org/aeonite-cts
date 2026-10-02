@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "suite_id": "next-canonical-literal-flow",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#number-2",
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#string-2",
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#trimtick-2"
+    ]
+  },
+  "id": "next-canonical-literal-flow",
+  "title": "Next Canonical Literal Flow Regressions",
+  "tests": [
+    {
+      "id": "canonical-literal-flow-001-exponent-leading-zeroes",
+      "description": "Valid leading-zero exponents normalize without changing numeric family or value",
+      "input": {
+        "source": "aeon:mode = \"strict\"\na:number = 1e+01\nb:number = 1e-01\nc:number = 1e01\nd:number = 1e0_1\ne:number = 1e+00\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\na:number = 1e1\nb:number = 1e-1\nc:number = 1e1\nd:number = 1e1\ne:number = 1e0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "literal-flow"
+      ]
+    },
+    {
+      "id": "canonical-literal-flow-002-escaped-carriage-return",
+      "description": "Escaped carriage returns survive canonicalization from either ordinary quote delimiter",
+      "input": {
+        "source": "aeon:mode = \"strict\"\na:string = \"a\\rb\"\nb:string = 'a\\rb'\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\na:string = \"a\\rb\"\nb:string = \"a\\rb\"\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "literal-flow"
+      ]
+    },
+    {
+      "id": "canonical-literal-flow-003-prose-family",
+      "description": "Compact prose values retain their required trimtick literal family",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:prose = >`text`\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nv:prose = >`text`\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "literal-flow"
+      ]
+    },
+    {
+      "id": "canonical-literal-flow-004-zero-with-nonzero-exponent",
+      "description": "Exponent-family zero normalizes to signed 0e0 even when its authored exponent is nonzero",
+      "input": {
+        "source": "aeon:mode = \"strict\"\na:number = 0e+01\nb:number = 0e-01\nc:number = -0e+01\nd:number = -0e-01\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\na:number = 0e0\nb:number = 0e0\nc:number = -0e0\nd:number = -0e0\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "literal-flow", "zero", "negative-zero"]
+    }
+  ]
+}

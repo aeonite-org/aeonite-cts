@@ -67,6 +67,39 @@ The status labels used here are:
 | shared value equality, ordering, concrete-value, and explicit radix semantics | scaffold | `cts/value-semantics/v1/value-semantics-cts.v1.next.json`, `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` through `cts/value-semantics/v1/suites/04-radix-fractional-scale.json` | covers minimum-profile equality and ordering, NaN fail-closed behavior, infinity numeric-bound behavior, concrete value predicate classification, portable default/codepoint profile selection, exact same-base radix behavior, exact rational comparison across independently resolved bases, and representation-preserving fractional scale | `aeonite-specs/aes/v1/aeonic-semantic-language-v1#radix-numeric-profiles` |
 | AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
 
+## Draft literal-flow regression promotion
+
+The Core next manifest includes 28 focused cases in
+`cts/core/v1/suites/24-next-literal-flow-regressions.json` for four implementation
+gaps found by `altopelago/aeon/scripts/stress-literal-flow.py`:
+
+- underscores do not permit leading zeroes in numeric mantissas;
+- exponent digits may have leading zeroes, including signed and underscored forms;
+- the reserved `prose` datatype requires the trimtick literal family, including
+  explicit anonymous container elements, object bindings, and attributes;
+- ordinary single- and double-quoted strings reject raw CR/CRLF while accepting
+  escaped carriage returns.
+
+The canonical next manifest adds four cases in
+`cts/canonical/v1/suites/08-next-literal-flow-regressions.json` for exponent
+normalization, escaped carriage-return preservation, compact `prose`
+literal-family preservation, and signed exponent-family zero normalization.
+Expectations are derived from the specification; the broader 815-case
+implementation flow matrix remains a hardening feeder,
+not a new CTS authority surface.
+
+Verification on 2026-10-02 against the local TypeScript, Python, and Rust CLIs:
+each passed all 322 Core next cases and 57 of 58 canonical next cases. The new
+`canonical-literal-flow-004-zero-with-nonzero-exponent` case exposes a shared
+implementation gap: `0e+01` formats as `0e1`, although the value-type canonical
+rules require exponent-family zero to normalize to `0e0` (and negative zero to
+`-0e0`). The draft expectation is intentionally retained and the implementation
+fix is pending; cross-runtime agreement alone would not detect this gap.
+
+These additions are draft coverage only. Released snapshots, their referenced
+suite files, and implementation snapshot claims remain unchanged. Future
+promotion must create a new immutable snapshot under the versioning policy.
+
 ## Promotion rule
 
 Selective promotion is allowed, but not by anecdote.
