@@ -99,7 +99,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nitem@{note:trimtick = >`\\n\\n alpha\\n beta`}:number = 1\none:trimtick = >`\\n\\n\\t alpha\\n\\tbeta`\ntwo:trimtick = >`\\n\\n\\n\\t alpha\\n\\tbeta`\n"
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nitem@{note:trimtick = >`\\n\\n alpha\\n beta`}:number = 1\none:trimtick = >`\n  \n   alpha\n  beta\n`\ntwo:trimtick = >`\n  \n  \n   alpha\n  beta\n`\n"
         }
       },
       "tags": ["experimental", "canonical", "literal-flow", "trimtick", "leading-blank-lines", "round-trip"]
@@ -119,6 +119,54 @@
         }
       },
       "tags": ["experimental", "canonical", "literal-flow", "string", "backtick", "round-trip"]
+    },
+    {
+      "id": "canonical-literal-flow-007-block-trimtick-space-indentation",
+      "description": "Block trimticks use canonical space indentation even when the semantic payload begins with a space",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nc:trimtick=>`\n  hello\n world\n hello\n`\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nc:trimtick = >`\n   hello\n  world\n  hello\n`\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "literal-flow", "trimtick", "indentation", "spaces", "round-trip"]
+    },
+    {
+      "id": "canonical-literal-flow-008-tab-authored-trimtick-space-canonicalization",
+      "description": "A tab-gutter-authored block trimtick canonicalizes to expanded space indentation when the payload has no common leading space",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ndescription:prose = >`\n\tfirst\n\t second\n`"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\ndescription:prose = >`\n  first\n   second\n`\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "literal-flow", "trimtick", "tab-gutter", "spaces", "round-trip"]
+    },
+    {
+      "id": "canonical-literal-flow-009-common-leading-space-protection",
+      "description": "Canonicalization uses the compact protective gutter when every nonblank payload line has semantic leading spaces",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ndescription:prose = >`\n\t first\n\t  second\n`"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\ndescription:prose = >`\\t first\\n\\t  second`\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "literal-flow", "trimtick", "tab-gutter", "leading-space", "round-trip"]
     }
   ]
 }

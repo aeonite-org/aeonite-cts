@@ -58,11 +58,13 @@ exact space-or-tab gutter normalization. Historical released snapshots retain
 their width-bearing trimtick cases unchanged.
 
 The current released canonical target is
-`canonical-cts-v1-snapshot-0.2`, exposed by
-`cts/canonical/v1/canonical-cts.v1.snapshot-0.2.json`. Its 54 vectors pin
-ordinary-string versus trimtick preservation, symbolic-literal escaping and
-nesting, reduced temporal precision, second `60`, exact arbitrary fractional
-scale, and the four-digit year boundaries across canonical writers.
+`canonical-cts-v1-snapshot-0.3`, exposed by
+`cts/canonical/v1/canonical-cts.v1.snapshot-0.3.json`. Its 62 vectors pin
+space-indented block trimticks, leading-blank preservation, ordinary-string
+versus trimtick preservation, symbolic-literal escaping and nesting, reduced
+temporal precision, second `60`, exact arbitrary fractional scale, and the
+four-digit year boundaries across canonical writers. The historical 0.2
+snapshot remains unchanged.
 
 Portable AES v1 has two stable, authority-separated targets. The immutable
 `aes-events-cts-v1-snapshot-0.1` manifest contains 38 transport-neutral record
