@@ -87,6 +87,38 @@
         }
       },
       "tags": ["experimental", "canonical", "literal-flow", "zero", "negative-zero"]
+    },
+    {
+      "id": "canonical-literal-flow-005-compact-trimtick-leading-blanks",
+      "description": "Compact trimtick canonicalization preserves one or more semantic leading blank lines at bindings and inside attributes",
+      "input": {
+        "source": "aeon:mode = \"strict\"\none:trimtick = >`\n\n\t alpha\n\tbeta\n`\ntwo:trimtick = >`\n\n\n\t alpha\n\tbeta\n`\nitem@{note:trimtick = >`\n\n  alpha\n  beta\n`}:number = 1\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nitem@{note:trimtick = >`\\n\\n alpha\\n beta`}:number = 1\none:trimtick = >`\\n\\n\\t alpha\\n\\tbeta`\ntwo:trimtick = >`\\n\\n\\n\\t alpha\\n\\tbeta`\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "literal-flow", "trimtick", "leading-blank-lines", "round-trip"]
+    },
+    {
+      "id": "canonical-literal-flow-006-ordinary-multiline-backtick",
+      "description": "An ordinary multiline backtick remains string semantics and canonicalizes to an escaped quoted string rather than a trimtick",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nvalue = `\nhello\n`\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nvalue = \"\\nhello\\n\"\n"
+        }
+      },
+      "tags": ["experimental", "canonical", "literal-flow", "string", "backtick", "round-trip"]
     }
   ]
 }
