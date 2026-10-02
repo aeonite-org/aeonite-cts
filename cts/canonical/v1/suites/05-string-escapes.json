@@ -14,7 +14,7 @@
   "tests": [
     {
       "id": "canonical-string-001-complete-escape-vocabulary-all-delimiters",
-      "description": "Every v1 escape form decodes identically in double, single, backtick, and trimtick strings and is re-escaped into parseable canonical trimticks",
+      "description": "Every v1 escape form decodes identically while ordinary string delimiters normalize to double quotes and trimticks remain trimticks",
       "input": {
         "source": "double = \"quote:\\\" apostrophe:\\' tick:\\` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\b formfeed:\\f unicode:\\u0041 braced:\\u{1F600} pair:\\uD83D\\uDE00\"\nsingle = 'quote:\\\" apostrophe:\\' tick:\\` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\b formfeed:\\f unicode:\\u0041 braced:\\u{1F600} pair:\\uD83D\\uDE00'\nbacktick = `quote:\\\" apostrophe:\\' tick:\\` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\b formfeed:\\f unicode:\\u0041 braced:\\u{1F600} pair:\\uD83D\\uDE00`\ntrimtick = >`quote:\\\" apostrophe:\\' tick:\\` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\b formfeed:\\f unicode:\\u0041 braced:\\u{1F600} pair:\\uD83D\\uDE00`"
       },
@@ -23,7 +23,7 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nbacktick = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\ndouble = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\nsingle = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\ntrimtick = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\n"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nbacktick = \"quote:\\\" apostrophe:' tick:` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\"\ndouble = \"quote:\\\" apostrophe:' tick:` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\"\nsingle = \"quote:\\\" apostrophe:' tick:` slash:\\\\ newline:\\n carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\"\ntrimtick = >`\n  quote:\" apostrophe:' tick:\\` slash:\\\\ newline:\n   carriage:\\r tab:\\t backspace:\\u0008 formfeed:\\u000c unicode:A braced:😀 pair:😀\n`\n"
         }
       },
       "tags": ["canonical", "strings", "escapes", "trimticks", "unicode"],
@@ -31,7 +31,7 @@
     },
     {
       "id": "canonical-string-002-literal-multiline-backtick-and-trimtick",
-      "description": "Literal newlines remain valid only in backtick-based string forms",
+      "description": "Literal newlines remain valid in backtick-based forms without collapsing ordinary strings into trimticks",
       "input": {
         "source": "backtick = `line1\nline2`\ntrimtick = >`\n  line1\n  line2\n`"
       },
@@ -40,10 +40,47 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nbacktick = >`\n  line1\n  line2\n`\ntrimtick = >`\n  line1\n  line2\n`\n"
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nbacktick = \"line1\\nline2\"\ntrimtick = >`\n  line1\n  line2\n`\n"
         }
       },
       "tags": ["canonical", "strings", "multiline", "trimticks"],
+      "spec_refs": ["specs/04-official/v1/value-types-v1.md#32-trimtick"]
+    },
+    {
+      "id": "canonical-string-002b-strict-literal-families-survive-canonicalization",
+      "description": "Canonicalization preserves the distinct string and trimtick literal families required by strict reserved datatypes",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ndescription:prose = >`approved`\nmessage:string = \"first\\nsecond\""
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\ndescription:prose = >`approved`\nmessage:string = \"first\\nsecond\"\n"
+        }
+      },
+      "tags": ["canonical", "strings", "trimticks", "strict", "round-trip"],
+      "spec_refs": [
+        "specs/04-official/v1/value-types-v1.md#31-string",
+        "specs/04-official/v1/value-types-v1.md#32-trimtick"
+      ]
+    },
+    {
+      "id": "canonical-string-002c-trimtick-payload-indentation-survives-canonicalization",
+      "description": "Canonical trimticks protect normalized leading payload spaces from a second gutter-trimming pass",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ndescription:prose = >`\n\t first\n\t  second\n`"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\ndescription:prose = >`\\t first\\n\\t  second`\n"
+        }
+      },
+      "tags": ["canonical", "strings", "trimticks", "indentation", "round-trip"],
       "spec_refs": ["specs/04-official/v1/value-types-v1.md#32-trimtick"]
     },
     {

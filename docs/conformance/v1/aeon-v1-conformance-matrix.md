@@ -29,7 +29,7 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 - Protocol: `cts/protocol/v1`
 - Core lane manifest: `cts/core/v1/core-cts.v1.snapshot-0.4.json`
 - AES lane manifest: `cts/aes/v1/aes-cts.v1.snapshot-0.4.json`
-- Canonical lane manifest: `cts/canonical/v1/canonical-cts.v1.json`
+- Canonical lane manifest: `cts/canonical/v1/canonical-cts.v1.snapshot-0.2.json`
 - Annotations lane manifest: `cts/annotations/v1/annotation-stream-cts.v1.json`
 - AEOS lane manifest: `cts/aeos/v1/aeos-validator-cts.v1.json`
 
@@ -41,6 +41,8 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 |                               |                                               |                       | `cts/aes/v1:suites/01-baseline.json`                          |
 |                               | string delimiters, escapes, Unicode, and newline rejection | `core`, `canonical` | `cts/core/v1:suites/05-promoted-edge-rejections.json`         |
 |                               |                                               |                       | `cts/canonical/v1:suites/05-string-escapes.json`              |
+|                               | symbolic literal preservation and escaping    | `core`, `aes`, `canonical` | `cts/canonical/v1:suites/06-symbolic-literals.json`       |
+|                               | reduced temporal precision and exact fractional scale | `core`, `canonical` | `cts/canonical/v1:suites/07-temporal-literals.json`       |
 |                               | transport-only accepted value forms           | `core`, `aes`         | `cts/core/v1:suites/06-transport-acceptance.json`             |
 |                               |                                               |                       | `cts/aes/v1:suites/05-transport-emission-coverage.json`       |
 | `AEON-spec-v1.md` §5          | structural syntax surface                     | `core`                | `cts/core/v1:suites/02-addressing-and-syntax.json`            |

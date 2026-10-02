@@ -7,7 +7,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Next canonical formatting target including symbolic literals",
+    "description": "Next canonical formatting target including symbolic literals and exact temporal preservation",
     "snapshot_id": "canonical-next-cts-v1-snapshot-0.2"
   },
   "suites": [
@@ -34,6 +34,14 @@
     {
       "id": "canonical-symbolic-literals",
       "file": "suites/06-symbolic-literals.json"
+    },
+    {
+      "id": "canonical-temporal-literals",
+      "file": "suites/07-temporal-literals.json"
+    },
+    {
+      "id": "next-canonical-literal-flow",
+      "file": "suites/08-next-literal-flow-regressions.json"
     }
   ]
 }

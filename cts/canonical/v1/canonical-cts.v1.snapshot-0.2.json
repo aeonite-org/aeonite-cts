@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "version": "0.2.0",
+    "status": "released",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Immutable AEON v1 canonical formatting snapshot with literal-family preservation, symbolic literals, and exact temporal forms",
+    "snapshot_id": "canonical-cts-v1-snapshot-0.2",
+    "spec_snapshot_id": "canonical-specs-v1-snapshot-0.2"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json",
+      "content_sha256": "8f8460f082547f985b82ff377f2a338e9417aa3f5f3e6482badefbadf1b3ccb2"
+    },
+    {
+      "id": "node-canonicalization",
+      "file": "suites/02-node-canonicalization.json",
+      "content_sha256": "5c479dd4765f04774ae097dde42f746b8ead40f9f1a93ba102a9fd2afe8fce0b"
+    },
+    {
+      "id": "whitespace-boundary-canonicalization",
+      "file": "suites/03-whitespace-boundary-canonicalization.json",
+      "content_sha256": "07e3b5d618c2f19543d647104849ffe8bfd357ae039dacd89bf92eeafece86e1"
+    },
+    {
+      "id": "structural-identity-canonicalization",
+      "file": "suites/04-structural-identity-canonicalization.json",
+      "content_sha256": "adbe315dd52b41a1d1797f5a0e5d0861ee9eae27d3eab64f769f1e85966c1406"
+    },
+    {
+      "id": "string-escapes",
+      "file": "suites/05-string-escapes.json",
+      "content_sha256": "8ea98a1d6c5f2d6853a0672af697853350ddf95d5558077b2da8ace0ae6b1e43"
+    },
+    {
+      "id": "canonical-symbolic-literals",
+      "file": "suites/06-symbolic-literals.json",
+      "content_sha256": "ded2cbcb6d27f16b9b8504c17c800d096d9082baf4c70c47b51a9b045b088e18"
+    },
+    {
+      "id": "canonical-temporal-literals",
+      "file": "suites/07-temporal-literals.json",
+      "content_sha256": "77066312bb13f8174463934fe2db3dc4d5c3e342b89dd8d131e973b3b3267e85"
+    }
+  ]
+}

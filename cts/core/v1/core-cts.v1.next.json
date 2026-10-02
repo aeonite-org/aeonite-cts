@@ -114,6 +114,10 @@
     {
       "id": "next-trimtick-gutters",
       "file": "suites/23-next-trimtick-gutters.json"
+    },
+    {
+      "id": "next-literal-flow-regressions",
+      "file": "suites/24-next-literal-flow-regressions.json"
     }
   ]
 }

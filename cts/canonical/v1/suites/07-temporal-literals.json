@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "suite_id": "canonical-temporal-literals",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#date-time-datetime-wtc"
+    ]
+  },
+  "id": "canonical-temporal-literals",
+  "title": "Canonical Temporal Literals",
+  "tests": [
+    {
+      "id": "canonical-temporal-001-reduced-calendar-and-clock-precision",
+      "description": "Canonicalization preserves year, month, and reduced clock precision without filling omitted fields",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nday:date = 2024-12-21\nhour:time = 09:\nminute:time = 09:30\nmonth:date = 2024-12\nmonthTick:wtc = 2024-12T10:&Europe\nyear:date = 2024-\nyearTick:datetime = 2024-T10:10:00\nyearZone:wtc = 2024-T10:10:00&Europe\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nday:date = 2024-12-21\nhour:time = 09:\nminute:time = 09:30\nmonth:date = 2024-12\nmonthTick:wtc = 2024-12T10:&Europe\nyear:date = 2024-\nyearTick:datetime = 2024-T10:10:00\nyearZone:wtc = 2024-T10:10:00&Europe\n"
+        }
+      },
+      "tags": ["canonical", "temporal", "date", "time", "datetime", "wtc", "reduced-precision"]
+    },
+    {
+      "id": "canonical-temporal-002-leap-second-and-arbitrary-fraction-scale",
+      "description": "Core canonicalization preserves second 60 and arbitrary authored fractional precision including trailing zeroes",
+      "input": {
+        "source": "aeon:mode = \"strict\"\ndatetime:datetime = 2016-12-31T23:59:60.340000\ntime:time = 23:55:60.999999999999999999999999999999999999999999999999\nwtc:wtc = 2016-12-31T23:59:60.500000Z&UTC\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\ndatetime:datetime = 2016-12-31T23:59:60.340000\ntime:time = 23:55:60.999999999999999999999999999999999999999999999999\nwtc:wtc = 2016-12-31T23:59:60.500000Z&UTC\n"
+        }
+      },
+      "tags": ["canonical", "temporal", "leap-second", "fractional-seconds", "exact-scale", "round-trip"]
+    },
+    {
+      "id": "canonical-temporal-003-year-domain-boundaries",
+      "description": "Canonicalization preserves the inclusive four-digit Core year boundaries",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nlower:date = 0001-\nupper:datetime = 9999-12-31T23:59:60\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"strict\"\n}\nlower:date = 0001-\nupper:datetime = 9999-12-31T23:59:60\n"
+        }
+      },
+      "tags": ["canonical", "temporal", "year-boundary", "leap-second"]
+    }
+  ]
+}

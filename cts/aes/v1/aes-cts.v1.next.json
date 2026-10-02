@@ -58,6 +58,10 @@
     {
       "id": "trimtick-gutters",
       "file": "suites/10-trimtick-gutters.json"
+    },
+    {
+      "id": "next-number-normalization",
+      "file": "suites/11-next-number-normalization.json"
     }
   ]
 }

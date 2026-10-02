@@ -43,7 +43,7 @@ The status labels used here are:
 
 | behavior family | status | current CTS owner | current coverage notes | source feeder |
 | --- | --- | --- | --- | --- |
-| canonical rendering and node normalization | baseline | `cts/canonical/v1/suites/01-baseline.json`, `cts/canonical/v1/suites/02-node-canonicalization.json`, `cts/canonical/v1/suites/05-string-escapes.json` | baseline canonical output, node introducer normalization, and complete cross-delimiter string escape/Unicode canonicalization with parseable multiline output | `Aeon/cts/canonical`, `Aeon/stress-tests/canonical/*`, `Aeon/stress-tests/canonical-corpus/*` |
+| canonical rendering and node normalization | baseline | `cts/canonical/v1/canonical-cts.v1.snapshot-0.2.json`, `cts/canonical/v1/suites/01-baseline.json` through `cts/canonical/v1/suites/07-temporal-literals.json` | immutable 54-vector target covering baseline output, node normalization, string-versus-trimtick preservation, complete escape handling, symbolic literals, reduced temporal precision, second `60`, exact fractional scale, and year boundaries across TypeScript, Python, and Rust | `Aeon/cts/canonical`, `Aeon/stress-tests/canonical/*`, `Aeon/stress-tests/canonical-corpus/*` |
 | fail-closed parsing and deterministic rejection behavior | baseline | `cts/core/v1/suites/04-fail-closed-semantics.json`, `cts/core/v1/suites/05-promoted-edge-rejections.json` | baseline fail-closed semantics plus deterministic syntax, cross-delimiter escape, surrogate, and ordinary quoted-newline rejection cases | `Aeon/cts/core`, `Aeon/stress-tests/edge/*` |
 | addressing and reference-path semantics | baseline | `cts/core/v1/suites/02-addressing-and-syntax.json`, `cts/core/v1/suites/03-attributes-and-references.json`, `cts/core/v1/suites/06-promoted-domain-fixtures.json`, `cts/core/v1/suites/07-promoted-snippet-transport.json` | baseline addressing plus promoted nested path, quoted-key, and reference rejection cases | `Aeon/cts/core`, `Aeon/stress-tests/domain/addressing/*`, `Aeon/stress-tests/snippets/*` |
 | quoted-key and traversal disambiguation | baseline | `cts/core/v1/suites/06-promoted-domain-fixtures.json`, `cts/core/v1/suites/07-promoted-snippet-transport.json` | explicitly covers quoted-key single-segment semantics and quoted traversal behavior | `Aeon/stress-tests/domain/addressing/*`, `Aeon/stress-tests/snippets/*` |
@@ -58,7 +58,7 @@ The status labels used here are:
 | strict typed literal rejection boundaries | baseline | `cts/core/v1/suites/08-promoted-strict-literals.json`, `cts/core/v1/suites/09-promoted-separator-literals.json`, `cts/core/v1/suites/10-promoted-numeric-and-encoding-literals.json` | covers representative rejection boundaries across temporal, separator, numeric, encoding, datatype mismatch, and the retired `zrut` datatype name | `Aeon/stress-tests/snippets/negative-strict.aeon-cases` |
 | separator/path literal handling | baseline | `cts/core/v1/suites/09-promoted-separator-literals.json` | includes rooted path, URL-like, nested-list/object, lexical reject, and datatype mismatch behavior | `Aeon/stress-tests/snippets/positive-strict.aeon-cases`, `Aeon/stress-tests/snippets/negative-strict.aeon-cases` |
 | trimtick syntax and gutter normalization | experimental | `cts/core/v1/suites/23-next-trimtick-gutters.json`, `cts/aes/v1/suites/10-trimtick-gutters.json` | covers the single-marker grammar, rejection of repeated markers, exact space and tab gutters, valid mixed indentation, inline zero-depth behavior, and normalized AES string payloads | AEON trimtick-gutter-normalization proposal and implementation unit suites |
-| symbolic literal syntax, projection, canonicalization, and JSON compatibility | experimental | `cts/core/v1/suites/22-next-symbolic-literals.json`, `cts/aes/v1/suites/09-symbolic-literals.json`, `cts/canonical/v1/suites/06-symbolic-literals.json`, `cts/finalize/v1/suites/04-symbolic-literals.json` | covers nonempty pipe syntax, escaped pipes and spaces, transport inference, reserved and custom datatype behavior, string mismatch rejection, decoded `SymbolicLiteral` AES payloads, minimal canonical escaping, and strict-error versus transport-warning lossy JSON materialization | AEON symbolic-literals proposal and implementation unit suites |
+| symbolic literal syntax, projection, canonicalization, and JSON compatibility | baseline | `cts/core/v1/core-cts.v1.snapshot-0.4.json`, `cts/aes/v1/aes-cts.v1.snapshot-0.4.json`, `cts/canonical/v1/canonical-cts.v1.snapshot-0.2.json`, `cts/finalize/v1/suites/04-symbolic-literals.json` | covers nonempty pipe syntax, escaped pipes and spaces, transport inference, reserved and custom datatype behavior, string mismatch rejection, decoded `SymbolicLiteral` AES payloads, canonical top-level/nested/control escaping, and strict-error versus transport-warning lossy JSON materialization | AEON symbolic-literals proposal and implementation unit suites |
 | datatype-to-literal validation behavior | baseline | `cts/core/v1/suites/08-promoted-strict-literals.json`, `cts/core/v1/suites/09-promoted-separator-literals.json`, `cts/core/v1/suites/10-promoted-numeric-and-encoding-literals.json` | covers datatype/literal mismatch behavior for number, sep, base64, and hex classes | `Aeon/cts/core`, `Aeon/stress-tests/snippets/negative-strict.aeon-cases` |
 | JSON output compatibility severity | experimental | `cts/finalize/v1/finalize-json-cts.v1.next.json`, `cts/finalize-map/v1/finalize-map-cts.v1.next.json` | preserves strict JSON fail-closed behavior for non-representable values, checks transport-mode warning severity for Infinity, NaN, reasoned nulls, and unsafe numbers, and verifies that map finalization does not apply JSON compatibility diagnostics | AEON finalizer unit suites and playground diagnostics |
 | consumer-selected Aeonic resource-limit boundaries | baseline | `cts/core/v1/core-cts.v1.snapshot-0.3.json`, `cts/core/v1/suites/16-aeonic-limit-boundaries.json`, `cts/core/v1/suites/17-next-limit-semantics.json` | immutable, hash-pinned Core 0.3 target covers at-limit acceptance and one-over rejection for all 16 AEON parsing/compilation counters and replaces four superseded 0.2 expectations; the 271-vector target passes in TypeScript, Rust, Python, and PHP | AltoPelago AES limits contract and four implementation suites |
@@ -66,6 +66,47 @@ The status labels used here are:
 | custom-mode typed literal acceptance and fail-closed boundaries | baseline | `cts/core/v1/suites/01-baseline.json`, `cts/core/v1/suites/11-promoted-custom-literals.json`, `cts/core/v1/suites/12-promoted-custom-rejections.json` | baseline custom-datatype policy plus promoted custom-mode value-family acceptance, untyped fail-closed behavior, and reserved-datatype mismatch checks | `Aeon/stress-tests/snippets/positive-custom.aeon-cases`, `Aeon/stress-tests/snippets/negative-custom.aeon-cases` |
 | shared value equality, ordering, concrete-value, and explicit radix semantics | scaffold | `cts/value-semantics/v1/value-semantics-cts.v1.next.json`, `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` through `cts/value-semantics/v1/suites/04-radix-fractional-scale.json` | covers minimum-profile equality and ordering, NaN fail-closed behavior, infinity numeric-bound behavior, concrete value predicate classification, portable default/codepoint profile selection, exact same-base radix behavior, exact rational comparison across independently resolved bases, and representation-preserving fractional scale | `aeonite-specs/aes/v1/aeonic-semantic-language-v1#radix-numeric-profiles` |
 | AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
+
+## Draft literal-flow regression promotion
+
+The Core next manifest includes 28 focused cases in
+`cts/core/v1/suites/24-next-literal-flow-regressions.json` for four implementation
+gaps found by `altopelago/aeon/scripts/stress-literal-flow.py`:
+
+- underscores do not permit leading zeroes in numeric mantissas;
+- exponent digits may have leading zeroes, including signed and underscored forms;
+- the reserved `prose` datatype requires the trimtick literal family, including
+  explicit anonymous container elements, object bindings, and attributes;
+- ordinary single- and double-quoted strings reject raw CR/CRLF while accepting
+  escaped carriage returns.
+
+The canonical next manifest adds four cases in
+`cts/canonical/v1/suites/08-next-literal-flow-regressions.json` for exponent
+normalization, escaped carriage-return preservation, compact `prose`
+literal-family preservation, and signed exponent-family zero normalization.
+Expectations are derived from the specification; the broader 815-case
+implementation flow matrix remains a hardening feeder,
+not a new CTS authority surface.
+
+Verification on 2026-10-02 against the local TypeScript, Python, and Rust CLIs:
+each passed all 322 Core next cases and all 58 canonical next cases. Before the
+implementation fix, `canonical-literal-flow-004-zero-with-nonzero-exponent`
+exposed a shared cross-runtime gap: `0e+01` formatted as `0e1`, although the
+value-type canonical rules require exponent-family zero to normalize to `0e0`
+(and negative zero to `-0e0`). This demonstrates why specification-derived CTS
+expectations remain necessary even where all runtimes agree.
+
+The AES next manifest also includes
+`cts/aes/v1/suites/11-next-number-normalization.json`. It verifies that the
+portable `NumberLiteral.value` boundary uses the same canonical finite numeric
+text for leading signs and dots, decimal scale, exponent spelling, visual
+underscores, and signed exponent-family zero. This closes the related gap where
+all three runtimes previously exposed the authored `0e+01` spelling even though
+AES requires canonical numeric text.
+
+These additions are draft coverage only. Released snapshots, their referenced
+suite files, and implementation snapshot claims remain unchanged. Future
+promotion must create a new immutable snapshot under the versioning policy.
 
 ## Promotion rule
 
