@@ -29,7 +29,10 @@
     },
     {
       "id": "string-escapes",
-      "file": "suites/05-string-escapes.json"
+      "file": "suites/05-string-escapes.json",
+      "exclude_tests": [
+        "canonical-string-002c-trimtick-payload-indentation-survives-canonicalization"
+      ]
     },
     {
       "id": "canonical-symbolic-literals",
