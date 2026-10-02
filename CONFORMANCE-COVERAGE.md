@@ -89,12 +89,20 @@ implementation flow matrix remains a hardening feeder,
 not a new CTS authority surface.
 
 Verification on 2026-10-02 against the local TypeScript, Python, and Rust CLIs:
-each passed all 322 Core next cases and 57 of 58 canonical next cases. The new
-`canonical-literal-flow-004-zero-with-nonzero-exponent` case exposes a shared
-implementation gap: `0e+01` formats as `0e1`, although the value-type canonical
-rules require exponent-family zero to normalize to `0e0` (and negative zero to
-`-0e0`). The draft expectation is intentionally retained and the implementation
-fix is pending; cross-runtime agreement alone would not detect this gap.
+each passed all 322 Core next cases and all 58 canonical next cases. Before the
+implementation fix, `canonical-literal-flow-004-zero-with-nonzero-exponent`
+exposed a shared cross-runtime gap: `0e+01` formatted as `0e1`, although the
+value-type canonical rules require exponent-family zero to normalize to `0e0`
+(and negative zero to `-0e0`). This demonstrates why specification-derived CTS
+expectations remain necessary even where all runtimes agree.
+
+The AES next manifest also includes
+`cts/aes/v1/suites/11-next-number-normalization.json`. It verifies that the
+portable `NumberLiteral.value` boundary uses the same canonical finite numeric
+text for leading signs and dots, decimal scale, exponent spelling, visual
+underscores, and signed exponent-family zero. This closes the related gap where
+all three runtimes previously exposed the authored `0e+01` spelling even though
+AES requires canonical numeric text.
 
 These additions are draft coverage only. Released snapshots, their referenced
 suite files, and implementation snapshot claims remain unchanged. Future
