@@ -61,7 +61,10 @@
     },
     {
       "id": "promoted-numeric-and-encoding-literals",
-      "file": "suites/10-promoted-numeric-and-encoding-literals.json"
+      "file": "suites/10-promoted-numeric-and-encoding-literals.json",
+      "exclude_tests": [
+        "core-numenc-007-base64url-forms-accepted"
+      ]
     },
     {
       "id": "promoted-custom-literals",
@@ -118,6 +121,10 @@
     {
       "id": "next-literal-flow-regressions",
       "file": "suites/24-next-literal-flow-regressions.json"
+    },
+    {
+      "id": "next-base64url-validation",
+      "file": "suites/25-next-base64url-validation.json"
     }
   ]
 }
