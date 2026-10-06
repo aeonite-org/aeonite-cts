@@ -66,6 +66,16 @@
                   }
                 },
                 {
+                  "name": "range",
+                  "address": "$.<\"params\">.range",
+                  "semanticType": "sansa",
+                  "representationKind": "sansa",
+                  "value": {
+                    "type": "SansaAddressLiteral",
+                    "address": "$[0..1]"
+                  }
+                },
+                {
                   "name": "parentField",
                   "address": "$.<\"params\">.parentField",
                   "semanticType": "sansa",
@@ -170,6 +180,55 @@
                 ],
                 "canonical": "~>target"
               }
+            },
+            {
+              "name": "wildcardTargetClone",
+              "address": "$.wildcardTargetClone",
+              "semanticType": "number",
+              "representationKind": "cloneReference",
+              "scalarKind": "referenceForm",
+              "value": {
+                "type": "CloneReference",
+                "path": "$.*",
+                "canonical": "~$.*"
+              }
+            },
+            {
+              "name": "missingTargetClone",
+              "address": "$.missingTargetClone",
+              "semanticType": "number",
+              "representationKind": "cloneReference",
+              "scalarKind": "referenceForm",
+              "value": {
+                "type": "CloneReference",
+                "path": "$.absent",
+                "canonical": "~$.absent"
+              }
+            },
+            {
+              "name": "emptyValue",
+              "address": "$.emptyValue"
+            },
+            {
+              "name": "duplicateNames",
+              "address": "$.duplicateNames",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "duplicate",
+                  "address": "$.duplicateNames[0]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "one"
+                },
+                {
+                  "name": "duplicate",
+                  "address": "$.duplicateNames[1]",
+                  "semanticType": "string",
+                  "representationKind": "string",
+                  "value": "two"
+                }
+              ]
             },
             {
               "name": "types",
@@ -2984,11 +3043,19 @@
       "expected": {
         "ok": true,
         "resultAddresses": [
-          "$.targetClone"
+          "$.targetClone",
+          "$.wildcardTargetClone",
+          "$.missingTargetClone"
         ],
         "selectedAddresses": [
           [
             "$.targetClone"
+          ],
+          [
+            "$.wildcardTargetClone"
+          ],
+          [
+            "$.missingTargetClone"
           ]
         ]
       },
@@ -4334,6 +4401,157 @@
         ]
       },
       "tags": ["sansa", "query", "evaluate", "recipe", "resolve-child", "fallback", "projection"]
+    },
+    {
+      "id": "sansa-query-evaluate-063-temporal-relation-completion-sets",
+      "description": "Temporal relation exposes all seven conservative completion-set outcomes.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $\nselect { equal = temporalRelation(2026-07, 2026-07) before = temporalRelation(2025-, 2026-) after = temporalRelation(2027-, 2026-) contains = temporalRelation(2026-, 2026-07) contained = temporalRelation(2026-07, 2026-) overlap = temporalRelation(2026-07-25T10:+00:30, 2026-07-25T10:Z) incomparable = temporalRelation(2026-, 10:00Z) }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$"],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "equal": "equal",
+              "before": "before",
+              "after": "after",
+              "contains": "contains",
+              "contained": "containedBy",
+              "overlap": "overlaps",
+              "incomparable": "incomparable"
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "temporal", "relation", "completion-set"]
+    },
+    {
+      "id": "sansa-query-evaluate-064-path-range-capability-distinct",
+      "description": "Position capability does not authorize position-range activation.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $\nselect path($.<\"params\">.range)",
+        "options": {
+          "addressActivation": {
+            "allowedRoots": ["$"],
+            "allowedSelectors": ["position"]
+          }
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "errorPhase": "select",
+        "errorCandidateAddress": "$"
+      },
+      "tags": ["sansa", "query", "evaluate", "path", "policy", "range", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-065-order-invalid-single-candidate",
+      "description": "Order validates a non-orderable key even when the source has only one candidate.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[2].metric\norder by .\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON",
+        "errorPhase": "order",
+        "errorCandidateAddress": "$.inventory.items[2].metric"
+      },
+      "tags": ["sansa", "query", "evaluate", "order", "nan", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-066-cardinality-function-multiple-sets",
+      "description": "A cardinality function predicate rejects multiple binding-set arguments.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere any(contains(.roles.*, .roles.*))\nselect .sku"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_CARDINALITY_ARGUMENT"
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality", "function", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-067-cardinality-function-scalar-context",
+      "description": "Scalar function arguments in a cardinality predicate retain the original candidate context.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.inventory.items[0]\nwhere any(contains(.roles.*, lower(.category)))\nselect .sku"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": [],
+        "selectedAddresses": []
+      },
+      "tags": ["sansa", "query", "evaluate", "cardinality", "function", "context"]
+    },
+    {
+      "id": "sansa-query-evaluate-068-missing-binding-value-guards",
+      "description": "A resolved binding without an exposed value is false for isValue and eligible for fallback.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $\nselect { guard = isValue(.emptyValue) replacement = fallback(.emptyValue, \"replacement\") }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$"],
+        "values": [
+          {
+            "type": "object",
+            "value": {
+              "guard": false,
+              "replacement": "replacement"
+            }
+          }
+        ]
+      },
+      "tags": ["sansa", "query", "evaluate", "value", "missing", "fallback"]
+    },
+    {
+      "id": "sansa-query-evaluate-069-resolve-child-duplicate-target",
+      "description": "resolveChild rejects multiple same-named direct targets.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $\nselect resolveChild($.duplicateNames, \"duplicate\")"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_CARDINALITY"
+      },
+      "tags": ["sansa", "query", "evaluate", "resolve-child", "cardinality", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-070-follow-rejects-expanded-target",
+      "description": "follow rejects a reference whose target path is not exact.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.wildcardTargetClone\nselect follow(.)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_REFERENCE_TARGET"
+      },
+      "tags": ["sansa", "query", "evaluate", "reference", "follow", "exact", "negative"]
+    },
+    {
+      "id": "sansa-query-evaluate-071-follow-missing-target",
+      "description": "follow reports a dedicated diagnostic when an exact reference target is absent.",
+      "input": {
+        "namespace": "inventory-values",
+        "source": "from $.missingTargetClone\nselect follow(.)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_MISSING_REFERENCE_TARGET"
+      },
+      "tags": ["sansa", "query", "evaluate", "reference", "follow", "missing", "negative"]
     }
   ]
 }
