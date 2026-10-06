@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "suite_id": "next-base64url-validation",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#encoding-2"
+    ]
+  },
+  "id": "next-base64url-validation",
+  "title": "Next Base64URL Value Validation",
+  "tests": [
+    {
+      "id": "core-base64url-001-decodable-padded-unpadded-and-url-alphabet-pass",
+      "description": "Reserved base64 bindings accept decodable padded, unpadded, and URL-alphabet payloads",
+      "input": {
+        "source": "padded:base64 = &YWJjLQ==\nunpadded:base64 = &YWJjLQ\nurlAlphabet:base64 = &AAEC_f7_\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.padded", "datatype": "base64", "kind": "binding" },
+            { "path": "$.unpadded", "datatype": "base64", "kind": "binding" },
+            { "path": "$.urlAlphabet", "datatype": "base64", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["experimental", "strict", "base64url", "acceptance"]
+    },
+    {
+      "id": "core-base64url-002-remainder-one-rejects",
+      "description": "A Base64URL data length congruent to one modulo four cannot decode",
+      "input": {
+        "source": "payload:base64 = &abcde\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "DATATYPE_LITERAL_MISMATCH", "path": "$.payload" }],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["experimental", "strict", "base64url", "rejection", "length"]
+    },
+    {
+      "id": "core-base64url-003-two-padding-tail-bits-reject",
+      "description": "A two-padding Base64URL payload rejects non-zero unused tail bits",
+      "input": {
+        "source": "payload:base64 = &Zh==\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "DATATYPE_LITERAL_MISMATCH", "path": "$.payload" }],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["experimental", "strict", "base64url", "rejection", "tail-bits"]
+    },
+    {
+      "id": "core-base64url-004-one-padding-tail-bits-reject",
+      "description": "A one-padding Base64URL payload rejects non-zero unused tail bits",
+      "input": {
+        "source": "payload:base64 = &Zm9=\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "DATATYPE_LITERAL_MISMATCH", "path": "$.payload" }],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["experimental", "strict", "base64url", "rejection", "tail-bits"]
+    },
+    {
+      "id": "core-base64url-005-legacy-lexical-only-forms-reject",
+      "description": "Previously accepted lexical-only examples reject when they are not decodable Base64URL",
+      "input": {
+        "source": "badLength:base64 = &abc-_==\nbadWidth:base64 = &FF_FF_FF_\nbadTail:base64 = &_FF\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "code": "DATATYPE_LITERAL_MISMATCH", "path": "$.badLength" },
+          { "code": "DATATYPE_LITERAL_MISMATCH", "path": "$.badWidth" },
+          { "code": "DATATYPE_LITERAL_MISMATCH", "path": "$.badTail" }
+        ],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["experimental", "strict", "base64url", "rejection", "compatibility"]
+    },
+    {
+      "id": "core-base64url-006-opaque-encoding-aliases-remain-independent",
+      "description": "Opaque encoding, inline, and embed datatypes retain lexical encoding validation without Base64URL decoding rules",
+      "input": {
+        "source": "encodingValue:encoding = &abcde\ninlineValue:inline = &abcde\nembedValue:embed = &abcde\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.encodingValue", "datatype": "encoding", "kind": "binding" },
+            { "path": "$.inlineValue", "datatype": "inline", "kind": "binding" },
+            { "path": "$.embedValue", "datatype": "embed", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["experimental", "strict", "encoding", "inline", "embed", "acceptance"]
+    }
+  ]
+}

@@ -38,12 +38,12 @@ CTS compatibility snapshots are versioned explicitly. See
 immutable compatibility targets. Specification snapshots use the parallel
 `*-specs-v1-snapshot-*` convention for documentation alignment.
 
-The current released Core target is `core-cts-v1-snapshot-0.4`, exposed by
-`cts/core/v1/core-cts.v1.snapshot-0.4.json`. Its 294 vectors promote symbolic
-literals, reduced temporal precision, and the single-marker trimtick grammar
-while retaining the unified Aeonic-limit coverage. Every referenced suite is
-content-hash pinned. The historical 0.3 target remains unchanged at
-`core-cts.v1.snapshot-0.3.json`; the `.next` and smaller
+The current released Core target is `core-cts-v1-snapshot-0.5`, exposed by
+`cts/core/v1/core-cts.v1.snapshot-0.5.json`. Its 299 vectors retain the 0.4
+surface and require reserved `base64` values to be decodable Base64URL with
+valid padding and zero unused tail bits, while leaving `encoding`, `inline`,
+and `embed` opaque. Every referenced suite is content-hash pinned. The
+historical 0.4 and 0.3 targets remain unchanged; the `.next` and smaller
 `core-limits-cts.v1.next.json` manifests remain available for ongoing and
 limit-only development.
 Finalization and transport limits use the same pattern through
@@ -53,9 +53,9 @@ The experimental `finalize-json-cts.v1.next.json` and
 compatibility policy for special values without changing released snapshots.
 The mutable Core, AES projection, canonical, and finalize next targets remain
 available for ongoing development beyond their promoted snapshots.
-The Core and AES 0.4 snapshots cover the single-marker trimtick grammar and
-exact space-or-tab gutter normalization. Historical released snapshots retain
-their width-bearing trimtick cases unchanged.
+The Core 0.5, Core 0.4, and AES 0.4 snapshots cover the single-marker trimtick
+grammar and exact space-or-tab gutter normalization. Historical released
+snapshots retain their width-bearing trimtick cases unchanged.
 
 The current released canonical target is
 `canonical-cts-v1-snapshot-0.3`, exposed by

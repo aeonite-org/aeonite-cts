@@ -27,7 +27,7 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 ## CTS Baseline
 
 - Protocol: `cts/protocol/v1`
-- Core lane manifest: `cts/core/v1/core-cts.v1.snapshot-0.4.json`
+- Core lane manifest: `cts/core/v1/core-cts.v1.snapshot-0.5.json`
 - AES lane manifest: `cts/aes/v1/aes-cts.v1.snapshot-0.4.json`
 - Canonical lane manifest: `cts/canonical/v1/canonical-cts.v1.snapshot-0.3.json`
 - Annotations lane manifest: `cts/annotations/v1/annotation-stream-cts.v1.json`
@@ -43,6 +43,7 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 |                               |                                               |                       | `cts/canonical/v1:suites/05-string-escapes.json`              |
 |                               | symbolic literal preservation and escaping    | `core`, `aes`, `canonical` | `cts/canonical/v1:suites/06-symbolic-literals.json`       |
 |                               | reduced temporal precision and exact fractional scale | `core`, `canonical` | `cts/canonical/v1:suites/07-temporal-literals.json`       |
+|                               | decodable Base64URL validity and opaque encoding aliases | `core` | `cts/core/v1:suites/25-next-base64url-validation.json` |
 |                               | transport-only accepted value forms           | `core`, `aes`         | `cts/core/v1:suites/06-transport-acceptance.json`             |
 |                               |                                               |                       | `cts/aes/v1:suites/05-transport-emission-coverage.json`       |
 | `AEON-spec-v1.md` §5          | structural syntax surface                     | `core`                | `cts/core/v1:suites/02-addressing-and-syntax.json`            |
