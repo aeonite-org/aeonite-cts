@@ -11,6 +11,29 @@
   },
   "id": "query-next-aeon-values",
   "title": "Next SANSA Query AEON Value Alignment",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "portable-scalar-kinds",
+        "root": {
+          "address": "$",
+          "representationKind": "ObjectLiteral",
+          "children": [
+            { "name": "date", "address": "$.date", "representationKind": "DateLiteral", "semanticType": "date", "value": "2024-02-29" },
+            { "name": "time", "address": "$.time", "representationKind": "TimeLiteral", "semanticType": "time", "value": "10:20:30Z" },
+            { "name": "datetime", "address": "$.datetime", "representationKind": "DateTimeLiteral", "semanticType": "datetime", "value": "2024-02-29T10:20:30Z" },
+            { "name": "wtc", "address": "$.wtc", "representationKind": "WTCDateTimeLiteral", "semanticType": "wtc", "value": "2024-02-29T10:20:30Z&Europe" },
+            { "name": "toggle", "address": "$.toggle", "representationKind": "ToggleLiteral", "value": "yes" },
+            { "name": "hex", "address": "$.hex", "representationKind": "HexLiteral", "value": "ff00aa" },
+            { "name": "radix", "address": "$.radix", "representationKind": "RadixLiteral", "value": "ff" },
+            { "name": "encoding", "address": "$.encoding", "representationKind": "EncodingLiteral", "value": "Zg==" },
+            { "name": "separator", "address": "$.separator", "representationKind": "SeparatorLiteral", "value": "1.2.3" },
+            { "name": "symbol", "address": "$.symbol", "representationKind": "SymbolicLiteral", "value": "approved" }
+          ]
+        }
+      }
+    ]
+  },
   "tests": [
     {
       "id": "sansa-query-next-values-001-year-clock-wtc",
@@ -123,6 +146,82 @@
       "expected": {
         "ok": false,
         "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-011-portable-temporal-bindings",
+      "description": "Portable representation kinds preserve temporal families without redundant scalarKind hints.",
+      "input": {
+        "namespace": "portable-scalar-kinds",
+        "source": "from $\nselect { date = temporalRelation($.date, 2024-02-29) time = temporalRelation($.time, 10:20:30Z) datetime = temporalRelation($.datetime, 2024-02-29T10:20:30Z) wtc = temporalRelation($.wtc, 2024-02-29T10:20:30Z&Europe) }"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$"],
+        "values": [{ "type": "object", "value": { "date": "equal", "time": "equal", "datetime": "equal", "wtc": "equal" } }]
+      }
+    },
+    {
+      "id": "sansa-query-next-values-012-portable-string-backed-families",
+      "input": {
+        "namespace": "portable-scalar-kinds",
+        "source": "from $\nwhere $.toggle == yes and $.hex == #ff00aa and $.radix == %ff and $.encoding == &Zg== and $.separator == ^1.2.3 and $.symbol == |approved|\nselect true"
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$"],
+        "values": [{ "type": "scalar", "value": true }]
+      }
+    },
+    {
+      "id": "sansa-query-next-values-013-portable-date-not-string",
+      "input": {
+        "namespace": "portable-scalar-kinds",
+        "source": "from $.date\nwhere . == \"2024-02-29\"\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON",
+        "errorPhase": "where",
+        "candidateAddress": "$.date"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-014-portable-encoding-not-string-function",
+      "input": {
+        "namespace": "portable-scalar-kinds",
+        "source": "from $.encoding\nselect lower(.)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_FUNCTION_CALL",
+        "errorPhase": "select",
+        "candidateAddress": "$.encoding"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-015-portable-symbol-not-string",
+      "input": {
+        "namespace": "portable-scalar-kinds",
+        "source": "from $.symbol\nwhere . == \"approved\"\nselect ."
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_EVALUATE_INVALID_COMPARISON",
+        "errorPhase": "where",
+        "candidateAddress": "$.symbol"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-016-portable-kind-filter-unchanged",
+      "input": {
+        "namespace": "portable-scalar-kinds",
+        "source": "from $.*%DateTimeLiteral\nselect ."
+      },
+      "expected": {
+        "ok": true,
+        "resultAddresses": ["$.datetime"],
+        "selectedAddresses": [["$.datetime"]]
       }
     }
   ]
