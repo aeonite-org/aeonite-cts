@@ -38,6 +38,12 @@ CTS compatibility snapshots are versioned explicitly. See
 immutable compatibility targets. Specification snapshots use the parallel
 `*-specs-v1-snapshot-*` convention for documentation alignment.
 
+The SANSA Query and experimental Mutate `.next.json` manifests add development
+coverage for reduced-date datetime/WTC composition, malformed field/comment
+boundaries, exact fractional scale, reserved Base64URL decodability and lossless
+prose/trimtick target representability. They do not change released SANSA
+snapshots or assert richer chronology for disjoint date/clock completion sets.
+
 The current released Core target is `core-cts-v1-snapshot-0.5`, exposed by
 `cts/core/v1/core-cts.v1.snapshot-0.5.json`. Its 299 vectors retain the 0.4
 surface and require reserved `base64` values to be decodable Base64URL with

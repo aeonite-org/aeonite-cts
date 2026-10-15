@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "version": "0.3.0",
+    "lane": "sansa-query",
+    "capability": "SANSA.Query",
+    "profile": "query",
+    "sut_protocol": "cts.protocol.v1",
+    "snapshot_id": "sansa-query-parser-next-cts-v1-snapshot-0.1",
+    "description": "Mutable Query development target retaining the released suites and adding Core value-literal alignment. Not a released compatibility snapshot."
+  },
+  "suites": [
+    {
+      "id": "query-parser",
+      "file": "suites/04-query-parser.json"
+    },
+    {
+      "id": "query-expression-parser",
+      "file": "suites/05-query-expression-parser.json"
+    },
+    {
+      "id": "query-evaluate",
+      "file": "suites/06-query-evaluate.json"
+    },
+    {
+      "id": "query-next-aeon-values",
+      "file": "suites/10-query-next-aeon-values.json"
+    }
+  ]
+}

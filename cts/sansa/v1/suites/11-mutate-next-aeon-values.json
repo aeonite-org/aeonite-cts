@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "suite_id": "mutate-next-aeon-values",
+    "lane": "sansa-mutate",
+    "capability": "SANSA.Mutate",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/sansa/v1/mutate-v1.aeon",
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon"
+    ]
+  },
+  "id": "mutate-next-aeon-values",
+  "title": "Next SANSA Mutate AEON Value Representability",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "values",
+        "supportsMutation": true,
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "address": "$.value",
+              "name": "value",
+              "representationKind": "string",
+              "value": "old"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-mutate-next-values-001-reduced-date-wtc",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "wtc",
+          "value": "2024-T10:&Europe"
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-002-month-clock-fraction",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "datetime",
+          "value": "2024-02T23:59:60.000000000000100Z"
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-003-no-trailing-trivia",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "time",
+          "value": "10: //comment"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-004-base64-tail-bits",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "base64",
+          "value": "Zh=="
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-005-base64-padding",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "base64",
+          "value": "Zg="
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-006-base64-valid",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "base64",
+          "value": "Zg=="
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-007-encoding-stays-opaque",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "encoding",
+          "value": "AB"
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-008-prose-trailing-newline",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "prose",
+          "value": "hello\n"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-009-trimtick-blank-payload-line",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "trimtick",
+          "value": "first\n \t\nlast"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_UNSUPPORTED_VALUE",
+        "operationIndex": 0
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-010-prose-leading-blank-and-mixed-indent",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "prose",
+          "value": "\n  first\n second\n\tlast"
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    },
+    {
+      "id": "sansa-mutate-next-values-011-string-whitespace-is-payload",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "string",
+          "value": "first\n \t\nlast\n"
+        }
+      },
+      "expected": {
+        "ok": true
+      }
+    }
+  ]
+}
