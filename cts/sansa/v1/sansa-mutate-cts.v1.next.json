@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "version": "0.2.0",
+    "lane": "sansa-mutate",
+    "capability": "SANSA.Mutate",
+    "profile": "mutate-plan-and-policy",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "snapshot_id": "sansa-mutate-next-cts-v1-snapshot-0.1",
+    "description": "Mutable experimental Mutate target development lane. Released snapshots remain unchanged."
+  },
+  "suites": [
+    {
+      "id": "mutate-plan",
+      "file": "suites/07-mutate-plan.json"
+    },
+    {
+      "id": "mutate-next-aeon-values",
+      "file": "suites/11-mutate-next-aeon-values.json"
+    }
+  ]
+}

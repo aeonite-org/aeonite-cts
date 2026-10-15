@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "suite_id": "query-next-aeon-values",
+    "lane": "sansa-query",
+    "capability": "SANSA.Query",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/sansa/v1/query-v1.aeon",
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon"
+    ]
+  },
+  "id": "query-next-aeon-values",
+  "title": "Next SANSA Query AEON Value Alignment",
+  "tests": [
+    {
+      "id": "sansa-query-next-values-001-year-clock-wtc",
+      "input": {
+        "expression": "2024-T10:&Europe"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "2024-T10:&Europe",
+        "ast": {
+          "type": "literalExpression",
+          "kind": "wtc",
+          "value": "2024-T10:&Europe"
+        }
+      }
+    },
+    {
+      "id": "sansa-query-next-values-002-month-clock-offset",
+      "input": {
+        "expression": "2024-02T10-00:00"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "2024-02T10-00:00",
+        "ast": {
+          "kind": "datetime",
+          "value": "2024-02T10-00:00"
+        }
+      }
+    },
+    {
+      "id": "sansa-query-next-values-003-reduced-clock-named-place",
+      "input": {
+        "source": "from $.value\nselect 2024-T10:Z&+/Antarctica/Elisabeth"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "from $.value\nselect 2024-T10:Z&+/Antarctica/Elisabeth"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-004-second-60-authored-scale",
+      "input": {
+        "expression": "23:59:60.000000000000000000000000100Z"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "23:59:60.000000000000000000000000100Z",
+        "ast": {
+          "kind": "time",
+          "value": "23:59:60.000000000000000000000000100Z"
+        }
+      }
+    },
+    {
+      "id": "sansa-query-next-values-005-day-padding-required",
+      "input": {
+        "expression": "2024-01-1"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-006-clock-no-empty-interior-field",
+      "input": {
+        "expression": "10::20"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-007-local-case-sensitive",
+      "input": {
+        "expression": "2024-T10:&Local"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-008-reduced-wtc-not-comment",
+      "input": {
+        "expression": "2024-T10:&Europe//Brussels"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-009-nested-fractional-wtc-not-comment",
+      "input": {
+        "expression": "temporalRelation(2024-02T10:20:30.100&Europe/*x*/Brussels, 2024-02T10:20:30.100&Europe)"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    },
+    {
+      "id": "sansa-query-next-values-010-duplicate-date-separator",
+      "input": {
+        "expression": "2024--02"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_INVALID_TEMPORAL_LITERAL"
+      }
+    }
+  ]
+}
