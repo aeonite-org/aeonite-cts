@@ -67,6 +67,27 @@ The status labels used here are:
 | shared value equality, ordering, concrete-value, and explicit radix semantics | scaffold | `cts/value-semantics/v1/value-semantics-cts.v1.next.json`, `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` through `cts/value-semantics/v1/suites/04-radix-fractional-scale.json` | covers minimum-profile equality and ordering, NaN fail-closed behavior, infinity numeric-bound behavior, concrete value predicate classification, portable default/codepoint profile selection, exact same-base radix behavior, exact rational comparison across independently resolved bases, and representation-preserving fractional scale | `aeonite-specs/aes/v1/aeonic-semantic-language-v1#radix-numeric-profiles` |
 | AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
 
+## Experimental type-only generic arguments
+
+The Core and both canonical next manifests include shared type-only generic
+coverage: 29 Core cases and 31 canonical cases. They reject bare literal
+arguments in binding, metadata, anonymous-item, node-head, and header positions;
+accept recursive type descriptors with numeric clarifiers; and require exact
+numeric normalization and canonical fixed points.
+
+The separate AES events, Telex, and Film next manifests add 10, 14, and 28
+cases respectively. These cover logical tagged-literal rejection, nested
+descriptors, text parsing, Film decoding and encoding, exact clarifier strings,
+transcoding, every optional Film record field, and retained datatype resource
+boundaries. Film's historical numeric-generic framing remains physically
+recognizable, but completed-stream AES validation must reject it; no accepted
+transport-only generic feature is introduced.
+
+Only these development targets exclude superseded numeric-generic cases.
+Replacement vectors retain the corresponding round-trip and limit checks.
+Released snapshot suites and hashes remain unchanged. These targets specify
+required future codec behavior, not a claim that current released codecs pass.
+
 ## Experimental reference safe canonical ordering
 
 The separate `cts/canonical/v1/canonical-reference-ordering-cts.v1.next.json`
@@ -89,9 +110,9 @@ as well as legality, including newly eligible keys within nested objects.
 The new manifest excludes
 `canonical-baseline-016-reference-whitespace-after-sigil-normalized` and replaces
 its expectation with a new reference-safe ordering case. Its referenced suite
-and every released snapshot remain unchanged. The existing canonical next
-manifest also remains unchanged, so adoption can be coordinated with writer
-implementations rather than changing their current test target underneath them.
+and every released snapshot remain unchanged. Reference-safe ordering remains
+separate from the existing canonical next manifest; both development manifests
+independently include the type-only generic suite described above.
 
 Exact golden outputs must be legal under Core and preserve the same normalized
 reference forms, targets, metadata, and positional content. Fixed-point cases

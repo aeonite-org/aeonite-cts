@@ -45,6 +45,10 @@
     {
       "id": "next-canonical-literal-flow",
       "file": "suites/08-next-literal-flow-regressions.json"
+    },
+    {
+      "id": "next-canonical-type-only-generics",
+      "file": "suites/10-next-type-only-generics.json"
     }
   ]
 }

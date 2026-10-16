@@ -129,6 +129,10 @@
     {
       "id": "next-reference-authored-order",
       "file": "suites/26-next-reference-authored-order.json"
+    },
+    {
+      "id": "next-type-only-generics",
+      "file": "suites/27-next-type-only-generics.json"
     }
   ]
 }
