@@ -70,7 +70,7 @@ The status labels used here are:
 ## Experimental reference safe canonical ordering
 
 The separate `cts/canonical/v1/canonical-reference-ordering-cts.v1.next.json`
-manifest adds 40 exact canonical-output scenarios, 40 corresponding canonical
+manifest adds 46 exact canonical-output scenarios, 46 corresponding canonical
 fixed points, and 13 authored-reference rejection cases in
 `cts/canonical/v1/suites/09-next-reference-ordering.json`.
 
@@ -79,6 +79,12 @@ chains and shared targets, dependencies lifted from nested containers and
 metadata, unchanged list/tuple/node-child positions, ancestor availability,
 quoted paths, binding identities and datatypes, header/body collisions,
 reference-shaped non-reference data, and Unicode scalar key comparison.
+
+Paired nested-scope cases distinguish dependencies lifted through containing
+scopes from ancestor availability that creates no local predecessor. Additional
+cases require already-available external references to leave unrelated local
+entries unconstrained, even when their keys match. Exact outputs test minimality
+as well as legality, including newly eligible keys within nested objects.
 
 The new manifest excludes
 `canonical-baseline-016-reference-whitespace-after-sigil-normalized` and replaces

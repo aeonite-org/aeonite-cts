@@ -73,7 +73,7 @@ four-digit year boundaries across canonical writers. The historical 0.2
 snapshot remains unchanged.
 
 The opt-in `cts/canonical/v1/canonical-reference-ordering-cts.v1.next.json`
-manifest develops reference-safe canonical ordering. It adds 93 vectors for
+manifest develops reference-safe canonical ordering. It adds 105 vectors for
 smallest-eligible-key sorting, nested dependencies, fixed indexed positions,
 header/body separation, Unicode scalar key order, original-input rejection,
 and canonical fixed points. It excludes the superseded baseline reference

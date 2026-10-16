@@ -2147,6 +2147,294 @@
         "reject",
         "fail-closed"
       ]
+    },
+    {
+      "id": "canonical-reference-order-054-multi-scope-dependency-projection",
+      "description": "Scope-local eligibility and minimality: multi scope dependency projection",
+      "input": {
+        "source": "z={leaf=1}\ny={z={leaf=2},b={d={copy=~y.z.leaf},c={copy=~z.leaf}}}\na=~y.b.d.copy"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  leaf = 1\n}\ny = {\n  z = {\n    leaf = 2\n  }\n  b = {\n    c = {\n      copy = ~z.leaf\n    }\n    d = {\n      copy = ~y.z.leaf\n    }\n  }\n}\na = ~y.b.d.copy\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-054-multi-scope-dependency-projection-fixed-point",
+      "description": "Canonical fixed point: multi scope dependency projection",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  leaf = 1\n}\ny = {\n  z = {\n    leaf = 2\n  }\n  b = {\n    c = {\n      copy = ~z.leaf\n    }\n    d = {\n      copy = ~y.z.leaf\n    }\n  }\n}\na = ~y.b.d.copy\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  leaf = 1\n}\ny = {\n  z = {\n    leaf = 2\n  }\n  b = {\n    c = {\n      copy = ~z.leaf\n    }\n    d = {\n      copy = ~y.z.leaf\n    }\n  }\n}\na = ~y.b.d.copy\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-055-ancestor-availability-not-projected",
+      "description": "Scope-local eligibility and minimality: ancestor availability not projected",
+      "input": {
+        "source": "z={leaf=1}\ny={z={leaf=2},b={d={copy=~y},c={copy=~y.b}}}\na=~y.b.d.copy"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\ny = {\n  b = {\n    c = {\n      copy = ~y.b\n    }\n    d = {\n      copy = ~y\n    }\n  }\n  z = {\n    leaf = 2\n  }\n}\na = ~y.b.d.copy\nz = {\n  leaf = 1\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-055-ancestor-availability-not-projected-fixed-point",
+      "description": "Canonical fixed point: ancestor availability not projected",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\ny = {\n  b = {\n    c = {\n      copy = ~y.b\n    }\n    d = {\n      copy = ~y\n    }\n  }\n  z = {\n    leaf = 2\n  }\n}\na = ~y.b.d.copy\nz = {\n  leaf = 1\n}\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\ny = {\n  b = {\n    c = {\n      copy = ~y.b\n    }\n    d = {\n      copy = ~y\n    }\n  }\n  z = {\n    leaf = 2\n  }\n}\na = ~y.b.d.copy\nz = {\n  leaf = 1\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-056-external-target-satisfied-in-nested-heads",
+      "description": "Scope-local eligibility and minimality: external target satisfied in nested heads",
+      "input": {
+        "source": "z=1\na@{d=~z,c=0}={b@{d=~z,c=0}=0}"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{c = 0, d = ~z} = {\n  b@{c = 0, d = ~z} = 0\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-056-external-target-satisfied-in-nested-heads-fixed-point",
+      "description": "Canonical fixed point: external target satisfied in nested heads",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{c = 0, d = ~z} = {\n  b@{c = 0, d = ~z} = 0\n}\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{c = 0, d = ~z} = {\n  b@{c = 0, d = ~z} = 0\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-057-nested-minimality-after-unlock",
+      "description": "Scope-local eligibility and minimality: nested minimality after unlock",
+      "input": {
+        "source": "outer={a=1,c=2,d=3,b=~outer.c}"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nouter = {\n  a = 1\n  c = 2\n  b = ~outer.c\n  d = 3\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-057-nested-minimality-after-unlock-fixed-point",
+      "description": "Canonical fixed point: nested minimality after unlock",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nouter = {\n  a = 1\n  c = 2\n  b = ~outer.c\n  d = 3\n}\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nouter = {\n  a = 1\n  c = 2\n  b = ~outer.c\n  d = 3\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-058-external-target-not-local-key-predecessor",
+      "description": "Scope-local eligibility and minimality: external target not local key predecessor",
+      "input": {
+        "source": "z={v=1}\na={z=0,b=~z.v,a=0}"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  v = 1\n}\na = {\n  a = 0\n  b = ~z.v\n  z = 0\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-058-external-target-not-local-key-predecessor-fixed-point",
+      "description": "Canonical fixed point: external target not local key predecessor",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  v = 1\n}\na = {\n  a = 0\n  b = ~z.v\n  z = 0\n}\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  v = 1\n}\na = {\n  a = 0\n  b = ~z.v\n  z = 0\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-059-external-target-not-local-attribute-predecessor",
+      "description": "Scope-local eligibility and minimality: external target not local attribute predecessor",
+      "input": {
+        "source": "z=1\na@{z=0,b=~z,a=0}=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{a = 0, b = ~z, z = 0} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-059-external-target-not-local-attribute-predecessor-fixed-point",
+      "description": "Canonical fixed point: external target not local attribute predecessor",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{a = 0, b = ~z, z = 0} = 0\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{a = 0, b = ~z, z = 0} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "scope-locality",
+        "minimality",
+        "idempotence"
+      ]
     }
   ]
 }

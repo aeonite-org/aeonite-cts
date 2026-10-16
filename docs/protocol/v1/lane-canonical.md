@@ -43,3 +43,7 @@ Rules:
   ordering with Unicode scalar lexical tie-breaking. Lists, tuples and node
   children retain their positions. Canonical fixed-point inputs assert
   idempotence using the same exact-text comparison.
+- Eligibility is local to each sortable scope after dependency projection.
+  Already-available enclosing targets are satisfied; an unrelated local entry
+  with the same key is not a predecessor. Golden outputs assert the smallest
+  eligible key at every step, not merely a legal topological ordering.
