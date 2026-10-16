@@ -88,6 +88,22 @@ and profile-validation vectors. The immutable
 canonicalization, and format-limit vectors. Each manifest pins the SHA-256
 digest of every referenced suite; JavaScript and Rust pass both targets.
 
+The development Core and canonical next targets add type-only generic
+arguments and exact numeric clarifiers. The new `aes-events-cts.v1.next.json`,
+`telex-cts.v1.next.json`, and `film-cts.v1.next.json` targets apply the same
+constraint at the logical AES, text, and binary boundaries. Bare numeric or
+string generic arguments are invalid; numeric clarifiers on outer and nested
+type descriptors remain valid. Film rejects numeric generics at completed AES
+validation while retaining historical tag `02` physical framing for provisional
+decoding. The binary grammar, numeric-clarifier tag `02`, and kind codes remain
+unchanged; provisional decoding is not acceptance of a valid AES record.
+
+These are experimental acceptance corrections, not released conformance
+claims. Only the next manifests exclude superseded numeric-generic vectors;
+replacement cases retain their type-only round-trip and resource-boundary
+coverage. Released manifests, referenced suites, and content hashes are
+unchanged. Codec adoption and later snapshot promotion are separate steps.
+
 The immutable `film-cts-v1-snapshot-0.2` manifest contains 73 Film v1 binary
 framing, canonicalization, portable-record, Telex-transcoding, and
 resource-limit vectors. It is aligned with `film-specs-v1-snapshot-0.2` and

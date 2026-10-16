@@ -1,0 +1,729 @@
+{
+  "meta": {
+    "suite_id": "next-canonical-type-only-generics",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/structure-syntax-v1.aeon#datatype-clarifiers"
+    ]
+  },
+  "id": "next-canonical-type-only-generics",
+  "title": "Canonical Type-only Generics and Exact Numeric Clarifiers",
+  "tests": [
+    {
+      "id": "canonical-type-generics-001-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<1>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-002-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<1.0>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-003-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<-1>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-004-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<+1>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-005-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<.5>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-006-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<1e3>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-007-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<9007199254740993>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-008-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<\"name\">=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-009-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<int, 2>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-010-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<list<2>>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-011-reject",
+      "description": "Canonicalization must reject rather than preserve or repair literal generic arguments",
+      "input": {
+        "source": "aeon:header={}\nx:custom<custom[1.0], 2>=[0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "reject"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-012-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:custom<number>[1.00]=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[1.0] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-013-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:custom<number>[1.0] = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[1.0] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-014-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:list<custom[1.00]>=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[1.0]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-015-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:list<custom[1.0]> = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[1.0]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-016-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:custom<number>[9007199254740993]=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[9007199254740993] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-017-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:custom<number>[9007199254740993] = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[9007199254740993] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-018-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:list<custom[9007199254740993]>=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[9007199254740993]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-019-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:list<custom[9007199254740993]> = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[9007199254740993]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-020-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:custom<number>[2.0000000000000001]=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[2.0000000000000001] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-021-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:custom<number>[2.0000000000000001] = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[2.0000000000000001] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-022-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:list<custom[2.0000000000000001]>=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[2.0000000000000001]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-023-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:list<custom[2.0000000000000001]> = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[2.0000000000000001]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-024-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:custom<number>[-0.00]=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[-0.0] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-025-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:custom<number>[-0.0] = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[-0.0] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-026-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:list<custom[-0.00]>=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[-0.0]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-027-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:list<custom[-0.0]> = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[-0.0]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-028-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:custom<number>[1E+003]=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[1e3] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-029-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:custom<number>[1e3] = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:custom<number>[1e3] = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-030-clarifier",
+      "description": "Numbers belong in clarifiers and retain value-number normalization without rounding",
+      "input": {
+        "source": "aeon:header={}\nx:list<custom[1E+003]>=[0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[1e3]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "exact-number"
+      ]
+    },
+    {
+      "id": "canonical-type-generics-031-fixed-point",
+      "description": "Exact numeric clarifier output is a canonical fixed point",
+      "input": {
+        "source": "aeon:header = {\n}\nx:list<custom[1e3]> = [0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nx:list<custom[1e3]> = [0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "generics",
+        "clarifiers",
+        "idempotence"
+      ]
+    }
+  ]
+}

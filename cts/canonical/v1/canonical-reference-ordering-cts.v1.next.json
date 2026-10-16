@@ -53,6 +53,10 @@
     {
       "id": "next-canonical-reference-ordering",
       "file": "suites/09-next-reference-ordering.json"
+    },
+    {
+      "id": "next-canonical-type-only-generics",
+      "file": "suites/10-next-type-only-generics.json"
     }
   ]
 }
