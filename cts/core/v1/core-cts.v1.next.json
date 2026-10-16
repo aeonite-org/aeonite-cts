@@ -8,7 +8,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Next Core target with revised Aeonic limit and GP profile semantics",
+    "description": "Next Core target with revised Aeonic limits, GP profile semantics, and authored-order reference validation within metadata",
     "snapshot_id": "core-next-cts-v1-snapshot-0.1"
   },
   "suites": [
@@ -125,6 +125,10 @@
     {
       "id": "next-base64url-validation",
       "file": "suites/25-next-base64url-validation.json"
+    },
+    {
+      "id": "next-reference-authored-order",
+      "file": "suites/26-next-reference-authored-order.json"
     }
   ]
 }
