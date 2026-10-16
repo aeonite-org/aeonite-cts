@@ -1,0 +1,2152 @@
+{
+  "meta": {
+    "suite_id": "next-canonical-reference-ordering",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/appendices/v1/appendix-canonical-form.aeon#reference-safe-key-ordering",
+      "aeonite-specs/sources/aeon/v1/addressing-references-v1.aeon#reference-legality"
+    ]
+  },
+  "id": "next-canonical-reference-ordering",
+  "title": "Reference Safe Canonical Ordering",
+  "tests": [
+    {
+      "id": "canonical-reference-order-001-smallest-eligible",
+      "description": "Reference-safe ordering: smallest eligible",
+      "input": {
+        "source": "d=3\nc=2\nb=~c\na=1"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 1\nc = 2\nb = ~c\nd = 3\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-001-smallest-eligible-fixed-point",
+      "description": "Canonical fixed point: smallest eligible",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 1\nc = 2\nb = ~c\nd = 3\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 1\nc = 2\nb = ~c\nd = 3\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-002-equivalent-permutation",
+      "description": "Reference-safe ordering: equivalent permutation",
+      "input": {
+        "source": "c=2\nd=3\na=1\nb=~c"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 1\nc = 2\nb = ~c\nd = 3\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-002-equivalent-permutation-fixed-point",
+      "description": "Canonical fixed point: equivalent permutation",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 1\nc = 2\nb = ~c\nd = 3\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 1\nc = 2\nb = ~c\nd = 3\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-003-reference-sigil-whitespace",
+      "description": "Reference-safe ordering: reference sigil whitespace",
+      "input": {
+        "source": "order:o={total:n=2}\nclone:n=~ order.total\npointer:n=~> order.total"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\norder:o = {\n  total:n = 2\n}\nclone:n = ~order.total\npointer:n = ~>order.total\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-003-reference-sigil-whitespace-fixed-point",
+      "description": "Canonical fixed point: reference sigil whitespace",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\norder:o = {\n  total:n = 2\n}\nclone:n = ~order.total\npointer:n = ~>order.total\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\norder:o = {\n  total:n = 2\n}\nclone:n = ~order.total\npointer:n = ~>order.total\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-004-clone-before-lexical-target",
+      "description": "Reference-safe ordering: clone before lexical target",
+      "input": {
+        "source": "z=1\na=~z"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-004-clone-before-lexical-target-fixed-point",
+      "description": "Canonical fixed point: clone before lexical target",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = ~z\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-005-pointer-before-lexical-target",
+      "description": "Reference-safe ordering: pointer before lexical target",
+      "input": {
+        "source": "z=1\na=~>z"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = ~>z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-005-pointer-before-lexical-target-fixed-point",
+      "description": "Canonical fixed point: pointer before lexical target",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = ~>z\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = ~>z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-006-dependency-chain",
+      "description": "Reference-safe ordering: dependency chain",
+      "input": {
+        "source": "z=1\ny=~z\na=~y\nb=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nb = 0\nz = 1\ny = ~z\na = ~y\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-006-dependency-chain-fixed-point",
+      "description": "Canonical fixed point: dependency chain",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nb = 0\nz = 1\ny = ~z\na = ~y\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nb = 0\nz = 1\ny = ~z\na = ~y\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-007-shared-target",
+      "description": "Reference-safe ordering: shared target",
+      "input": {
+        "source": "z=1\nc=~z\nb=~z\na=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\nz = 1\nb = ~z\nc = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-007-shared-target-fixed-point",
+      "description": "Canonical fixed point: shared target",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\nz = 1\nb = ~z\nc = ~z\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\nz = 1\nb = ~z\nc = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-008-multiple-nested-dependencies",
+      "description": "Reference-safe ordering: multiple nested dependencies",
+      "input": {
+        "source": "z=1\ny=2\nb={q=~z,p=~y}\na=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\ny = 2\nz = 1\nb = {\n  p = ~y\n  q = ~z\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-008-multiple-nested-dependencies-fixed-point",
+      "description": "Canonical fixed point: multiple nested dependencies",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\ny = 2\nz = 1\nb = {\n  p = ~y\n  q = ~z\n}\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\ny = 2\nz = 1\nb = {\n  p = ~y\n  q = ~z\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-009-nested-object-local",
+      "description": "Reference-safe ordering: nested object local",
+      "input": {
+        "source": "a={z=1,b=~a.z,a=0}"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = {\n  a = 0\n  z = 1\n  b = ~a.z\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-009-nested-object-local-fixed-point",
+      "description": "Canonical fixed point: nested object local",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = {\n  a = 0\n  z = 1\n  b = ~a.z\n}\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = {\n  a = 0\n  z = 1\n  b = ~a.z\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-010-nested-dependency-lift",
+      "description": "Reference-safe ordering: nested dependency lift",
+      "input": {
+        "source": "z={m=1}\na={copy=~z.m}"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  m = 1\n}\na = {\n  copy = ~z.m\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-010-nested-dependency-lift-fixed-point",
+      "description": "Canonical fixed point: nested dependency lift",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  m = 1\n}\na = {\n  copy = ~z.m\n}\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = {\n  m = 1\n}\na = {\n  copy = ~z.m\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-011-list-reference-lift",
+      "description": "Reference-safe ordering: list reference lift",
+      "input": {
+        "source": "z=1\na=[~z,2]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = [~z, 2]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-011-list-reference-lift-fixed-point",
+      "description": "Canonical fixed point: list reference lift",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = [~z, 2]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = [~z, 2]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-012-tuple-reference-lift",
+      "description": "Reference-safe ordering: tuple reference lift",
+      "input": {
+        "source": "z=1\na=(~z,2)"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = (~z, 2)\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-012-tuple-reference-lift-fixed-point",
+      "description": "Canonical fixed point: tuple reference lift",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = (~z, 2)\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = (~z, 2)\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-013-node-child-reference-lift",
+      "description": "Reference-safe ordering: node child reference lift",
+      "input": {
+        "source": "z=1\na=<tag(~z,2)>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = <tag(\n  ~z,\n  2\n)>\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-013-node-child-reference-lift-fixed-point",
+      "description": "Canonical fixed point: node child reference lift",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = <tag(\n  ~z,\n  2\n)>\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = <tag(\n  ~z,\n  2\n)>\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-014-node-head-reference-lift",
+      "description": "Reference-safe ordering: node head reference lift",
+      "input": {
+        "source": "z=1\na=<tag@{copy=~z}>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = <tag@{copy = ~z}>\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-014-node-head-reference-lift-fixed-point",
+      "description": "Canonical fixed point: node head reference lift",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = <tag@{copy = ~z}>\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na = <tag@{copy = ~z}>\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-015-key-attribute-reference-lift",
+      "description": "Reference-safe ordering: key attribute reference lift",
+      "input": {
+        "source": "z=1\na@{copy=~z}=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{copy = ~z} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-015-key-attribute-reference-lift-fixed-point",
+      "description": "Canonical fixed point: key attribute reference lift",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{copy = ~z} = 0\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{copy = ~z} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-016-attribute-local",
+      "description": "Reference-safe ordering: attribute local",
+      "input": {
+        "source": "a@{z=1,b=~a.@.z,a=0}=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{a = 0, z = 1, b = ~a.@.z} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-016-attribute-local-fixed-point",
+      "description": "Canonical fixed point: attribute local",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{a = 0, z = 1, b = ~a.@.z} = 0\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{a = 0, z = 1, b = ~a.@.z} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-017-object-in-attribute",
+      "description": "Reference-safe ordering: object in attribute",
+      "input": {
+        "source": "a@{meta={z=1,b=~a.@.meta.z,a=0}}=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{meta = { a = 0, z = 1, b = ~a.@.meta.z }} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-017-object-in-attribute-fixed-point",
+      "description": "Canonical fixed point: object in attribute",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{meta = { a = 0, z = 1, b = ~a.@.meta.z }} = 0\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{meta = { a = 0, z = 1, b = ~a.@.meta.z }} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-018-list-in-attribute",
+      "description": "Reference-safe ordering: list in attribute",
+      "input": {
+        "source": "a@{items=[1,~a.@.items[0]]}=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{items = [1, ~a.@.items[0]]} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-018-list-in-attribute-fixed-point",
+      "description": "Canonical fixed point: list in attribute",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{items = [1, ~a.@.items[0]]} = 0\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{items = [1, ~a.@.items[0]]} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-019-anonymous-child-attributes",
+      "description": "Reference-safe ordering: anonymous child attributes",
+      "input": {
+        "source": "a=[@{z=1,b=~a[0].@.z}=0]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [@{z = 1, b = ~a[0].@.z} = 0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-019-anonymous-child-attributes-fixed-point",
+      "description": "Canonical fixed point: anonymous child attributes",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [@{z = 1, b = ~a[0].@.z} = 0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [@{z = 1, b = ~a[0].@.z} = 0]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-020-payload-own-metadata",
+      "description": "Reference-safe ordering: payload own metadata",
+      "input": {
+        "source": "a@{z=1}=~a.@.z"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{z = 1} = ~a.@.z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-020-payload-own-metadata-fixed-point",
+      "description": "Canonical fixed point: payload own metadata",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{z = 1} = ~a.@.z\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{z = 1} = ~a.@.z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-021-ancestor-container",
+      "description": "Reference-safe ordering: ancestor container",
+      "input": {
+        "source": "a={z=1,b=~a}"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = {\n  b = ~a\n  z = 1\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-021-ancestor-container-fixed-point",
+      "description": "Canonical fixed point: ancestor container",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = {\n  b = ~a\n  z = 1\n}\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = {\n  b = ~a\n  z = 1\n}\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-022-quoted-dotted-key",
+      "description": "Reference-safe ordering: quoted dotted key",
+      "input": {
+        "source": "\"z.z\"=1\na=~[\"z.z\"]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"z.z\" = 1\na = ~[\"z.z\"]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-022-quoted-dotted-key-fixed-point",
+      "description": "Canonical fixed point: quoted dotted key",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"z.z\" = 1\na = ~[\"z.z\"]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"z.z\" = 1\na = ~[\"z.z\"]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-023-quoted-attribute-transition-key",
+      "description": "Reference-safe ordering: quoted attribute transition key",
+      "input": {
+        "source": "\"literal.@key\"@{z=1}=0\na=~[\"literal.@key\"].@.z"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"literal.@key\"@{z = 1} = 0\na = ~[\"literal.@key\"].@.z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-023-quoted-attribute-transition-key-fixed-point",
+      "description": "Canonical fixed point: quoted attribute transition key",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"literal.@key\"@{z = 1} = 0\na = ~[\"literal.@key\"].@.z\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"literal.@key\"@{z = 1} = 0\na = ~[\"literal.@key\"].@.z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-024-path-prefix-not-ancestry",
+      "description": "Reference-safe ordering: path prefix not ancestry",
+      "input": {
+        "source": "z=1\nza=2\na=~za"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\nza = 2\na = ~za\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-024-path-prefix-not-ancestry-fixed-point",
+      "description": "Canonical fixed point: path prefix not ancestry",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\nza = 2\na = ~za\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\nza = 2\na = ~za\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-025-reference-shaped-data",
+      "description": "Reference-safe ordering: reference shaped data",
+      "input": {
+        "source": "z=1\na=\"~z\"\nb=|~z|\nc:sansa=$.z\nd=^~z"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = \"~z\"\nb = |~z|\nc:sansa = $.z\nd = ^~z\nz = 1\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-025-reference-shaped-data-fixed-point",
+      "description": "Canonical fixed point: reference shaped data",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = \"~z\"\nb = |~z|\nc:sansa = $.z\nd = ^~z\nz = 1\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = \"~z\"\nb = |~z|\nc:sansa = $.z\nd = ^~z\nz = 1\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-026-binding-identities-and-datatypes",
+      "description": "Reference-safe ordering: binding identities and datatypes",
+      "input": {
+        "source": "z\\Z\\=1\na\\A\\@{b=~z}:number=~z"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz\\Z\\ = 1\na\\A\\@{b = ~z}:number = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-026-binding-identities-and-datatypes-fixed-point",
+      "description": "Canonical fixed point: binding identities and datatypes",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz\\Z\\ = 1\na\\A\\@{b = ~z}:number = ~z\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz\\Z\\ = 1\na\\A\\@{b = ~z}:number = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-027-header-field-dependency",
+      "description": "Reference-safe ordering: header field dependency",
+      "input": {
+        "source": "aeon:header={version=2.0,mode@{copy=~[\"aeon:version\"]}=\"transport\"}\na=1"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  version = 2.0\n  mode@{copy = ~[\"aeon:version\"]} = \"transport\"\n}\na = 1\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-027-header-field-dependency-fixed-point",
+      "description": "Canonical fixed point: header field dependency",
+      "input": {
+        "source": "aeon:header = {\n  version = 2.0\n  mode@{copy = ~[\"aeon:version\"]} = \"transport\"\n}\na = 1\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  version = 2.0\n  mode@{copy = ~[\"aeon:version\"]} = \"transport\"\n}\na = 1\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-028-quoted-header-body-collision",
+      "description": "Reference-safe ordering: quoted header body collision",
+      "input": {
+        "source": "aeon:version=2.0\n\"aeon:version\"=7\na=~[\"aeon:version\"]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  version = 2.0\n}\n\"aeon:version\" = 7\na = ~[\"aeon:version\"]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-028-quoted-header-body-collision-fixed-point",
+      "description": "Canonical fixed point: quoted header body collision",
+      "input": {
+        "source": "aeon:header = {\n  version = 2.0\n}\n\"aeon:version\" = 7\na = ~[\"aeon:version\"]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  version = 2.0\n}\n\"aeon:version\" = 7\na = ~[\"aeon:version\"]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-029-unicode-scalar-free-order",
+      "description": "Reference-safe ordering: unicode scalar free order",
+      "input": {
+        "source": "\"𐀀\"=2\n\"\"=1"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"\" = 1\n\"𐀀\" = 2\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-029-unicode-scalar-free-order-fixed-point",
+      "description": "Canonical fixed point: unicode scalar free order",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"\" = 1\n\"𐀀\" = 2\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n\"\" = 1\n\"𐀀\" = 2\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-030-unicode-scalar-eligible-order",
+      "description": "Reference-safe ordering: unicode scalar eligible order",
+      "input": {
+        "source": "z=1\n\"𐀀\"=~z\n\"\"=2\na=3"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 3\nz = 1\n\"\" = 2\n\"𐀀\" = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-030-unicode-scalar-eligible-order-fixed-point",
+      "description": "Canonical fixed point: unicode scalar eligible order",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 3\nz = 1\n\"\" = 2\n\"𐀀\" = ~z\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 3\nz = 1\n\"\" = 2\n\"𐀀\" = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-031-escaped-decoded-key",
+      "description": "Reference-safe ordering: escaped decoded key",
+      "input": {
+        "source": "\"\\u007a\"=1\nb=~z\na=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\nz = 1\nb = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-031-escaped-decoded-key-fixed-point",
+      "description": "Canonical fixed point: escaped decoded key",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\nz = 1\nb = ~z\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = 0\nz = 1\nb = ~z\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-032-quoted-attribute-key",
+      "description": "Reference-safe ordering: quoted attribute key",
+      "input": {
+        "source": "a@{\"z.z\"=1,b=~a.@.[\"z.z\"]}=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{\"z.z\" = 1, b = ~a.@.[\"z.z\"]} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-032-quoted-attribute-key-fixed-point",
+      "description": "Canonical fixed point: quoted attribute key",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{\"z.z\" = 1, b = ~a.@.[\"z.z\"]} = 0\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{\"z.z\" = 1, b = ~a.@.[\"z.z\"]} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-033-objects-across-fixed-list-positions",
+      "description": "Reference-safe ordering: objects across fixed list positions",
+      "input": {
+        "source": "a=[{z=1,b=~a[0].z},{a=~a[0].z}]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [\n  {\n    z = 1\n    b = ~a[0].z\n  },\n  {\n    a = ~a[0].z\n  }\n]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-033-objects-across-fixed-list-positions-fixed-point",
+      "description": "Canonical fixed point: objects across fixed list positions",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [\n  {\n    z = 1\n    b = ~a[0].z\n  },\n  {\n    a = ~a[0].z\n  }\n]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [\n  {\n    z = 1\n    b = ~a[0].z\n  },\n  {\n    a = ~a[0].z\n  }\n]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-034-object-in-tuple",
+      "description": "Reference-safe ordering: object in tuple",
+      "input": {
+        "source": "a=({z=1,b=~a[0].z},2)"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = (\n  {\n    z = 1\n    b = ~a[0].z\n  },\n  2\n)\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-034-object-in-tuple-fixed-point",
+      "description": "Canonical fixed point: object in tuple",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = (\n  {\n    z = 1\n    b = ~a[0].z\n  },\n  2\n)\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = (\n  {\n    z = 1\n    b = ~a[0].z\n  },\n  2\n)\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-035-object-in-node-child",
+      "description": "Reference-safe ordering: object in node child",
+      "input": {
+        "source": "a=<tag({z=1,b=~a[0].z})>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = <tag(\n  {\n    z = 1\n    b = ~a[0].z\n  }\n)>\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-035-object-in-node-child-fixed-point",
+      "description": "Canonical fixed point: object in node child",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = <tag(\n  {\n    z = 1\n    b = ~a[0].z\n  }\n)>\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = <tag(\n  {\n    z = 1\n    b = ~a[0].z\n  }\n)>\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-036-distinct-key-and-node-head-metadata",
+      "description": "Reference-safe ordering: distinct key and node head metadata",
+      "input": {
+        "source": "z=1\na@{k=~z}=<tag@{h=~z}>"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{k = ~z} = <tag@{h = ~z}>\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-036-distinct-key-and-node-head-metadata-fixed-point",
+      "description": "Canonical fixed point: distinct key and node head metadata",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{k = ~z} = <tag@{h = ~z}>\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nz = 1\na@{k = ~z} = <tag@{h = ~z}>\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-037-attribute-ancestor-container",
+      "description": "Reference-safe ordering: attribute ancestor container",
+      "input": {
+        "source": "a@{m={z=1,b=~a.@.m}}=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{m = { b = ~a.@.m, z = 1 }} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-037-attribute-ancestor-container-fixed-point",
+      "description": "Canonical fixed point: attribute ancestor container",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{m = { b = ~a.@.m, z = 1 }} = 0\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{m = { b = ~a.@.m, z = 1 }} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-038-anonymous-payload-own-metadata",
+      "description": "Reference-safe ordering: anonymous payload own metadata",
+      "input": {
+        "source": "a=[@{z=1}=~a[0].@.z]"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [@{z = 1} = ~a[0].@.z]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-038-anonymous-payload-own-metadata-fixed-point",
+      "description": "Canonical fixed point: anonymous payload own metadata",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [@{z = 1} = ~a[0].@.z]\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na = [@{z = 1} = ~a[0].@.z]\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-039-reference-free-attributes",
+      "description": "Reference-safe ordering: reference free attributes",
+      "input": {
+        "source": "a@{z=1,b=2}=0"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{b = 2, z = 1} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-039-reference-free-attributes-fixed-point",
+      "description": "Canonical fixed point: reference free attributes",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{b = 2, z = 1} = 0\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\na@{b = 2, z = 1} = 0\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-040-header-attribute-dependency",
+      "description": "Reference-safe ordering: header attribute dependency",
+      "input": {
+        "source": "aeon:header={version@{z=1,b=~[\"aeon:version\"].@.z}=2.0}\na=1"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  version@{z = 1, b = ~[\"aeon:version\"].@.z} = 2.0\n}\na = 1\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-040-header-attribute-dependency-fixed-point",
+      "description": "Canonical fixed point: header attribute dependency",
+      "input": {
+        "source": "aeon:header = {\n  version@{z = 1, b = ~[\"aeon:version\"].@.z} = 2.0\n}\na = 1\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  version@{z = 1, b = ~[\"aeon:version\"].@.z} = 2.0\n}\na = 1\n"
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "dependency-order",
+        "idempotence"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-041-reject-forward-before-repair",
+      "description": "Authored reference legality: reject forward before repair",
+      "input": {
+        "source": "z=~a\na=1"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-042-reject-pointer-forward-before-repair",
+      "description": "Authored reference legality: reject pointer forward before repair",
+      "input": {
+        "source": "z=~>a\na=1"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-043-reject-missing",
+      "description": "Authored reference legality: reject missing",
+      "input": {
+        "source": "a=~missing"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-044-reject-self",
+      "description": "Authored reference legality: reject self",
+      "input": {
+        "source": "a=~a"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-045-reject-object-forward",
+      "description": "Authored reference legality: reject object forward",
+      "input": {
+        "source": "a={b=~a.z,z=1}"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-046-reject-attribute-forward",
+      "description": "Authored reference legality: reject attribute forward",
+      "input": {
+        "source": "a@{b=~a.@.z,z=1}=0"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-047-reject-attribute-own-payload",
+      "description": "Authored reference legality: reject attribute own payload",
+      "input": {
+        "source": "a@{b=~a}=0"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-048-reject-nested-self",
+      "description": "Authored reference legality: reject nested self",
+      "input": {
+        "source": "a={b=~a.b}"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-049-reject-implicit-head-target",
+      "description": "Authored reference legality: reject implicit head target",
+      "input": {
+        "source": "a=<tag@{z=1}>\nb=~a.@.z"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-050-reject-before-default-header",
+      "description": "Authored reference legality: reject before default header",
+      "input": {
+        "source": "copy=~[\"aeon:version\"]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-051-reject-fixed-list-forward",
+      "description": "Authored reference legality: reject fixed list forward",
+      "input": {
+        "source": "a=[~a[1],1]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-052-reject-anonymous-attribute-forward",
+      "description": "Authored reference legality: reject anonymous attribute forward",
+      "input": {
+        "source": "a=[@{b=~a[0].@.z,z=1}=0]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    },
+    {
+      "id": "canonical-reference-order-053-reject-header-forward",
+      "description": "Authored reference legality: reject header forward",
+      "input": {
+        "source": "aeon:header={mode@{copy=~[\"aeon:version\"]}=\"transport\",version=2.0}\na=1"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "experimental",
+        "canonical",
+        "references",
+        "authored-order",
+        "reject",
+        "fail-closed"
+      ]
+    }
+  ]
+}
