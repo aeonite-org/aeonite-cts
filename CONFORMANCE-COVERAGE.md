@@ -67,6 +67,38 @@ The status labels used here are:
 | shared value equality, ordering, concrete-value, and explicit radix semantics | scaffold | `cts/value-semantics/v1/value-semantics-cts.v1.next.json`, `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` through `cts/value-semantics/v1/suites/04-radix-fractional-scale.json` | covers minimum-profile equality and ordering, NaN fail-closed behavior, infinity numeric-bound behavior, concrete value predicate classification, portable default/codepoint profile selection, exact same-base radix behavior, exact rational comparison across independently resolved bases, and representation-preserving fractional scale | `aeonite-specs/aes/v1/aeonic-semantic-language-v1#radix-numeric-profiles` |
 | AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
 
+## Experimental reference safe canonical ordering
+
+The separate `cts/canonical/v1/canonical-reference-ordering-cts.v1.next.json`
+manifest adds 46 exact canonical-output scenarios, 46 corresponding canonical
+fixed points, and 13 authored-reference rejection cases in
+`cts/canonical/v1/suites/09-next-reference-ordering.json`.
+
+Coverage includes reconsidering alphabetical eligibility after each emission,
+chains and shared targets, dependencies lifted from nested containers and
+metadata, unchanged list/tuple/node-child positions, ancestor availability,
+quoted paths, binding identities and datatypes, header/body collisions,
+reference-shaped non-reference data, and Unicode scalar key comparison.
+
+Paired nested-scope cases distinguish dependencies lifted through containing
+scopes from ancestor availability that creates no local predecessor. Additional
+cases require already-available external references to leave unrelated local
+entries unconstrained, even when their keys match. Exact outputs test minimality
+as well as legality, including newly eligible keys within nested objects.
+
+The new manifest excludes
+`canonical-baseline-016-reference-whitespace-after-sigil-normalized` and replaces
+its expectation with a new reference-safe ordering case. Its referenced suite
+and every released snapshot remain unchanged. The existing canonical next
+manifest also remains unchanged, so adoption can be coordinated with writer
+implementations rather than changing their current test target underneath them.
+
+Exact golden outputs must be legal under Core and preserve the same normalized
+reference forms, targets, metadata, and positional content. Fixed-point cases
+assert canonical idempotence without requiring implementation-internal AST
+matching. Negative cases require a diagnostic and empty canonical text before
+sorting or default-header insertion can repair the input.
+
 ## Draft literal-flow regression promotion
 
 The Core next manifest includes 28 focused cases in

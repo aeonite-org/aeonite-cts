@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "canonical",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Opt-in reference-safe canonical ordering target; preserves historical canonical snapshots and excludes the superseded forward-reference golden case",
+    "snapshot_id": "canonical-reference-ordering-next-cts-v1-snapshot-0.1",
+    "status": "experimental"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json",
+      "exclude_tests": [
+        "canonical-baseline-016-reference-whitespace-after-sigil-normalized"
+      ]
+    },
+    {
+      "id": "node-canonicalization",
+      "file": "suites/02-node-canonicalization.json"
+    },
+    {
+      "id": "whitespace-boundary-canonicalization",
+      "file": "suites/03-whitespace-boundary-canonicalization.json"
+    },
+    {
+      "id": "structural-identity-canonicalization",
+      "file": "suites/04-structural-identity-canonicalization.json"
+    },
+    {
+      "id": "string-escapes",
+      "file": "suites/05-string-escapes.json",
+      "exclude_tests": [
+        "canonical-string-002c-trimtick-payload-indentation-survives-canonicalization"
+      ]
+    },
+    {
+      "id": "canonical-symbolic-literals",
+      "file": "suites/06-symbolic-literals.json"
+    },
+    {
+      "id": "canonical-temporal-literals",
+      "file": "suites/07-temporal-literals.json"
+    },
+    {
+      "id": "next-canonical-literal-flow",
+      "file": "suites/08-next-literal-flow-regressions.json"
+    },
+    {
+      "id": "next-canonical-reference-ordering",
+      "file": "suites/09-next-reference-ordering.json"
+    }
+  ]
+}
