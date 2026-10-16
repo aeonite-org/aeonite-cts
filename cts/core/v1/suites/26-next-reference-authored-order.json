@@ -1,0 +1,1123 @@
+{
+  "meta": {
+    "suite_id": "next-reference-authored-order",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/addressing-references-v1.aeon#reference-legality",
+      "aeonite-specs/sources/appendices/v1/appendix-node-model.aeon#references"
+    ]
+  },
+  "id": "next-reference-authored-order",
+  "title": "Authored Reference Order Within Payload and Attribute Namespaces",
+  "tests": [
+    {
+      "id": "core-reference-order-001-object-forward",
+      "description": "Reference occurrence order: object forward",
+      "input": {
+        "source": "a = { b = ~a.z, z = 1 }",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-002-object-backward",
+      "description": "Reference occurrence order: object backward",
+      "input": {
+        "source": "a = { z = 1, b = ~a.z }",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-003-attribute-forward",
+      "description": "Reference occurrence order: attribute forward",
+      "input": {
+        "source": "a@{b = ~a.@.z, z = 1} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-004-attribute-backward",
+      "description": "Reference occurrence order: attribute backward",
+      "input": {
+        "source": "a@{z = 1, b = ~a.@.z} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-005-attribute-pointer-forward",
+      "description": "Reference occurrence order: attribute pointer forward",
+      "input": {
+        "source": "a@{b = ~>a.@.z, z = 1} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-006-attribute-pointer-backward",
+      "description": "Reference occurrence order: attribute pointer backward",
+      "input": {
+        "source": "a@{z = 1, b = ~>a.@.z} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-007-attribute-self",
+      "description": "Reference occurrence order: attribute self",
+      "input": {
+        "source": "a@{x = ~a.@.x} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-008-attribute-own-payload",
+      "description": "Reference occurrence order: attribute own payload",
+      "input": {
+        "source": "a@{x = ~a} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-009-payload-own-earlier-attribute",
+      "description": "Reference occurrence order: payload own earlier attribute",
+      "input": {
+        "source": "a@{x = 1} = ~a.@.x",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-010-attribute-missing",
+      "description": "Reference occurrence order: attribute missing",
+      "input": {
+        "source": "a@{b = ~a.@.missing} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-011-attribute-object-forward",
+      "description": "Reference occurrence order: attribute object forward",
+      "input": {
+        "source": "a@{meta = { b = ~a.@.meta.z, z = 1 }} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-012-attribute-object-backward",
+      "description": "Reference occurrence order: attribute object backward",
+      "input": {
+        "source": "a@{meta = { z = 1, b = ~a.@.meta.z }} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-013-attribute-list-forward",
+      "description": "Reference occurrence order: attribute list forward",
+      "input": {
+        "source": "a@{items = [~a.@.items[1], 7]} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-014-attribute-list-backward",
+      "description": "Reference occurrence order: attribute list backward",
+      "input": {
+        "source": "a@{items = [7, ~a.@.items[0]]} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-015-node-head-forward",
+      "description": "Reference occurrence order: node head forward",
+      "input": {
+        "source": "a = <tag@{b = ~a.@.z, z = 1}>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-016-node-head-backward",
+      "description": "Reference occurrence order: node head backward",
+      "input": {
+        "source": "a = <tag@{z = 1, b = ~a.@.z}>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-017-anonymous-head-forward",
+      "description": "Reference occurrence order: anonymous head forward",
+      "input": {
+        "source": "a = [@{b = ~a[0].@.z, z = 1} = 0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-018-anonymous-head-backward",
+      "description": "Reference occurrence order: anonymous head backward",
+      "input": {
+        "source": "a = [@{z = 1, b = ~a[0].@.z} = 0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-019-quoted-key-forward",
+      "description": "Reference occurrence order: quoted key forward",
+      "input": {
+        "source": "\"literal.@key\"@{b = ~[\"literal.@key\"].@.[\"z.z\"], \"z.z\" = 1} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-020-quoted-key-backward",
+      "description": "Reference occurrence order: quoted key backward",
+      "input": {
+        "source": "\"literal.@key\"@{\"z.z\" = 1, b = ~[\"literal.@key\"].@.[\"z.z\"]} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-021-quoted-payload-not-attribute",
+      "description": "Reference occurrence order: quoted payload not attribute",
+      "input": {
+        "source": "\"literal.@key\" = 7\ncopy = ~[\"literal.@key\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-022-nested-attribute-forward",
+      "description": "Reference occurrence order: nested attribute forward",
+      "input": {
+        "source": "a@{b = ~a.@.z.@.q, z@{q = 7} = 1} = 0",
+        "mode": "transport",
+        "options": {
+          "max_attribute_depth": 2
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-023-nested-attribute-backward",
+      "description": "Reference occurrence order: nested attribute backward",
+      "input": {
+        "source": "a@{z@{q = 7} = 1, b = ~a.@.z.@.q} = 0",
+        "mode": "transport",
+        "options": {
+          "max_attribute_depth": 2
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-024-nested-attribute-own-payload",
+      "description": "Reference occurrence order: nested attribute own payload",
+      "input": {
+        "source": "a@{b@{x = ~a.@.b} = 1} = 0",
+        "mode": "transport",
+        "options": {
+          "max_attribute_depth": 2
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-025-attribute-reference-shaped-data",
+      "description": "Reference occurrence order: attribute reference shaped data",
+      "input": {
+        "source": "a@{b = \"~a.@.z\", s = |~a.@.z|, z = 1} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-026-ancestor-object",
+      "description": "Reference occurrence order: ancestor object",
+      "input": {
+        "source": "a = { child = ~a }",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-027-node-child-error-once",
+      "description": "Reference occurrence order: node child error once",
+      "input": {
+        "source": "a = <tag(~missing)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-028-anonymous-head-own-payload",
+      "description": "Reference occurrence order: anonymous head own payload",
+      "input": {
+        "source": "a = [@{b = ~a[0]} = 1]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-029-node-head-key-attribute-distinct",
+      "description": "Reference occurrence order: node head key attribute distinct",
+      "input": {
+        "source": "a@{b = 7} = <tag@{b = ~a.@.b}>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-030-node-head-external-backward",
+      "description": "Reference occurrence order: node head external backward",
+      "input": {
+        "source": "z = 7\na = <tag@{b = ~z}>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-031-node-head-external-forward",
+      "description": "Reference occurrence order: node head external forward",
+      "input": {
+        "source": "a = <tag@{b = ~z}>\nz = 7",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-032-nested-payload-own-earlier-attribute",
+      "description": "Reference occurrence order: nested payload own earlier attribute",
+      "input": {
+        "source": "a@{b@{x = 1} = ~a.@.b.@.x} = 0",
+        "mode": "transport",
+        "options": {
+          "max_attribute_depth": 2
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-033-nested-attribute-later-payload-member",
+      "description": "Reference occurrence order: nested attribute later payload member",
+      "input": {
+        "source": "a@{b@{x = ~a.@.b.z} = {z = 1}} = 0",
+        "mode": "transport",
+        "options": {
+          "max_attribute_depth": 2
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-034-attribute-ancestor-object",
+      "description": "Reference occurrence order: attribute ancestor object",
+      "input": {
+        "source": "a@{b = {z = ~a.@.b}} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-reference-order-035-node-head-nested-list-reference",
+      "description": "Reference occurrence order: node head nested list reference",
+      "input": {
+        "source": "a = <tag@{b = [~missing]}>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-036-node-head-nested-object-reference",
+      "description": "Reference occurrence order: node head nested object reference",
+      "input": {
+        "source": "a = <tag@{b = {c = ~missing}}>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-037-object-member-attribute-error-once",
+      "description": "Reference occurrence order: object member attribute error once",
+      "input": {
+        "source": "a = {b@{x = ~missing} = 1}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-038-anonymous-tuple-head-forward",
+      "description": "Reference occurrence order: anonymous tuple head forward",
+      "input": {
+        "source": "a = (@{b = ~a[0].@.z, z = 1} = 0)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-039-anonymous-node-child-head-forward",
+      "description": "Reference occurrence order: anonymous node child head forward",
+      "input": {
+        "source": "a = <tag(@{b = ~a[0].@.z, z = 1} = 0)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-040-quoted-attribute-own-payload",
+      "description": "Reference occurrence order: quoted attribute own payload",
+      "input": {
+        "source": "\"literal.@key\"@{b = ~[\"literal.@key\"]} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-reference-order-041-node-head-not-binding-target",
+      "description": "Reference occurrence order: node head not binding target",
+      "input": {
+        "source": "a = <tag@{z = 1}>\nb = ~a.@.z",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "references",
+        "attributes",
+        "authored-order",
+        "reject"
+      ]
+    }
+  ]
+}
