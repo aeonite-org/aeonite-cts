@@ -90,10 +90,14 @@ boundaries. Film's historical numeric-generic framing remains physically
 recognizable, but completed-stream AES validation must reject it; no accepted
 transport-only generic feature is introduced.
 
-Only these development targets exclude superseded numeric-generic cases.
-Replacement vectors retain the corresponding round-trip and limit checks.
-Released snapshot suites and hashes remain unchanged. These targets specify
-required future codec behavior, not a claim that current released codecs pass.
+The prepared immutable `aes-events-cts-v1-snapshot-0.2` (48 vectors),
+`telex-cts-v1-snapshot-0.2` (61), and `film-cts-v1-snapshot-0.3` (92) promote
+the transport portion of this coverage. These new manifests pin every suite
+hash and exclude superseded numeric-generic vectors only within their own
+targets. Historical snapshots, suites, and hashes remain unchanged. Existing
+published codecs do not acquire a claim automatically; adopters must pass and
+declare the new targets. No canonical reference-ordering promotion or Film
+generic-depth semantic change is included.
 
 ## Experimental reference safe canonical ordering
 
