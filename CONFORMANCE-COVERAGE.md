@@ -251,6 +251,13 @@ snapshots remain unchanged. Passing this development suite requires the pending
 Film implementation correction; incremental split testing remains owned by the
 implementations' harnesses.
 
+The prepared immutable `cts/film/v1/film-cts.v1.snapshot-0.4.json` freezes the
+same 128-operation selection with a digest for every suite and exact reviewed
+specification alignment. It includes 103 direct reader operations; remaining
+encoder/transcode operations are not implicit reader claims. The old 0.3
+snapshot remains unchanged. Consumers must adopt the new target explicitly;
+its existence does not assert that published packages already implement it.
+
 ## SANSA behavior families
 
 The following surfaces are treated as the current SANSA anti-drift behavior families:
