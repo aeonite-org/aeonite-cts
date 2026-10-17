@@ -25,5 +25,5 @@ jobs:
       - name: Validate CTS manifests and immutable suite hashes
         run: python3 runners/validate_cts_repo.py
 
-      - name: Verify type-only snapshot promotion
+      - name: Verify snapshot integrity and development fixtures
         run: python3 -m unittest discover -s runners -p 'test_*.py'

@@ -8,7 +8,8 @@
     "event_contract": "aes.events.v1",
     "sut_protocol": "cts.protocol.v1",
     "byte_encoding": "lowercase-hex",
-    "description": "Development-only type-descriptor generic arguments; excludes superseded numeric-generic expectations",
+    "description": "Development-only type-only generics and shared logical generic-depth accounting; excludes superseded historical expectations",
+    "specification_revision": "242daa4214237cdc70d512b593c126615ab0556b",
     "snapshot_id": "film-next-cts-v1-snapshot-0.1",
     "conformance": {
       "surface": "experimental",
@@ -53,7 +54,14 @@
     },
     {
       "id": "next-film-type-only-generics",
-      "file": "suites/05-next-type-only-generics.json"
+      "file": "suites/05-next-type-only-generics.json",
+      "exclude_tests": [
+        "film-type-generics-limit-014-generic-depth-one-over"
+      ]
+    },
+    {
+      "id": "next-film-logical-generic-depth",
+      "file": "suites/06-next-logical-generic-depth.json"
     }
   ]
 }

@@ -110,6 +110,24 @@ unchanged. The new snapshots record normative specification revision
 `ae427af77568518a71aaf86ec0dc620e07658944`; they do not claim a new named
 specification snapshot. Codec adoption and package publication remain separate.
 
+Film next additionally selects 37 logical generic-depth vectors aligned to
+specification revision `242daa4214237cdc70d512b593c126615ab0556b`. Leaf arguments
+and clarifiers do not add depth; sibling branches take the maximum. The cases
+cover inclusive limits, true one-over levels, encode/decode/transcode symmetry,
+independent component/argument/clarifier/byte limits, malformed leaves and early
+rejection before further descent. Exactly one additional old expectation is
+excluded only in next: its original full optional-field bytes are retained in
+a new depth-zero acceptance case, while true depth exhaustion has new negative
+cases. Film next selects 128 operations; released Film 0.3 stays at 92, with
+its manifests, suite bytes and hashes unchanged. These development expectations
+expose the pending codec correction, not a claim that existing readers pass.
+
+`runners/test_film_generic_depth.py` independently checks the small fixture
+bytes and logical boundaries without importing an implementation checkout.
+Implementation harnesses should run the decode vectors through their one-shot
+and every-split incremental paths; the CTS does not introduce a new streaming
+wire operation or enable durable writers.
+
 The prepared `film-cts-v1-snapshot-0.3` contains 92 vectors, retaining the
 existing binary framing and kind assignments while rejecting literal generic
 arguments at completed AES validation and preserving exact numeric clarifiers.
