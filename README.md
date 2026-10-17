@@ -128,6 +128,18 @@ Implementation harnesses should run the decode vectors through their one-shot
 and every-split incremental paths; the CTS does not introduce a new streaming
 wire operation or enable durable writers.
 
+The prepared immutable `film-cts-v1-snapshot-0.4`, at
+`cts/film/v1/film-cts.v1.snapshot-0.4.json`, freezes those 128 operations and
+every referenced suite's SHA-256 digest. It records the same reviewed
+specification revision and retains all 37 depth cases, including the exact
+optional-field replacement. Its 103 direct decode operations are the reader
+surface; encoder and transcode operations remain separately identified.
+Film 0.3 and earlier targets retain their original bytes and expectations.
+An implementation adopting corrected logical-depth behavior must explicitly
+adopt the new target rather than keep claiming the superseded depth boundary.
+Implementation claims, dependency publication and durable-writer enablement
+are separate steps; creating the snapshot does not perform them.
+
 The prepared `film-cts-v1-snapshot-0.3` contains 92 vectors, retaining the
 existing binary framing and kind assignments while rejecting literal generic
 arguments at completed AES validation and preserving exact numeric clarifiers.
