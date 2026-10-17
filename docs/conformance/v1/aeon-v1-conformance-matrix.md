@@ -29,11 +29,17 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 - Protocol: `cts/protocol/v1`
 - Core lane manifest: `cts/core/v1/core-cts.v1.snapshot-0.5.json`
 - AES lane manifest: `cts/aes/v1/aes-cts.v1.snapshot-0.4.json`
-- Canonical lane manifest: `cts/canonical/v1/canonical-cts.v1.snapshot-0.3.json`
+- Canonical lane manifest: `cts/canonical/v1/canonical-cts.v1.snapshot-0.4.json`
 - Annotations lane manifest: `cts/annotations/v1/annotation-stream-cts.v1.json`
 - AEOS lane manifest: `cts/aeos/v1/aeos-validator-cts.v1.json`
 
 ## Matrix
+
+Canonical 0.4 pins specification revision
+`ae427af77568518a71aaf86ec0dc620e07658944`, including reference-safe ordering
+and type-only generics. It does not relabel the historical named canonical
+specification snapshot. Earlier CTS targets retain their original expectations;
+implementation default/claim adoption and integrity migration are separate.
 
 | Canonical document section    | Conformance topic                             | CTS lane              | Suite anchors                                                 |
 | ----------------------------- | --------------------------------------------- | --------------------- | ------------------------------------------------------------- |
@@ -66,6 +72,9 @@ This matrix reflects the current promoted CTS surface. Stress, smoke, and harden
 | `AEON-spec-v1.md` §11         | canonical formatting determinism              | `canonical`           | `cts/canonical/v1/suites/01-baseline.json`                    |
 |                               | node canonicalization and legacy node reject  | `canonical`           | `cts/canonical/v1/suites/02-node-canonicalization.json`       |
 |                               | canonical string decoding and multiline escaping | `canonical`        | `cts/canonical/v1/suites/05-string-escapes.json`              |
+| `appendix-canonical-form.aeon` | smallest-eligible-key ordering, authored reference legality, fixed points | `canonical` | `cts/canonical/v1/suites/09-next-reference-ordering.json` |
+|                               | exact numeric clarifiers and type-only generic arguments | `canonical` | `cts/canonical/v1/suites/10-next-type-only-generics.json` |
+|                               | literal-family and trimtick payload preservation | `canonical` | `cts/canonical/v1/suites/08-next-literal-flow-regressions.json` |
 | `aeon-core-compliance-v1.md` §3    | syntax and key requirements                   | `core`                | `cts/core/v1:suites/01-baseline.json`                         |
 |                               |                                               |                       | `cts/core/v1:suites/02-addressing-and-syntax.json`            |
 |                               |                                               |                       | `cts/core/v1:suites/07-syntax-invalid.json`                   |

@@ -126,8 +126,9 @@ If a correction aligns with an exact normative repository revision but no new
 named specification snapshot has been established, a CTS manifest may record
 `specification_revision` as that repository's full Git commit id and omit the
 advisory `spec_snapshot_id`. This does not create or imply a named specification
-snapshot. AES events 0.2, Telex 0.2, and Film 0.3 use this form with revision
-`ae427af77568518a71aaf86ec0dc620e07658944` of `aeonite-org/aeonite-specs`.
+snapshot. AES events 0.2, Telex 0.2, Film 0.3, and canonical 0.4 use this form
+with revision `ae427af77568518a71aaf86ec0dc620e07658944` of
+`aeonite-org/aeonite-specs`.
 
 ## Implementation Claims
 

@@ -67,22 +67,28 @@ grammar and exact space-or-tab gutter normalization. Historical released
 snapshots retain their width-bearing trimtick cases unchanged.
 
 The current released canonical target is
-`canonical-cts-v1-snapshot-0.3`, exposed by
-`cts/canonical/v1/canonical-cts.v1.snapshot-0.3.json`. Its 62 vectors pin
-space-indented block trimticks, leading-blank preservation, ordinary-string
-versus trimtick preservation, symbolic-literal escaping and nesting, reduced
-temporal precision, second `60`, exact arbitrary fractional scale, and the
-four-digit year boundaries across canonical writers. The historical 0.2
-snapshot remains unchanged.
+`canonical-cts-v1-snapshot-0.4`, exposed by
+`cts/canonical/v1/canonical-cts.v1.snapshot-0.4.json`. Its 197 selected vectors
+freeze reference-safe smallest-eligible-key ordering, authored Core reference
+validation, exact numeric clarifiers and type-only generic arguments, alongside
+literal-family, symbolic, temporal and trimtick preservation. All ten suites
+are SHA-256 pinned. The target records normative specification revision
+`ae427af77568518a71aaf86ec0dc620e07658944`, not a new named specification
+snapshot. Historical canonical 0.3 retains its 62 vectors; 0.2 and 0.1 also
+remain unchanged.
 
 The opt-in `cts/canonical/v1/canonical-reference-ordering-cts.v1.next.json`
-manifest develops reference-safe canonical ordering. It adds 105 vectors for
+manifest remains available for development. Its reviewed 197-case selection
+is frozen by canonical 0.4 without changing the moving manifest or suite bytes.
+The selection includes 105 reference-ordering vectors for
 smallest-eligible-key sorting, nested dependencies, fixed indexed positions,
 header/body separation, Unicode scalar key order, original-input rejection,
-and canonical fixed points. It excludes the superseded baseline reference
-ordering case only in this new manifest. Released snapshots and the existing
-canonical next manifest remain unchanged; this is not a released conformance
-claim.
+and canonical fixed points. Canonical 0.4 retains exactly the two reviewed
+exclusions: the superseded baseline reference output and the existing trimtick
+case whose replacement remains selected. Every selected case is required for a
+0.4 claim, including reused fixtures retaining experimental provenance tags.
+Promotion does not switch implementation defaults or claims, publish packages,
+or migrate integrity/hash contracts; those remain separate implementation gates.
 
 Portable AES v1 has authority-separated targets. The prepared immutable
 `aes-events-cts-v1-snapshot-0.2` manifest contains 48 transport-neutral record

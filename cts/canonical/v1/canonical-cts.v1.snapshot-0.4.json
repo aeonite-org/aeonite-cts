@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "version": "0.4.0",
+    "status": "released",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Immutable AEON v1 canonical target with reference-safe smallest-eligible-key ordering, authored Core reference validation, exact numeric clarifiers and type-only generics",
+    "snapshot_id": "canonical-cts-v1-snapshot-0.4",
+    "specification_revision": "ae427af77568518a71aaf86ec0dc620e07658944"
+  },
+  "suites": [
+    {
+      "id": "baseline",
+      "file": "suites/01-baseline.json",
+      "exclude_tests": [
+        "canonical-baseline-016-reference-whitespace-after-sigil-normalized"
+      ],
+      "content_sha256": "8f8460f082547f985b82ff377f2a338e9417aa3f5f3e6482badefbadf1b3ccb2"
+    },
+    {
+      "id": "node-canonicalization",
+      "file": "suites/02-node-canonicalization.json",
+      "content_sha256": "5c479dd4765f04774ae097dde42f746b8ead40f9f1a93ba102a9fd2afe8fce0b"
+    },
+    {
+      "id": "whitespace-boundary-canonicalization",
+      "file": "suites/03-whitespace-boundary-canonicalization.json",
+      "content_sha256": "07e3b5d618c2f19543d647104849ffe8bfd357ae039dacd89bf92eeafece86e1"
+    },
+    {
+      "id": "structural-identity-canonicalization",
+      "file": "suites/04-structural-identity-canonicalization.json",
+      "content_sha256": "adbe315dd52b41a1d1797f5a0e5d0861ee9eae27d3eab64f769f1e85966c1406"
+    },
+    {
+      "id": "string-escapes",
+      "file": "suites/05-string-escapes.json",
+      "exclude_tests": [
+        "canonical-string-002c-trimtick-payload-indentation-survives-canonicalization"
+      ],
+      "content_sha256": "8ea98a1d6c5f2d6853a0672af697853350ddf95d5558077b2da8ace0ae6b1e43"
+    },
+    {
+      "id": "canonical-symbolic-literals",
+      "file": "suites/06-symbolic-literals.json",
+      "content_sha256": "ded2cbcb6d27f16b9b8504c17c800d096d9082baf4c70c47b51a9b045b088e18"
+    },
+    {
+      "id": "canonical-temporal-literals",
+      "file": "suites/07-temporal-literals.json",
+      "content_sha256": "77066312bb13f8174463934fe2db3dc4d5c3e342b89dd8d131e973b3b3267e85"
+    },
+    {
+      "id": "next-canonical-literal-flow",
+      "file": "suites/08-next-literal-flow-regressions.json",
+      "content_sha256": "8d20ec0ef1ee13df3585545d8c7416fed1ede0914336052715cc91011378374a"
+    },
+    {
+      "id": "next-canonical-reference-ordering",
+      "file": "suites/09-next-reference-ordering.json",
+      "content_sha256": "ba90e21c50f48cb1db65e08f84c836768fe6c0b39129bb93e32bd6cdc8011647"
+    },
+    {
+      "id": "next-canonical-type-only-generics",
+      "file": "suites/10-next-type-only-generics.json",
+      "content_sha256": "53f68c4e5c149bc599a89834a00b8a85512ca7914c0f09222794efd42489e675"
+    }
+  ]
+}
