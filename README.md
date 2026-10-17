@@ -84,12 +84,13 @@ ordering case only in this new manifest. Released snapshots and the existing
 canonical next manifest remain unchanged; this is not a released conformance
 claim.
 
-Portable AES v1 has two stable, authority-separated targets. The immutable
-`aes-events-cts-v1-snapshot-0.1` manifest contains 38 transport-neutral record
-and profile-validation vectors. The immutable
-`telex-cts-v1-snapshot-0.1` manifest contains 50 Telex syntax,
+Portable AES v1 has authority-separated targets. The prepared immutable
+`aes-events-cts-v1-snapshot-0.2` manifest contains 48 transport-neutral record
+and profile-validation vectors. The prepared immutable
+`telex-cts-v1-snapshot-0.2` manifest contains 61 Telex syntax,
 canonicalization, and format-limit vectors. Each manifest pins the SHA-256
-digest of every referenced suite; JavaScript and Rust pass both targets.
+digest of every referenced suite. The historical 38-vector AES events 0.1 and
+50-vector Telex 0.1 targets remain unchanged.
 
 The development Core and canonical next targets add type-only generic
 arguments and exact numeric clarifiers. The new `aes-events-cts.v1.next.json`,
@@ -101,11 +102,19 @@ validation while retaining historical tag `02` physical framing for provisional
 decoding. The binary grammar, numeric-clarifier tag `02`, and kind codes remain
 unchanged; provisional decoding is not acceptance of a valid AES record.
 
-These are experimental acceptance corrections, not released conformance
-claims. Only the next manifests exclude superseded numeric-generic vectors;
-replacement cases retain their type-only round-trip and resource-boundary
-coverage. Released manifests, referenced suites, and content hashes are
-unchanged. Codec adoption and later snapshot promotion are separate steps.
+The prepared AES events 0.2, Telex 0.2, and Film 0.3 snapshots promote these
+transport corrections with hash-pinned suites and explicit exclusions of
+superseded numeric-generic expectations. Replacement cases retain round-trip
+and resource-boundary coverage. Historical manifests, suites, and hashes are
+unchanged. The new snapshots record normative specification revision
+`ae427af77568518a71aaf86ec0dc620e07658944`; they do not claim a new named
+specification snapshot. Codec adoption and package publication remain separate.
+
+The prepared `film-cts-v1-snapshot-0.3` contains 92 vectors, retaining the
+existing binary framing and kind assignments while rejecting literal generic
+arguments at completed AES validation and preserving exact numeric clarifiers.
+Film's pre-existing physical generic-depth accounting is not changed by these
+targets; harmonization with logical AES depth requires separate review.
 
 The immutable `film-cts-v1-snapshot-0.2` manifest contains 73 Film v1 binary
 framing, canonicalization, portable-record, Telex-transcoding, and

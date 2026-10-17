@@ -21,3 +21,9 @@ jobs:
 
       - name: Check for local filesystem paths
         run: bash ./scripts/pre-commit-check.sh
+
+      - name: Validate CTS manifests and immutable suite hashes
+        run: python3 runners/validate_cts_repo.py
+
+      - name: Verify type-only snapshot promotion
+        run: python3 -m unittest discover -s runners -p 'test_*.py'

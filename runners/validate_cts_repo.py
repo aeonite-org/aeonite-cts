@@ -191,6 +191,13 @@ def validate_manifest_metadata(
         return
     seen_snapshot_ids[snapshot_id] = manifest_path
 
+    specification_revision = meta.get("specification_revision")
+    if specification_revision is not None and (
+        not isinstance(specification_revision, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", specification_revision)
+    ):
+        errors.append(f"{lane_label}: manifest meta.specification_revision must be a full lowercase Git commit id")
+
     spec_snapshot_id = meta.get("spec_snapshot_id")
     if spec_snapshot_id is None:
         return

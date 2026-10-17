@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "version": "0.2.0",
+    "status": "released",
+    "lane": "aes-events",
+    "profile": "aes.complete.v1",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Immutable aes-events v1 snapshot requiring type-descriptor generic arguments and preserving exact numeric clarifiers",
+    "snapshot_id": "aes-events-cts-v1-snapshot-0.2",
+    "specification_revision": "ae427af77568518a71aaf86ec0dc620e07658944"
+  },
+  "suites": [
+    {
+      "id": "event-and-profile-validation",
+      "file": "suites/01-event-and-profile-validation.json",
+      "content_sha256": "9401c35f018a714ec60e764ce7d8eb304a74d419a47c5561d9d41fff6f8e8850"
+    },
+    {
+      "id": "next-aes-events-type-only-generics",
+      "file": "suites/06-next-type-only-generics.json",
+      "content_sha256": "8323bb2a000720e2fc82fd2875751527917dae603c35cad361b610c63c25100b"
+    }
+  ]
+}
