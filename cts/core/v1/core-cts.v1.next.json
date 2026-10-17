@@ -133,6 +133,10 @@
     {
       "id": "next-type-only-generics",
       "file": "suites/27-next-type-only-generics.json"
+    },
+    {
+      "id": "next-node-binding-generics",
+      "file": "suites/28-next-node-binding-generics.json"
     }
   ]
 }

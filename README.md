@@ -59,6 +59,9 @@ The experimental `finalize-json-cts.v1.next.json` and
 compatibility policy for special values without changing released snapshots.
 The mutable Core, AES projection, canonical, and finalize next targets remain
 available for ongoing development beyond their promoted snapshots.
+Core next also covers the existing binding-side `node<T>` reserved-argument
+rule across clarifiers, metadata, anonymous items, and reference values, with
+positive controls for custom/domain arguments and node-head content claims.
 The Core 0.5, Core 0.4, and AES 0.4 snapshots cover the single-marker trimtick
 grammar and exact space-or-tab gutter normalization. Historical released
 snapshots retain their width-bearing trimtick cases unchanged.

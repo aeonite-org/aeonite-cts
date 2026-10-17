@@ -69,6 +69,13 @@ The status labels used here are:
 
 ## Experimental type-only generic arguments
 
+The Core next target also adds 32 binding-side `node<T>` scope vectors in
+`28-next-node-binding-generics.json`. Reserved non-`node` arguments remain
+invalid when decorated with clarifiers, used on metadata or anonymous items,
+or applied to reference values. Custom/domain arguments, `node<node>`, and
+node-head child-content claims remain accepted. This covers an existing Core
+rule; it does not extend the language or change released snapshot assets.
+
 The Core and both canonical next manifests include shared type-only generic
 coverage: 29 Core cases and 31 canonical cases. They reject bare literal
 arguments in binding, metadata, anonymous-item, node-head, and header positions;
