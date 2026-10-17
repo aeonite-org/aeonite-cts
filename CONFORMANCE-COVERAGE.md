@@ -239,6 +239,18 @@ The following surfaces are treated as the current AEOS anti-drift behavior famil
 | literal widening and cardinality constraints | baseline | `cts/aeos/v1/suites/21-literal-widening-cardinality.json` | covers nullable typed values, null sentinel matching, Infinity/NaN numeric widening, toggle pair matching, and min/max immediate child counts |
 | temporal field and GP selector constraints | experimental | `cts/aeos/v1/suites/24-temporal-field-constraints.json` | covers seconds and year bounds, nine-digit fractional precision, zero-digit precision policy, temporal-context conflicts, and representation-kind selector application to untyped temporal literals |
 
+## Film logical generic-depth follow-up
+
+The experimental `cts/film/v1/film-cts.v1.next.json` includes
+`suites/06-next-logical-generic-depth.json`: 37 operations covering logical
+depth-zero leaves, nested and branching boundaries, exact leaf clarifiers,
+encoder/decoder/transcode symmetry, independent limits, malformed leaves and
+rejection before over-limit recursion. One superseded expectation is excluded
+only in next and replaced using the same full optional-field bytes. All released
+snapshots remain unchanged. Passing this development suite requires the pending
+Film implementation correction; incremental split testing remains owned by the
+implementations' harnesses.
+
 ## SANSA behavior families
 
 The following surfaces are treated as the current SANSA anti-drift behavior families:
