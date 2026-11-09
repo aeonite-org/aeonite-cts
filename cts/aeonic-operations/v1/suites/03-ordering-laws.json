@@ -1,0 +1,181 @@
+{
+  "id": "03-ordering-laws",
+  "status": "working",
+  "tests": [
+    {
+      "id": "numeric_equivalence_and_transitivity",
+      "values": [
+        {
+          "category": "finiteNumber",
+          "value": "-2"
+        },
+        {
+          "category": "finiteNumber",
+          "value": "-0"
+        },
+        {
+          "category": "finiteNumber",
+          "value": "0.0"
+        },
+        {
+          "category": "finiteNumber",
+          "value": "1"
+        },
+        {
+          "category": "finiteNumber",
+          "value": "1.0"
+        },
+        {
+          "category": "finiteNumber",
+          "value": "1e0"
+        },
+        {
+          "category": "finiteNumber",
+          "value": "2"
+        },
+        {
+          "category": "finiteNumber",
+          "value": "9007199254740993"
+        }
+      ],
+      "policy": {
+        "profile": "aeonic.operations.comparison.baseline.v1"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "ordering-laws"
+    },
+    {
+      "id": "unicode_scalar_order",
+      "values": [
+        {
+          "category": "string",
+          "value": ""
+        },
+        {
+          "category": "string",
+          "value": "A"
+        },
+        {
+          "category": "string",
+          "value": "a"
+        },
+        {
+          "category": "string",
+          "value": "e\u0301"
+        },
+        {
+          "category": "string",
+          "value": "\u00e9"
+        },
+        {
+          "category": "string",
+          "value": "\ue000"
+        },
+        {
+          "category": "string",
+          "value": "\ud800\udc00"
+        }
+      ],
+      "policy": {
+        "profile": "aeonic.operations.comparison.baseline.v1"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "ordering-laws"
+    },
+    {
+      "id": "boolean_order",
+      "values": [
+        {
+          "category": "boolean",
+          "value": false
+        },
+        {
+          "category": "boolean",
+          "value": true
+        }
+      ],
+      "policy": {
+        "profile": "aeonic.operations.comparison.baseline.v1"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "ordering-laws"
+    },
+    {
+      "id": "baseline_symbol_order",
+      "values": [
+        {
+          "category": "symbol",
+          "value": "Ready"
+        },
+        {
+          "category": "symbol",
+          "value": "high"
+        },
+        {
+          "category": "symbol",
+          "value": "low"
+        },
+        {
+          "category": "symbol",
+          "value": "ready"
+        }
+      ],
+      "policy": {
+        "profile": "aeonic.operations.comparison.baseline.v1"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "ordering-laws"
+    },
+    {
+      "id": "declared_three_rank_order",
+      "values": [
+        {
+          "category": "symbol",
+          "value": "low"
+        },
+        {
+          "category": "symbol",
+          "value": "medium"
+        },
+        {
+          "category": "symbol",
+          "value": "high"
+        }
+      ],
+      "policy": {
+        "symbols": {
+          "mode": "declared-order",
+          "declaration": {
+            "order": [
+              {
+                "category": "symbol",
+                "value": "low"
+              },
+              {
+                "category": "symbol",
+                "value": "medium"
+              },
+              {
+                "category": "symbol",
+                "value": "high"
+              }
+            ]
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ],
+      "kind": "ordering-laws"
+    }
+  ]
+}

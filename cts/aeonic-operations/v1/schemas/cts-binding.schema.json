@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aeonic-operations:cts-binding:v1:working",
+  "title": "Aeonic Operations working CTS binding",
+  "description": "Mutable working binding to cts.protocol.v1; operation shapes resolve from the specification resource.",
+  "$ref": "#/$defs/ctsInput",
+  "$defs": {
+    "structuredFixture": {
+      "type": "object",
+      "properties": {
+        "request": {}
+      },
+      "required": [
+        "request"
+      ],
+      "additionalProperties": false
+    },
+    "textFixture": {
+      "type": "object",
+      "properties": {
+        "requestText": {
+          "$ref": "urn:aeonic-operations:comparison-contract:v1:working#/$defs/scalarString"
+        }
+      },
+      "required": [
+        "requestText"
+      ],
+      "additionalProperties": false
+    },
+    "fixture": {
+      "description": "A fixture wrapper admits deliberately invalid operation requests. Do not constrain structured request to the valid-request schema here.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/structuredFixture"
+        },
+        {
+          "$ref": "#/$defs/textFixture"
+        }
+      ]
+    },
+    "resourceLimits": {
+      "type": "object",
+      "properties": {
+        "maxRequestBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxRequestDepth": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxNumericCharacters": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxStringScalars": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxSymbolScalars": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxDeclarations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxDeclaredSymbols": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "harnessPolicy": {
+      "type": "object",
+      "properties": {
+        "resourceLimits": {
+          "$ref": "#/$defs/resourceLimits"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ctsInput": {
+      "type": "object",
+      "properties": {
+        "lane": {
+          "const": "aeonic-operations"
+        },
+        "case_id": {
+          "$ref": "urn:aeonic-operations:comparison-contract:v1:working#/$defs/identifier"
+        },
+        "fixture": {
+          "$ref": "#/$defs/fixture"
+        },
+        "policy": {
+          "$ref": "#/$defs/harnessPolicy"
+        }
+      },
+      "required": [
+        "lane",
+        "case_id",
+        "fixture",
+        "policy"
+      ],
+      "additionalProperties": false
+    },
+    "transportDiagnostic": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "$ref": "urn:aeonic-operations:comparison-contract:v1:working#/$defs/identifier"
+        },
+        "path": {
+          "type": "null"
+        },
+        "span": {
+          "type": "null"
+        },
+        "phase": {
+          "type": "null"
+        },
+        "message": {
+          "$ref": "urn:aeonic-operations:comparison-contract:v1:working#/$defs/scalarString"
+        }
+      },
+      "required": [
+        "code",
+        "path",
+        "span",
+        "phase"
+      ],
+      "additionalProperties": true
+    },
+    "ctsOutput": {
+      "description": "Candidate lane binding; extra transport fields are ignored under cts.protocol.v1. No warnings are defined in this first comparison surface. Diagnostic error code must also match result.reason, checked semantically.",
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/transportDiagnostic"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "result": {
+          "$ref": "urn:aeonic-operations:comparison-contract:v1:working#/$defs/result"
+        }
+      },
+      "required": [
+        "ok",
+        "errors",
+        "warnings",
+        "result"
+      ],
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "errors": {
+              "maxItems": 0
+            },
+            "result": {
+              "$ref": "urn:aeonic-operations:comparison-contract:v1:working#/$defs/success"
+            }
+          }
+        },
+        {
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "errors": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "result": {
+              "$ref": "urn:aeonic-operations:comparison-contract:v1:working#/$defs/diagnostic"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

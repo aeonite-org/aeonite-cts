@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "version": "0.2.0-dev.0",
+    "lane": "aeonic-operations",
+    "capability": "Aeonic.Operations.Comparison",
+    "profile": "four-domain-baseline-plus-optional-declared-order",
+    "conformance": {
+      "surface": "working-next",
+      "stable": false
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Mutable follow-up to frozen comparison snapshot 0.1; currently retains its comparison coverage. No stable claim against this moving target.",
+    "snapshot_id": "aeonic-operations-cts-v1-snapshot-0.2",
+    "specification_schema_sha256": "3b0d5b182a3d51b1f09f1ac564748c595260dcb9e23452577a4d2519abd284e0",
+    "specification_source_sha256": "13e35a161f03d263b2f9fe452f93f85dac28a98461520bb95815d788cd01849d",
+    "binding_schema_sha256": "7ee3dcd2ac8efcb0c45a3dcdb31439683237d7edd7220296a68bc2b15d1055a9"
+  },
+  "suites": [
+    {
+      "id": "01-baseline-comparison",
+      "file": "suites/01-baseline-comparison.json",
+      "content_sha256": "ca5fbf0899b0ea589db7975abf12f834700456e16cd139c98401e0c0fd7829c4"
+    },
+    {
+      "id": "02-declared-symbol-order",
+      "file": "suites/02-declared-symbol-order.json",
+      "content_sha256": "f32243eb5d92c4e3e7aaf3ebb6fa8dfff6eb2c77f1ae9c7a95864289ab755e81"
+    },
+    {
+      "id": "03-ordering-laws",
+      "file": "suites/03-ordering-laws.json",
+      "content_sha256": "16e98cf26def2b738ef16207e5fac20ee92ee48bf51a6afe369b9e2a36eb8fb1"
+    },
+    {
+      "id": "04-resource-boundaries",
+      "file": "suites/04-resource-boundaries.json",
+      "content_sha256": "e5cc19b91ee70709fae5ba3ac653c7d283868da72a0893f0b7d6a9c1a7873558"
+    },
+    {
+      "id": "05-capability-and-configuration-boundaries",
+      "file": "suites/05-capability-and-configuration-boundaries.json",
+      "content_sha256": "33d3e9c38b896dea508aa0a7c28772c8c8678df559fa10e2f6bb74ac0a948dff"
+    }
+  ]
+}

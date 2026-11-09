@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "aeonic-operations",
+    "capability": "Aeonic.Operations.Comparison",
+    "profile": "four-domain-baseline-plus-optional-declared-order",
+    "conformance": {
+      "surface": "comparison-baseline-plus-optional-declared-order",
+      "stable": true,
+      "publication": "local-only"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Locally frozen comparison target; 135 operation cases, five ordering-law groups and 21 generated capacity boundaries. No package or GitHub release is implied.",
+    "snapshot_id": "aeonic-operations-cts-v1-snapshot-0.1",
+    "specification_schema_sha256": "3234268193e294cb247d2e8327a715b08a4369706eac0a020b1b2593f4ef1353",
+    "specification_source_sha256": "c8f301c0f43f25e0acfd553bf572ccdf1631eaeaa114b9dfa063e4495fb62966",
+    "binding_schema_sha256": "3283eb1e0624d00ae07b912ea1cc08c3ac054a2532632105aec9f30f20dbc29a",
+    "spec_snapshot_id": "aeonic-operations-specs-v1-snapshot-0.1",
+    "specification_schema_file": "resources/aeonic-operations/v1/snapshots/0.1/comparison-contract.schema.json",
+    "specification_source_file": "resources/aeonic-operations/v1/snapshots/0.1/aeonic-semantic-language-v1.aeon",
+    "binding_schema_file": "snapshots/0.1/cts-binding.schema.json"
+  },
+  "suites": [
+    {
+      "id": "01-baseline-comparison",
+      "file": "snapshots/0.1/suites/01-baseline-comparison.json",
+      "content_sha256": "ca5fbf0899b0ea589db7975abf12f834700456e16cd139c98401e0c0fd7829c4"
+    },
+    {
+      "id": "02-declared-symbol-order",
+      "file": "snapshots/0.1/suites/02-declared-symbol-order.json",
+      "content_sha256": "f32243eb5d92c4e3e7aaf3ebb6fa8dfff6eb2c77f1ae9c7a95864289ab755e81"
+    },
+    {
+      "id": "03-ordering-laws",
+      "file": "snapshots/0.1/suites/03-ordering-laws.json",
+      "content_sha256": "16e98cf26def2b738ef16207e5fac20ee92ee48bf51a6afe369b9e2a36eb8fb1"
+    },
+    {
+      "id": "04-resource-boundaries",
+      "file": "snapshots/0.1/suites/04-resource-boundaries.json",
+      "content_sha256": "e5cc19b91ee70709fae5ba3ac653c7d283868da72a0893f0b7d6a9c1a7873558"
+    },
+    {
+      "id": "05-capability-and-configuration-boundaries",
+      "file": "snapshots/0.1/suites/05-capability-and-configuration-boundaries.json",
+      "content_sha256": "33d3e9c38b896dea508aa0a7c28772c8c8678df559fa10e2f6bb74ac0a948dff"
+    }
+  ]
+}

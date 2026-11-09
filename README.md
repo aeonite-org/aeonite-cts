@@ -214,3 +214,21 @@ land in the public CTS repo.
 ## Licensing
 
 This repository is released under the MIT License. See `LICENSE`.
+
+## Aeonic Operations comparison
+
+The locally frozen `aeonic-operations-cts-v1-snapshot-0.1` target is
+`cts/aeonic-operations/v1/aeonic-operations-cts.v1.snapshot-0.1.json`. Its 135
+operation cases, five ordering-law groups and 21 generated resource boundaries
+cover the four-domain baseline and separately selectable declared symbol order.
+It pins immutable specification/schema/binding/suite copies and aligns with
+`aeonic-operations-specs-v1-snapshot-0.1`. The mutable `.next.json` target is now
+snapshot 0.2; older value-semantics and SANSA targets retain their meanings.
+
+[Lane rules](docs/protocol/v1/lane-aeonic-operations.md) describe invocation,
+matching and capability selection. The shared runner is
+`runners/run_aeonic_operations.py`, with dependencies listed in
+`runners/requirements-aeonic-operations.txt`. JavaScript and independent Python
+implementations in `altopelago/aeonic` pass the frozen target; their reports are
+implementation-owned. The local freeze does not publish a package or GitHub
+release.
