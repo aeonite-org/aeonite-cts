@@ -1,0 +1,384 @@
+{
+  "id": "04-resource-boundaries",
+  "status": "working",
+  "tests": [
+    {
+      "id": "minimum_coefficient_capacity",
+      "operation": "compare",
+      "left": {
+        "recipe": "1 followed by 65535 zeroes"
+      },
+      "right": {
+        "recipe": "2 followed by 65535 zeroes"
+      },
+      "expectedSymbol": "less",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "integer_exponent_equivalence_at_capacity",
+      "operation": "compare",
+      "left": {
+        "recipe": "1 followed by 65535 zeroes"
+      },
+      "right": {
+        "category": "finiteNumber",
+        "value": "1e65535"
+      },
+      "expectedSymbol": "equal",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "minimum_exponent_capacity",
+      "operation": "compare",
+      "left": {
+        "recipe": "1e followed by 65534 nines"
+      },
+      "right": {
+        "recipe": "1e followed by 65533 nines then 8"
+      },
+      "expectedSymbol": "greater",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "configured_numeric_limit_exceeded",
+      "operation": "compare",
+      "harnessLimits": {
+        "maxNumericCharacters": 65536
+      },
+      "left": {
+        "recipe": "1 followed by 65536 zeroes"
+      },
+      "right": {
+        "category": "finiteNumber",
+        "value": "1"
+      },
+      "expectedDiagnostic": {
+        "reason": "resource_limit",
+        "stage": 4,
+        "path": "/input/left/value"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "string_minimum_scalar_capacity_equality",
+      "operation": "compare",
+      "category": "string",
+      "left": {
+        "recipe": "65536 repetitions of U+10000"
+      },
+      "right": {
+        "recipe": "65536 repetitions of U+10000"
+      },
+      "expectedSymbol": "equal",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "string_minimum_scalar_capacity_last_scalar_difference",
+      "operation": "compare",
+      "category": "string",
+      "left": {
+        "recipe": "65535 repetitions of U+10000 followed by A"
+      },
+      "right": {
+        "recipe": "65535 repetitions of U+10000 followed by B"
+      },
+      "expectedSymbol": "less",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "string_minimum_scalar_capacity_scalar_not_utf16_order",
+      "operation": "compare",
+      "category": "string",
+      "left": {
+        "recipe": "65536 repetitions of U+10000"
+      },
+      "right": {
+        "recipe": "65535 repetitions of U+10000 followed by U+E000"
+      },
+      "expectedSymbol": "greater",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "string_configured_scalar_limit_exceeded",
+      "operation": "compare",
+      "category": "string",
+      "harnessLimits": {
+        "maxStringScalars": 65536
+      },
+      "left": {
+        "recipe": "65537 repetitions of U+10000"
+      },
+      "right": {
+        "category": "string",
+        "value": "a"
+      },
+      "expectedDiagnostic": {
+        "reason": "resource_limit",
+        "stage": 4,
+        "path": "/input/left/value"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "symbol_minimum_scalar_capacity_equality",
+      "operation": "compare",
+      "category": "symbol",
+      "left": {
+        "recipe": "65536 repetitions of U+10000"
+      },
+      "right": {
+        "recipe": "65536 repetitions of U+10000"
+      },
+      "expectedSymbol": "equal",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "symbol_minimum_scalar_capacity_last_scalar_difference",
+      "operation": "compare",
+      "category": "symbol",
+      "left": {
+        "recipe": "65535 repetitions of U+10000 followed by A"
+      },
+      "right": {
+        "recipe": "65535 repetitions of U+10000 followed by B"
+      },
+      "expectedSymbol": "less",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "symbol_minimum_scalar_capacity_scalar_not_utf16_order",
+      "operation": "compare",
+      "category": "symbol",
+      "left": {
+        "recipe": "65536 repetitions of U+10000"
+      },
+      "right": {
+        "recipe": "65535 repetitions of U+10000 followed by U+E000"
+      },
+      "expectedSymbol": "greater",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "symbol_configured_scalar_limit_exceeded",
+      "operation": "compare",
+      "category": "symbol",
+      "harnessLimits": {
+        "maxSymbolScalars": 65536
+      },
+      "left": {
+        "recipe": "65537 repetitions of U+10000"
+      },
+      "right": {
+        "category": "symbol",
+        "value": "a"
+      },
+      "expectedDiagnostic": {
+        "reason": "resource_limit",
+        "stage": 4,
+        "path": "/input/left/value"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "minimum_inline_order_capacity",
+      "operation": "compare",
+      "policyRecipe": "Inline order s0000 through s1023",
+      "left": {
+        "category": "symbol",
+        "value": "s0000"
+      },
+      "right": {
+        "category": "symbol",
+        "value": "s1023"
+      },
+      "expectedSymbol": "less",
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "minimum_named_registry_capacity",
+      "operation": "compare",
+      "contextRecipe": "64 declarations domain.0 through domain.63, each version 1 and order low,high",
+      "selectedReference": {
+        "id": "domain.63",
+        "version": "1"
+      },
+      "left": {
+        "category": "symbol",
+        "value": "low"
+      },
+      "right": {
+        "category": "symbol",
+        "value": "high"
+      },
+      "expectedSymbol": "less",
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "combined_declaration_count_capacities",
+      "operation": "compare",
+      "contextRecipe": "64 declarations domain.0 through domain.63, each version 1 and order s0000 through s1023",
+      "selectedReference": {
+        "id": "domain.63",
+        "version": "1"
+      },
+      "left": {
+        "category": "symbol",
+        "value": "s0000"
+      },
+      "right": {
+        "category": "symbol",
+        "value": "s1023"
+      },
+      "expectedSymbol": "less",
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "configured_order_count_limit_exceeded",
+      "operation": "compare",
+      "policyRecipe": "Inline order s0000 through s1024",
+      "harnessLimits": {
+        "maxDeclaredSymbols": 1024
+      },
+      "expectedDiagnostic": {
+        "reason": "resource_limit",
+        "stage": 3,
+        "path": "/input/policy/symbols/declaration/order"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "configured_registry_count_limit_exceeded",
+      "operation": "compare",
+      "contextRecipe": "65 declarations domain.0 through domain.64, each version 1 and order low,high",
+      "harnessLimits": {
+        "maxDeclarations": 64
+      },
+      "expectedDiagnostic": {
+        "reason": "resource_limit",
+        "stage": 3,
+        "path": "/input/context/declarations"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "logical_json_at_minimum_byte_capacity",
+      "operation": "compare",
+      "requestTextRecipe": "Compact compare request for finite numbers 1 and 2, then trailing ASCII spaces to exactly 4194304 UTF-8 bytes",
+      "harnessLimits": {
+        "maxRequestBytes": 4194304
+      },
+      "expectedSymbol": "less",
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "logical_json_one_byte_beyond_configured_limit",
+      "operation": "compare",
+      "requestTextRecipe": "Same valid logical JSON request, padded with trailing ASCII spaces to 4194305 UTF-8 bytes",
+      "harnessLimits": {
+        "maxRequestBytes": 4194304
+      },
+      "expectedDiagnostic": {
+        "reason": "resource_limit",
+        "stage": 1,
+        "path": null
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "container_depth_at_minimum_capacity",
+      "operation": "compare",
+      "requestRecipe": "Left deferred container descriptor with value 0 nested in 29 arrays, right finite number 1; root/input/left plus arrays make depth 32",
+      "harnessLimits": {
+        "maxRequestDepth": 32
+      },
+      "expectedDiagnostic": {
+        "reason": "unsupported_domain",
+        "stage": 5,
+        "path": "/input/left/category"
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    },
+    {
+      "id": "container_depth_one_beyond_configured_limit",
+      "operation": "compare",
+      "requestRecipe": "Same deferred container request with 30 nested arrays, giving depth 33",
+      "harnessLimits": {
+        "maxRequestDepth": 32
+      },
+      "expectedDiagnostic": {
+        "reason": "resource_limit",
+        "stage": 1,
+        "path": null
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ],
+      "kind": "resource-boundary"
+    }
+  ]
+}

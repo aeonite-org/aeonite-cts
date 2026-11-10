@@ -1,0 +1,738 @@
+{
+  "id": "02-declared-symbol-order",
+  "status": "working",
+  "tests": [
+    {
+      "id": "inline_declared_temperature",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "declared-order",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "declared-order",
+              "profile": "aeonic.operations.symbol.declared-order.v1",
+              "order": [
+                {
+                  "category": "symbol",
+                  "value": "low"
+                },
+                {
+                  "category": "symbol",
+                  "value": "high"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "named_declared_temperature",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "declared-order",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "declared-order",
+              "profile": "aeonic.operations.symbol.declared-order.v1",
+              "order": [
+                {
+                  "category": "symbol",
+                  "value": "low"
+                },
+                {
+                  "category": "symbol",
+                  "value": "high"
+                }
+              ],
+              "reference": {
+                "id": "app.temperature",
+                "version": "1"
+              }
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "context": {
+              "declarations": [
+                {
+                  "id": "app.temperature",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                },
+                {
+                  "id": "app.speed",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "slow"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "fast"
+                    }
+                  ]
+                }
+              ]
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "reference": {
+                    "id": "app.temperature",
+                    "version": "1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "same_registry_named_speed",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "declared-order",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "declared-order",
+              "profile": "aeonic.operations.symbol.declared-order.v1",
+              "order": [
+                {
+                  "category": "symbol",
+                  "value": "slow"
+                },
+                {
+                  "category": "symbol",
+                  "value": "fast"
+                }
+              ],
+              "reference": {
+                "id": "app.speed",
+                "version": "1"
+              }
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "slow"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "fast"
+            },
+            "context": {
+              "declarations": [
+                {
+                  "id": "app.temperature",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                },
+                {
+                  "id": "app.speed",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "slow"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "fast"
+                    }
+                  ]
+                }
+              ]
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "reference": {
+                    "id": "app.speed",
+                    "version": "1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "declared_same_unknown_still_fails",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "undeclared_symbol",
+        "context": {
+          "stage": 6,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "unknown"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "unknown"
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "domain_specific_symbol_membership",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "undeclared_symbol",
+        "context": {
+          "stage": 6,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "fast"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "context": {
+              "declarations": [
+                {
+                  "id": "app.temperature",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                },
+                {
+                  "id": "app.speed",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "slow"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "fast"
+                    }
+                  ]
+                }
+              ]
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "reference": {
+                    "id": "app.temperature",
+                    "version": "1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "missing_named_declaration",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/symbols/declaration/reference"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "reference": {
+                    "id": "app.temperature",
+                    "version": "1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "reference_identifier_case_is_exact",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/symbols/declaration/reference"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "context": {
+              "declarations": [
+                {
+                  "id": "app.temperature",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                }
+              ]
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "reference": {
+                    "id": "App.temperature",
+                    "version": "1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "named_declaration_version_is_selected",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "declared-order",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "declared-order",
+              "profile": "aeonic.operations.symbol.declared-order.v1",
+              "order": [
+                {
+                  "category": "symbol",
+                  "value": "high"
+                },
+                {
+                  "category": "symbol",
+                  "value": "low"
+                }
+              ],
+              "reference": {
+                "id": "app.temperature",
+                "version": "2"
+              }
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "context": {
+              "declarations": [
+                {
+                  "id": "app.temperature",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                },
+                {
+                  "id": "app.temperature",
+                  "version": "2",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    }
+                  ]
+                }
+              ]
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "reference": {
+                    "id": "app.temperature",
+                    "version": "2"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "string_override_does_not_replace_symbol_selection",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "declared-order",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "declared-order",
+              "profile": "aeonic.operations.symbol.declared-order.v1",
+              "order": [
+                {
+                  "category": "symbol",
+                  "value": "low"
+                },
+                {
+                  "category": "symbol",
+                  "value": "high"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "context": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                }
+              }
+            },
+            "policy": {
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    },
+    {
+      "id": "declaration_budget_before_duplicate_check",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/symbols/declaration/order"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxDeclaredSymbols": 1
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline",
+        "symbol-declared-order"
+      ]
+    }
+  ]
+}

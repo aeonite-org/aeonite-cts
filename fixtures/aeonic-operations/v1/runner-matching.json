@@ -1,0 +1,594 @@
+{
+  "meta": {
+    "status": "working-runner-regression",
+    "description": "Runner matching regression examples; these do not test an operation implementation.",
+    "exampleCount": 20
+  },
+  "examples": [
+    {
+      "id": "correct_success",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": true,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "equal"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "finiteNumber",
+              "comparison": "exact-numeric",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "wrong_symbol",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "notEqual"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "finiteNumber",
+              "comparison": "exact-numeric",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "boolean_comparison_result",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "boolean",
+            "value": true
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "finiteNumber",
+              "comparison": "exact-numeric",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "missing_metadata",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "equal"
+          }
+        }
+      }
+    },
+    {
+      "id": "wrong_effective_domain",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "equal"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "boolean",
+              "comparison": "boolean",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "wrong_independent_string_profile",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "equal"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "finiteNumber",
+              "comparison": "exact-numeric",
+              "strings": {
+                "profile": "app.other.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "wrong_declared_order",
+      "caseId": "inline_declared_temperature",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "less"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "symbol",
+              "comparison": "declared-order",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "declared-order",
+                "profile": "aeonic.operations.symbol.declared-order.v1",
+                "order": [
+                  {
+                    "category": "symbol",
+                    "value": "high"
+                  },
+                  {
+                    "category": "symbol",
+                    "value": "low"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "correct_diagnostic",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": true,
+      "output": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": null,
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 5,
+            "path": "/input"
+          }
+        }
+      }
+    },
+    {
+      "id": "diagnostic_value_leak",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": false,
+      "output": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": null,
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 5,
+            "path": "/input"
+          },
+          "value": null
+        }
+      }
+    },
+    {
+      "id": "wrong_diagnostic_stage",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": false,
+      "output": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": null,
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 4,
+            "path": "/input"
+          }
+        }
+      }
+    },
+    {
+      "id": "wrong_diagnostic_path",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": false,
+      "output": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": null,
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 5,
+            "path": "/input/left"
+          }
+        }
+      }
+    },
+    {
+      "id": "inconsistent_transport_code",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": false,
+      "output": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "invalid_operand",
+            "path": null,
+            "span": null,
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 5,
+            "path": "/input"
+          }
+        }
+      }
+    },
+    {
+      "id": "diagnostic_reports_ok",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": null,
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 5,
+            "path": "/input"
+          }
+        }
+      }
+    },
+    {
+      "id": "missing_transport_field",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "equal"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "finiteNumber",
+              "comparison": "exact-numeric",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "extra_transport_fields_ignored",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": true,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "equal"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "finiteNumber",
+              "comparison": "exact-numeric",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        },
+        "debug": {
+          "engine": "example"
+        }
+      }
+    },
+    {
+      "id": "diagnostic_messages_ignored",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": true,
+      "output": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": null,
+            "phase": null,
+            "message": "Different human-readable wording.",
+            "implementationDetail": "ignored transport diagnostic extension"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 5,
+            "path": "/input"
+          },
+          "message": "Another diagnostic message."
+        }
+      }
+    },
+    {
+      "id": "comparison_warning_not_defined",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [
+          {
+            "code": "EXAMPLE",
+            "path": null,
+            "span": null,
+            "phase": null
+          }
+        ],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "equal"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "finiteNumber",
+              "comparison": "exact-numeric",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "extra_operation_field_rejected",
+      "caseId": "numeric_family_equal_0_0",
+      "expectedMatch": false,
+      "output": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "outcome": "value",
+          "value": {
+            "category": "symbol",
+            "value": "equal"
+          },
+          "metadata": {
+            "effectivePolicy": {
+              "profile": "aeonic.operations.comparison.baseline.v1",
+              "domain": "finiteNumber",
+              "comparison": "exact-numeric",
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              },
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          },
+          "unexpected": true
+        }
+      }
+    },
+    {
+      "id": "extra_operation_diagnostic_rejected",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": false,
+      "output": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": null,
+            "phase": null
+          },
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": null,
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 5,
+            "path": "/input"
+          }
+        }
+      }
+    },
+    {
+      "id": "source_location_not_invented",
+      "caseId": "supported_domain_mismatch",
+      "expectedMatch": false,
+      "output": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "incompatible_comparison",
+            "path": null,
+            "span": [
+              0,
+              1
+            ],
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "outcome": "diagnostic",
+          "reason": "incompatible_comparison",
+          "context": {
+            "stage": 5,
+            "path": "/input"
+          }
+        }
+      }
+    }
+  ]
+}

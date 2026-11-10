@@ -1,0 +1,4438 @@
+{
+  "id": "01-baseline-comparison",
+  "status": "working",
+  "tests": [
+    {
+      "id": "numeric_family_equal_0_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_0_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_equal_0_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_0_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_equal_0_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_0_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_equal_1_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_1_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_equal_1_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_1_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_equal_1_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_1_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_equal_2_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_2_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_equal_2_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_2_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_equal_2_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_family_compare_2_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_0_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_0_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "-0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_0_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_0_3",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "-0e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_1_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_1_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "-0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_1_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_1_3",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "-0e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_2_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_2_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "-0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_2_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_2_3",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0.0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "-0e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_3_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_3_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "-0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_3_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "signed_zero_3_3",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0e0"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "-0e0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "large_integer_distinction",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "greater"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "9007199254740993"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "9007199254740992"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "large_exponent_without_expansion",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "greater"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e999999999999999999999"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "9e999999999999999999998"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unequal_numbers",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "string_case_order",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "string",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "string",
+              "value": "A"
+            },
+            "right": {
+              "category": "string",
+              "value": "a"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "string_no_normalization",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "string",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "string",
+              "value": "\u00e9"
+            },
+            "right": {
+              "category": "string",
+              "value": "e\u0301"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unicode_scalar_not_utf16_order",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "greater"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "string",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "string",
+              "value": "\ud800\udc00"
+            },
+            "right": {
+              "category": "string",
+              "value": "\ue000"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "boolean_false_before_true",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "boolean",
+            "comparison": "boolean",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "boolean",
+              "value": false
+            },
+            "right": {
+              "category": "boolean",
+              "value": true
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "boolean_true_after_false",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "greater"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "boolean",
+            "comparison": "boolean",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "boolean",
+              "value": true
+            },
+            "right": {
+              "category": "boolean",
+              "value": false
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "boolean_reflexivity",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "boolean",
+            "comparison": "boolean",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "boolean",
+              "value": false
+            },
+            "right": {
+              "category": "boolean",
+              "value": false
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "symbol_default_codepoint",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "greater"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "symbol_case_sensitive",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "Ready"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "ready"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "operation_replaces_context_symbol_mode",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "context": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                }
+              }
+            },
+            "policy": {
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "effective_outer_profile_overrides_unavailable_context_profile",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1.0"
+            },
+            "context": {
+              "profile": "app.unavailable.v1"
+            },
+            "policy": {
+              "profile": "aeonic.operations.comparison.baseline.v1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unsupported_profile_precedes_bad_number",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "bad"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "policy": {
+              "profile": "app.unavailable.v1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "left_invalid_before_right_invalid",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "bad-left"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "bad-right"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "supported_domain_mismatch",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_comparison",
+        "context": {
+          "stage": 5,
+          "path": "/input"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "string",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "symbol_string_stay_distinct",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_comparison",
+        "context": {
+          "stage": 5,
+          "path": "/input"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "ready"
+            },
+            "right": {
+              "category": "string",
+              "value": "ready"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "boolean_number_stay_distinct",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_comparison",
+        "context": {
+          "stage": 5,
+          "path": "/input"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "boolean",
+              "value": false
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "native_number_is_not_logical_numeric_text",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": 1
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unknown_category_invalid",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/category"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNubmer",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "deferred_domain_before_compatibility",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/category"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "nan"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "invalid_right_before_left_domain_support",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/right/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "nan"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "bad"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "duplicate_inline_declaration_before_bad_operand",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/symbols/declaration/order/1"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "bad"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "empty_inline_declaration",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/symbols/declaration/order"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unsupported_primitive",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_operation",
+        "context": {
+          "stage": 2,
+          "path": "/operation"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "notEqual",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "effective_unused_symbol_profile_is_validated",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/symbols/profile"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "policy": {
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "app.unavailable.v1"
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "admission_limit_before_bad_profile",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"compare\",\"input\":{\"left\":{\"category\":\"finiteNumber\",\"value\":\"1\"},\"right\":{\"category\":\"finiteNumber\",\"value\":\"2\"},\"policy\":{\"profile\":\"app.unavailable.v1\"}}}"
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 16
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "profile_error_before_later_text_limit",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1234"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "policy": {
+              "profile": "app.unavailable.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxNumericCharacters": 3
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "reached_numeric_text_limit",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1234"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxNumericCharacters": 3
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_0",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "01"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_1",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1."
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_2",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1_000"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_3",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1\n"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_4",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": " 1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_5",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1 "
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_6",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "NaN"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_7",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "Infinity"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_8",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_9",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "."
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_10",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "+"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_11",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e+"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_12",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "0x10"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_rejection_13",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1,2"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_acceptance_0",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": ".5"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0.5"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_acceptance_1",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-0.0e+03"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_acceptance_2",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1.2300e+02"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "123.0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_acceptance_3",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "greater"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1e-100000"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_acceptance_4",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "-1e-100000"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "0"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_grammar_acceptance_5",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1E+000"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "empty_string_is_valid",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "string",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "string",
+              "value": ""
+            },
+            "right": {
+              "category": "string",
+              "value": ""
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "symbol_payload_is_not_trimmed",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": " "
+            },
+            "right": {
+              "category": "symbol",
+              "value": " "
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "boolean_inequality_relation",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "boolean",
+            "comparison": "boolean",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "boolean",
+              "value": true
+            },
+            "right": {
+              "category": "boolean",
+              "value": false
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "empty_symbol_invalid",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": ""
+            },
+            "right": {
+              "category": "symbol",
+              "value": "ready"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unpaired_surrogate_invalid_0",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "string",
+              "value": "\ud800"
+            },
+            "right": {
+              "category": "string",
+              "value": "a"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unpaired_surrogate_invalid_1",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "string",
+              "value": "\udfff"
+            },
+            "right": {
+              "category": "string",
+              "value": "a"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unpaired_surrogate_invalid_2",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "\ud800"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "a"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "boolean_text_invalid",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "boolean",
+              "value": "false"
+            },
+            "right": {
+              "category": "boolean",
+              "value": false
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "missing_right_at_envelope",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input/right"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unsupported_operation_before_bad_policy",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_operation",
+        "context": {
+          "stage": 2,
+          "path": "/operation"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "notEqual",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "bad"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "policy": false
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "invalid_context_before_missing_profile",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "context": false,
+            "policy": {
+              "profile": "app.unavailable.v1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unknown_context_field",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/locale"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "bad"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "context": {
+              "locale": "fr"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "malformed_overridden_symbol_context_still_invalid",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/symbols/mode"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "context": {
+              "symbols": {
+                "mode": "bad"
+              }
+            },
+            "policy": {
+              "symbols": {
+                "mode": "string-profile",
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "duplicate_named_identity",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/declarations/1"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "context": {
+              "declarations": [
+                {
+                  "id": "app.temperature",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                },
+                {
+                  "id": "app.temperature",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "invalid_unused_order_before_profile_resolution",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/declarations/0/order/1"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            },
+            "context": {
+              "declarations": [
+                {
+                  "id": "unused",
+                  "version": "1",
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "a"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "a"
+                    }
+                  ]
+                }
+              ]
+            },
+            "policy": {
+              "profile": "app.unavailable.v1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "declaration_forms_are_exclusive",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/symbols/declaration"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "policy": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ],
+                  "reference": {
+                    "id": "app.temperature",
+                    "version": "1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unavailable_overridden_string_profile_not_resolved",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "string",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "string",
+              "value": "A"
+            },
+            "right": {
+              "category": "string",
+              "value": "a"
+            },
+            "context": {
+              "strings": {
+                "profile": "app.unavailable.v1"
+              }
+            },
+            "policy": {
+              "strings": {
+                "profile": "aeonic.operations.string.codepoint.v1"
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "no_deep_merge_for_symbol_override",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/symbols/profile"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "low"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "high"
+            },
+            "context": {
+              "symbols": {
+                "mode": "declared-order",
+                "declaration": {
+                  "order": [
+                    {
+                      "category": "symbol",
+                      "value": "low"
+                    },
+                    {
+                      "category": "symbol",
+                      "value": "high"
+                    }
+                  ]
+                }
+              }
+            },
+            "policy": {
+              "symbols": {
+                "mode": "string-profile"
+              }
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "invalid_right_payload_before_pair_compatibility",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/right/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "string",
+              "value": false
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "opaque_deferred_payload_is_not_parsed",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/category"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "temporal",
+              "value": "not-a-date"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "right_unknown_tag_before_left_deferred_domain",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/right/category"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "nan"
+            },
+            "right": {
+              "category": "typo"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "structural_admission_limit",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "2"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestDepth": 1
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "reached_symbol_scalar_limit",
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "symbol",
+              "value": "ready"
+            },
+            "right": {
+              "category": "symbol",
+              "value": "steady"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxSymbolScalars": 3
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "unicode_budget_counts_scalars",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "string",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "category": "string",
+              "value": "\ud800\udc00\ud800\udc00\ud800\udc00"
+            },
+            "right": {
+              "category": "string",
+              "value": "\ud800\udc00\ud800\udc00\ud800\udc00"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxStringScalars": 3
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "numeric_budget_accepts_boundary",
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "category": "finiteNumber",
+              "value": "1234"
+            },
+            "right": {
+              "category": "finiteNumber",
+              "value": "1235"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxNumericCharacters": 4
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "malformed_logical_json",
+      "fixture": {
+        "requestText": "{"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "non_object_logical_json",
+      "fixture": {
+        "requestText": "42"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "duplicate_logical_json_members",
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"operation\":\"compare\",\"input\":{\"left\":{\"category\":\"finiteNumber\",\"value\":\"1\"},\"right\":{\"category\":\"finiteNumber\",\"value\":\"2\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "request_text_preserves_valid_trailing_whitespace",
+      "fixture": {
+        "requestText": "{\"operation\":\"compare\",\"input\":{\"left\":{\"category\":\"finiteNumber\",\"value\":\"1\"},\"right\":{\"category\":\"finiteNumber\",\"value\":\"2\"}}} \n\t"
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "less"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "finiteNumber",
+            "comparison": "exact-numeric",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "request_text_decodes_symbol_escape_once",
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"category\":\"symbol\",\"value\":\"\\u0072eady\"},\"right\":{\"category\":\"symbol\",\"value\":\"ready\"}}}"
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "effectivePolicy": {
+            "profile": "aeonic.operations.comparison.baseline.v1",
+            "domain": "symbol",
+            "comparison": "string-profile",
+            "strings": {
+              "profile": "aeonic.operations.string.codepoint.v1"
+            },
+            "symbols": {
+              "mode": "string-profile",
+              "profile": "aeonic.operations.string.codepoint.v1"
+            }
+          }
+        }
+      },
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "raw_json_operand_surrogate_is_not_fixture_text_error",
+      "fixture": {
+        "requestText": "{\"operation\":\"compare\",\"input\":{\"left\":{\"category\":\"string\",\"value\":\"\\ud800\"},\"right\":{\"category\":\"string\",\"value\":\"a\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/value"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "non_json_nan_constant",
+      "fixture": {
+        "requestText": "{\"operation\":\"compare\",\"input\":{\"left\":{\"category\":\"finiteNumber\",\"value\":NaN},\"right\":{\"category\":\"finiteNumber\",\"value\":\"1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    },
+    {
+      "id": "text_binding_retains_profile_before_operand_precedence",
+      "fixture": {
+        "requestText": "{\"operation\":\"compare\",\"input\":{\"left\":{\"category\":\"finiteNumber\",\"value\":\"bad\"},\"right\":{\"category\":\"finiteNumber\",\"value\":\"2\"},\"policy\":{\"profile\":\"app.unavailable.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      },
+      "assertAbsent": [
+        "value"
+      ],
+      "requiredCapabilities": [
+        "comparison-baseline"
+      ]
+    }
+  ]
+}

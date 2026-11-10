@@ -14,10 +14,30 @@ permissions:
 jobs:
   local-path-hygiene:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: aeonite-cts
 
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          path: aeonite-cts
+
+      - name: Checkout comparison specification dependency
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          repository: aeonite-org/aeonite-specs
+          ref: 8322fecd90d941bf1a5eced2d983b8354e0aa1f9
+          path: aeonite-specs
+
+      - name: Set up comparison runner Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.14'
+
+      - name: Install comparison runner dependencies
+        run: python3 -m pip install -r runners/requirements-aeonic-operations.txt
 
       - name: Check for local filesystem paths
         run: bash ./scripts/pre-commit-check.sh
