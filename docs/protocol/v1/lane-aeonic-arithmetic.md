@@ -1,11 +1,14 @@
-# Aeonic exact arithmetic working lane
+# Aeonic exact arithmetic lane
 
 The separate `aeonic-arithmetic` lane implements the unpublished working
 contract `sources/aes/v1/aeonic-arithmetic-v1.aeon` and
 `resources/aeonic-operations/v1/arithmetic-contract.schema.json` in
-`aeonite-specs`. Its target is
-`cts/aeonic-arithmetic/v1/aeonic-arithmetic-cts.v1.next.json`.
-This is mutable development evidence, never a frozen compatibility claim.
+`aeonite-specs`. The default target is the immutable
+`cts/aeonic-arithmetic/v1/aeonic-arithmetic-cts.v1.snapshot-0.1.json`, aligned
+with `aeonic-arithmetic-specs-v1-snapshot-0.1`. Its source/schema, binding,
+suites and boundary-recipe reference are copied into snapshot-specific paths.
+The separate `.next.json` target now identifies development snapshot 0.2;
+passing next remains mutable evidence and cannot establish a 0.1 claim.
 Comparison snapshots and their manifests retain their existing meaning.
 
 Use `cts.protocol.v1`: one envelope on stdin and one envelope on stdout.
@@ -32,13 +35,13 @@ python runners/run_aeonic_arithmetic.py \
   --cwd ../../altopelago/aeonic --report arithmetic-report.json
 ```
 
-`--manifest` selects an explicit working manifest; `--timeout` is a per-process
+`--manifest` selects an explicit snapshot or working manifest; `--timeout` is a per-process
 harness limit. Commands are parsed with shlex and run without a shell. A timeout
 or crash is a harness failure, never an operation `resource_limit`.
 
 The runner executes every operation, chain, generated capacity boundary and
 law group. Chains feed actual successful prior bundles into the next operation.
-Generated boundaries exercise the candidate 65,536-character/coefficient
+Generated boundaries exercise the explicitly selected 65,536-character/coefficient
 capacities, exponent magnitude, 131,072-digit workspace, exact UTF-8 request
 bytes, depth and materialized output. Adequate companion limits are supplied
 where independently testing one capacity requires them. These are explicit
@@ -56,5 +59,16 @@ metadata are checked as well as mathematical values.
 The manifest pins source, schema, binding and suite SHA-256 digests. Changes must
 update those pins deliberately; all artifacts, including the manifest, are
 rechecked after execution. Reports retain commands, fingerprints, counts,
-failures and `stable_conformance_claim: false`. No invocation freezes or
-publishes a snapshot.
+failures and target status. A successful exact recognized frozen manifest can
+report `stable_conformance_claim: true`; failed or mutable runs cannot. Frozen
+manifest bytes are anchored in the runner, so editing stable metadata cannot
+promote a custom/working target. The boundary recipe reference pins the actual
+generator functions and constants; the runner compares its own recipe source
+without importing or executing code named by a manifest. Recipe, fixture or
+source drift fails integrity checks. No invocation publishes a package.
+
+The portable contract is logical JSON. Cycles, proxies/getters and host-native
+graph representation are separate adapter hardening concerns, never a semantic
+opt-out or a capacity guarantee inferred from passing this lane. A cyclic native
+graph must fail closed; a reached byte/depth guard may preempt cycle detection.
+Logical JSON requests retain deterministic staged diagnostics.

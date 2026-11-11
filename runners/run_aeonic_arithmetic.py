@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Execute the mutable exact-arithmetic target; Python 3.9+, jsonschema 4.18+.
+"""Execute pinned exact-arithmetic targets; Python 3.9+, jsonschema 4.18+.
 
 Uses cts.protocol.v1, pinned local artifacts and shell-free SUT commands.
-Passing this working target never establishes frozen-snapshot conformance.
+Mutable next targets never establish frozen-snapshot conformance.
 """
 import argparse
 import copy
 from decimal import Decimal, InvalidOperation
 import hashlib
 import itertools
+import inspect
 import json
 from pathlib import Path
 import re
@@ -192,6 +193,18 @@ def boundary(name):
     return {"id": name, "fixture": {"request": logical}, "policy": policy, "expected": expected}
 
 
+def boundary_recipe_source():
+    """Reference bytes pin the generated fixtures without executing manifest code."""
+    prelude = ('"""Immutable arithmetic boundary recipe reference; verified, not imported by the runner."""\n'
+               'import json\n' + 'PROFILE = ' + repr(PROFILE) + '\n' +
+               'NONE, MARKED = ' + repr((NONE, MARKED)) + '\n\n')
+    return prelude + '\n\n'.join(inspect.getsource(f).rstrip() for f in
+                                      [require, number, exact, request, success, diagnostic, boundary]) + '\n'
+
+
+IMMUTABLE_TARGETS = {'aeonic-arithmetic-cts-v1-snapshot-0.1': '85dd20323744cae7ecae9ebcef5999af68570e6ab719393b55e66cda26bc7dbf'}  # Exact reviewed manifest digests; next targets never enter this map.
+
+
 class Runner:
     def __init__(self, args):
         self.args = args
@@ -200,8 +213,14 @@ class Runner:
         self.manifest_path = args.manifest.resolve()
         self.manifest = self.read(self.manifest_path)
         meta = self.manifest["meta"]
-        require(meta["lane"] == "aeonic-arithmetic" and meta["conformance"] == {"surface": "working-next", "stable": False},
-                "Expected mutable arithmetic target")
+        require(meta["lane"] == "aeonic-arithmetic", "Expected arithmetic lane")
+        self.immutable = meta["conformance"] == {"surface": "finite-exact-arithmetic", "stable": True, "publication": "local-only"}
+        if self.immutable:
+            require(IMMUTABLE_TARGETS.get(meta["snapshot_id"]) == self.artifacts[self.manifest_path],
+                    "Unrecognized or modified immutable arithmetic target")
+        else:
+            require(meta["conformance"] == {"surface": "working-next", "stable": False},
+                    "Expected mutable next or recognized immutable arithmetic target")
         root = self.manifest_path.parent
 
         def pinned(base, relative, sha):
@@ -212,6 +231,11 @@ class Runner:
             self.artifacts[path] = sha
             return decode(content.decode("utf-8"))
 
+        recipes = (root / meta["boundary_recipes"]).resolve()
+        require(root.resolve() in recipes.parents, "Boundary recipes must remain inside the lane")
+        require(digest(recipes) == meta["boundary_recipes_sha256"], "Boundary recipe digest mismatch")
+        self.artifacts[recipes] = meta["boundary_recipes_sha256"]
+        require(boundary_recipe_source().encode("utf-8") == recipes.read_bytes(), "Runner boundary recipes differ from target")
         schema = pinned(args.specs_root, meta["specification_schema"], meta["specification_schema_sha256"])
         binding = pinned(root, meta["binding_schema"], meta["binding_schema_sha256"])
         source = (args.specs_root / meta["specification_source"]).resolve()
@@ -350,7 +374,9 @@ class Runner:
             if not path.exists() or digest(path) != sha:
                 failures.append(dict(id="artifact-integrity", failure="Artifact changed during execution: " + path.name))
         return dict(status="failed" if failures else "passed", target=self.manifest["meta"]["snapshot_id"],
-                    target_status="mutable-working", stable_conformance_claim=False,
+                    target_status="immutable-local" if self.immutable else "mutable-working",
+                    stable_conformance_claim=self.immutable and not failures,
+                    boundary_recipes_sha256=self.manifest["meta"]["boundary_recipes_sha256"],
                     manifest_sha256=self.artifacts[self.manifest_path],
                     specification_source_sha256=self.manifest["meta"]["specification_source_sha256"],
                     specification_schema_sha256=self.manifest["meta"]["specification_schema_sha256"],
@@ -361,7 +387,7 @@ class Runner:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--manifest", type=Path, default=ROOT / "cts/aeonic-arithmetic/v1/aeonic-arithmetic-cts.v1.next.json")
+    parser.add_argument("--manifest", type=Path, default=ROOT / "cts/aeonic-arithmetic/v1/aeonic-arithmetic-cts.v1.snapshot-0.1.json")
     parser.add_argument("--specs-root", type=Path, default=ROOT.parent / "aeonite-specs")
     parser.add_argument("--sut", required=True)
     parser.add_argument("--cwd", type=Path, default=Path.cwd())

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.1.0-dev.0",
+    "version": "0.2.0-dev.0",
     "lane": "aeonic-arithmetic",
     "capability": "Aeonic.Operations.Arithmetic.Exact",
     "profile": "finite-number-exact",
@@ -10,12 +10,12 @@
       "stable": false
     },
     "description": "Mutable first arithmetic target; no released snapshot and no comparison claim. Candidate capacities require cross-runtime evidence.",
-    "snapshot_id": "aeonic-arithmetic-cts-v1-snapshot-0.1",
+    "snapshot_id": "aeonic-arithmetic-cts-v1-snapshot-0.2",
     "specification_schema": "resources/aeonic-operations/v1/arithmetic-contract.schema.json",
     "specification_source": "sources/aes/v1/aeonic-arithmetic-v1.aeon",
     "binding_schema": "binding.schema.json",
     "specification_schema_sha256": "ff166d0be1f1e3741dac5a0ad4bcd47fbae1f46062d5a02705ee6244b37e64b2",
-    "specification_source_sha256": "2eaf1d6028da955ab662927d03df160bef4215f3572519fa2e95437ed23beb60",
+    "specification_source_sha256": "54d1a804f7d7714707c0a7b16dbaa7377fe23c7145e8bda03feaa5b7ff1d6d2a",
     "binding_schema_sha256": "42f098b2839484781b321dadb8adeaeeab69515f40b779248de89001ef814e3d",
     "resource_limits": {
       "maxRequestBytes": 4194304,
@@ -25,7 +25,9 @@
       "maxExponentMagnitude": 1000000,
       "maxWorkspaceDigits": 131072,
       "maxOutputCharacters": 65536
-    }
+    },
+    "boundary_recipes": "snapshots/0.1/boundary-recipes.py",
+    "boundary_recipes_sha256": "f4cf4af9b683d3370e2cd8b2b18385f460b1ec3b221c1fd82f3c4697ec8e9e1c"
   },
   "suites": [
     {

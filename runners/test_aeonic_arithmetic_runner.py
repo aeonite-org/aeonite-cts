@@ -23,6 +23,57 @@ class RunnerTests(unittest.TestCase):
         ok = result['outcome'] == 'value'
         return dict(ok=ok, warnings=[], errors=[] if ok else [dict(code=result['reason'], path=None, span=None, phase=None)], result=result)
 
+    def frozen_args(self):
+        args = self.args()
+        args.manifest = args.manifest.with_name('aeonic-arithmetic-cts.v1.snapshot-0.1.json')
+        return args
+
+    def test_snapshot_claim_requires_success_and_exact_reviewed_manifest(self):
+        for args, immutable in [(self.args(), False), (self.frozen_args(), True)]:
+            runner = Runner(args)
+            runner.tests = runner.tests[:1]
+            expected = runner.tests[0]['expected']
+            completed = subprocess.CompletedProcess([], 0, json.dumps(self.output(expected)), '')
+            with patch('run_aeonic_arithmetic.subprocess.run', return_value=completed):
+                report = runner.run()
+            self.assertEqual(report['stable_conformance_claim'], immutable)
+            self.assertEqual(report['status'], 'passed')
+            with patch('run_aeonic_arithmetic.subprocess.run', return_value=subprocess.CompletedProcess([], 1, '', 'failed')):
+                report = runner.run()
+            self.assertEqual(report['status'], 'failed')
+            self.assertFalse(report['stable_conformance_claim'])
+        with tempfile.TemporaryDirectory() as folder:
+            args = self.frozen_args()
+            manifest = json.loads(args.manifest.read_text())
+            manifest['meta']['description'] += ' changed'
+            args.manifest = Path(folder) / args.manifest.name
+            args.manifest.write_text(json.dumps(manifest))
+            with self.assertRaisesRegex(ValueError, 'modified immutable'):
+                Runner(args)
+
+    def test_snapshot_artifacts_are_isolated_and_recipe_changes_cannot_repin_silently(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args = self.frozen_args()
+            lane = Path(folder) / 'lane'
+            shutil.copytree(args.manifest.parent, lane)
+            args.manifest = lane / args.manifest.name
+            # Mutable fixtures can evolve without changing the frozen copy.
+            (lane / 'suites/01-operations.json').write_text('{}')
+            runner = Runner(args)
+            runner.tests = runner.tests[:1]
+            completed = subprocess.CompletedProcess([], 0, json.dumps(self.output(runner.tests[0]['expected'])), '')
+            with patch('run_aeonic_arithmetic.subprocess.run', return_value=completed):
+                self.assertTrue(runner.run()['stable_conformance_claim'])
+            recipes = lane / runner.manifest['meta']['boundary_recipes']
+            recipes.write_text(recipes.read_text() + '\n')
+            with patch('run_aeonic_arithmetic.subprocess.run', return_value=completed):
+                report = runner.run()
+            self.assertFalse(report['stable_conformance_claim'])
+            self.assertTrue(any(f['id'] == 'artifact-integrity' for f in report['failures']))
+        with patch('run_aeonic_arithmetic.boundary_recipe_source', return_value='different generator'):
+            with self.assertRaisesRegex(ValueError, 'Runner boundary recipes differ'):
+                Runner(self.frozen_args())
+
     def invoke(self, runner, result):
         completed = subprocess.CompletedProcess([], 0, json.dumps(self.output(result)), '')
         with patch('run_aeonic_arithmetic.subprocess.run', return_value=completed):

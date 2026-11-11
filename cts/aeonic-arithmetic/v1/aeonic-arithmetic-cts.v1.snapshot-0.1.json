@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "aeonic-arithmetic",
+    "capability": "Aeonic.Operations.Arithmetic.Exact",
+    "profile": "finite-number-exact",
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "finite-exact-arithmetic",
+      "stable": true,
+      "publication": "local-only"
+    },
+    "description": "Immutable finite exact arithmetic/materialization target. 69 operation cases, two chains, 16 generated capacity boundaries and one law group. No package publication or comparison claim.",
+    "snapshot_id": "aeonic-arithmetic-cts-v1-snapshot-0.1",
+    "specification_schema": "resources/aeonic-operations/v1/snapshots/0.1/arithmetic-contract.schema.json",
+    "specification_source": "resources/aeonic-operations/v1/snapshots/0.1/aeonic-arithmetic-v1.aeon",
+    "binding_schema": "snapshots/0.1/cts-binding.schema.json",
+    "specification_schema_sha256": "6ff119bfefbb83e7a3df1048514fbcedde8be024feaec4294f4d7fac7961c798",
+    "specification_source_sha256": "fd94c575ef0e78c420711e24df86c4f7eebd602a15824cda4de0c7ab6137e11f",
+    "binding_schema_sha256": "d8aed66595cb6aad3874a9b1f15cb52907270dbe29ebc936841c1bd51fbc8925",
+    "resource_limits": {
+      "maxRequestBytes": 4194304,
+      "maxRequestDepth": 32,
+      "maxNumericCharacters": 65536,
+      "maxCoefficientDigits": 65536,
+      "maxExponentMagnitude": 1000000,
+      "maxWorkspaceDigits": 131072,
+      "maxOutputCharacters": 65536
+    },
+    "boundary_recipes": "snapshots/0.1/boundary-recipes.py",
+    "boundary_recipes_sha256": "f4cf4af9b683d3370e2cd8b2b18385f460b1ec3b221c1fd82f3c4697ec8e9e1c",
+    "spec_snapshot_id": "aeonic-arithmetic-specs-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "01-operations",
+      "file": "snapshots/0.1/suites/01-operations.json",
+      "content_sha256": "8fbf25edaa42cc2bcf3b2dc9e686f26c449271ec41a7b106b87f21be500086f2"
+    },
+    {
+      "id": "02-chains",
+      "file": "snapshots/0.1/suites/02-chains.json",
+      "content_sha256": "cc8454593e39aa2d74c50ec18fece9e7f81959c5c3ec8cee69a1315f53bcefc1"
+    },
+    {
+      "id": "03-boundaries",
+      "file": "snapshots/0.1/suites/03-boundaries.json",
+      "content_sha256": "10778f0023b11ef5e9c361648f2d9cf12b0a16526d0ca56ca5e6e846ea1bf2c6"
+    },
+    {
+      "id": "04-laws",
+      "file": "snapshots/0.1/suites/04-laws.json",
+      "content_sha256": "6f810423c36da7f375cd4bfc7f1d096e1dd612a6a952419b8c3868a2e1449637"
+    }
+  ]
+}

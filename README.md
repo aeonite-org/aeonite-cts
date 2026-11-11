@@ -232,3 +232,13 @@ matching and capability selection. The shared runner is
 implementations in `altopelago/aeonic` pass the frozen target; their reports are
 implementation-owned. The local freeze does not publish a package or GitHub
 release.
+
+
+The immutable `aeonic-arithmetic-cts-v1-snapshot-0.1` target freezes exact
+addition, subtraction, multiplication, result chaining/history and explicit
+materialization. Its 69 operation cases, two chains, 16 generated boundaries and
+one law group produce 339 SUT executions and 366 arithmetic assertions per full
+run. Snapshot source/schema, binding, suites and boundary recipes are hash-pinned;
+its runner verifies recipe identity and exact frozen manifest bytes. The separate
+arithmetic next target advances to snapshot 0.2. Implementation adoption and
+package publication remain separate from this compatibility snapshot.
