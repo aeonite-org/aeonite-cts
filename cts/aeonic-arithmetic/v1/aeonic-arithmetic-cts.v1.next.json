@@ -16,7 +16,16 @@
     "binding_schema": "binding.schema.json",
     "specification_schema_sha256": "ff166d0be1f1e3741dac5a0ad4bcd47fbae1f46062d5a02705ee6244b37e64b2",
     "specification_source_sha256": "2eaf1d6028da955ab662927d03df160bef4215f3572519fa2e95437ed23beb60",
-    "binding_schema_sha256": "42f098b2839484781b321dadb8adeaeeab69515f40b779248de89001ef814e3d"
+    "binding_schema_sha256": "42f098b2839484781b321dadb8adeaeeab69515f40b779248de89001ef814e3d",
+    "resource_limits": {
+      "maxRequestBytes": 4194304,
+      "maxRequestDepth": 32,
+      "maxNumericCharacters": 65536,
+      "maxCoefficientDigits": 65536,
+      "maxExponentMagnitude": 1000000,
+      "maxWorkspaceDigits": 131072,
+      "maxOutputCharacters": 65536
+    }
   },
   "suites": [
     {

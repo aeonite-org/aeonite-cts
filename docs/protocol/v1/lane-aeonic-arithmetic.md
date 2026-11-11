@@ -43,6 +43,10 @@ capacities, exponent magnitude, 131,072-digit workspace, exact UTF-8 request
 bytes, depth and materialized output. Adequate companion limits are supplied
 where independently testing one capacity requires them. These are explicit
 operation admission settings, not promised Cartesian products of all maxima.
+The manifest's complete `meta.resource_limits` profile is explicitly supplied
+in every SUT invocation; case settings override individual fields. Generated
+boundary recipes also pin their targeted allowance. No positive case, negative
+boundary or law assertion depends on the SUT's native resource defaults.
 
 Law groups check commutativity, subtraction reversal, identities, distributivity
 and history union under adequate limits. They do not convert through floats or

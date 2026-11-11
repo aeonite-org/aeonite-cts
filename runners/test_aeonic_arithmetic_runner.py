@@ -92,6 +92,25 @@ class RunnerTests(unittest.TestCase):
         with self.assertRaises(Exception):
             self.invoke(runner, actual)
 
+    def test_target_and_boundary_limits_are_explicit_in_actual_binding(self):
+        runner = Runner(self.args())
+        case = boundary('numeric-one-over')
+        self.assertEqual(case['policy']['resourceLimits']['maxNumericCharacters'], 65536)
+        result = dict(outcome='diagnostic', reason='resource_limit', context=dict(stage=4, path='/input/left/number/value'))
+        completed = subprocess.CompletedProcess([], 0, json.dumps(self.output(result)), '')
+        with patch('run_aeonic_arithmetic.subprocess.run', return_value=completed) as execute:
+            runner.operation(case)
+        supplied = json.loads(execute.call_args.kwargs['input'])['policy']['resourceLimits']
+        self.assertEqual(supplied['maxNumericCharacters'], 65536)
+        self.assertEqual(set(supplied), set(runner.resource_limits))
+        # Ordinary cases also receive the full target profile, independent of
+        # the SUT's native defaults, while a case-specific override takes priority.
+        with patch('run_aeonic_arithmetic.subprocess.run', return_value=completed) as execute:
+            runner.invoke('override', {'request': {}}, {'resourceLimits': {'maxRequestBytes': 0}})
+        supplied = json.loads(execute.call_args.kwargs['input'])['policy']['resourceLimits']
+        self.assertEqual(supplied['maxRequestBytes'], 0)
+        self.assertEqual(supplied['maxNumericCharacters'], 65536)
+
 
 if __name__ == '__main__':
     unittest.main()
