@@ -81,6 +81,17 @@ class RunnerTests(unittest.TestCase):
             actual = runner.operation(dict(id='diagnostic', fixture={'request': {}}, expected={k: v for k, v in result.items() if k != 'message'}))
         self.assertEqual(actual['reason'], 'resource_limit')
 
+    def test_json_integer_equivalence_does_not_conflate_booleans(self):
+        runner = Runner(self.args())
+        expected = dict(outcome='diagnostic', reason='invalid_operand', context=dict(stage=4, path='/input/left'))
+        actual = copy.deepcopy(expected); actual['context']['stage'] = 4.0
+        completed = subprocess.CompletedProcess([], 0, json.dumps(self.output(actual)), '')
+        with patch('run_aeonic_arithmetic.subprocess.run', return_value=completed):
+            runner.operation(dict(id='integer-equivalence', fixture={'request': {}}, expected=expected))
+        actual['context']['stage'] = True
+        with self.assertRaises(Exception):
+            self.invoke(runner, actual)
+
 
 if __name__ == '__main__':
     unittest.main()

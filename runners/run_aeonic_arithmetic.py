@@ -46,7 +46,13 @@ def digest(path):
 
 
 def equal(a, b):
-    return json.dumps(a, sort_keys=True, ensure_ascii=True) == json.dumps(b, sort_keys=True, ensure_ascii=True)
+    if isinstance(a, dict) and isinstance(b, dict):
+        return a.keys() == b.keys() and all(equal(a[k], b[k]) for k in a)
+    if isinstance(a, list) and isinstance(b, list):
+        return len(a) == len(b) and all(equal(x, y) for x, y in zip(a, b))
+    if type(a) in {int, float} and type(b) in {int, float}:
+        return a == b
+    return type(a) is type(b) and a == b
 
 
 def number(value, history=None):
