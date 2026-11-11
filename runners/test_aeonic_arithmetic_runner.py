@@ -129,6 +129,8 @@ class RunnerTests(unittest.TestCase):
                 runner.invoke('bad-limit', {'request': {}}, policy)
             execute.assert_not_called()
         self.assertEqual(decode('4.0'), 4)
+        self.assertEqual(decode('-0.000e999999999999999999999999'), 0)
+        self.assertEqual(decode('0e-999999999999999999999999'), 0)
         for token in ['1e1000000', '-1e1000000', '1e9999', '1' * 5000, '-1e-400']:
             self.assertEqual(encode(decode('{"opaque":' + token + '}')), '{"opaque":' + token + '}')
 
