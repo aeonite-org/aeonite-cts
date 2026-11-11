@@ -10,7 +10,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from run_aeonic_arithmetic import ROOT, Runner, boundary, exact, number, request, success
+from run_aeonic_arithmetic import ROOT, Runner, boundary, decode, encode, exact, number, request, success
 
 
 class RunnerTests(unittest.TestCase):
@@ -102,6 +102,7 @@ class RunnerTests(unittest.TestCase):
             runner.operation(case)
         supplied = json.loads(execute.call_args.kwargs['input'])['policy']['resourceLimits']
         self.assertEqual(supplied['maxNumericCharacters'], 65536)
+
         self.assertEqual(set(supplied), set(runner.resource_limits))
         # Ordinary cases also receive the full target profile, independent of
         # the SUT's native defaults, while a case-specific override takes priority.
@@ -110,6 +111,18 @@ class RunnerTests(unittest.TestCase):
         supplied = json.loads(execute.call_args.kwargs['input'])['policy']['resourceLimits']
         self.assertEqual(supplied['maxRequestBytes'], 0)
         self.assertEqual(supplied['maxNumericCharacters'], 65536)
+
+
+    def test_exact_json_numbers_cannot_become_valid_limits_through_rounding(self):
+        runner = Runner(self.args())
+        for token in ['-1e-400', '1e-400', '9007199254740990.5']:
+            policy = decode('{"resourceLimits":{"maxOutputCharacters":' + token + '}}')
+            with patch('run_aeonic_arithmetic.subprocess.run') as execute, self.assertRaises(Exception):
+                runner.invoke('bad-limit', {'request': {}}, policy)
+            execute.assert_not_called()
+        self.assertEqual(decode('4.0'), 4)
+        for token in ['1e9999', '1' * 5000, '-1e-400']:
+            self.assertEqual(encode(decode('{"opaque":' + token + '}')), '{"opaque":' + token + '}')
 
 
 if __name__ == '__main__':

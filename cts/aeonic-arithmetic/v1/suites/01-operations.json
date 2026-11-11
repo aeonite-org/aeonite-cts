@@ -2374,6 +2374,103 @@
           "path": null
         }
       }
+    },
+    {
+      "id": "required-history-before-extra-field",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "extra": 0
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/history"
+        }
+      }
+    },
+    {
+      "id": "policy-shape-before-context-value",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "context": {
+              "profile": 0
+            },
+            "policy": null
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy"
+        }
+      }
+    },
+    {
+      "id": "required-family-before-context-value",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "context": {
+              "profile": 0
+            },
+            "policy": {}
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/family"
+        }
+      }
     }
   ]
 }

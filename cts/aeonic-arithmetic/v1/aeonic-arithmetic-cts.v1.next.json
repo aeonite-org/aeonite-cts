@@ -31,7 +31,7 @@
     {
       "id": "01-operations",
       "file": "suites/01-operations.json",
-      "content_sha256": "941fa2cec028b54b6dea935947b09df1d111c51f4d7c18a36a439b2fbec3bd3f"
+      "content_sha256": "8fbf25edaa42cc2bcf3b2dc9e686f26c449271ec41a7b106b87f21be500086f2"
     },
     {
       "id": "02-chains",

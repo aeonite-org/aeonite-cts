@@ -6,6 +6,7 @@ Passing this working target never establishes frozen-snapshot conformance.
 """
 import argparse
 import copy
+from decimal import Decimal, InvalidOperation
 import hashlib
 import itertools
 import json
@@ -38,7 +39,48 @@ def pairs(items):
 def decode(text):
     def constant(value):
         raise ValueError("Non-JSON constant: " + value)
-    return json.loads(text, object_pairs_hook=pairs, parse_constant=constant)
+    return json.loads(text, object_pairs_hook=pairs, parse_constant=constant,
+                      parse_int=numeric_token, parse_float=numeric_token)
+
+
+class RawNumber:
+    def __init__(self, text):
+        self.text = text
+
+
+def numeric_token(text):
+    # Decode protocol integers exactly; keep other JSON numbers opaque rather
+    # than underflowing a fractional trusted limit into an accepted integer.
+    try:
+        value = Decimal(text)
+        if value.is_finite() and abs(value) <= 9007199254740991 and value == value.to_integral_value():
+            return int(value)
+    except InvalidOperation:
+        pass
+    return RawNumber(text)
+
+
+def encode(value):
+    pending = [(False, value)]; pieces = []
+    while pending:
+        literal, item = pending.pop()
+        if literal:
+            pieces.append(item)
+        elif isinstance(item, RawNumber):
+            pieces.append(item.text)
+        elif isinstance(item, (dict, list)):
+            obj = isinstance(item, dict)
+            pieces.append('{' if obj else '['); pending.append((True, '}' if obj else ']'))
+            entries = list(item.items()) if obj else list(enumerate(item))
+            for i in range(len(entries) - 1, -1, -1):
+                key, child = entries[i]; pending.append((False, child))
+                if obj:
+                    pending.append((True, ':')); pending.append((True, json.dumps(key, ensure_ascii=True)))
+                if i:
+                    pending.append((True, ','))
+        else:
+            pieces.append(json.dumps(item, ensure_ascii=True, allow_nan=False))
+    return ''.join(pieces)
 
 
 def digest(path):
@@ -202,7 +244,7 @@ class Runner:
         envelope = dict(lane="aeonic-arithmetic", case_id=case_id, fixture=fixture, policy=policy)
         self.binding_schema.validate(envelope)
         envelope["policy"] = {"resourceLimits": dict(self.resource_limits, **policy.get("resourceLimits", {}))}
-        result = subprocess.run(shlex.split(self.args.sut), input=json.dumps(envelope, ensure_ascii=True),
+        result = subprocess.run(shlex.split(self.args.sut), input=encode(envelope),
                                 text=True, capture_output=True, cwd=self.args.cwd, timeout=self.args.timeout)
         self.executions += 1
         require(result.returncode == 0, "SUT harness failure: " + result.stderr[:300])
