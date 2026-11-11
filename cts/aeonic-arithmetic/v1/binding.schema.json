@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aeonic-arithmetic:cts-binding:v1:working",
+  "type": "object",
+  "properties": {
+    "lane": {
+      "const": "aeonic-arithmetic"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^(?:[^\\uD800-\\uDFFF]|[\\uD800-\\uDBFF][\\uDC00-\\uDFFF])*(?![\\s\\S])",
+      "minLength": 1
+    },
+    "fixture": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "request": {}
+          },
+          "required": [
+            "request"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "requestText": {
+              "type": "string",
+              "pattern": "^(?:[^\\uD800-\\uDFFF]|[\\uD800-\\uDBFF][\\uDC00-\\uDFFF])*(?![\\s\\S])"
+            }
+          },
+          "required": [
+            "requestText"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "resourceLimits": {
+          "type": "object",
+          "properties": {
+            "maxRequestBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "maxRequestDepth": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "maxNumericCharacters": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "maxCoefficientDigits": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "maxExponentMagnitude": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "maxWorkspaceDigits": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "maxOutputCharacters": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "lane",
+    "case_id",
+    "fixture",
+    "policy"
+  ],
+  "additionalProperties": true
+}

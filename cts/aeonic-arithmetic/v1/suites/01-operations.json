@@ -1,0 +1,2379 @@
+{
+  "id": "01-operations",
+  "tests": [
+    {
+      "id": "add-decimal-cancellation-of-fraction",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1.25"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "2.75"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "4",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "subtract-negative-result",
+      "fixture": {
+        "request": {
+          "operation": "subtract",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "2.5"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "-15",
+            "exponent": "-1"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "multiply-exact-decimals",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1.2"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0.5"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "6",
+            "exponent": "-1"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-number-families",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1.0"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e0"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "2",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "beyond-host-float-precision",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "9007199254740992"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "9007199254740993",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "derived-and-authored",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "3",
+                "exponent": "-1"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0.7"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "authored-and-derived",
+      "fixture": {
+        "request": {
+          "operation": "subtract",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "3",
+                "exponent": "-1"
+              },
+              "history": "none-declared"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "7",
+            "exponent": "-1"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "derived-and-derived",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "12",
+                "exponent": "-1"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "5",
+                "exponent": "-1"
+              },
+              "history": "none-declared"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "6",
+            "exponent": "-1"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "leading-dot-and-plus",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "+.5"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": ".5"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "normalize-trailing-result-zeros",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "125"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "8"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "3"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "negative-zero-input",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "-0"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "5"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-by-cancellation",
+      "fixture": {
+        "request": {
+          "operation": "subtract",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e0"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1.0"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "negative-zeros-add",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "-0.0"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "-0e0"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "retain-marked-history",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0.33"
+              },
+              "history": "approximation-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "3"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "99",
+            "exponent": "-2"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "marked-right-history",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "2"
+              },
+              "history": "approximation-declared"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "3",
+            "exponent": "0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "both-marked-history",
+      "fixture": {
+        "request": {
+          "operation": "subtract",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              },
+              "history": "approximation-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              },
+              "history": "approximation-declared"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-keeps-history",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "33",
+                "exponent": "-2"
+              },
+              "history": "approximation-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "compact-large-exponent",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e1000000"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "1000000"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "normalized-result-not-expanded-size",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "9"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCoefficientDigits": 1,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "1"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "product-normalized-after-workspace",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "2"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "5"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCoefficientDigits": 1,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "1"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-shortcut-still-exact",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e1000000"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWorkspaceDigits": 0
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "cancellation-shortcut",
+      "fixture": {
+        "request": {
+          "operation": "subtract",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e1000000"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e1000000"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWorkspaceDigits": 0
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "integer-integral-value",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "12",
+                "exponent": "2"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "integer"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "1200"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "integer",
+            "zeroSign": "positive"
+          }
+        }
+      }
+    },
+    {
+      "id": "decimal-integral-value",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "12",
+                "exponent": "2"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "decimal"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "1200.0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "decimal",
+            "zeroSign": "positive"
+          }
+        }
+      }
+    },
+    {
+      "id": "decimal-small-negative",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "-5",
+                "exponent": "-2"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "decimal"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "-0.05"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "decimal",
+            "zeroSign": "positive"
+          }
+        }
+      }
+    },
+    {
+      "id": "exponent-does-not-expand",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "exponent"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "1e1000000"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "exponent",
+            "zeroSign": "positive"
+          }
+        }
+      }
+    },
+    {
+      "id": "exponent-canonical-pair",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "123",
+                "exponent": "-2"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "exponent"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "123e-2"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "exponent",
+            "zeroSign": "positive"
+          }
+        }
+      }
+    },
+    {
+      "id": "positive-zero-default",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "0",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "decimal"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "0.0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "decimal",
+            "zeroSign": "positive"
+          }
+        }
+      }
+    },
+    {
+      "id": "negative-zero-integer",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "0",
+                "exponent": "0"
+              },
+              "history": "approximation-declared"
+            },
+            "policy": {
+              "family": "integer",
+              "zeroSign": "negative"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "-0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "integer",
+            "zeroSign": "negative"
+          }
+        }
+      }
+    },
+    {
+      "id": "negative-zero-decimal",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "0",
+                "exponent": "0"
+              },
+              "history": "approximation-declared"
+            },
+            "policy": {
+              "family": "decimal",
+              "zeroSign": "negative"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "-0.0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "decimal",
+            "zeroSign": "negative"
+          }
+        }
+      }
+    },
+    {
+      "id": "negative-zero-exponent",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "0",
+                "exponent": "0"
+              },
+              "history": "approximation-declared"
+            },
+            "policy": {
+              "family": "exponent",
+              "zeroSign": "negative"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "-0e0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "exponent",
+            "zeroSign": "negative"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-sign-option-does-not-negate-value",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "5",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "integer",
+              "zeroSign": "negative"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "5"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "integer",
+            "zeroSign": "negative"
+          }
+        }
+      }
+    },
+    {
+      "id": "materialization-retains-history",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "99",
+                "exponent": "-2"
+              },
+              "history": "approximation-declared"
+            },
+            "policy": {
+              "family": "decimal"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "finiteNumber",
+            "value": "0.99"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1",
+            "family": "decimal",
+            "zeroSign": "positive"
+          }
+        }
+      }
+    },
+    {
+      "id": "non-normalized-coefficient",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "120",
+                "exponent": "-2"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/coefficient"
+        }
+      }
+    },
+    {
+      "id": "non-normalized-exponent",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "12",
+                "exponent": "-01"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/exponent"
+        }
+      }
+    },
+    {
+      "id": "non-normalized-zero",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "0",
+                "exponent": "2"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/exponent"
+        }
+      }
+    },
+    {
+      "id": "negative-derived-zero",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "-0",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/coefficient"
+        }
+      }
+    },
+    {
+      "id": "derived-history-required",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/history"
+        }
+      }
+    },
+    {
+      "id": "invalid-history-status",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              },
+              "history": "exact"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/history"
+        }
+      }
+    },
+    {
+      "id": "no-native-number-payload",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": 1
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/value"
+        }
+      }
+    },
+    {
+      "id": "left-before-right-invalid",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "bad"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "bad"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/value"
+        }
+      }
+    },
+    {
+      "id": "no-string-coercion",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "string",
+                "value": "1"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/number/category"
+        }
+      }
+    },
+    {
+      "id": "operand-validation-before-domain",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "string",
+                "value": "1"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "bad"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/right/number/value"
+        }
+      }
+    },
+    {
+      "id": "unknown-category",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "customNumber"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/category"
+        }
+      }
+    },
+    {
+      "id": "profile-before-numeric-payload",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "bad"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "policy": {
+              "profile": "app.unsupported.v1"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      }
+    },
+    {
+      "id": "bad-policy-before-profile",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "bad"
+              }
+            },
+            "policy": {
+              "profile": "app.unsupported.v1"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/family"
+        }
+      }
+    },
+    {
+      "id": "explicit-family-required",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {}
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/family"
+        }
+      }
+    },
+    {
+      "id": "unknown-policy-field",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "2"
+              }
+            },
+            "policy": {
+              "profle": "aeonic.operations.arithmetic.exact.v1"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profle"
+        }
+      }
+    },
+    {
+      "id": "rounding-not-in-scope",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "6",
+                "exponent": "-1"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "integer",
+              "rounding": "floor"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/rounding"
+        }
+      }
+    },
+    {
+      "id": "fraction-cannot-materialize-as-integer",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "6",
+                "exponent": "-1"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "integer"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "representability-before-output-budget",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "6",
+                "exponent": "-1"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "integer"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 0
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "expanded-output-limit",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "integer"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 65536
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "output-counts-negative-sign",
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "0",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "family": "integer",
+              "zeroSign": "negative"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "coefficient-result-limit",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "9999"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "2"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCoefficientDigits": 4
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "alignment-workspace-limit",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e10"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWorkspaceDigits": 10
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "product-workspace-limit",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "12"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "34"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWorkspaceDigits": 3
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "normalized-result-exponent-limit",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "9e1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "9e1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxExponentMagnitude": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "supplied-text-size-before-grammar",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "bad!"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxNumericCharacters": 3
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/value"
+        }
+      }
+    },
+    {
+      "id": "zero-still-validates-authored-exponent",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0e1000001"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/number/value"
+        }
+      }
+    },
+    {
+      "id": "division-deferred",
+      "fixture": {
+        "request": {
+          "operation": "divide",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "3"
+              }
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_operation",
+        "context": {
+          "stage": 2,
+          "path": "/operation"
+        }
+      }
+    },
+    {
+      "id": "unknown-result-affecting-context-field",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "2"
+              }
+            },
+            "context": {
+              "locale": "en"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/locale"
+        }
+      }
+    },
+    {
+      "id": "overridden-valid-profile-not-resolved",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "2"
+              }
+            },
+            "context": {
+              "profile": "app.unsupported.v1"
+            },
+            "policy": {
+              "profile": "aeonic.operations.arithmetic.exact.v1"
+            }
+          }
+        }
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "3",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.exact.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "duplicate-request-key",
+      "fixture": {
+        "requestText": "{\"operation\":\"add\",\"operation\":\"multiply\",\"input\":{}}"
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "duplicate-nested-key",
+      "fixture": {
+        "requestText": "{\"operation\":\"add\",\"input\":{\"left\":{\"number\":{\"category\":\"finiteNumber\",\"value\":\"1\",\"value\":\"2\"}},\"right\":{}}}"
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "non-json-constant",
+      "fixture": {
+        "requestText": "NaN"
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "malformed-json",
+      "fixture": {
+        "requestText": "{\"operation\":"
+      },
+      "policy": {},
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      }
+    }
+  ]
+}

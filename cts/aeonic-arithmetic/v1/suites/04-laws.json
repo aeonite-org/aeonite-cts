@@ -1,0 +1,48 @@
+{
+  "id": "04-laws",
+  "tests": [
+    {
+      "id": "exact-laws-and-history",
+      "kind": "laws",
+      "values": [
+        {
+          "number": {
+            "category": "finiteNumber",
+            "value": "0"
+          }
+        },
+        {
+          "number": {
+            "category": "finiteNumber",
+            "value": "-0.0"
+          }
+        },
+        {
+          "number": {
+            "category": "finiteNumber",
+            "value": "0.33"
+          },
+          "history": "approximation-declared"
+        },
+        {
+          "number": {
+            "category": "finiteNumber",
+            "value": "-2.5"
+          }
+        },
+        {
+          "number": {
+            "category": "finiteNumber",
+            "value": "1e0"
+          }
+        },
+        {
+          "number": {
+            "category": "finiteNumber",
+            "value": "9007199254740993"
+          }
+        }
+      ]
+    }
+  ]
+}

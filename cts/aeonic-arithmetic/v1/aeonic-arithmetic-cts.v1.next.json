@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "version": "0.1.0-dev.0",
+    "lane": "aeonic-arithmetic",
+    "capability": "Aeonic.Operations.Arithmetic.Exact",
+    "profile": "finite-number-exact",
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "working-next",
+      "stable": false
+    },
+    "description": "Mutable first arithmetic target; no released snapshot and no comparison claim. Candidate capacities require cross-runtime evidence.",
+    "snapshot_id": "aeonic-arithmetic-cts-v1-snapshot-0.1",
+    "specification_schema": "resources/aeonic-operations/v1/arithmetic-contract.schema.json",
+    "specification_source": "sources/aes/v1/aeonic-arithmetic-v1.aeon",
+    "binding_schema": "binding.schema.json",
+    "specification_schema_sha256": "ff166d0be1f1e3741dac5a0ad4bcd47fbae1f46062d5a02705ee6244b37e64b2",
+    "specification_source_sha256": "2eaf1d6028da955ab662927d03df160bef4215f3572519fa2e95437ed23beb60",
+    "binding_schema_sha256": "42f098b2839484781b321dadb8adeaeeab69515f40b779248de89001ef814e3d"
+  },
+  "suites": [
+    {
+      "id": "01-operations",
+      "file": "suites/01-operations.json",
+      "content_sha256": "941fa2cec028b54b6dea935947b09df1d111c51f4d7c18a36a439b2fbec3bd3f"
+    },
+    {
+      "id": "02-chains",
+      "file": "suites/02-chains.json",
+      "content_sha256": "cc8454593e39aa2d74c50ec18fece9e7f81959c5c3ec8cee69a1315f53bcefc1"
+    },
+    {
+      "id": "03-boundaries",
+      "file": "suites/03-boundaries.json",
+      "content_sha256": "10778f0023b11ef5e9c361648f2d9cf12b0a16526d0ca56ca5e6e846ea1bf2c6"
+    },
+    {
+      "id": "04-laws",
+      "file": "suites/04-laws.json",
+      "content_sha256": "6f810423c36da7f375cd4bfc7f1d096e1dd612a6a952419b8c3868a2e1449637"
+    }
+  ]
+}
