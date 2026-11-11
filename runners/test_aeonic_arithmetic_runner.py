@@ -81,6 +81,14 @@ class RunnerTests(unittest.TestCase):
             actual = runner.operation(dict(id='diagnostic', fixture={'request': {}}, expected={k: v for k, v in result.items() if k != 'message'}))
         self.assertEqual(actual['reason'], 'resource_limit')
 
+    def test_large_opaque_transport_number_is_ignored(self):
+        runner = Runner(self.args())
+        result = success(exact('3', '0'))
+        output = json.dumps(self.output(result))[:-1] + ',"vendor_extension":1e1000000}'
+        completed = subprocess.CompletedProcess([], 0, output, '')
+        with patch('run_aeonic_arithmetic.subprocess.run', return_value=completed):
+            runner.operation(dict(id='opaque-number', fixture={'request': request('add', number('1'), number('2'))}, expected=result))
+
     def test_json_integer_equivalence_does_not_conflate_booleans(self):
         runner = Runner(self.args())
         expected = dict(outcome='diagnostic', reason='invalid_operand', context=dict(stage=4, path='/input/left'))
@@ -121,7 +129,7 @@ class RunnerTests(unittest.TestCase):
                 runner.invoke('bad-limit', {'request': {}}, policy)
             execute.assert_not_called()
         self.assertEqual(decode('4.0'), 4)
-        for token in ['1e9999', '1' * 5000, '-1e-400']:
+        for token in ['1e1000000', '-1e1000000', '1e9999', '1' * 5000, '-1e-400']:
             self.assertEqual(encode(decode('{"opaque":' + token + '}')), '{"opaque":' + token + '}')
 
 

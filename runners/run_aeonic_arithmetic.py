@@ -53,7 +53,7 @@ def numeric_token(text):
     # than underflowing a fractional trusted limit into an accepted integer.
     try:
         value = Decimal(text)
-        if value.is_finite() and abs(value) <= 9007199254740991 and value == value.to_integral_value():
+        if value.is_finite() and value.copy_abs() <= 9007199254740991 and value == value.to_integral_value():
             return int(value)
     except InvalidOperation:
         pass
