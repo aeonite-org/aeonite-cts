@@ -1,0 +1,69 @@
+{
+  "id": "03-boundaries",
+  "tests": [
+    {
+      "id": "numeric-at-limit",
+      "kind": "boundary"
+    },
+    {
+      "id": "numeric-one-over",
+      "kind": "boundary"
+    },
+    {
+      "id": "coefficient-at-limit",
+      "kind": "boundary"
+    },
+    {
+      "id": "coefficient-one-over",
+      "kind": "boundary"
+    },
+    {
+      "id": "workspace-at-limit",
+      "kind": "boundary"
+    },
+    {
+      "id": "workspace-one-over",
+      "kind": "boundary"
+    },
+    {
+      "id": "output-at-limit",
+      "kind": "boundary"
+    },
+    {
+      "id": "output-one-over",
+      "kind": "boundary"
+    },
+    {
+      "id": "exponent-at-limit",
+      "kind": "boundary"
+    },
+    {
+      "id": "exponent-one-over",
+      "kind": "boundary"
+    },
+    {
+      "id": "normalized-exponent-one-over",
+      "kind": "boundary"
+    },
+    {
+      "id": "request-bytes-at-limit",
+      "kind": "boundary"
+    },
+    {
+      "id": "request-bytes-one-over",
+      "kind": "boundary"
+    },
+    {
+      "id": "depth-at-limit",
+      "kind": "boundary"
+    },
+    {
+      "id": "depth-one-over",
+      "kind": "boundary"
+    },
+    {
+      "id": "long-zero-exponent",
+      "kind": "boundary"
+    }
+  ]
+}
