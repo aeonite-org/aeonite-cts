@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: 82563724fa9acd8682e3ad5808b37a64fe7710a4
+          ref: eb2cca31346f3bf3bcf69b0e845774f557fbe74b
           path: aeonite-specs
 
       - name: Set up semantic runner Python
