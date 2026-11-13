@@ -27,9 +27,9 @@
       "maxOutputCharacters": 1024
     },
     "specification_schema_sha256": "992c3bbd0d43440f8a32a5035b30feae22616bd2b7a10f69ec671e1aa0363560",
-    "specification_source_sha256": "85ed0207a6b1800509f443aa47f156b9bbdcfda3db65104e29fcea6bbd87042a",
+    "specification_source_sha256": "c0c90723eaa8ce90c2215d16ebbce93d06c518a6569165c52bee1cddc4fdd978",
     "binding_schema_sha256": "4bcd522bf351e77a8aa02f24999859f5e10d65af344ebeee812e96daceae6246",
-    "specification_revision": "40295fe73b833b612bef725bfdf2ae1219bf9188"
+    "specification_revision": "dc3b62b0c5ae1c130814b5947e88b7d7010ffe89"
   },
   "suites": [
     {
@@ -56,6 +56,11 @@
       "id": "05-laws",
       "file": "suites/05-laws.json",
       "content_sha256": "22fbcade56e7931c6d50cc948e8b8a3b1a6e95558bb0a4b18bcbe5577e7395de"
+    },
+    {
+      "id": "06-authored-admission",
+      "file": "suites/06-authored-admission.json",
+      "content_sha256": "402b8b1d8dc07a7cc7c421f8c73c5d65f870f626cf9cd8753588c33bf967884e"
     }
   ]
 }

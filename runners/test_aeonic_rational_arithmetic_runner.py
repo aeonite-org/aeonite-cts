@@ -40,7 +40,7 @@ class RunnerTests(unittest.TestCase):
         self.assertFalse(report['stable_conformance_claim'])
         self.assertFalse(report['semantic_execution'])
         self.assertEqual(report['sut_executions'], 0)
-        self.assertEqual(report['operation_cases'], 333)
+        self.assertEqual(report['operation_cases'], 351)
         self.assertEqual(report['chains'], 3)
 
     def test_successful_mock_execution_remains_mutable(self):

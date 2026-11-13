@@ -36,10 +36,12 @@ defaults are never conformance evidence. Candidate settings are deliberately
 modest and uncalibrated: they are not native defaults, advertised support floors,
 machine-time/memory promises or guarantees for every Cartesian combination.
 
-The target contains 333 explicit operation cases, three actual-result chains and
+The target contains 351 explicit operation cases, three actual-result chains and
 one law group. Cases include the 28 fixed workspace companions, closed-shape and
 canonicality errors, required history, profile overrides, deterministic competing
-failures, compact exponent paths and all seven signed rounding modes. Law checks
+failures, compact exponent paths and all seven signed rounding modes. A separate
+authored-admission suite fixes text/grammar/original-exponent/normalized-value
+precedence and covers left, right and unary authored-value diagnostic paths. Law checks
 cover arithmetic commutativity/reversal, division round trips, quantization
 idempotence/grid membership, monotonicity and history/current-evaluation consistency.
 
