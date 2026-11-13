@@ -49,7 +49,8 @@ jobs:
         run: python3 -m unittest discover -s runners -p 'test_*.py'
 
   rational-runner-python39:
-    runs-on: ubuntu-latest
+    # Keep the minimum-runtime job on an image with Python 3.9 distributions.
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: aeonite-cts
