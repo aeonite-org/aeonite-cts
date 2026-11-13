@@ -242,3 +242,11 @@ run. Snapshot source/schema, binding, suites and boundary recipes are hash-pinne
 its runner verifies recipe identity and exact frozen manifest bytes. The separate
 arithmetic next target advances to snapshot 0.2. Implementation adoption and
 package publication remain separate from this compatibility snapshot.
+
+The separate mutable `aeonic-rational-arithmetic` lane drafts exact rational
+chaining and explicit grid quantization under the new selected profile, without
+changing either frozen lane or the finite default. Its
+[lane rules](docs/protocol/v1/lane-aeonic-rational-arithmetic.md) describe the
+source/schema pins, candidate limits, artifact-only validation and future SUT
+invocation. Artifact checks and runner unit tests do not establish implementation
+conformance or advertised capacity.

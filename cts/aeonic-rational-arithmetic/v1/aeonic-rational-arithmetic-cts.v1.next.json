@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "version": "0.2.0-dev.0",
+    "lane": "aeonic-rational-arithmetic",
+    "capability": "Aeonic.Operations.Arithmetic.Rational",
+    "profile": "aeonic.operations.arithmetic.rational.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "working-next",
+      "stable": false
+    },
+    "description": "Mutable rational arithmetic and explicit quantization draft. Artifact validation is not SUT conformance; positive resource settings need independent-runtime calibration before freezing.",
+    "snapshot_id": "aeonic-rational-arithmetic-cts-v1-snapshot-0.2",
+    "specification_schema": "resources/aeonic-operations/v1/rational-arithmetic-contract.schema.json",
+    "specification_source": "sources/aes/v1/aeonic-rational-arithmetic-v1.aeon",
+    "binding_schema": "binding.schema.json",
+    "shared_runner": "runners/run_aeonic_arithmetic.py",
+    "shared_runner_sha256": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+    "resource_limits": {
+      "maxRequestBytes": 16384,
+      "maxRequestDepth": 32,
+      "maxNumericCharacters": 1024,
+      "maxCoefficientDigits": 512,
+      "maxDenominatorDigits": 512,
+      "maxExponentMagnitude": 1000000,
+      "maxWorkspaceDigits": 4096,
+      "maxOutputCharacters": 1024
+    },
+    "specification_schema_sha256": "992c3bbd0d43440f8a32a5035b30feae22616bd2b7a10f69ec671e1aa0363560",
+    "specification_source_sha256": "c0c90723eaa8ce90c2215d16ebbce93d06c518a6569165c52bee1cddc4fdd978",
+    "binding_schema_sha256": "4bcd522bf351e77a8aa02f24999859f5e10d65af344ebeee812e96daceae6246",
+    "specification_revision": "dc3b62b0c5ae1c130814b5947e88b7d7010ffe89"
+  },
+  "suites": [
+    {
+      "id": "01-operations",
+      "file": "suites/01-operations.json",
+      "content_sha256": "0ba9d35295e5f84a75b31de4f9a91e2a882d488343283baf406c7533ebbe273f"
+    },
+    {
+      "id": "02-precedence",
+      "file": "suites/02-precedence.json",
+      "content_sha256": "6968719bd9ab7023b8bdc6a826b8785e628c31fcab894b48c66203567eb93024"
+    },
+    {
+      "id": "03-workspace",
+      "file": "suites/03-workspace.json",
+      "content_sha256": "1090eb16060ace405ec78b6fe8d55545de27ecd735db11d44e8372afbd6ef692"
+    },
+    {
+      "id": "04-chains",
+      "file": "suites/04-chains.json",
+      "content_sha256": "2139cff925cf42a544ede39dd55b06e81c113aa6609d27bada5983ea29af56f2"
+    },
+    {
+      "id": "05-laws",
+      "file": "suites/05-laws.json",
+      "content_sha256": "22fbcade56e7931c6d50cc948e8b8a3b1a6e95558bb0a4b18bcbe5577e7395de"
+    },
+    {
+      "id": "06-authored-admission",
+      "file": "suites/06-authored-admission.json",
+      "content_sha256": "402b8b1d8dc07a7cc7c421f8c73c5d65f870f626cf9cd8753588c33bf967884e"
+    }
+  ]
+}
