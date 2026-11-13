@@ -73,6 +73,15 @@ class RunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'not reduced'):
             self.invoke(runner, success(exact('3', '0', '9')))
 
+    def test_internal_ratio_companion_accepts_declared_rounding_history(self):
+        runner = Runner(self.args())
+        test = next(test for test in runner.tests
+                    if test['id'] == 'internal-ratio-does-not-consume-result-denominator-budget')
+        policy = test['fixture']['request']['input']['policy']
+        actual = success(exact('0', history='approximation-declared'), 'rounded-for-operands', policy)
+        with patch.object(runner, 'execute', return_value=self.output(actual)):
+            runner.operation(test)
+
     def test_result_width_precedes_integer_conversion_and_gcd(self):
         runner = Runner(self.args())
         with patch('run_aeonic_rational_arithmetic.decimal_integer') as convert:
