@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "sansa-address",
+    "capability": "SANSA.Addressing",
+    "profile": "addressing",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Unreleased child identity candidate; independent from existing default snapshots",
+    "snapshot_id": "sansa-child-identity-parser-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "child-identity-parser",
+      "file": "suites/12-child-identity-parser.json",
+      "content_sha256": "7765cf47cd3b6343bc37683a2b27275af7a671899c937c58fad1ff858173ed74"
+    }
+  ]
+}
