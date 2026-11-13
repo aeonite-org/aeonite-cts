@@ -1,0 +1,53 @@
+{
+  "status": "consumer-specific rejection required even after parser acceptance",
+  "tests": [
+    {
+      "id": "child-admission-mutation-target",
+      "surface": "mutation-target",
+      "source": "$.\\group1\\",
+      "expected": "reject"
+    },
+    {
+      "id": "child-admission-instruction-target",
+      "surface": "instruction-target",
+      "source": "$.\\group1\\",
+      "expected": "reject"
+    },
+    {
+      "id": "child-admission-aeos-path",
+      "surface": "aeos-path",
+      "source": "$.\\group1\\",
+      "expected": "reject"
+    },
+    {
+      "id": "child-admission-event-path",
+      "surface": "event-path",
+      "source": "$.\\group1\\",
+      "expected": "reject"
+    },
+    {
+      "id": "child-admission-storage-path",
+      "surface": "storage-path",
+      "source": "$.\\group1\\",
+      "expected": "reject"
+    },
+    {
+      "id": "child-admission-clone-reference",
+      "surface": "clone-reference",
+      "source": "$.\\group1\\",
+      "expected": "reject"
+    },
+    {
+      "id": "child-admission-pointer-reference",
+      "surface": "pointer-reference",
+      "source": "$.\\group1\\",
+      "expected": "reject"
+    },
+    {
+      "id": "child-admission-activation-default",
+      "surface": "activation-default",
+      "source": "$.\\group1\\",
+      "expected": "reject"
+    }
+  ]
+}

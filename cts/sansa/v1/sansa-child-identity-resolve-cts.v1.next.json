@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "sansa-resolve",
+    "capability": "SANSA.Resolve",
+    "profile": "resolve",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Unreleased child identity candidate; independent from existing default snapshots",
+    "snapshot_id": "sansa-child-identity-resolve-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "child-identity-resolve",
+      "file": "suites/13-child-identity-resolve.json",
+      "content_sha256": "99de12e729f54e69b0605af76f918f2f80b7f0f856af82c0d9e81d4c5f0ca5a9"
+    }
+  ]
+}
