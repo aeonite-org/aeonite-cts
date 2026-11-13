@@ -1,0 +1,540 @@
+{
+  "id": "04-chains",
+  "tests": [
+    {
+      "id": "rational-cancellation-to-number",
+      "kind": "chain",
+      "steps": [
+        {
+          "request": {
+            "operation": "divide",
+            "input": {
+              "left": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "1"
+                }
+              },
+              "right": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "3"
+                }
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "3"
+              },
+              "history": "none-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "multiply",
+            "input": {
+              "left": {
+                "number": {
+                  "category": "exactRational",
+                  "coefficient": "1",
+                  "exponent": "0",
+                  "denominator": "3"
+                },
+                "history": "none-declared"
+              },
+              "right": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "3"
+                }
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "materialize",
+            "input": {
+              "value": {
+                "number": {
+                  "category": "exactNumber",
+                  "coefficient": "1",
+                  "exponent": "0"
+                },
+                "history": "none-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              },
+              "policy": {
+                "family": "integer"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              },
+              "history": "none-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1",
+                "family": "integer",
+                "zeroSign": "positive"
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "left"
+        },
+        {
+          "fromStep": 1,
+          "toStep": 2,
+          "input": "value"
+        }
+      ]
+    },
+    {
+      "id": "rational-round-exact-chain-history",
+      "kind": "chain",
+      "steps": [
+        {
+          "request": {
+            "operation": "divide",
+            "input": {
+              "left": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "1"
+                }
+              },
+              "right": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "3"
+                }
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "3"
+              },
+              "history": "none-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "quantize",
+            "input": {
+              "value": {
+                "number": {
+                  "category": "exactRational",
+                  "coefficient": "1",
+                  "exponent": "0",
+                  "denominator": "3"
+                },
+                "history": "none-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              },
+              "policy": {
+                "increment": {
+                  "category": "exactNumber",
+                  "coefficient": "1",
+                  "exponent": "-2"
+                },
+                "rounding": "half-even"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "33",
+                "exponent": "-2"
+              },
+              "history": "approximation-declared"
+            },
+            "metadata": {
+              "evaluation": "rounded-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1",
+                "increment": {
+                  "category": "exactNumber",
+                  "coefficient": "1",
+                  "exponent": "-2"
+                },
+                "rounding": "half-even"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "multiply",
+            "input": {
+              "left": {
+                "number": {
+                  "category": "exactNumber",
+                  "coefficient": "33",
+                  "exponent": "-2"
+                },
+                "history": "approximation-declared"
+              },
+              "right": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "3"
+                }
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "99",
+                "exponent": "-2"
+              },
+              "history": "approximation-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "materialize",
+            "input": {
+              "value": {
+                "number": {
+                  "category": "exactNumber",
+                  "coefficient": "99",
+                  "exponent": "-2"
+                },
+                "history": "approximation-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              },
+              "policy": {
+                "family": "decimal"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0.99"
+              },
+              "history": "approximation-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1",
+                "family": "decimal",
+                "zeroSign": "positive"
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "value"
+        },
+        {
+          "fromStep": 1,
+          "toStep": 2,
+          "input": "left"
+        },
+        {
+          "fromStep": 2,
+          "toStep": 3,
+          "input": "value"
+        }
+      ]
+    },
+    {
+      "id": "rational-cancellation-retains-history",
+      "kind": "chain",
+      "steps": [
+        {
+          "request": {
+            "operation": "divide",
+            "input": {
+              "left": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "1"
+                },
+                "history": "approximation-declared"
+              },
+              "right": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "3"
+                }
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "3"
+              },
+              "history": "approximation-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "subtract",
+            "input": {
+              "left": {
+                "number": {
+                  "category": "exactRational",
+                  "coefficient": "1",
+                  "exponent": "0",
+                  "denominator": "3"
+                },
+                "history": "approximation-declared"
+              },
+              "right": {
+                "number": {
+                  "category": "exactRational",
+                  "coefficient": "1",
+                  "exponent": "0",
+                  "denominator": "3"
+                },
+                "history": "approximation-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "0",
+                "exponent": "0"
+              },
+              "history": "approximation-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "quantize",
+            "input": {
+              "value": {
+                "number": {
+                  "category": "exactNumber",
+                  "coefficient": "0",
+                  "exponent": "0"
+                },
+                "history": "approximation-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              },
+              "policy": {
+                "increment": {
+                  "category": "exactNumber",
+                  "coefficient": "1",
+                  "exponent": "-2"
+                },
+                "rounding": "half-even"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "0",
+                "exponent": "0"
+              },
+              "history": "approximation-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1",
+                "increment": {
+                  "category": "exactNumber",
+                  "coefficient": "1",
+                  "exponent": "-2"
+                },
+                "rounding": "half-even"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "materialize",
+            "input": {
+              "value": {
+                "number": {
+                  "category": "exactNumber",
+                  "coefficient": "0",
+                  "exponent": "0"
+                },
+                "history": "approximation-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.arithmetic.rational.v1"
+              },
+              "policy": {
+                "family": "decimal",
+                "zeroSign": "negative"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "-0.0"
+              },
+              "history": "approximation-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-operands",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.arithmetic.rational.v1",
+                "family": "decimal",
+                "zeroSign": "negative"
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "left"
+        },
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "right"
+        },
+        {
+          "fromStep": 1,
+          "toStep": 2,
+          "input": "value"
+        },
+        {
+          "fromStep": 2,
+          "toStep": 3,
+          "input": "value"
+        }
+      ]
+    }
+  ]
+}
