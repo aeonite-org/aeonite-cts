@@ -211,6 +211,18 @@ This validates:
 The pre-commit check also rejects local filesystem path markers before they can
 land in the public CTS repo.
 
+## Coordinated implementation releases
+
+Follow the [shared AEON 0.17.0 checklist](https://github.com/AltoPelago/roadmap/blob/main/aeon/work-in-progress/release-0.17.0-checklist.md)
+to record exact CTS revisions and snapshot IDs for beta integration and RC
+acceptance. Implementation RCs require completed declared scope and verified
+claims against their selected authority inputs. Mutable next-lane results remain
+distinct from released snapshot conformance. New immutable snapshots follow this
+repository's normal review, validation and promotion process; retain historical
+bytes and do not rename snapshots to match AEON's package version. Run the
+existing pre-commit checks for CTS changes and retain per-consumer results,
+capability limits and skips in the shared checklist.
+
 ## Licensing
 
 This repository is released under the MIT License. See `LICENSE`.
