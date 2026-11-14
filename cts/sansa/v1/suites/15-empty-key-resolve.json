@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "suite_id": "empty-key-resolve",
+    "lane": "sansa-resolve",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/sansa/v1/addressing-v1.aeon"
+    ]
+  },
+  "id": "empty-key-resolve",
+  "title": "Empty Property Keys — sansa-resolve",
+  "tests": [
+    {
+      "id": "sansa-resolve-empty-key-root",
+      "input": {
+        "namespace": "empty-keys",
+        "source": "$"
+      },
+      "expected": {
+        "ok": true,
+        "bindings": [
+          "$"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-resolve-empty-key-member",
+      "input": {
+        "namespace": "empty-keys",
+        "source": "$.[\"\"]"
+      },
+      "expected": {
+        "ok": true,
+        "bindings": [
+          "$.[\"\"]"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-resolve-empty-key-nested",
+      "input": {
+        "namespace": "empty-keys",
+        "source": "$.[\"\"].[\"\"]"
+      },
+      "expected": {
+        "ok": true,
+        "bindings": [
+          "$.[\"\"].[\"\"]"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-resolve-empty-key-attribute",
+      "input": {
+        "namespace": "empty-keys",
+        "source": "$.[\"\"].@.[\"\"]"
+      },
+      "expected": {
+        "ok": true,
+        "bindings": [
+          "$.[\"\"].@.[\"\"]"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-resolve-empty-key-space",
+      "input": {
+        "namespace": "empty-keys",
+        "source": "$.[\" \"]"
+      },
+      "expected": {
+        "ok": true,
+        "bindings": [
+          "$.[\" \"]"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-resolve-empty-key-missing",
+      "input": {
+        "namespace": "empty-keys",
+        "source": "$.vacant.[\"\"]"
+      },
+      "expected": {
+        "ok": true,
+        "bindings": []
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    }
+  ],
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "empty-keys",
+        "supportsParentTraversal": true,
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "",
+              "address": "$.[\"\"]",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "",
+                  "address": "$.[\"\"].[\"\"]",
+                  "representationKind": "string",
+                  "value": ""
+                }
+              ],
+              "attributeSpace": {
+                "address": "$.[\"\"].@",
+                "representationKind": "attributeSpace",
+                "children": [
+                  {
+                    "name": "",
+                    "address": "$.[\"\"].@.[\"\"]",
+                    "representationKind": "string",
+                    "value": "meta"
+                  }
+                ]
+              }
+            },
+            {
+              "name": " ",
+              "address": "$.[\" \"]",
+              "representationKind": "string",
+              "value": "space"
+            },
+            {
+              "name": "vacant",
+              "address": "$.vacant",
+              "representationKind": "object",
+              "children": []
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

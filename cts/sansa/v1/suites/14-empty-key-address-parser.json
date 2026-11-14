@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "suite_id": "empty-key-address-parser",
+    "lane": "sansa-address",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/sansa/v1/addressing-v1.aeon#named-binding"
+    ]
+  },
+  "id": "empty-key-address-parser",
+  "title": "Empty Property Keys \u2014 sansa-address",
+  "tests": [
+    {
+      "id": "sansa-empty-key-root",
+      "input": {
+        "source": "$.[\"\"]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.[\"\"]",
+        "exact": true,
+        "root": "absolute",
+        "selectors": [
+          "member"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-empty-key-nested",
+      "input": {
+        "source": "$.a.[\"\"]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.a.[\"\"]",
+        "exact": true,
+        "root": "absolute",
+        "selectors": [
+          "member",
+          "member"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-empty-key-consecutive",
+      "input": {
+        "source": "$.[\"\"].[\"\"]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.[\"\"].[\"\"]",
+        "exact": true,
+        "root": "absolute",
+        "selectors": [
+          "member",
+          "member"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-empty-key-attribute",
+      "input": {
+        "source": "$.a.@.[\"\"]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.a.@.[\"\"]",
+        "exact": true,
+        "root": "absolute",
+        "selectors": [
+          "member",
+          "attributeSpace",
+          "member"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-empty-key-indexed",
+      "input": {
+        "source": "$.[\"\"][0]"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "$.[\"\"][0]",
+        "exact": true,
+        "root": "absolute",
+        "selectors": [
+          "member",
+          "position"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-empty-key-missing-close",
+      "input": {
+        "source": "$.[\"\""
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EXPECTED_TOKEN"
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-empty-key-empty-local-space",
+      "input": {
+        "source": "$.<\"\">"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_EMPTY_LOCAL_SPACE_NAME"
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    }
+  ]
+}

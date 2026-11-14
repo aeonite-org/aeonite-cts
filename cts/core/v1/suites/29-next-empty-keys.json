@@ -1,0 +1,512 @@
+{
+  "meta": {
+    "suite_id": "next-empty-keys",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/structure-syntax-v1.aeon#keys",
+      "aeonite-specs/sources/aeon/v1/addressing-references-v1.aeon"
+    ]
+  },
+  "id": "next-empty-keys",
+  "title": "Empty Property Keys \u2014 core",
+  "tests": [
+    {
+      "id": "core-empty-key-root-double",
+      "description": "root double",
+      "input": {
+        "source": "\"\" = \"\"",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"\"]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-root-single",
+      "description": "root single",
+      "input": {
+        "source": "'' = ''",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"\"]",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-structural-identity",
+      "description": "An empty property name remains a named binding when structural identity metadata is attached",
+      "input": {
+        "source": "\"\"\\EMPTY\\:string = \"\"",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"\"]",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-nested",
+      "description": "nested",
+      "input": {
+        "source": "outer = { \"\" = { \"\" = false } }",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-typed-and-attributed",
+      "description": "typed and attributed",
+      "input": {
+        "source": "\"\"@{ \"\" = \"metadata\" }:string = \"\"",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-value-families",
+      "description": "value families",
+      "input": {
+        "source": "\"\" = [0, false, !\"unBound\", \"\", {}, []]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-separate-scopes",
+      "description": "separate scopes",
+      "input": {
+        "source": "a = { \"\" = 1 }\nb = { \"\" = 2 }",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-whitespace-distinct",
+      "description": "whitespace distinct",
+      "input": {
+        "source": "\"\" = 0\n\" \" = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-clone-root",
+      "description": "clone root",
+      "input": {
+        "source": "\"\" = 1\ncopy = ~$.[\"\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-pointer-root",
+      "description": "pointer root",
+      "input": {
+        "source": "\"\" = 1\ncopy = ~>$.[\"\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-attribute-reference",
+      "description": "attribute reference",
+      "input": {
+        "source": "a@{ \"\" = \"metadata\" } = 1\ncopy = ~a.@.[\"\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-sansa-literal",
+      "description": "sansa literal",
+      "input": {
+        "source": "address:sansa = $.[\"\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-sansa-attribute-literal",
+      "description": "sansa attribute literal",
+      "input": {
+        "source": "address:sansa = $.a.@.[\"\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-root-duplicate",
+      "description": "root duplicate",
+      "input": {
+        "source": "\"\" = 1\n'' = 2",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_KEY"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-object-duplicate",
+      "description": "object duplicate",
+      "input": {
+        "source": "a = { \"\" = 1, \"\" = 2 }",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_KEY"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-attribute-duplicate",
+      "description": "attribute duplicate",
+      "input": {
+        "source": "a@{ \"\" = 1, \"\" = 2 } = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_KEY"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-missing-target",
+      "description": "missing target",
+      "input": {
+        "source": "copy = ~$.[\"\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "MISSING_REFERENCE_TARGET"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-forward-target",
+      "description": "forward target",
+      "input": {
+        "source": "copy = ~$.[\"\"]\n\"\" = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-self-target",
+      "description": "self target",
+      "input": {
+        "source": "\"\" = ~$.[\"\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SELF_REFERENCE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-missing-close",
+      "description": "missing close",
+      "input": {
+        "source": "copy = ~$.[\"\"",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-empty-tag",
+      "description": "empty tag",
+      "input": {
+        "source": "value = <\"\">",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "core-empty-key-empty-local-space",
+      "description": "empty local space",
+      "input": {
+        "source": "address:sansa = $.<\"\">",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    }
+  ]
+}

@@ -32,6 +32,12 @@ If a stress or fuzz asset is implementation hardening work but not part of a pub
 
 The current anti-drift coverage map is tracked in `CONFORMANCE-COVERAGE.md`.
 
+The [empty-key candidate](docs/conformance/empty-keys-candidate.md) adds ordinary
+empty property names to the mutable Core, AES projection/events, canonical,
+Telex, Film and SANSA development targets. Superseded rejection cases are excluded
+only from the evolving selections; released manifests and their suites retain
+their original bytes. No immutable snapshot has been promoted for this amendment.
+
 CTS compatibility snapshots are versioned explicitly. See
 `docs/cts-snapshot-versioning.md` for the naming convention, such as
 `mutate-cts-v1-snapshot-0.1`, and for the rule that released snapshots are

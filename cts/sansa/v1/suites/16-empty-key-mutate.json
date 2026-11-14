@@ -1,0 +1,209 @@
+{
+  "meta": {
+    "suite_id": "empty-key-mutate",
+    "lane": "sansa-mutate",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/sansa/v1/mutate-v1.aeon#create"
+    ]
+  },
+  "id": "empty-key-mutate",
+  "title": "Empty Property Keys — sansa-mutate",
+  "tests": [
+    {
+      "id": "sansa-mutate-empty-key-create",
+      "input": {
+        "namespace": "empty-keys",
+        "operation": {
+          "op": "create",
+          "parent": "$.vacant",
+          "name": "",
+          "value": ""
+        },
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-mutate-empty-key-nested-payload",
+      "input": {
+        "namespace": "empty-keys",
+        "operation": {
+          "op": "create",
+          "parent": "$.vacant",
+          "name": "nested",
+          "value": {
+            "": {
+              "": ""
+            }
+          }
+        },
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-mutate-empty-key-duplicate",
+      "input": {
+        "namespace": "empty-keys",
+        "operation": {
+          "op": "create",
+          "parent": "$",
+          "name": "",
+          "value": ""
+        },
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_EXISTS"
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-mutate-empty-key-missing-name",
+      "input": {
+        "namespace": "empty-keys",
+        "operation": {
+          "op": "create",
+          "parent": "$.vacant",
+          "value": ""
+        },
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_INVALID_NAME"
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-mutate-empty-key-null-name",
+      "input": {
+        "namespace": "empty-keys",
+        "operation": {
+          "op": "create",
+          "parent": "$.vacant",
+          "name": null,
+          "value": ""
+        },
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_INVALID_NAME"
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-mutate-empty-key-replace",
+      "input": {
+        "namespace": "empty-keys",
+        "operation": {
+          "op": "replace",
+          "target": "$.[\"\"].[\"\"]",
+          "value": "new"
+        },
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-mutate-empty-key-remove",
+      "input": {
+        "namespace": "empty-keys",
+        "operation": {
+          "op": "remove",
+          "target": "$.[\"\"].[\"\"]"
+        },
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    }
+  ],
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "empty-keys",
+        "supportsParentTraversal": true,
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "",
+              "address": "$.[\"\"]",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "",
+                  "address": "$.[\"\"].[\"\"]",
+                  "representationKind": "string",
+                  "value": ""
+                }
+              ],
+              "attributeSpace": {
+                "address": "$.[\"\"].@",
+                "representationKind": "attributeSpace",
+                "children": [
+                  {
+                    "name": "",
+                    "address": "$.[\"\"].@.[\"\"]",
+                    "representationKind": "string",
+                    "value": "meta"
+                  }
+                ]
+              }
+            },
+            {
+              "name": " ",
+              "address": "$.[\" \"]",
+              "representationKind": "string",
+              "value": "space"
+            },
+            {
+              "name": "vacant",
+              "address": "$.vacant",
+              "representationKind": "object",
+              "children": []
+            }
+          ]
+        },
+        "supportsMutation": true
+      }
+    ]
+  }
+}

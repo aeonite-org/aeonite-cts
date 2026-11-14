@@ -9,7 +9,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Experimental next SANSA Resolve snapshot with portable AES node navigation",
+    "description": "Experimental next SANSA Resolve snapshot with portable AES node navigation; ordinary empty property keys (development only)",
     "snapshot_id": "sansa-resolve-cts-v1-snapshot-0.3"
   },
   "suites": [
@@ -20,6 +20,10 @@
     {
       "id": "portable-node-navigation",
       "file": "suites/09-node-navigation.json"
+    },
+    {
+      "id": "empty-key-resolve",
+      "file": "suites/15-empty-key-resolve.json"
     }
   ]
 }

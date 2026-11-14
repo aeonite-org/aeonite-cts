@@ -8,7 +8,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Next Core target with revised Aeonic limits, GP profile semantics, and authored-order reference validation within metadata",
+    "description": "Next Core target with revised Aeonic limits, GP profile semantics, and authored-order reference validation within metadata; ordinary empty property keys (development only)",
     "snapshot_id": "core-next-cts-v1-snapshot-0.1"
   },
   "suites": [
@@ -25,7 +25,9 @@
       "file": "suites/02-addressing-and-syntax.json",
       "exclude_tests": [
         "core-addr-010-trimticks-pass",
-        "core-addr-012-invalid-separator-char-in-type-annotation-reject"
+        "core-addr-012-invalid-separator-char-in-type-annotation-reject",
+        "core-addr-001b-empty-quoted-key-reject",
+        "core-addr-001c-empty-quoted-path-segment-reject"
       ]
     },
     {
@@ -46,7 +48,10 @@
     },
     {
       "id": "promoted-snippet-transport",
-      "file": "suites/07-promoted-snippet-transport.json"
+      "file": "suites/07-promoted-snippet-transport.json",
+      "exclude_tests": [
+        "core-snippet-transport-003-empty-quoted-keys-reject"
+      ]
     },
     {
       "id": "promoted-strict-literals",
@@ -137,6 +142,10 @@
     {
       "id": "next-node-binding-generics",
       "file": "suites/28-next-node-binding-generics.json"
+    },
+    {
+      "id": "next-empty-keys",
+      "file": "suites/29-next-empty-keys.json"
     }
   ]
 }

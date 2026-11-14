@@ -8,13 +8,13 @@
     "event_contract": "aes.events.v1",
     "sut_protocol": "cts.protocol.v1",
     "byte_encoding": "lowercase-hex",
-    "description": "Development-only type-only generics and shared logical generic-depth accounting; excludes superseded historical expectations",
-    "specification_revision": "242daa4214237cdc70d512b593c126615ab0556b",
+    "description": "Development-only type-only generics and shared logical generic-depth accounting; excludes superseded historical expectations; ordinary empty property keys (development only)",
     "snapshot_id": "film-next-cts-v1-snapshot-0.1",
     "conformance": {
       "surface": "experimental",
       "experimental_default": "exclude"
-    }
+    },
+    "expected_test_count": 130
   },
   "suites": [
     {
@@ -62,6 +62,10 @@
     {
       "id": "next-film-logical-generic-depth",
       "file": "suites/06-next-logical-generic-depth.json"
+    },
+    {
+      "id": "next-film-empty-keys",
+      "file": "suites/07-next-empty-keys.json"
     }
   ]
 }

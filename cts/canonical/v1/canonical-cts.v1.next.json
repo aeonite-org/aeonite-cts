@@ -7,7 +7,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Next canonical formatting target including symbolic literals and exact temporal preservation",
+    "description": "Next canonical formatting target including symbolic literals and exact temporal preservation; ordinary empty property keys (development only)",
     "snapshot_id": "canonical-next-cts-v1-snapshot-0.2"
   },
   "suites": [
@@ -49,6 +49,10 @@
     {
       "id": "next-canonical-type-only-generics",
       "file": "suites/10-next-type-only-generics.json"
+    },
+    {
+      "id": "next-canonical-empty-keys",
+      "file": "suites/11-next-empty-keys.json"
     }
   ]
 }
