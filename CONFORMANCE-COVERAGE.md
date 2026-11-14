@@ -67,6 +67,18 @@ The status labels used here are:
 | shared value equality, ordering, concrete-value, and explicit radix semantics | scaffold | `cts/value-semantics/v1/value-semantics-cts.v1.next.json`, `cts/value-semantics/v1/suites/01-minimum-consumer-contract.json` through `cts/value-semantics/v1/suites/04-radix-fractional-scale.json` | covers minimum-profile equality and ordering, NaN fail-closed behavior, infinity numeric-bound behavior, concrete value predicate classification, portable default/codepoint profile selection, exact same-base radix behavior, exact rational comparison across independently resolved bases, and representation-preserving fractional scale | `aeonite-specs/aes/v1/aeonic-semantic-language-v1#radix-numeric-profiles` |
 | AEOS-specific conformance behavior | partial | `cts/aeos/v1/aeos-validator-cts.v1.json`, `cts/aeos/v1/suites/00-envelope.json` through `cts/aeos/v1/suites/16-reference-forms.json` | AEOS already has a meaningful validator-oriented CTS surface covering envelope, schema rules, presence, types, reference-form constraints, guarantees, indexed-path validation, separator policy, and structural container items; what is still missing is the same explicit anti-drift coverage review that core now has | `Aeon/cts/aeos`, future AEOS-specific stress surfaces |
 
+## Civil-date temporal operations
+
+The mutable `cts/aeonic-temporal-civil-date/v1/aeonic-temporal-civil-date-cts.v1.next.json`
+target covers independent complete relation/calendar capabilities under an
+explicit ISO civil-date profile. Its 181 operation cases, two actual-result
+chains and bounded relation laws cover canonical nonempty ranges, exact
+materialization, clamping history, whole-set chronology, five-way relations,
+deterministic diagnostics and portable calendar-work limits. Source/schema,
+binding, helper and suite bytes are pinned. Artifact-only validation and replay
+checker controls do not establish temporal SUT conformance, native capacity or
+an immutable snapshot. See the [lane contract](docs/protocol/v1/lane-aeonic-temporal-civil-date.md).
+
 ## Experimental type-only generic arguments
 
 The Core next target also adds 32 binding-side `node<T>` scope vectors in
