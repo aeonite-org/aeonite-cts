@@ -1,0 +1,4106 @@
+{
+  "id": "03-resources",
+  "tests": [
+    {
+      "id": "february-to-march-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-03-01",
+                "end": "2024-03-29"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "february-to-march-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "direct-two-months-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-31",
+                    "end": "2023-01-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "2"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2023-03-31",
+                "end": "2023-03-31"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "2"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "direct-two-months-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-31",
+                    "end": "2023-01-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "2"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "first-clamped-month-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-31",
+                    "end": "2023-01-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2023-02-28",
+                "end": "2023-02-28"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "first-clamped-month-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-31",
+                    "end": "2023-01-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "second-explicit-month-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-02-28",
+                    "end": "2023-02-28"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2023-03-28",
+                "end": "2023-03-28"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "second-explicit-month-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-02-28",
+                    "end": "2023-02-28"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "backward-leap-month-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-31",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-02-29",
+                "end": "2024-02-29"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "-1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "backward-leap-month-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-31",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "whole-year-month-shift-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-02-01",
+                "end": "2024-03-29"
+              },
+              {
+                "start": "2024-04-01",
+                "end": "2024-05-30"
+              },
+              {
+                "start": "2024-06-01",
+                "end": "2024-07-30"
+              },
+              {
+                "start": "2024-08-01",
+                "end": "2024-10-30"
+              },
+              {
+                "start": "2024-11-01",
+                "end": "2024-12-30"
+              },
+              {
+                "start": "2025-01-01",
+                "end": "2025-01-31"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 12
+        }
+      }
+    },
+    {
+      "id": "whole-year-month-shift-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 11
+        }
+      }
+    },
+    {
+      "id": "whole-year-zero-months-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-12-31"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "0"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "whole-year-zero-months-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "two-gapped-input-ranges-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-10"
+                  },
+                  {
+                    "start": "2024-02-12",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-03-01",
+                "end": "2024-03-10"
+              },
+              {
+                "start": "2024-03-12",
+                "end": "2024-03-29"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 2
+        }
+      }
+    },
+    {
+      "id": "two-gapped-input-ranges-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-10"
+                  },
+                  {
+                    "start": "2024-02-12",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "two-source-ranges-merge-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-28",
+                    "end": "2023-01-28"
+                  },
+                  {
+                    "start": "2023-01-31",
+                    "end": "2023-01-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2023-02-28",
+                "end": "2023-02-28"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 2
+        }
+      }
+    },
+    {
+      "id": "two-source-ranges-merge-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-28",
+                    "end": "2023-01-28"
+                  },
+                  {
+                    "start": "2023-01-31",
+                    "end": "2023-01-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eom-nonleap-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-02-27",
+                    "end": "2023-02-27"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2023-03-30",
+                "end": "2023-03-30"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eom",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eom-nonleap-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-02-27",
+                    "end": "2023-02-27"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eom-full-leap-february-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-03-03",
+                "end": "2024-03-31"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eom",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eom-full-leap-february-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eom-backward-clamp-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-02-01",
+                "end": "2024-02-01"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eom",
+            "count": "-1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eom-backward-clamp-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eom-backward-month-end-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-31",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-02-29",
+                "end": "2024-02-29"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eom",
+            "count": "-1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eom-backward-month-end-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-31",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eom-full-short-month-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-09-01",
+                    "end": "2024-09-30"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-10-02",
+                "end": "2024-10-31"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eom",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eom-full-short-month-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-09-01",
+                    "end": "2024-09-30"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eom",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "year-leap-hole-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-01",
+                    "end": "2023-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "year",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-01-01",
+                "end": "2024-02-28"
+              },
+              {
+                "start": "2024-03-01",
+                "end": "2024-12-31"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "year",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 12
+        }
+      }
+    },
+    {
+      "id": "year-leap-hole-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-01",
+                    "end": "2023-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "year",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 11
+        }
+      }
+    },
+    {
+      "id": "year-backward-leap-day-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-29",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "year",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2023-02-28",
+                "end": "2023-02-28"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "year",
+            "count": "-1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "year-backward-leap-day-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-29",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "year",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "year-direct-four-years-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-29",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "year",
+              "count": "4"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2028-02-29",
+                "end": "2028-02-29"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "year",
+            "count": "4"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "year-direct-four-years-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-29",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "year",
+              "count": "4"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eoy-to-leap-year-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-02-28",
+                    "end": "2023-02-28"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-02-29",
+                "end": "2024-02-29"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eoy",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eoy-to-leap-year-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-02-28",
+                    "end": "2023-02-28"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eoy-from-leap-year-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-28",
+                    "end": "2024-02-28"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2025-02-27",
+                "end": "2025-02-27"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eoy",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eoy-from-leap-year-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-28",
+                    "end": "2024-02-28"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eoy-january-clamp-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-01-02"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2025-01-01",
+                "end": "2025-01-01"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eoy",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eoy-january-clamp-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-01-02"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eoy-full-year-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-01",
+                    "end": "2023-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-01-02",
+                "end": "2024-12-31"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eoy",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eoy-full-year-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-01-01",
+                    "end": "2023-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eoy-direct-four-years-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-01-01"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "4"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2028-01-01",
+                "end": "2028-01-01"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eoy",
+            "count": "4"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eoy-direct-four-years-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-01-01"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "4"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "eoy-after-prior-clamp-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2025-01-01",
+                    "end": "2025-01-01"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "3"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2028-01-02",
+                "end": "2028-01-02"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "eoy",
+            "count": "3"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "eoy-after-prior-clamp-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2025-01-01",
+                    "end": "2025-01-01"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "eoy",
+              "count": "3"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "day-full-year-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-01-02",
+                "end": "2025-01-01"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "day",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "day-full-year-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "day-backward-year-boundary-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-01-02"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2023-12-31",
+                "end": "2024-01-01"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "day",
+            "count": "-1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "day-backward-year-boundary-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-01-02"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "-1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "day-zero-at-upper-boundary-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "9999-12-31",
+                    "end": "9999-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "9999-12-31",
+                "end": "9999-12-31"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "day",
+            "count": "0"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
+    },
+    {
+      "id": "day-zero-at-upper-boundary-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "9999-12-31",
+                    "end": "9999-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "multi-year-calendar-work-work-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2020-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2020-02-01",
+                "end": "2020-03-29"
+              },
+              {
+                "start": "2020-04-01",
+                "end": "2020-05-30"
+              },
+              {
+                "start": "2020-06-01",
+                "end": "2020-07-30"
+              },
+              {
+                "start": "2020-08-01",
+                "end": "2020-10-30"
+              },
+              {
+                "start": "2020-11-01",
+                "end": "2020-12-30"
+              },
+              {
+                "start": "2021-01-01",
+                "end": "2021-03-28"
+              },
+              {
+                "start": "2021-04-01",
+                "end": "2021-05-30"
+              },
+              {
+                "start": "2021-06-01",
+                "end": "2021-07-30"
+              },
+              {
+                "start": "2021-08-01",
+                "end": "2021-10-30"
+              },
+              {
+                "start": "2021-11-01",
+                "end": "2021-12-30"
+              },
+              {
+                "start": "2022-01-01",
+                "end": "2022-03-28"
+              },
+              {
+                "start": "2022-04-01",
+                "end": "2022-05-30"
+              },
+              {
+                "start": "2022-06-01",
+                "end": "2022-07-30"
+              },
+              {
+                "start": "2022-08-01",
+                "end": "2022-10-30"
+              },
+              {
+                "start": "2022-11-01",
+                "end": "2022-12-30"
+              },
+              {
+                "start": "2023-01-01",
+                "end": "2023-03-28"
+              },
+              {
+                "start": "2023-04-01",
+                "end": "2023-05-30"
+              },
+              {
+                "start": "2023-06-01",
+                "end": "2023-07-30"
+              },
+              {
+                "start": "2023-08-01",
+                "end": "2023-10-30"
+              },
+              {
+                "start": "2023-11-01",
+                "end": "2023-12-30"
+              },
+              {
+                "start": "2024-01-01",
+                "end": "2024-03-29"
+              },
+              {
+                "start": "2024-04-01",
+                "end": "2024-05-30"
+              },
+              {
+                "start": "2024-06-01",
+                "end": "2024-07-30"
+              },
+              {
+                "start": "2024-08-01",
+                "end": "2024-10-30"
+              },
+              {
+                "start": "2024-11-01",
+                "end": "2024-12-30"
+              },
+              {
+                "start": "2025-01-01",
+                "end": "2025-01-31"
+              }
+            ]
+          },
+          "originGranularity": "month",
+          "history": "clamping-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 60
+        }
+      }
+    },
+    {
+      "id": "multi-year-calendar-work-work-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2020-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 59
+        }
+      }
+    },
+    {
+      "id": "materialize-day-text-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-29",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "day"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDate",
+            "value": "2024-02-29"
+          },
+          "history": "clamping-declared",
+          "originGranularity": "undeclared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "granularity": "day"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 10
+        }
+      }
+    },
+    {
+      "id": "materialize-day-text-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-29",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "day"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 9
+        }
+      }
+    },
+    {
+      "id": "materialize-month-text-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "month"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDate",
+            "value": "2024-03"
+          },
+          "history": "clamping-declared",
+          "originGranularity": "undeclared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "granularity": "month"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 7
+        }
+      }
+    },
+    {
+      "id": "materialize-month-text-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "month"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 6
+        }
+      }
+    },
+    {
+      "id": "materialize-year-text-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "year"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDate",
+            "value": "2024-"
+          },
+          "history": "clamping-declared",
+          "originGranularity": "undeclared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "granularity": "year"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 5
+        }
+      }
+    },
+    {
+      "id": "materialize-year-text-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-01-01",
+                    "end": "2024-12-31"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "year"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 4
+        }
+      }
+    },
+    {
+      "id": "request-bytes-at",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"compare\",\"input\":{\"left\":{\"temporal\":{\"category\":\"civilDate\",\"value\":\"2024-03\"}},\"right\":{\"temporal\":{\"category\":\"civilDate\",\"value\":\"2024-04\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-date.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 225
+        }
+      }
+    },
+    {
+      "id": "request-bytes-below",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"compare\",\"input\":{\"left\":{\"temporal\":{\"category\":\"civilDate\",\"value\":\"2024-03\"}},\"right\":{\"temporal\":{\"category\":\"civilDate\",\"value\":\"2024-04\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-date.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 224
+        }
+      }
+    },
+    {
+      "id": "request-depth-at",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestDepth": 4
+        }
+      }
+    },
+    {
+      "id": "request-depth-below",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestDepth": 3
+        }
+      }
+    },
+    {
+      "id": "successful-envelope-bytes-at",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxResultBytes": 275
+        }
+      }
+    },
+    {
+      "id": "successful-envelope-bytes-below",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxResultBytes": 274
+        }
+      }
+    },
+    {
+      "id": "authored-input-range-below",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputRanges": 0
+        }
+      }
+    },
+    {
+      "id": "count-text-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-01"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-03-02",
+                "end": "2024-03-02"
+              }
+            ]
+          },
+          "originGranularity": "day",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "day",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCountCharacters": 1
+        }
+      }
+    },
+    {
+      "id": "count-text-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-01"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCountCharacters": 0
+        }
+      }
+    },
+    {
+      "id": "one-output-range-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-01"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-03-02",
+                "end": "2024-03-02"
+              }
+            ]
+          },
+          "originGranularity": "day",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "day",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputRanges": 1
+        }
+      }
+    },
+    {
+      "id": "one-output-range-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-01"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputRanges": 0
+        }
+      }
+    },
+    {
+      "id": "two-input-ranges-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-01"
+                  },
+                  {
+                    "start": "2024-02-03",
+                    "end": "2024-02-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-03-01",
+                "end": "2024-03-01"
+              },
+              {
+                "start": "2024-03-03",
+                "end": "2024-03-03"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputRanges": 2
+        }
+      }
+    },
+    {
+      "id": "two-input-ranges-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-01"
+                  },
+                  {
+                    "start": "2024-02-03",
+                    "end": "2024-02-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/ranges"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputRanges": 1
+        }
+      }
+    },
+    {
+      "id": "two-output-ranges-at",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-01"
+                  },
+                  {
+                    "start": "2024-02-03",
+                    "end": "2024-02-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-03-01",
+                "end": "2024-03-01"
+              },
+              {
+                "start": "2024-03-03",
+                "end": "2024-03-03"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1",
+            "unit": "month",
+            "count": "1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputRanges": 2
+        }
+      }
+    },
+    {
+      "id": "two-output-ranges-below",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-01",
+                    "end": "2024-02-01"
+                  },
+                  {
+                    "start": "2024-02-03",
+                    "end": "2024-02-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputRanges": 1
+        }
+      }
+    }
+  ]
+}

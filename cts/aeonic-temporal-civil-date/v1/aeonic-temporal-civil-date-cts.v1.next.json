@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "version": "0.1.0-dev.0",
+    "lane": "aeonic-temporal-civil-date",
+    "profile": "aeonic.operations.temporal.civil-date.v1",
+    "capabilities": {
+      "relations": {
+        "id": "Aeonic.Operations.Temporal.CivilDate.Relations",
+        "operations": [
+          "equal",
+          "compare",
+          "relate"
+        ]
+      },
+      "calendar": {
+        "id": "Aeonic.Operations.Temporal.CivilDate.Calendar",
+        "operations": [
+          "shift",
+          "step",
+          "materialize"
+        ]
+      }
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "working-next",
+      "stable": false
+    },
+    "description": "Mutable civil-date target. Relations/calendar are independent complete capabilities. Artifact validation is not semantic execution; no immutable recognition or implementation claim.",
+    "snapshot_id": "aeonic-temporal-civil-date-cts-v1-snapshot-0.1",
+    "specification_schema": "resources/aeonic-operations/v1/civil-date-contract.schema.json",
+    "specification_source": "sources/aes/v1/aeonic-temporal-civil-date-v1.aeon",
+    "binding_schema": "binding.schema.json",
+    "helpers": {
+      "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+      "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+      "runners/temporal_civil_date_checks.py": "953cb17fb1d6968f9c2943135a59c621e4fd4b6863e23d93f4fa247bc7fe03ad"
+    },
+    "resource_limits": {
+      "maxRequestBytes": 16384,
+      "maxRequestDepth": 32,
+      "maxInputRanges": 128,
+      "maxCountCharacters": 32,
+      "maxOutputRanges": 128,
+      "maxCalendarWork": 4096,
+      "maxOutputCharacters": 10,
+      "maxResultBytes": 16384
+    },
+    "specification_schema_sha256": "5fd52a2635cfd6f0d8571bd1e7d30e9804e591157d831b10fdaa8bf1575df312",
+    "specification_source_sha256": "1daa5f02c00b4616f6b4c923c4c1d91d373d5eb6cb800243d2a7607fb978fe83",
+    "binding_schema_sha256": "1c44e40781c95cc5c6d008abf363750c5a4ffc04ec8a075bad045d45dd183eba",
+    "specification_revision": "627b2221d5ea29f01c5568c533c07dca30c5a2e5"
+  },
+  "suites": [
+    {
+      "id": "01-calendar",
+      "file": "suites/01-calendar.json",
+      "content_sha256": "98af882ae49f6ee88708571adfc0e2fdf8a09a00c2adc713b36d2b73d08ab6cf"
+    },
+    {
+      "id": "03-resources",
+      "file": "suites/03-resources.json",
+      "content_sha256": "dc4ff108d852bd2dc7d74cb6a46a129c2b81acb9608179c00f45e8fe4c49d8fc"
+    },
+    {
+      "id": "02-relations",
+      "file": "suites/02-relations.json",
+      "content_sha256": "fbe43fea75eacdd531a30943cfd6b1a498f81651c727922f9a398732a637e8e6"
+    },
+    {
+      "id": "04-precedence",
+      "file": "suites/04-precedence.json",
+      "content_sha256": "d17170eccbc48afd5b27f8a196a7a3b67f5580f225a80a4b8c49d7c16b968229"
+    },
+    {
+      "id": "05-chains",
+      "file": "suites/05-chains.json",
+      "content_sha256": "9b7feb3d6998b7b3963a992e38473a3bc7d9168a59b9b5a8a8d1d1907becdcfe"
+    },
+    {
+      "id": "06-laws",
+      "file": "suites/06-laws.json",
+      "content_sha256": "0ec49d6d4940fdbcc3e0e0797ae7cec1b979fca3568cf628371f8e4c24b1ecf8"
+    }
+  ]
+}
