@@ -14,7 +14,7 @@ It is the source of truth for:
 
 The [civil-date lane](docs/protocol/v1/lane-aeonic-temporal-civil-date.md) adds a
 mutable target for independent complete relations/calendar capabilities using
-the shared exact date-set format. Its 179 operation cases, two actual-result
+the shared exact date-set format. Its 181 operation cases, two actual-result
 chains and relation laws cover explicit profile selection, symbolic outcomes,
 clamping history, exact materialization and portable calendar-work limits.
 `run_aeonic_temporal_civil_date.py --specs-root ... --capability-set

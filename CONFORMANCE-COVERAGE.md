@@ -71,7 +71,7 @@ The status labels used here are:
 
 The mutable `cts/aeonic-temporal-civil-date/v1/aeonic-temporal-civil-date-cts.v1.next.json`
 target covers independent complete relation/calendar capabilities under an
-explicit ISO civil-date profile. Its 179 operation cases, two actual-result
+explicit ISO civil-date profile. Its 181 operation cases, two actual-result
 chains and bounded relation laws cover canonical nonempty ranges, exact
 materialization, clamping history, whole-set chronology, five-way relations,
 deterministic diagnostics and portable calendar-work limits. Source/schema,

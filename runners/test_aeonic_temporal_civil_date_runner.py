@@ -44,7 +44,7 @@ class TemporalRunnerTests(unittest.TestCase):
             self.assertEqual(reports[choice]['sut_executions'],0)
             self.assertFalse(reports[choice]['stable_conformance_claim'])
             self.assertFalse(reports[choice]['semantic_execution'])
-        self.assertEqual(reports['all']['operation_cases'],179)
+        self.assertEqual(reports['all']['operation_cases'],181)
         self.assertEqual(reports['all']['chains'],2)
         self.assertEqual(reports['all']['law_groups'],1)
         self.assertEqual(reports['relations']['chains'],0)
@@ -191,6 +191,17 @@ class TemporalRunnerTests(unittest.TestCase):
         runner=Runner(self.args());test=copy.deepcopy(next(t for t in runner.tests if t.get('kind')=='laws'))
         test['id']='bad'+chr(0xD800)
         with self.assertRaisesRegex(ValueError,'Unicode-scalar'):runner.validate_test(test)
+
+    def test_malformed_diagnostic_pointer_rejects_before_schema(self):
+        runner=Runner(self.args())
+        for n in [10,14]:
+            bad=dict(outcome='diagnostic',reason='invalid_operand',context=dict(stage=4,path='/'*n+'~2'))
+            with patch.object(runner,'result_schema',wraps=runner.result_schema) as schema:
+                with self.assertRaisesRegex(ValueError,'JSON Pointer escape'):
+                    runner.validate_result(bad,dict(LIMITS,maxResultBytes=0))
+                schema.validate.assert_not_called()
+            good=copy.deepcopy(bad);good['context']['path']='/'*n+'~02'
+            runner.validate_result(good,dict(LIMITS,maxResultBytes=0))
 
     def test_stable_or_excluding_manifest_cannot_validate(self):
         runner=Runner(self.args())

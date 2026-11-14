@@ -15,7 +15,7 @@ from run_aeonic_arithmetic import Runner as CommonRunner, decode, digest, equal,
 from run_aeonic_rational_arithmetic import Runner as BoundedTransport
 from temporal_civil_date_checks import (PROFILE, CAPABILITIES, LIMITS, MARKED,
     compact_bytes, coverage, decode_artifact, effective, history, origin, positive_work,
-    relation_labels, relation_result)
+    relation_labels, relation_result, validate_pointer_text)
 
 ROOT = Path(__file__).resolve().parents[1]
 LANE = 'aeonic-temporal-civil-date'
@@ -106,6 +106,10 @@ class Runner(CommonRunner):
         return dict(self.resource_limits, **policy.get('resourceLimits', {}))
 
     def validate_result(self, result, limits):
+        if isinstance(result, dict) and result.get('outcome') == 'diagnostic':
+            context = result.get('context')
+            if isinstance(context, dict) and isinstance(context.get('path'), str):
+                validate_pointer_text(context['path'])
         if isinstance(result, dict) and result.get('outcome') == 'value':
             # Work/input/output allowances are distinct. Stop on successful
             # envelope/range size before JSON Schema iterates every range.

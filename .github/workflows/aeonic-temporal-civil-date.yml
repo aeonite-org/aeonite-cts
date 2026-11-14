@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: 627b2221d5ea29f01c5568c533c07dca30c5a2e5
+          ref: 83a868282684c302c2e92accc68b7e390d96e911
           path: aeonite-specs
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:

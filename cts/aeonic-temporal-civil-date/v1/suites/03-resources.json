@@ -4101,6 +4101,98 @@
           "maxOutputRanges": 1
         }
       }
+    },
+    {
+      "id": "relations-work-at",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 2
+        }
+      }
+    },
+    {
+      "id": "relations-work-below",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 1
+        }
+      }
     }
   ]
 }

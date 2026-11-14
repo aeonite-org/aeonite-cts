@@ -1,7 +1,7 @@
 # Aeonic civil-date temporal working lane
 
 This mutable lane exercises the unpublished normative working contract at
-specification revision `627b2221d5ea29f01c5568c533c07dca30c5a2e5`:
+specification revision `83a868282684c302c2e92accc68b7e390d96e911`:
 `sources/aes/v1/aeonic-temporal-civil-date-v1.aeon` and
 `resources/aeonic-operations/v1/civil-date-contract.schema.json`. The manifest
 pins their bytes, the binding, suites and every imported checker helper.
@@ -55,7 +55,7 @@ and checks out this temporal revision separately; a new lane does not require
 repinning unrelated mutable comparison inputs. The temporal-only workflow uses
 its own matching specification sibling on both Python versions.
 
-The target has 179 operation cases, two chains and one bounded relation-law
+The target has 181 operation cases, two chains and one bounded relation-law
 group. Full execution adds generated pairwise equal/compare/relate checks and
 cached equality/strict-before transitivity checks. Artifact-only mode executes
 zero SUT calls and reports `artifacts-validated`, `semantic_execution: false`,
@@ -104,6 +104,11 @@ nonzero failure through the actual CLI. They do not demonstrate correctness of
 a temporal SUT. Law groups contain 3–8 values to keep generated work bounded.
 
 ## Work before failure
+
+Malformed diagnostic pointer escapes are rejected by a linear scan before
+schema matching. The owning schema separates pointer delimiters from token
+characters, avoiding ambiguous slash partitions on invalid input. Relation-only
+calendar-work at/below cases accompany the calendar work boundaries.
 
 Result range-count and successful-envelope guards precede complete schema/range
 iteration. Envelope measurement walks only through its allowance and checks

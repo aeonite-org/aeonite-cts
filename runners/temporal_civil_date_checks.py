@@ -122,6 +122,18 @@ def full_date(text):
     return result
 
 
+def validate_pointer_text(text):
+    """Linear rejection before schema matching of a SUT diagnostic pointer."""
+    require(not text or text.startswith('/'), 'Invalid diagnostic JSON Pointer')
+    i = 0
+    while i < len(text):
+        if text[i] == '~':
+            require(i + 1 < len(text) and text[i + 1] in '01', 'Invalid diagnostic JSON Pointer escape')
+            i += 2
+        else:
+            i += 1
+
+
 def coverage(bundle, maximum):
     descriptor = bundle['temporal']
     if descriptor['category'] == 'civilDate':

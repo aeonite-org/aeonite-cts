@@ -34,7 +34,7 @@
     "helpers": {
       "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
       "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
-      "runners/temporal_civil_date_checks.py": "953cb17fb1d6968f9c2943135a59c621e4fd4b6863e23d93f4fa247bc7fe03ad"
+      "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489"
     },
     "resource_limits": {
       "maxRequestBytes": 16384,
@@ -46,10 +46,10 @@
       "maxOutputCharacters": 10,
       "maxResultBytes": 16384
     },
-    "specification_schema_sha256": "5fd52a2635cfd6f0d8571bd1e7d30e9804e591157d831b10fdaa8bf1575df312",
+    "specification_schema_sha256": "716c72d3a688dbd4c2f7fbf888b30bc45788b995d3c3f930e7c5afa06cb1305f",
     "specification_source_sha256": "1daa5f02c00b4616f6b4c923c4c1d91d373d5eb6cb800243d2a7607fb978fe83",
     "binding_schema_sha256": "1c44e40781c95cc5c6d008abf363750c5a4ffc04ec8a075bad045d45dd183eba",
-    "specification_revision": "627b2221d5ea29f01c5568c533c07dca30c5a2e5"
+    "specification_revision": "83a868282684c302c2e92accc68b7e390d96e911"
   },
   "suites": [
     {
@@ -60,7 +60,7 @@
     {
       "id": "03-resources",
       "file": "suites/03-resources.json",
-      "content_sha256": "dc4ff108d852bd2dc7d74cb6a46a129c2b81acb9608179c00f45e8fe4c49d8fc"
+      "content_sha256": "36730a2ad1e52b5d9c8929819ba15c7d34b27df63e0433b6dcccfbc89f033487"
     },
     {
       "id": "02-relations",
