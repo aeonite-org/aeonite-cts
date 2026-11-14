@@ -166,7 +166,67 @@ class RunnerTests(unittest.TestCase):
             data = json.loads(args.manifest.read_text())
             data['meta']['conformance']['stable'] = True
             args.manifest.write_text(json.dumps(data))
-            with self.assertRaisesRegex(ValueError, 'mutable working targets only'):
+            with self.assertRaisesRegex(ValueError, 'Expected mutable next or recognized immutable rational target'):
+                Runner(args)
+
+    def test_frozen_artifact_check_never_claims_semantic_conformance(self):
+        args = self.args()
+        args.manifest = args.manifest.with_name('aeonic-rational-arithmetic-cts.v1.snapshot-0.2.json')
+        runner = Runner(args)
+        self.assertTrue(runner.immutable)
+        with patch.object(runner, 'execute') as execute:
+            report = runner.run(check_only=True)
+        execute.assert_not_called()
+        self.assertEqual(report['target_status'], 'immutable-local')
+        self.assertEqual(report['status'], 'artifacts-validated')
+        self.assertFalse(report['stable_conformance_claim'])
+        self.assertFalse(report['semantic_execution'])
+        self.assertEqual(report['sut_executions'], 0)
+
+    def test_frozen_manifest_relabel_or_edit_cannot_acquire_a_claim(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args = self.args()
+            lane = Path(folder) / 'lane'
+            shutil.copytree(args.manifest.parent, lane)
+            args.manifest = lane / 'aeonic-rational-arithmetic-cts.v1.snapshot-0.2.json'
+            original = json.loads(args.manifest.read_text())
+            for field, value in [('description', 'edited'), ('snapshot_id', 'aeonic-rational-arithmetic-cts-v1-snapshot-9.9')]:
+                changed = copy.deepcopy(original)
+                changed['meta'][field] = value
+                args.manifest.write_text(json.dumps(changed))
+                with self.subTest(field=field), self.assertRaisesRegex(ValueError, 'Unrecognized or modified immutable'):
+                    Runner(args)
+            mutable = json.loads((lane / 'aeonic-rational-arithmetic-cts.v1.next.json').read_text())
+            mutable['meta']['conformance'] = original['meta']['conformance']
+            args.manifest.write_text(json.dumps(mutable))
+            with self.assertRaisesRegex(ValueError, 'Unrecognized or modified immutable'):
+                Runner(args)
+
+    def test_frozen_execution_failure_cannot_claim_conformance(self):
+        args = self.args()
+        args.manifest = args.manifest.with_name('aeonic-rational-arithmetic-cts.v1.snapshot-0.2.json')
+        runner = Runner(args)
+        with patch.object(runner, 'execute', return_value=self.output(success(exact('999')))):
+            report = runner.run()
+        self.assertEqual(report['status'], 'failed')
+        self.assertTrue(report['semantic_execution'])
+        self.assertFalse(report['stable_conformance_claim'])
+        self.assertTrue(report['failures'])
+
+    def test_frozen_suite_drift_prevents_a_stable_claim(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args = self.args()
+            lane = Path(folder) / 'lane'
+            shutil.copytree(args.manifest.parent, lane)
+            args.manifest = lane / 'aeonic-rational-arithmetic-cts.v1.snapshot-0.2.json'
+            runner = Runner(args)
+            suite = lane / runner.manifest['suites'][0]['file']
+            suite.write_text(suite.read_text() + '\n')
+            report = runner.run(check_only=True)
+            self.assertEqual(report['status'], 'failed')
+            self.assertFalse(report['stable_conformance_claim'])
+            self.assertTrue(any(x['id'] == 'artifact-integrity' for x in report['failures']))
+            with self.assertRaisesRegex(ValueError, 'Artifact digest mismatch'):
                 Runner(args)
 
     def test_real_execute_reads_utf8_without_shell_and_checks_output_cap(self):

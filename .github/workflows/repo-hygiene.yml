@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: dc3b62b0c5ae1c130814b5947e88b7d7010ffe89
+          ref: d4801c7e4814af1ef6e51951c0af3f3d429f04fb
           path: aeonite-specs
 
       - name: Set up semantic runner Python
@@ -63,7 +63,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: dc3b62b0c5ae1c130814b5947e88b7d7010ffe89
+          ref: d4801c7e4814af1ef6e51951c0af3f3d429f04fb
           path: aeonite-specs
       - name: Set up Python 3.9
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
@@ -73,5 +73,7 @@ jobs:
         run: python3 -m pip install -r runners/requirements-aeonic-operations.txt
       - name: Verify rational runner behavior
         run: python3 -m unittest discover -s runners -p test_aeonic_rational_arithmetic_runner.py
-      - name: Validate working artifacts without claiming conformance
+      - name: Validate frozen artifacts without claiming conformance
         run: python3 runners/run_aeonic_rational_arithmetic.py --specs-root ../aeonite-specs --check
+      - name: Validate mutable artifacts without claiming conformance
+        run: python3 runners/run_aeonic_rational_arithmetic.py --specs-root ../aeonite-specs --manifest cts/aeonic-rational-arithmetic/v1/aeonic-rational-arithmetic-cts.v1.next.json --check

@@ -243,10 +243,13 @@ its runner verifies recipe identity and exact frozen manifest bytes. The separat
 arithmetic next target advances to snapshot 0.2. Implementation adoption and
 package publication remain separate from this compatibility snapshot.
 
-The separate mutable `aeonic-rational-arithmetic` lane drafts exact rational
-chaining and explicit grid quantization under the new selected profile, without
-changing either frozen lane or the finite default. Its
-[lane rules](docs/protocol/v1/lane-aeonic-rational-arithmetic.md) describe the
-source/schema pins, candidate limits, artifact-only validation and future SUT
-invocation. Artifact checks and runner unit tests do not establish implementation
-conformance or advertised capacity.
+The immutable local `aeonic-rational-arithmetic-cts-v1-snapshot-0.2` target
+freezes all six exact rational/grid-quantization/materialization operations,
+351 operation cases, three actual-result chains and one law group. It pins its
+source/schema, binding and suites under `snapshots/0.2/`, plus its shared helper,
+with calibrated explicit selected limits. The runner recognizes exact immutable
+manifest bytes; artifact-only checks and failed or mutable runs never establish
+stable conformance. Its separate `.next.json` target advances to snapshot 0.3.
+The [lane rules](docs/protocol/v1/lane-aeonic-rational-arithmetic.md) distinguish
+semantic claims, capacity evidence and native hardening. Finite/comparison
+snapshots, defaults and package publication retain their separate scope.

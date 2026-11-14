@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate or execute the mutable rational-arithmetic target; Python 3.9+."""
+"""Validate or execute pinned rational-arithmetic targets; Python 3.9+."""
 import argparse
 import copy
 import hashlib
@@ -24,6 +24,7 @@ NONE, MARKED = 'none-declared', 'approximation-declared'
 MODES = ('half-even', 'half-away-from-zero', 'half-toward-zero',
          'toward-zero', 'away-from-zero', 'floor', 'ceiling')
 MAX_PROTOCOL_BYTES = 8 * 1024 * 1024
+IMMUTABLE_TARGETS = {'aeonic-rational-arithmetic-cts-v1-snapshot-0.2': '1165459e1151e5cca325bc86c7d1e92de97c2b4ec115c02b10a30c59d4bc57a7'}  # Exact reviewed manifest bytes; next targets never enter this map.
 
 
 def exact(c, e='0', d=None, history=NONE):
@@ -74,10 +75,15 @@ class Runner(CommonRunner):
         self.manifest = self.read(self.manifest_path)
         meta = self.manifest['meta']
         require(meta['lane'] == LANE and meta['profile'] == PROFILE, 'Wrong rational target identity')
-        require(meta['conformance'] == dict(surface='working-next', stable=False),
-                'This runner accepts mutable working targets only')
-        require(meta['snapshot_id'] == 'aeonic-rational-arithmetic-cts-v1-snapshot-0.2',
-                'Unexpected working target identifier')
+        self.immutable = meta['conformance'] == dict(surface='rational-exact-arithmetic', stable=True, publication='local-only')
+        if self.immutable:
+            require(IMMUTABLE_TARGETS.get(meta['snapshot_id']) == self.artifacts[self.manifest_path],
+                    'Unrecognized or modified immutable rational target')
+        else:
+            require(meta['conformance'] == dict(surface='working-next', stable=False),
+                    'Expected mutable next or recognized immutable rational target')
+            require(meta['snapshot_id'] == 'aeonic-rational-arithmetic-cts-v1-snapshot-0.3',
+                    'Unexpected working target identifier')
         root = self.manifest_path.parent
 
         def pinned(base, relative, sha, json_content=True):
@@ -304,8 +310,8 @@ class Runner(CommonRunner):
             if not path.exists() or digest(path) != sha:
                 failures.append(dict(id='artifact-integrity', failure='Artifact changed during run: ' + path.name))
         status = 'failed' if failures else 'artifacts-validated' if check_only else 'passed'
-        return dict(status=status, target=self.manifest['meta']['snapshot_id'], target_status='mutable-working',
-                    stable_conformance_claim=False, semantic_execution=not check_only, **counts,
+        return dict(status=status, target=self.manifest['meta']['snapshot_id'], target_status='immutable-local' if self.immutable else 'mutable-working',
+                    stable_conformance_claim=self.immutable and not check_only and not failures, semantic_execution=not check_only, **counts,
                     sut_executions=self.executions, assertions=self.assertions,
                     manifest_sha256=self.artifacts[self.manifest_path], runner_sha256=self.artifacts[Path(__file__).resolve()],
                     specification_source_sha256=self.manifest['meta']['specification_source_sha256'],
@@ -317,7 +323,7 @@ class Runner(CommonRunner):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-rational-arithmetic/v1/aeonic-rational-arithmetic-cts.v1.next.json')
+    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-rational-arithmetic/v1/aeonic-rational-arithmetic-cts.v1.snapshot-0.2.json')
     parser.add_argument('--specs-root', type=Path, required=True)
     parser.add_argument('--check', action='store_true', help='Validate artifacts only; no semantic execution or conformance pass')
     parser.add_argument('--sut')

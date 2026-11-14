@@ -1,13 +1,19 @@
-# Aeonic rational arithmetic working lane
+# Aeonic rational arithmetic lane
 
-This separate lane exercises the explicitly selected profile
-`aeonic.operations.arithmetic.rational.v1` from the unpublished working source
-`sources/aes/v1/aeonic-rational-arithmetic-v1.aeon` and schema
-`resources/aeonic-operations/v1/rational-arithmetic-contract.schema.json` in
-`aeonite-specs`. The mutable manifest is
-`cts/aeonic-rational-arithmetic/v1/aeonic-rational-arithmetic-cts.v1.next.json`,
-identified as `aeonic-rational-arithmetic-cts-v1-snapshot-0.2`. There is no frozen
-target or stable claim. The finite arithmetic/comparison lanes remain unchanged.
+The immutable local target is
+`aeonic-rational-arithmetic-cts-v1-snapshot-0.2`, exposed by
+`cts/aeonic-rational-arithmetic/v1/aeonic-rational-arithmetic-cts.v1.snapshot-0.2.json`.
+It pins the source/schema under
+`resources/aeonic-operations/v1/snapshots/0.2/` in `aeonite-specs`, aligned with
+`aeonic-rational-arithmetic-specs-v1-snapshot-0.2`. Proposal lifecycle and disabled
+publication remain unchanged. Existing finite/comparison targets retain their
+own claims and defaults.
+
+The mutable `.next.json` target advances to
+`aeonic-rational-arithmetic-cts-v1-snapshot-0.3` and continues to pin the working
+source/schema. Its results are development evidence and never establish the
+snapshot 0.2 claim. The runner defaults to the frozen manifest; pass `--manifest`
+explicitly to select next.
 
 The six-operation capability requires add, subtract, multiply, divide, quantize
 and materialize over all supported authored/derived pairings. Exact normalized
@@ -28,13 +34,19 @@ use `ok: true`, empty errors/warnings and complete value/history/effective-polic
 metadata. Optional diagnostic messages and transport extensions are permitted.
 
 The runner reuses fixed strict JSON/chain helpers from the unchanged finite runner.
-Their bytes are pinned, along with source, schema, binding and suites. It also
+Their bytes are pinned, along with source, schema, binding and suites. Frozen
+manifest recognition also requires its exact hard-coded SHA-256 digest; relabeling
+or modifying a mutable or unknown manifest cannot acquire a stable claim. It also
 records its own digest and rechecks every recorded artifact after execution.
 Manifest-selected code is never imported or executed. Every invocation supplies
 the full manifest limit map, overridden by the individual companion case; native
-defaults are never conformance evidence. Candidate settings are deliberately
-modest and uncalibrated: they are not native defaults, advertised support floors,
-machine-time/memory promises or guarantees for every Cartesian combination.
+defaults are never conformance evidence. The frozen target selects 16,384 request bytes, depth 32, 1,024 numeric
+characters, 512 coefficient digits, 512 denominator digits, exponent magnitude
+1,000,000, workspace estimate 4,096 digits and 1,024 output characters. These
+settings passed independent JavaScript and Python working executions and separate
+capacity probes. Frozen claims require actual frozen-target execution. The map
+is not a native-default inference, machine-time/memory promise or guarantee for
+every Cartesian combination. Individual companion cases select their own limits.
 
 The target contains 351 explicit operation cases, three actual-result chains and
 one law group. Cases include the 28 fixed workspace companions, closed-shape and
@@ -46,7 +58,7 @@ cover arithmetic commutativity/reversal, division round trips, quantization
 idempotence/grid membership, monotonicity and history/current-evaluation consistency.
 
 Install `runners/requirements-aeonic-operations.txt` in an isolated environment.
-Artifact-only validation requires the matching draft specs checkout:
+Artifact-only validation requires the matching snapshot specs checkout:
 
 ```sh
 python runners/run_aeonic_rational_arithmetic.py \
@@ -66,7 +78,7 @@ When an implementation supplies the lane:
 python runners/run_aeonic_rational_arithmetic.py \
   --specs-root ../aeonite-specs \
   --sut 'node scripts/rational-arithmetic-cts-adapter.mjs' \
-  --cwd ../aeonic --report rational-working.json
+  --cwd ../aeonic --report rational-snapshot-0.2.json
 ```
 
 Commands use shlex without a shell. Timeout is a positive per-process harness
@@ -82,6 +94,10 @@ including the finite default when none is supplied, are unsupported here.
 Integrating facades dispatch the existing finite profile/default to its owning
 contract and retain its separate frozen regression; they must not widen the old
 validator, alter error precedence or retry another profile after failure. No
-package publication, implementation support or independent runtime capacity is
-implied by the working target. Cross-runtime positive execution is required
-before any immutable promotion.
+package publication, consumer integration or native-object hardening follows
+from the snapshot. A successful semantic run of the recognized, unmodified frozen
+target reports `target_status: immutable-local` and `stable_conformance_claim: true`.
+A failed run, artifact-only check or mutable run always reports a false claim.
+Implementation claim records retain exact authority/runner/SUT fingerprints,
+runtimes, selected limits and reports. Native default-capacity probes remain
+separate evidence; no per-operation semantic opt-out is introduced.
