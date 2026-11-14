@@ -265,3 +265,7 @@ stable conformance. Its separate `.next.json` target advances to snapshot 0.3.
 The [lane rules](docs/protocol/v1/lane-aeonic-rational-arithmetic.md) distinguish
 semantic claims, capacity evidence and native hardening. Finite/comparison
 snapshots, defaults and package publication retain their separate scope.
+
+## Unicode hardening regression data
+
+The [candidate regression contract and capability inventory](docs/conformance/unicode-hardening-candidate.md) records existing identity, casing, wildcard, UTF-16 length and search responsibilities. This implementation-test work does not promote an immutable snapshot or add a released profile/CTS claim.
