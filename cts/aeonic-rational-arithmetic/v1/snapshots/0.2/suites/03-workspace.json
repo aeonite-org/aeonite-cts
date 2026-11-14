@@ -1,0 +1,1571 @@
+{
+  "id": "03-workspace",
+  "tests": [
+    {
+      "id": "multiply-cross-cancel-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "999",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "multiply-cross-cancel-one-below",
+      "fixture": {
+        "request": {
+          "operation": "multiply",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "999",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "divide-cross-cancel-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "divide",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "0"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "divide-cross-cancel-one-below",
+      "fixture": {
+        "request": {
+          "operation": "divide",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "addition-shared-denominator-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "2",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 4
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactRational",
+            "coefficient": "1",
+            "exponent": "0",
+            "denominator": "333"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "addition-shared-denominator-one-below",
+      "fixture": {
+        "request": {
+          "operation": "add",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "2",
+                "exponent": "0",
+                "denominator": "999"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 3
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "division-factor-normalization-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "divide",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "8",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 5
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "125",
+            "exponent": "-3"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "division-factor-normalization-one-below",
+      "fixture": {
+        "request": {
+          "operation": "divide",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "8",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 4
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "division-compact-exponent-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "divide",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "3",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactRational",
+            "coefficient": "1",
+            "exponent": "1000000",
+            "denominator": "3"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "division-compact-exponent-one-below",
+      "fixture": {
+        "request": {
+          "operation": "divide",
+          "input": {
+            "left": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "history": "none-declared"
+            },
+            "right": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "3",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-general-third-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "3"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "-2"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 3
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "33",
+            "exponent": "-2"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "rounded-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "1",
+              "exponent": "-2"
+            },
+            "rounding": "half-even"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-general-third-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactRational",
+                "coefficient": "1",
+                "exponent": "0",
+                "denominator": "3"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "-2"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-grid-product-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "9",
+                "exponent": "5"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "11",
+                "exponent": "0"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 7
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "899998",
+            "exponent": "0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "rounded-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "11",
+              "exponent": "0"
+            },
+            "rounding": "half-even"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-grid-product-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "9",
+                "exponent": "5"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "11",
+                "exponent": "0"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 6
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-on-grid-large-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "1000000"
+          },
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "1",
+              "exponent": "0"
+            },
+            "rounding": "half-even"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-on-grid-large-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-small-large-nearest-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "rounded-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "1",
+              "exponent": "1000000"
+            },
+            "rounding": "half-even"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-small-large-nearest-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-small-large-away-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "rounding": "away-from-zero"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "1",
+            "exponent": "1000000"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "rounded-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "1",
+              "exponent": "1000000"
+            },
+            "rounding": "away-from-zero"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-small-large-away-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "rounding": "away-from-zero"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-small-large-negative-floor-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "-1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "rounding": "floor"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "-1",
+            "exponent": "1000000"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "rounded-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "1",
+              "exponent": "1000000"
+            },
+            "rounding": "floor"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-small-large-negative-floor-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "-1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "rounding": "floor"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-small-large-negative-ceiling-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "-1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "rounding": "ceiling"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "rounded-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "1",
+              "exponent": "1000000"
+            },
+            "rounding": "ceiling"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-small-large-negative-ceiling-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "-1",
+                "exponent": "0"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "1",
+                "exponent": "1000000"
+              },
+              "rounding": "ceiling"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-half-even-zero-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "25",
+                "exponent": "-3"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "5",
+                "exponent": "-2"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "0",
+            "exponent": "0"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "rounded-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "5",
+              "exponent": "-2"
+            },
+            "rounding": "half-even"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-half-even-zero-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "25",
+                "exponent": "-3"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "5",
+                "exponent": "-2"
+              },
+              "rounding": "half-even"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "quantize-half-away-at-limit",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "25",
+                "exponent": "-3"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "5",
+                "exponent": "-2"
+              },
+              "rounding": "half-away-from-zero"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 2
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "number": {
+            "category": "exactNumber",
+            "coefficient": "5",
+            "exponent": "-2"
+          },
+          "history": "approximation-declared"
+        },
+        "metadata": {
+          "evaluation": "rounded-for-operands",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.arithmetic.rational.v1",
+            "increment": {
+              "category": "exactNumber",
+              "coefficient": "5",
+              "exponent": "-2"
+            },
+            "rounding": "half-away-from-zero"
+          }
+        }
+      }
+    },
+    {
+      "id": "quantize-half-away-one-below",
+      "fixture": {
+        "request": {
+          "operation": "quantize",
+          "input": {
+            "value": {
+              "number": {
+                "category": "exactNumber",
+                "coefficient": "25",
+                "exponent": "-3"
+              },
+              "history": "none-declared"
+            },
+            "policy": {
+              "increment": {
+                "category": "exactNumber",
+                "coefficient": "5",
+                "exponent": "-2"
+              },
+              "rounding": "half-away-from-zero"
+            },
+            "context": {
+              "profile": "aeonic.operations.arithmetic.rational.v1"
+            }
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 4096,
+          "maxRequestDepth": 16,
+          "maxNumericCharacters": 256,
+          "maxCoefficientDigits": 64,
+          "maxDenominatorDigits": 16,
+          "maxExponentMagnitude": 1000000,
+          "maxOutputCharacters": 64,
+          "maxWorkspaceDigits": 1
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    }
+  ]
+}

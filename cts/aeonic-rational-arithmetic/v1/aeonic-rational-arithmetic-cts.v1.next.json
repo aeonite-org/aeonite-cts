@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.2.0-dev.0",
+    "version": "0.3.0-dev.0",
     "lane": "aeonic-rational-arithmetic",
     "capability": "Aeonic.Operations.Arithmetic.Rational",
     "profile": "aeonic.operations.arithmetic.rational.v1",
@@ -9,8 +9,8 @@
       "surface": "working-next",
       "stable": false
     },
-    "description": "Mutable rational arithmetic and explicit quantization draft. Artifact validation is not SUT conformance; positive resource settings need independent-runtime calibration before freezing.",
-    "snapshot_id": "aeonic-rational-arithmetic-cts-v1-snapshot-0.2",
+    "description": "Mutable rational arithmetic follow-up target. It cannot establish frozen snapshot conformance; selected limits and source/suite pins remain explicit.",
+    "snapshot_id": "aeonic-rational-arithmetic-cts-v1-snapshot-0.3",
     "specification_schema": "resources/aeonic-operations/v1/rational-arithmetic-contract.schema.json",
     "specification_source": "sources/aes/v1/aeonic-rational-arithmetic-v1.aeon",
     "binding_schema": "binding.schema.json",

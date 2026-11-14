@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "version": "0.2.0",
+    "lane": "aeonic-rational-arithmetic",
+    "capability": "Aeonic.Operations.Arithmetic.Rational",
+    "profile": "aeonic.operations.arithmetic.rational.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "rational-exact-arithmetic",
+      "stable": true,
+      "publication": "local-only"
+    },
+    "description": "Immutable exact rational arithmetic, explicit grid quantization and materialization target. 351 operation cases, three actual-result chains and one law group. Explicit selected capacities calibrated independently; no package publication or finite/comparison claim.",
+    "snapshot_id": "aeonic-rational-arithmetic-cts-v1-snapshot-0.2",
+    "specification_schema": "resources/aeonic-operations/v1/snapshots/0.2/rational-arithmetic-contract.schema.json",
+    "specification_source": "resources/aeonic-operations/v1/snapshots/0.2/aeonic-rational-arithmetic-v1.aeon",
+    "binding_schema": "snapshots/0.2/cts-binding.schema.json",
+    "shared_runner": "runners/run_aeonic_arithmetic.py",
+    "shared_runner_sha256": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+    "resource_limits": {
+      "maxRequestBytes": 16384,
+      "maxRequestDepth": 32,
+      "maxNumericCharacters": 1024,
+      "maxCoefficientDigits": 512,
+      "maxDenominatorDigits": 512,
+      "maxExponentMagnitude": 1000000,
+      "maxWorkspaceDigits": 4096,
+      "maxOutputCharacters": 1024
+    },
+    "specification_schema_sha256": "02f08ef6e58752b9d0799515c9b42190c795827f72c3f29ef4d15c54bad4fc07",
+    "specification_source_sha256": "4ade60b0c75ae6e21356ba92d338b36b66c5993065abfc977e2a4cf4a004d268",
+    "binding_schema_sha256": "2ceb9d638b7424995b7d5b3ded1ca69836126886545ffd1932837cc020e0d140",
+    "spec_snapshot_id": "aeonic-rational-arithmetic-specs-v1-snapshot-0.2"
+  },
+  "suites": [
+    {
+      "id": "01-operations",
+      "file": "snapshots/0.2/suites/01-operations.json",
+      "content_sha256": "0ba9d35295e5f84a75b31de4f9a91e2a882d488343283baf406c7533ebbe273f"
+    },
+    {
+      "id": "02-precedence",
+      "file": "snapshots/0.2/suites/02-precedence.json",
+      "content_sha256": "6968719bd9ab7023b8bdc6a826b8785e628c31fcab894b48c66203567eb93024"
+    },
+    {
+      "id": "03-workspace",
+      "file": "snapshots/0.2/suites/03-workspace.json",
+      "content_sha256": "1090eb16060ace405ec78b6fe8d55545de27ecd735db11d44e8372afbd6ef692"
+    },
+    {
+      "id": "04-chains",
+      "file": "snapshots/0.2/suites/04-chains.json",
+      "content_sha256": "2139cff925cf42a544ede39dd55b06e81c113aa6609d27bada5983ea29af56f2"
+    },
+    {
+      "id": "05-laws",
+      "file": "snapshots/0.2/suites/05-laws.json",
+      "content_sha256": "22fbcade56e7931c6d50cc948e8b8a3b1a6e95558bb0a4b18bcbe5577e7395de"
+    },
+    {
+      "id": "06-authored-admission",
+      "file": "snapshots/0.2/suites/06-authored-admission.json",
+      "content_sha256": "402b8b1d8dc07a7cc7c421f8c73c5d65f870f626cf9cd8753588c33bf967884e"
+    }
+  ]
+}

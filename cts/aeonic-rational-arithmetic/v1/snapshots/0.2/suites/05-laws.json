@@ -1,0 +1,77 @@
+{
+  "id": "05-laws",
+  "tests": [
+    {
+      "id": "rational-and-quantization-laws",
+      "kind": "laws",
+      "values": [
+        {
+          "input": {
+            "number": {
+              "category": "finiteNumber",
+              "value": "1.25"
+            }
+          },
+          "expected": {
+            "number": {
+              "category": "exactNumber",
+              "coefficient": "125",
+              "exponent": "-2"
+            },
+            "history": "none-declared"
+          }
+        },
+        {
+          "input": {
+            "number": {
+              "category": "exactRational",
+              "coefficient": "1",
+              "exponent": "0",
+              "denominator": "3"
+            },
+            "history": "none-declared"
+          },
+          "expected": {
+            "number": {
+              "category": "exactRational",
+              "coefficient": "1",
+              "exponent": "0",
+              "denominator": "3"
+            },
+            "history": "none-declared"
+          }
+        },
+        {
+          "input": {
+            "number": {
+              "category": "exactRational",
+              "coefficient": "-5",
+              "exponent": "0",
+              "denominator": "7"
+            },
+            "history": "approximation-declared"
+          },
+          "expected": {
+            "number": {
+              "category": "exactRational",
+              "coefficient": "-5",
+              "exponent": "0",
+              "denominator": "7"
+            },
+            "history": "approximation-declared"
+          }
+        }
+      ],
+      "increment": {
+        "category": "exactNumber",
+        "coefficient": "5",
+        "exponent": "-2"
+      },
+      "ascending": [
+        2,
+        1,
+        0
+      ]
+    }
+  ]
+}
