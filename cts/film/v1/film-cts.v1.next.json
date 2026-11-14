@@ -14,7 +14,8 @@
       "surface": "experimental",
       "experimental_default": "exclude"
     },
-    "expected_test_count": 130
+    "expected_test_count": 130,
+    "specification_revision": "242daa4214237cdc70d512b593c126615ab0556b"
   },
   "suites": [
     {

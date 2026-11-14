@@ -232,7 +232,12 @@ class FilmGenericDepthTests(unittest.TestCase):
         selected = sum(len(json.loads((ROOT / ref["file"]).read_text())["tests"])
                        - len(ref.get("exclude_tests", [])) for ref in next_manifest["suites"])
         self.assertEqual(37, len(SUITE["tests"]))
-        self.assertEqual(128, selected)
+        empty_selected = sum(len(json.loads((ROOT / ref["file"]).read_text())["tests"])
+                             - len(ref.get("exclude_tests", [])) for ref in next_manifest["suites"]
+                             if ref["file"].endswith("07-next-empty-keys.json"))
+        self.assertEqual(128, selected - empty_selected)
+        self.assertEqual(2, empty_selected)
+        self.assertEqual(130, selected)
 
 
 if __name__ == "__main__":
