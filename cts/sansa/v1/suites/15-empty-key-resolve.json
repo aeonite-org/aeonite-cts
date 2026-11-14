@@ -8,7 +8,7 @@
     ]
   },
   "id": "empty-key-resolve",
-  "title": "Empty Property Keys — sansa-resolve",
+  "title": "Empty Property Keys \u2014 sansa-resolve",
   "tests": [
     {
       "id": "sansa-resolve-empty-key-root",
@@ -18,7 +18,7 @@
       },
       "expected": {
         "ok": true,
-        "bindings": [
+        "addresses": [
           "$"
         ]
       },
@@ -35,7 +35,7 @@
       },
       "expected": {
         "ok": true,
-        "bindings": [
+        "addresses": [
           "$.[\"\"]"
         ]
       },
@@ -52,7 +52,7 @@
       },
       "expected": {
         "ok": true,
-        "bindings": [
+        "addresses": [
           "$.[\"\"].[\"\"]"
         ]
       },
@@ -69,7 +69,7 @@
       },
       "expected": {
         "ok": true,
-        "bindings": [
+        "addresses": [
           "$.[\"\"].@.[\"\"]"
         ]
       },
@@ -86,7 +86,7 @@
       },
       "expected": {
         "ok": true,
-        "bindings": [
+        "addresses": [
           "$.[\" \"]"
         ]
       },
@@ -103,7 +103,7 @@
       },
       "expected": {
         "ok": true,
-        "bindings": []
+        "addresses": []
       },
       "tags": [
         "experimental",

@@ -130,7 +130,7 @@ independent component/argument/clarifier/byte limits, malformed leaves and early
 rejection before further descent. Exactly one additional old expectation is
 excluded only in next: its original full optional-field bytes are retained in
 a new depth-zero acceptance case, while true depth exhaustion has new negative
-cases. Film next selects 128 operations; released Film 0.3 stays at 92, with
+cases. Film next selects 130 operations; released Film 0.3 stays at 92, with
 its manifests, suite bytes and hashes unchanged. These development expectations
 expose the pending codec correction, not a claim that existing readers pass.
 
