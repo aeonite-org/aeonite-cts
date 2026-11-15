@@ -1,0 +1,43 @@
+name: Civil date-time working contract
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runner-and-artifacts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.9', '3.14']
+    defaults:
+      run:
+        working-directory: aeonite-cts
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          path: aeonite-cts
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          repository: aeonite-org/aeonite-specs
+          ref: 4932f7f8a0df08eed730f559b9c43b69e06f25b2
+          path: aeonite-specs
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install runner dependencies
+        run: python3 -m pip install -r runners/requirements-aeonic-operations.txt
+      - name: Verify runner and assertion sensitivity
+        run: python3 -m unittest discover -s runners -p test_aeonic_temporal_civil_datetime_runner.py -v
+      - name: Validate complete mutable capability selections
+        run: |
+          python3 runners/run_aeonic_temporal_civil_datetime.py --specs-root ../aeonite-specs --capability-set relations --check
+          python3 runners/run_aeonic_temporal_civil_datetime.py --specs-root ../aeonite-specs --capability-set arithmetic --check
+          python3 runners/run_aeonic_temporal_civil_datetime.py --specs-root ../aeonite-specs --capability-set all --check

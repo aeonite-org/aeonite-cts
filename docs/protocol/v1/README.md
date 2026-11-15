@@ -16,6 +16,7 @@ Normative protocol documents for CTS runner/SUT contracts.
 - `lane-canonical.md` - canonical formatting lane payload contract.
 - `lane-sansa.md` - SANSA Addressing, Resolve, and Query suite contract notes.
 - `lane-aeonic-operations.md` - typed scalar comparison, symbolic results, policies, resource boundaries and capability selection.
+- `lane-aeonic-temporal-civil-datetime.md` - exact unqualified civil date-time sets, independent complete capabilities and portable admission.
 - `sut-envelope.md` - AEOS compatibility contract retained for transition.
 - `sut-invocation-examples.md` - non-normative examples for working-directory and environment-aware SUT launches.
 

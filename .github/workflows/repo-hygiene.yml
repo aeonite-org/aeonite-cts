@@ -15,6 +15,7 @@ jobs:
   local-path-hygiene:
     runs-on: ubuntu-latest
     env:
+      AEONIC_DATETIME_SPECS_ROOT: ${{ github.workspace }}/datetime-specs
       AEONIC_TEMPORAL_SPECS_ROOT: ${{ github.workspace }}/temporal-specs
       SANSA_PROPERTY_SPECS_ROOT: ${{ github.workspace }}/property-specs
     defaults:
@@ -40,6 +41,13 @@ jobs:
           repository: aeonite-org/aeonite-specs
           ref: 279a7679d654dbf135296650e25038ca5bd5b037
           path: temporal-specs
+
+      - name: Checkout civil date-time specification dependency
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          repository: aeonite-org/aeonite-specs
+          ref: 4932f7f8a0df08eed730f559b9c43b69e06f25b2
+          path: datetime-specs
 
       - name: Checkout unpublished property contract dependency
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4

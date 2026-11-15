@@ -347,6 +347,19 @@ What it still lacks is not breadth so much as explicit review framing:
 - a clearer statement of which diagnostics are validator-contract guarantees
 - a short list of AEOS-specific feeder surfaces for future expansion
 
+## Unqualified civil date-time operations
+
+The mutable `aeonic-temporal-civil-datetime` lane contains 140 operation vectors,
+four actual-result chains and an eight-value endpoint-aware relation-law group.
+Full selection executes 341 operation calls plus transitivity assertions.
+Relations and Arithmetic are independent complete capabilities with no semantic
+opt-outs. Point/interval sets preserve open bounds, missing-point gaps, date/clock
+correlation and exact finite fractions. Calendar, clock, form matching, history
+and all 15 resource dimensions have explicit boundary vectors. Artifact checks
+and checker sensitivity/replay controls are tooling evidence, not a temporal SUT
+claim or machine capacity calibration. The [lane rules](docs/protocol/v1/lane-aeonic-temporal-civil-datetime.md)
+record assertion coverage, pins and failure ordering. No immutable target exists.
+
 ## Proposed property selector preparation
 
 The [experimental property-only target](docs/protocol/v1/lane-sansa-properties-preparation.md)

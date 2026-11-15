@@ -297,3 +297,21 @@ snapshots, defaults and package publication retain their separate scope.
 ## Unicode hardening regression data
 
 The [candidate regression contract and capability inventory](docs/conformance/unicode-hardening-candidate.md) records existing identity, casing, wildcard, UTF-16 length and search responsibilities. This implementation-test work does not promote an immutable snapshot or add a released profile/CTS claim.
+
+## Unqualified civil date-time working target
+
+The [date-time lane](docs/protocol/v1/lane-aeonic-temporal-civil-datetime.md)
+provides independent complete Relations and Arithmetic capability selections.
+The explicitly selected profile preserves exact point/interval sets, endpoint
+inclusion, reduced dates/clocks, independent origins and sticky clamping and
+approximation histories. It covers calendar shifts, exact finite-decimal clock
+coordinate shifts, complete-calendar-period steps and exact materialization.
+
+Run `python3 runners/run_aeonic_temporal_civil_datetime.py --specs-root ...
+--capability-set relations|arithmetic|all --check` to validate artifacts. The
+mutable target has 140 operation cases, four live-result chains and one eight-
+value relation-law group. All selected semantic cases are mandatory. Reports
+always set `stable_conformance_claim: false`; checker tests and replay controls
+establish neither SUT conformance nor native capacity. Existing snapshots and
+their default targets remain unchanged. Timezone/WTC and elapsed-time authority
+are separate from this unqualified civil-coordinate contract.
