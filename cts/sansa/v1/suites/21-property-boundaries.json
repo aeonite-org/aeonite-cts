@@ -1,0 +1,464 @@
+{
+  "meta": {
+    "suite_id": "property-boundaries",
+    "lane": "sansa-properties",
+    "capability": "SANSA.Resolve",
+    "profile": "sansa-properties-read-only-candidate-0.1",
+    "sut_protocol": "sansa-properties-preparation-v0.1",
+    "spec_refs": [
+      "aeonite-specs/sources/sansa/v1/property-selectors-v1.aeon"
+    ]
+  },
+  "id": "property-boundaries",
+  "title": "Property candidate boundaries",
+  "tests": [
+    {
+      "id": "sansa-properties-deny-mutate-text",
+      "description": "deny mutate text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Mutate",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        },
+        "error": "SANSA_MUTATE_NON_EXACT_TARGET"
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-mutate-ast",
+      "description": "deny mutate ast",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Mutate",
+        "ast": {
+          "type": "SansaAddress",
+          "root": {
+            "type": "root",
+            "kind": "absolute"
+          },
+          "selectors": [
+            {
+              "type": "member",
+              "name": "document",
+              "quoted": false
+            },
+            {
+              "type": "propertyFilter",
+              "property": "key",
+              "value": "document"
+            }
+          ],
+          "qualifierExpression": null,
+          "canonical": "$.ordinary",
+          "isExact": true
+        }
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        },
+        "error": "SANSA_MUTATE_NON_EXACT_TARGET"
+      },
+      "covers": [
+        "consumer-denial",
+        "ast"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-instruction-text",
+      "description": "deny instruction text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Instruction",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        },
+        "error": "SANSA_RESOLVE_UNSUPPORTED_SELECTOR"
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-instruction-ast",
+      "description": "deny instruction ast",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Instruction",
+        "ast": {
+          "type": "SansaAddress",
+          "root": {
+            "type": "root",
+            "kind": "absolute"
+          },
+          "selectors": [
+            {
+              "type": "member",
+              "name": "document",
+              "quoted": false
+            },
+            {
+              "type": "propertyFilter",
+              "property": "key",
+              "value": "document"
+            }
+          ],
+          "qualifierExpression": null,
+          "canonical": "$.ordinary",
+          "isExact": true
+        }
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        },
+        "error": "SANSA_RESOLVE_UNSUPPORTED_SELECTOR"
+      },
+      "covers": [
+        "consumer-denial",
+        "ast"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-activation-text",
+      "description": "deny activation text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Activation",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        },
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED"
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-activation-ast",
+      "description": "deny activation ast",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Activation",
+        "ast": {
+          "type": "SansaAddress",
+          "root": {
+            "type": "root",
+            "kind": "absolute"
+          },
+          "selectors": [
+            {
+              "type": "member",
+              "name": "document",
+              "quoted": false
+            },
+            {
+              "type": "propertyFilter",
+              "property": "key",
+              "value": "document"
+            }
+          ],
+          "qualifierExpression": null,
+          "canonical": "$.ordinary",
+          "isExact": true
+        }
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        },
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED"
+      },
+      "covers": [
+        "consumer-denial",
+        "ast"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-graph-text",
+      "description": "deny graph text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Graph",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-aeospath-text",
+      "description": "deny aeospath text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "AEOSPath",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-aeosselector-text",
+      "description": "deny aeosselector text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "AEOSSelector",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-typetranspiler-text",
+      "description": "deny typetranspiler text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "TypeTranspiler",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-eventpath-text",
+      "description": "deny eventpath text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "EventPath",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-storagepath-text",
+      "description": "deny storagepath text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "StoragePath",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-clonereference-text",
+      "description": "deny clonereference text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "CloneReference",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-pointerreference-text",
+      "description": "deny pointerreference text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "PointerReference",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-deny-so-text",
+      "description": "deny so text",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "SO",
+        "source": "$.document&key(\"document\")"
+      },
+      "expected": {
+        "ok": false,
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "key": 0,
+          "nodeHeads": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-activation-trusted",
+      "description": "activation trusted",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Activation",
+        "source": "$.document&tag(\"catalog\")",
+        "activation": "trusted"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "nodeTag": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    },
+    {
+      "id": "sansa-properties-activation-constrained",
+      "description": "activation constrained",
+      "input": {
+        "operation": "consumer-boundary",
+        "namespace": "properties",
+        "consumer": "Activation",
+        "source": "$.document&tag(\"catalog\")",
+        "activation": "constrained"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_QUERY_PATH_ACTIVATION_DENIED",
+        "mustNotResolve": true,
+        "calls": {
+          "scope": 0,
+          "nodeTag": 0
+        }
+      },
+      "covers": [
+        "consumer-denial"
+      ]
+    }
+  ]
+}

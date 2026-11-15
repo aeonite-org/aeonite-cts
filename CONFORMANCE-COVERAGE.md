@@ -346,3 +346,12 @@ What it still lacks is not breadth so much as explicit review framing:
 - tighter mapping from AEOS spec sections to AEOS behavior families
 - a clearer statement of which diagnostics are validator-contract guarantees
 - a short list of AEOS-specific feeder surfaces for future expansion
+
+## Proposed property selector preparation
+
+The [experimental property-only target](docs/protocol/v1/lane-sansa-properties-preparation.md)
+prepares syntax/AST, authorized incoming keys and direct-head tags, scope/ownership,
+order/multiplicity, inspection/iterator budgets, Query records and denied-consumer
+expectations. Its 149 cases are **not executed conformance coverage**. They remain
+excluded by default pending owning review, runtime adapters and an executable lane
+protocol. Existing snapshots, selections and capability claims are unchanged.
