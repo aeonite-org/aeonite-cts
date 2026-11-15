@@ -151,6 +151,30 @@ class CivilDateTimeRunnerTests(unittest.TestCase):
         make.assert_not_called()
         self.assertEqual(positive_cost(logical,spans),(89,60))
 
+    def test_target_work_guard_precedes_target_template_at_two_period_sizes(self):
+        for text,dg,n in [('2024-02T09:30','month',29),('2024-T09:30','year',366)]:
+            logical=dict(operation='step',input=dict(value=dict(temporal=dict(category='civilDateTime',value=text)),policy=dict(profile=PROFILE,dateGranularity=dg,clockForm='minute',count='1')))
+            spans=[coverage(logical['input']['value'],512)]
+            with patch('temporal_civil_datetime_checks.coverage',wraps=coverage) as expand:
+                with self.assertRaisesRegex(ValueError,'Target template work'):
+                    positive_cost(logical,spans,dict(LIMITS,maxWork=2*n))
+            self.assertEqual(expand.call_count,1)  # Source only; no target expansion.
+            self.assertGreater(positive_cost(logical,spans)[0],2*n)
+
+    def test_raised_decimal_allowances_do_not_use_host_integer_text_ceiling(self):
+        import sys
+        ceiling=sys.get_int_max_str_digits() if hasattr(sys,'get_int_max_str_digits') else None
+        limits=dict(LIMITS,maxTemporalCharacters=6000,maxFractionDigits=5000,maxNumericCharacters=6000,maxWorkspaceDigits=6000)
+        for n in [4400,5000]:
+            text='2024-03-01T09:30:00.'+'1'*n
+            value=coordinate(text,limits)
+            self.assertEqual(format_coordinate(value),text)
+            literal=dict(temporal=dict(category='civilDateTime',value=text))
+            self.assertEqual(coverage(literal,1,limits)[0][0],value)
+            amount=dict(number=dict(category='finiteNumber',value='1e'+'0'*n+'1'))
+            self.assertEqual(decimal_properties(amount,limits),('1',1))
+        if ceiling is not None:self.assertEqual(sys.get_int_max_str_digits(),ceiling)
+
     def test_numeric_workspace_guard_avoids_amount_expansion(self):
         logical=dict(operation='shiftClock',input=dict(amount=dict(number=dict(category='finiteNumber',value='1e-1000000'))))
         spans=[[(coordinate('2024-03-01T09:30:00'),)*2+(True,True)]]

@@ -5,6 +5,7 @@ from fractions import Fraction
 import re
 
 from run_aeonic_arithmetic import require
+from run_aeonic_rational_arithmetic import decimal_integer
 from temporal_civil_date_checks import compact_bytes, decode_artifact, validate_pointer_text
 
 PROFILE = 'aeonic.operations.temporal.civil-datetime.v1'
@@ -51,7 +52,28 @@ def coordinate(text, limits=LIMITS, generated=False):
     d = date.fromisoformat(ds)
     require(d.isoformat() == ds and int(hh) < 24 and int(mm) < 60 and int(ss) < 60,
             'Invalid coordinate fields')
-    return Fraction((d.toordinal()-1)*86400 + int(hh)*3600 + int(mm)*60 + int(ss)) + (Fraction(int(fraction), 10**len(fraction)) if fraction else 0)
+    return Fraction((d.toordinal()-1)*86400 + int(hh)*3600 + int(mm)*60 + int(ss)) + (Fraction(decimal_integer(fraction), 10**len(fraction)) if fraction else 0)
+
+
+def decimal_text(value):
+    """Render admitted integers without Python's process-global decimal ceiling."""
+    if value == 0:
+        return '0'
+    sign = '-' if value < 0 else ''
+    value = abs(value); chunks = []
+    while value:
+        value, remainder = divmod(value, 10**9)
+        chunks.append('%09d' % remainder)
+    return sign + chunks[-1].lstrip('0') + ''.join(reversed(chunks[:-1]))
+
+
+def decimal_factors(denominator):
+    twos = (denominator & -denominator).bit_length() - 1
+    denominator >>= twos; fives = 0
+    while denominator % 5 == 0:
+        denominator //= 5; fives += 1
+    require(denominator == 1, 'Coordinate is not finite decimal')
+    return twos, fives
 
 
 def format_coordinate(x):
@@ -61,12 +83,9 @@ def format_coordinate(x):
     text = '%04d-%02d-%02dT%02d:%02d:%02d' % (d.year,d.month,d.day,sec//3600,sec//60%60,sec%60)
     f = x-whole
     if f:
-        denominator=f.denominator; twos=fives=0
-        while denominator%2 == 0: denominator//=2; twos+=1
-        while denominator%5 == 0: denominator//=5; fives+=1
-        require(denominator == 1, 'Coordinate is not finite decimal')
+        twos,fives=decimal_factors(f.denominator)
         scale=max(twos,fives)
-        digits=str(f.numerator * 2**(scale-twos) * 5**(scale-fives)).zfill(scale).rstrip('0')
+        digits=decimal_text(f.numerator * 2**(scale-twos) * 5**(scale-fives)).zfill(scale).rstrip('0')
         text+='.'+digits
     return text
 
@@ -89,7 +108,7 @@ def coverage(bundle, maximum, limits=LIMITS, generated=False):
         first=date(int(ds[:4]), int(ds[5:7]) if gran!='year' else 1, int(ds[8:10]) if gran=='day' else 1)
         first,n=period(first,gran); require(n <= maximum, 'Literal expansion exceeds piece allowance')
         sec=Fraction(int(hh)*3600 + (int(mm)*60 if mm is not None else 0) + (int(ss) if ss is not None else 0))
-        if fraction: sec+=Fraction(int(fraction),10**len(fraction))
+        if fraction: sec+=Fraction(decimal_integer(fraction),10**len(fraction))
         width=3600 if mm is None else 60 if ss is None else 0
         return [(Fraction((first.toordinal()-1+i)*86400)+sec, Fraction((first.toordinal()-1+i)*86400)+sec+width, True, width==0) for i in range(n)]
     require(td['category']=='civilDateTimeSet', 'Deferred temporal domain')
@@ -126,7 +145,7 @@ def decimal_properties(bundle, limits=LIMITS):
         require(m is not None, 'Invalid finite amount'); sign,mantissa,exp=m.groups(); exp=exp or '0'
         digits=exp.lstrip('+-').lstrip('0') or '0'; maximum=str(limits['maxExponentMagnitude'])
         require(len(digits)<len(maximum) or (len(digits)==len(maximum) and digits<=maximum), 'Authored exponent exceeds allowance')
-        exponent=int(exp); fractional=len(mantissa.split('.')[1]) if '.' in mantissa else 0
+        exponent=int(('-' if exp.startswith('-') else '')+digits); fractional=len(mantissa.split('.')[1]) if '.' in mantissa else 0
         coefficient=mantissa.replace('.','').lstrip('0')
         if not coefficient: coefficient='0'; exponent=0
         else:
@@ -146,7 +165,7 @@ def decimal_properties(bundle, limits=LIMITS):
 def template(logical, spans, maximum, limits=LIMITS, target=False):
     """Construct the single selected complete form; not a shift implementation."""
     p=logical['input']['policy']; dg=p['dateGranularity']; cf=p['clockForm']; x=spans[0][0]
-    first=date.fromordinal(int(x//86400)+1); first,n=period(first,dg)
+    first=date.fromordinal(int(x//86400)+1); first,n=period(first,dg); source_count=n
     if target:
         count=p['count']; require(len(count)<=limits['maxCountCharacters'] and len(count.lstrip('-'))<=7,'Positive step count exceeds domain')
         count=int(count)
@@ -155,6 +174,8 @@ def template(logical, spans, maximum, limits=LIMITS, target=False):
             index=(first.year-1)*12+first.month-1+count; first=date(index//12+1,index%12+1,1)
         else:first+=timedelta(days=count)
         first,n=period(first,dg)
+    if target:
+        require(len(spans)+source_count+n<=limits['maxWork'],'Target template work exceeds allowance')
     require(n<=maximum,'Template expansion exceeds allowance')
     clock=format_coordinate(x).split('T')[1]
     clock=clock[:2] if cf=='hour' else clock[:5] if cf=='minute' else clock
@@ -168,8 +189,8 @@ def positive_cost(logical, spans, limits=LIMITS):
     if op in CAPABILITIES['relations'][1]:return sum(map(len,spans)),0
     if op=='shiftClock':
         c,e=decimal_properties(logical['input']['amount'],limits)
-        # Decimal denominators are powers of 2 and 5; use canonical text to count precision.
-        f=max(len(format_coordinate(x).split('.')[1]) if '.' in format_coordinate(x) else 0 for part in spans[0] for x in part[:2] if x<B)
+        # Reduced decimal denominators determine precision without rendering text.
+        f=max(max(decimal_factors(x.denominator)) for part in spans[0] for x in part[:2] if x<B)
         q=max(f,max(0,-e));require((0 if c=='0' else 13+q)<=limits['maxWorkspaceDigits'],'Clock workspace exceeds allowance')
         require(c=='0' or max(0,-e)<=limits['maxFractionDigits'],'Generated fraction exceeds allowance')
         return P,P
