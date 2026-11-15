@@ -24,6 +24,14 @@ manifest pins frozen source/schema, binding, suites and helpers. Mutable next
 advances separately to 0.2 and cannot establish a stable claim. Existing targets
 are unchanged. Implementation adoption and native capacity require separate evidence.
 
+## SANSA property selector preparation
+
+The [property-only preparation target](docs/protocol/v1/lane-sansa-properties-preparation.md)
+adds 149 experimental expectations for proposed key/tag filtering. It is excluded
+by default and unimplemented. Its explicit `--check` command validates artifacts
+without executing a SUT or establishing conformance; existing targets and claims
+are unchanged.
+
 ## Authority
 
 This repo is conformance-authoritative.
