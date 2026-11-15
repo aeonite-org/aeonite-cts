@@ -10,7 +10,8 @@
     "event_contract": "aes.events.v1",
     "format": "film.aes",
     "format_version": "1",
-    "byte_encoding": "lowercase-hex"
+    "byte_encoding": "lowercase-hex",
+    "specification_revision": "e3def93d945611ee950ff7e789b8caf48b5825a3"
   },
   "id": "next-film-empty-keys",
   "title": "Empty Property Keys \u2014 aes-film",

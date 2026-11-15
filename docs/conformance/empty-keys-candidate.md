@@ -67,6 +67,10 @@ all suite references, exclusions, IDs and existing pinned digests.
 This amendment does not assign a new specification revision or snapshot ID to
 released consumers. The moving Film manifest no longer presents its older
 generic-depth specification revision as the revision for the entire expanded
-target. Existing immutable targets retain their revision metadata and hashes.
+target. Its generic-depth suite retains its historical suite-specific pin; the
+new empty-key Film suite pins amended draft source
+`e3def93d945611ee950ff7e789b8caf48b5825a3`. The regression checks both
+per-suite pins and the absence of a misleading whole-target revision. Existing
+immutable targets retain their revision metadata and hashes.
 Draft source review is merged; new immutable CTS promotion, complete runtime
 qualification and released claim updates remain release work.
