@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.1.0-dev.0",
+    "version": "0.2.0-dev.0",
     "lane": "aeonic-temporal-civil-date",
     "profile": "aeonic.operations.temporal.civil-date.v1",
     "capabilities": {
@@ -26,8 +26,8 @@
       "surface": "working-next",
       "stable": false
     },
-    "description": "Mutable civil-date target. Relations/calendar are independent complete capabilities. Artifact validation is not semantic execution; no immutable recognition or implementation claim.",
-    "snapshot_id": "aeonic-temporal-civil-date-cts-v1-snapshot-0.1",
+    "description": "Mutable next civil-date target. Independent complete Relations and Calendar capabilities; no stable conformance claim. Frozen snapshot 0.1 remains separate.",
+    "snapshot_id": "aeonic-temporal-civil-date-cts-v1-snapshot-0.2",
     "specification_schema": "resources/aeonic-operations/v1/civil-date-contract.schema.json",
     "specification_source": "sources/aes/v1/aeonic-temporal-civil-date-v1.aeon",
     "binding_schema": "binding.schema.json",
@@ -49,7 +49,7 @@
     "specification_schema_sha256": "716c72d3a688dbd4c2f7fbf888b30bc45788b995d3c3f930e7c5afa06cb1305f",
     "specification_source_sha256": "1daa5f02c00b4616f6b4c923c4c1d91d373d5eb6cb800243d2a7607fb978fe83",
     "binding_schema_sha256": "1c44e40781c95cc5c6d008abf363750c5a4ffc04ec8a075bad045d45dd183eba",
-    "specification_revision": "83a868282684c302c2e92accc68b7e390d96e911"
+    "specification_revision": "279a7679d654dbf135296650e25038ca5bd5b037"
   },
   "suites": [
     {

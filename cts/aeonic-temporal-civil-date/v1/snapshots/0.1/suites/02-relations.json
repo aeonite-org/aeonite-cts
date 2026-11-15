@@ -1,0 +1,1709 @@
+{
+  "id": "02-relations",
+  "tests": [
+    {
+      "id": "equal-authored-derived-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "day",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "clamping-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "equal-authored-derived-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "day",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "clamping-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "equal-authored-derived-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-31"
+                  }
+                ]
+              },
+              "originGranularity": "day",
+              "history": "clamping-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "clamping-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-contains-day-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-15"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-contains-day-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-15"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-contains-day-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-15"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "day-contained-by-month-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-15"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "day-contained-by-month-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-15"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "day-contained-by-month-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-15"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "containedBy"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-before-month-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-before-month-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-before-month-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-after-month-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-after-month-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "month-after-month-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "partial-overlap-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-15"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-10",
+                    "end": "2024-03-20"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "partial-overlap-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-15"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-10",
+                    "end": "2024-03-20"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "partial-overlap-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-15"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-10",
+                    "end": "2024-03-20"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "overlaps"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "interleaved-disjoint-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-03",
+                    "end": "2024-03-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-02"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "interleaved-disjoint-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-03",
+                    "end": "2024-03-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-02"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "interleaved-disjoint-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-03",
+                    "end": "2024-03-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03-02"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-contains-month-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-contains-month-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-contains-month-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "nonidentical-disconnected-sets-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-03",
+                    "end": "2024-03-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-04",
+                    "end": "2024-03-04"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "nonidentical-disconnected-sets-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-03",
+                    "end": "2024-03-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-04",
+                    "end": "2024-03-04"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "nonidentical-disconnected-sets-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-03",
+                    "end": "2024-03-03"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  },
+                  {
+                    "start": "2024-03-04",
+                    "end": "2024-03-04"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "overlaps"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "same-day-history-independent-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "0001-01-01"
+              },
+              "history": "clamping-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "0001-01-01"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "clamping-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "same-day-history-independent-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "0001-01-01"
+              },
+              "history": "clamping-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "0001-01-01"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "clamping-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "same-day-history-independent-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "0001-01-01"
+              },
+              "history": "clamping-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "0001-01-01"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "clamping-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "missing-last-days-not-equal-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "missing-last-days-not-equal-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    },
+    {
+      "id": "missing-last-days-not-equal-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "containedBy"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-date.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          }
+        }
+      }
+    }
+  ]
+}

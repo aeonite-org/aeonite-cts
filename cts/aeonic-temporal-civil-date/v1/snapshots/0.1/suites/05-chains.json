@@ -1,0 +1,386 @@
+{
+  "id": "05-chains",
+  "tests": [
+    {
+      "id": "preserve-range-restriction",
+      "kind": "chain",
+      "requires": [
+        "calendar",
+        "relations"
+      ],
+      "steps": [
+        {
+          "request": {
+            "operation": "shift",
+            "input": {
+              "value": {
+                "temporal": {
+                  "category": "civilDate",
+                  "value": "2024-02"
+                }
+              },
+              "context": {
+                "profile": "aeonic.operations.temporal.civil-date.v1"
+              },
+              "policy": {
+                "unit": "month",
+                "count": "1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-date.v1",
+                "unit": "month",
+                "count": "1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "shift",
+            "input": {
+              "value": {
+                "temporal": {
+                  "category": "civilDateSet",
+                  "ranges": [
+                    {
+                      "start": "2024-03-01",
+                      "end": "2024-03-29"
+                    }
+                  ]
+                },
+                "originGranularity": "month",
+                "history": "none-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.temporal.civil-date.v1"
+              },
+              "policy": {
+                "unit": "day",
+                "count": "1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-02",
+                    "end": "2024-03-30"
+                  }
+                ]
+              },
+              "originGranularity": "month",
+              "history": "none-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-date.v1",
+                "unit": "day",
+                "count": "1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "relate",
+            "input": {
+              "left": {
+                "temporal": {
+                  "category": "civilDateSet",
+                  "ranges": [
+                    {
+                      "start": "2024-03-02",
+                      "end": "2024-03-30"
+                    }
+                  ]
+                },
+                "originGranularity": "month",
+                "history": "none-declared"
+              },
+              "right": {
+                "temporal": {
+                  "category": "civilDate",
+                  "value": "2024-03"
+                }
+              },
+              "context": {
+                "profile": "aeonic.operations.temporal.civil-date.v1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "category": "symbol",
+              "value": "containedBy"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-date.v1"
+              },
+              "operandHistory": {
+                "left": "none-declared",
+                "right": "none-declared"
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "value"
+        },
+        {
+          "fromStep": 1,
+          "toStep": 2,
+          "input": "left"
+        }
+      ]
+    },
+    {
+      "id": "clamping-history-through-materialization",
+      "kind": "chain",
+      "requires": [
+        "calendar"
+      ],
+      "steps": [
+        {
+          "request": {
+            "operation": "shift",
+            "input": {
+              "value": {
+                "temporal": {
+                  "category": "civilDate",
+                  "value": "2023-01-31"
+                }
+              },
+              "context": {
+                "profile": "aeonic.operations.temporal.civil-date.v1"
+              },
+              "policy": {
+                "unit": "month",
+                "count": "1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-02-28",
+                    "end": "2023-02-28"
+                  }
+                ]
+              },
+              "originGranularity": "day",
+              "history": "clamping-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-date.v1",
+                "unit": "month",
+                "count": "1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "shift",
+            "input": {
+              "value": {
+                "temporal": {
+                  "category": "civilDateSet",
+                  "ranges": [
+                    {
+                      "start": "2023-02-28",
+                      "end": "2023-02-28"
+                    }
+                  ]
+                },
+                "originGranularity": "day",
+                "history": "clamping-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.temporal.civil-date.v1"
+              },
+              "policy": {
+                "unit": "day",
+                "count": "1"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-03-01",
+                    "end": "2023-03-01"
+                  }
+                ]
+              },
+              "originGranularity": "day",
+              "history": "clamping-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-date.v1",
+                "unit": "day",
+                "count": "1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "materialize",
+            "input": {
+              "value": {
+                "temporal": {
+                  "category": "civilDateSet",
+                  "ranges": [
+                    {
+                      "start": "2023-03-01",
+                      "end": "2023-03-01"
+                    }
+                  ]
+                },
+                "originGranularity": "day",
+                "history": "clamping-declared"
+              },
+              "context": {
+                "profile": "aeonic.operations.temporal.civil-date.v1"
+              },
+              "policy": {
+                "granularity": "day"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2023-03-01"
+              },
+              "history": "clamping-declared",
+              "originGranularity": "day"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-date.v1",
+                "granularity": "day"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "step",
+            "input": {
+              "value": {
+                "temporal": {
+                  "category": "civilDate",
+                  "value": "2023-03-01"
+                },
+                "history": "clamping-declared",
+                "originGranularity": "day"
+              },
+              "context": {
+                "profile": "aeonic.operations.temporal.civil-date.v1"
+              },
+              "policy": {
+                "granularity": "day",
+                "count": "0"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2023-03-01",
+                    "end": "2023-03-01"
+                  }
+                ]
+              },
+              "originGranularity": "day",
+              "history": "clamping-declared"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-date.v1",
+                "granularity": "day",
+                "count": "0"
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "value"
+        },
+        {
+          "fromStep": 1,
+          "toStep": 2,
+          "input": "value"
+        },
+        {
+          "fromStep": 2,
+          "toStep": 3,
+          "input": "value"
+        }
+      ]
+    }
+  ]
+}

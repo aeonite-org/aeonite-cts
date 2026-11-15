@@ -1,0 +1,62 @@
+{
+  "id": "06-laws",
+  "tests": [
+    {
+      "id": "exact-date-set-laws",
+      "kind": "laws",
+      "requires": [
+        "relations"
+      ],
+      "values": [
+        {
+          "temporal": {
+            "category": "civilDate",
+            "value": "2024-02-29"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDate",
+            "value": "2024-03"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDate",
+            "value": "2024-03-15"
+          },
+          "history": "clamping-declared"
+        },
+        {
+          "temporal": {
+            "category": "civilDate",
+            "value": "2024-04"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDateSet",
+            "ranges": [
+              {
+                "start": "2024-03-01",
+                "end": "2024-03-01"
+              },
+              {
+                "start": "2024-03-03",
+                "end": "2024-03-03"
+              }
+            ]
+          },
+          "originGranularity": "undeclared",
+          "history": "none-declared"
+        },
+        {
+          "temporal": {
+            "category": "civilDate",
+            "value": "2024-03-02"
+          }
+        }
+      ]
+    }
+  ]
+}

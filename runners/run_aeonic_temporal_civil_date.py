@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pinned mutable civil-date CTS; independent complete capabilities, Python 3.9+."""
+"""Pinned civil-date snapshot and explicit mutable CTS; independent complete capabilities, Python 3.9+."""
 import argparse
 import copy
 import hashlib
@@ -19,7 +19,8 @@ from temporal_civil_date_checks import (PROFILE, CAPABILITIES, LIMITS, MARKED,
 
 ROOT = Path(__file__).resolve().parents[1]
 LANE = 'aeonic-temporal-civil-date'
-TARGET = LANE + '-cts-v1-snapshot-0.1'
+NEXT_TARGET = LANE + '-cts-v1-snapshot-0.2'
+IMMUTABLE_TARGETS = {LANE + '-cts-v1-snapshot-0.1': 'a4492f02990fe915cbf6eacf571c85cd5c79412e52ee97cef532904c616c47f3'}  # Exact manifest bytes; next cannot acquire a stable claim.
 HELPERS = ['runners/run_aeonic_arithmetic.py', 'runners/run_aeonic_rational_arithmetic.py',
            'runners/temporal_civil_date_checks.py']
 
@@ -34,17 +35,23 @@ class Runner(CommonRunner):
         self.manifest_path = args.manifest.resolve()
         self.manifest = self.read(self.manifest_path)
         meta = self.manifest['meta']
+        self.immutable = meta['conformance'] == dict(surface='civil-date', stable=True, publication='local-only')
+        if self.immutable:
+            require(IMMUTABLE_TARGETS.get(meta['snapshot_id']) == self.artifacts[self.manifest_path],
+                    'Unrecognized or modified immutable civil-date target')
+        else:
+            require(meta['conformance'] == dict(surface='working-next', stable=False),
+                    'Expected mutable next or recognized immutable civil-date target')
         require(set(self.manifest) == {'meta', 'suites'}, 'Unknown manifest fields')
         require(set(meta) == {'version', 'lane', 'profile', 'capabilities', 'sut_protocol',
                 'conformance', 'description', 'snapshot_id', 'specification_schema',
                 'specification_source', 'binding_schema', 'helpers', 'resource_limits',
                 'specification_schema_sha256', 'specification_source_sha256',
-                'binding_schema_sha256', 'specification_revision'}, 'Unknown or missing target metadata')
-        require(meta['version'] == '0.1.0-dev.0' and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong target version/protocol')
-        require(meta['lane'] == LANE and meta['profile'] == PROFILE and meta['snapshot_id'] == TARGET,
-                'Wrong civil-date working identity')
-        require(meta['conformance'] == dict(surface='working-next', stable=False),
-                'Civil-date target is mutable only; no immutable recognition exists')
+                'binding_schema_sha256', 'specification_revision'} | ({'spec_snapshot_id'} if self.immutable else set()), 'Unknown or missing target metadata')
+        require(meta['version'] == ('0.1.0' if self.immutable else '0.2.0-dev.0')
+                and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong target version/protocol')
+        require(meta['lane'] == LANE and meta['profile'] == PROFILE
+                and (self.immutable or meta['snapshot_id'] == NEXT_TARGET), 'Wrong civil-date target identity')
         require(meta['capabilities'] == {k: dict(id=v[0], operations=list(v[1])) for k, v in CAPABILITIES.items()},
                 'Capability boundaries differ from the working contract')
         root = self.manifest_path.parent
@@ -284,7 +291,9 @@ class Runner(CommonRunner):
             if not path.exists() or digest(path) != sha:
                 failures.append(dict(id='artifact-integrity', failure='Artifact changed during run: ' + path.name))
         return dict(status='failed' if failures else 'artifacts-validated' if check_only else 'passed',
-                    target=TARGET, target_status='mutable-working', stable_conformance_claim=False,
+                    target=self.manifest['meta']['snapshot_id'],
+                    target_status='immutable-local' if self.immutable else 'mutable-working',
+                    stable_conformance_claim=self.immutable and not check_only and not failures,
                     semantic_execution=not check_only, capabilities=sorted(self.selected),
                     excluded_unclaimed_capability_cases=len(self.excluded), **counts,
                     sut_executions=self.executions, assertions=self.assertions,
@@ -297,7 +306,7 @@ class Runner(CommonRunner):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-temporal-civil-date/v1/aeonic-temporal-civil-date-cts.v1.next.json')
+    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-temporal-civil-date/v1/aeonic-temporal-civil-date-cts.v1.snapshot-0.1.json')
     parser.add_argument('--specs-root', type=Path, required=True)
     parser.add_argument('--capability-set', choices=['relations', 'calendar', 'all'], default='all')
     parser.add_argument('--check', action='store_true')

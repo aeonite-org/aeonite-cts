@@ -1,0 +1,1242 @@
+{
+  "id": "04-precedence",
+  "tests": [
+    {
+      "id": "unknown-operation",
+      "requires": [],
+      "fixture": {
+        "request": {
+          "operation": "missing",
+          "input": {}
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_operation",
+        "context": {
+          "stage": 2,
+          "path": "/operation"
+        }
+      }
+    },
+    {
+      "id": "unknown-operation-with-byte-failure",
+      "requires": [],
+      "fixture": {
+        "request": {
+          "operation": "missing",
+          "input": {}
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 0
+        }
+      }
+    },
+    {
+      "id": "missing-explicit-profile",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "unsupported-profile-before-invalid-date",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2025-02-29"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "profile": "unknown"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      }
+    },
+    {
+      "id": "malformed-overridden-context",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": ""
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "missing-count-before-profile-resolution",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "profile": "unknown",
+              "unit": "month"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      }
+    },
+    {
+      "id": "invalid-count-6",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1.5"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      }
+    },
+    {
+      "id": "invalid-count-7",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "01"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      }
+    },
+    {
+      "id": "invalid-count-8",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "-0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      }
+    },
+    {
+      "id": "invalid-count-9",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "+1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      }
+    },
+    {
+      "id": "invalid-count-10",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1e0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      }
+    },
+    {
+      "id": "invalid-count-11",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "month",
+              "count": "1\n"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      }
+    },
+    {
+      "id": "zero-count-does-not-admit-unsupported-unit",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "average-month",
+              "count": "0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/unit"
+        }
+      }
+    },
+    {
+      "id": "partial-month-step-before-zero-work",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "step",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "month",
+              "count": "0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_operand",
+        "context": {
+          "stage": 6,
+          "path": "/input/value/temporal"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "domain-before-zero-work",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shift",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "9999-12-31"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "unit": "day",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "unrepresentable-before-text-limit",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "month"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 0
+        }
+      }
+    },
+    {
+      "id": "work-before-unrepresentable-materialization",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "granularity": "month"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCalendarWork": 0
+        }
+      }
+    },
+    {
+      "id": "invalid-range-17",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": []
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/ranges"
+        }
+      }
+    },
+    {
+      "id": "invalid-range-18",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-10"
+                  },
+                  {
+                    "start": "2024-03-11",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/ranges/1/start"
+        }
+      }
+    },
+    {
+      "id": "invalid-range-19",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-10"
+                  },
+                  {
+                    "start": "2024-03-05",
+                    "end": "2024-03-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/ranges/1/start"
+        }
+      }
+    },
+    {
+      "id": "invalid-range-20",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-12",
+                    "end": "2024-03-29"
+                  },
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-10"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/ranges/1/start"
+        }
+      }
+    },
+    {
+      "id": "invalid-range-21",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-03-20",
+                    "end": "2024-03-10"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/ranges/0/end"
+        }
+      }
+    },
+    {
+      "id": "empty-before-zero-range-allowance",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": []
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/ranges"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputRanges": 0
+        }
+      }
+    },
+    {
+      "id": "range-cap-before-invalid-endpoint",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-30",
+                    "end": "2024-02-30"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/ranges"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputRanges": 0
+        }
+      }
+    },
+    {
+      "id": "malformed-right-before-deferred-left",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2025-02-29"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/right/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "first-deferred-domain",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "container",
+                "payload": {
+                  "unvalidated": true
+                }
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "invalid-date-0000-",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "0000-"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "invalid-date-10000-",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "10000-"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "invalid-date-2025-02-29",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2025-02-29"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "invalid-date-2024-13",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-13"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "invalid-date-2024-02-30",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "unknown-policy-field",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-03"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-04"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-date.v1"
+            },
+            "policy": {
+              "profle": "aeonic.operations.temporal.civil-date.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profle"
+        }
+      }
+    },
+    {
+      "id": "duplicate-json-key",
+      "requires": [],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"operation\":\"compare\",\"input\":{}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "raw-overflow-is-malformed-count",
+      "requires": [
+        "calendar"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"shift\",\"input\":{\"value\":{\"temporal\":{\"category\":\"civilDate\",\"value\":\"2024-03\"}},\"policy\":{\"profile\":\"aeonic.operations.temporal.civil-date.v1\",\"unit\":\"month\",\"count\":1e400}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      }
+    }
+  ]
+}

@@ -1,11 +1,16 @@
-# Aeonic civil-date temporal working lane
+# Aeonic civil-date temporal snapshot 0.1
 
-This mutable lane exercises the unpublished normative working contract at
-specification revision `83a868282684c302c2e92accc68b7e390d96e911`:
-`sources/aes/v1/aeonic-temporal-civil-date-v1.aeon` and
-`resources/aeonic-operations/v1/civil-date-contract.schema.json`. The manifest
-pins their bytes, the binding, suites and every imported checker helper.
-It does not recognize an immutable target or establish implementation capacity.
+The default target is `aeonic-temporal-civil-date-cts-v1-snapshot-0.1`, aligned
+with `aeonic-temporal-civil-date-specs-v1-snapshot-0.1` at specification revision
+`279a7679d654dbf135296650e25038ca5bd5b037`. It pins snapshot source/schema under
+`resources/aeonic-operations/v1/snapshots/0.1/`, binding/suites under the lane's
+`snapshots/0.1/`, and all imported checker helpers. Exact manifest bytes are
+recognized by the owning runner. Edits, relabels and semantic exclusions cannot
+acquire an immutable claim. No package release or native capacity is implied.
+
+The separate `.next.json` target advances to snapshot 0.2 with mutable source
+and schema. Select it explicitly using `--manifest`; it never emits a stable
+conformance claim. Earlier numerical/comparison snapshots remain unchanged.
 
 ## Two complete capabilities
 
@@ -59,9 +64,10 @@ The target has 181 operation cases, two chains and one bounded relation-law
 group. Full execution adds generated pairwise equal/compare/relate checks and
 cached equality/strict-before transitivity checks. Artifact-only mode executes
 zero SUT calls and reports `artifacts-validated`, `semantic_execution: false`,
-`stable_conformance_claim: false`. A real mutable semantic pass also keeps the
-stable flag false. No temporal implementation conformance has been verified by
-this delivery; replay controls in runner unit tests only test the checker.
+`stable_conformance_claim: false`. Only a successful semantic run of the
+recognized immutable target emits a stable claim for the selected complete
+capabilities. A failed run, artifact-only check or mutable semantic run cannot.
+Replay controls in runner unit tests test the checker, not an implementation.
 
 ## Binding and ownership
 
