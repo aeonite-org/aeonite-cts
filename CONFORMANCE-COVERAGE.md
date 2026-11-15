@@ -18,6 +18,9 @@ The following surfaces are treated as anti-drift backbone behavior families for 
 - fail-closed parsing and deterministic rejection behavior
 - addressing and reference-path semantics
 - quoted-key and traversal disambiguation
+- ordinary empty property keys, decoded-key uniqueness, empty member/attribute
+  path preservation and root distinction (development coverage; see
+  [empty-key candidate](docs/conformance/empty-keys-candidate.md))
 - attribute traversal and attribute-depth semantics
 - annotation attachment and slash-channel binding
 - structural identity preservation, validity, and document-wide uniqueness

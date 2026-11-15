@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "version": "0.2.0",
+    "lane": "sansa-instruction",
+    "capability": "SANSA.Instruction",
+    "profile": "instruction-parse-lower-plan",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Development target for ordinary empty property keys; released snapshots remain unchanged.; ordinary empty property keys (development only)",
+    "snapshot_id": "sansa-instruction-next-cts-v1-snapshot-0.1",
+    "status": "experimental"
+  },
+  "suites": [
+    {
+      "id": "instruction",
+      "file": "suites/08-instruction.json",
+      "exclude_tests": [
+        "sansa-instruction-039-parse-rejects-empty-quoted-create-member",
+        "sansa-instruction-0180j1-target-aeon-rejects-empty-quoted-object-field"
+      ]
+    },
+    {
+      "id": "empty-key-instruction",
+      "file": "suites/17-empty-key-instruction.json"
+    }
+  ]
+}

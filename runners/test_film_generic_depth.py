@@ -218,7 +218,7 @@ class FilmGenericDepthTests(unittest.TestCase):
         old_suite = json.loads((ROOT / "suites/05-next-type-only-generics.json").read_text())
         old = next(test for test in old_suite["tests"] if test["id"] == OLD_ID)
         replacement = next(test for test in SUITE["tests"] if "replacement" in test["tags"])
-        self.assertEqual(REVISION, next_manifest["meta"]["specification_revision"])
+        self.assertNotIn("specification_revision", next_manifest["meta"])
         self.assertEqual(REVISION, SUITE["meta"]["specification_revision"])
         self.assertEqual(old["input"], replacement["input"])
         self.assertFalse(old["expected"]["ok"])
@@ -232,7 +232,15 @@ class FilmGenericDepthTests(unittest.TestCase):
         selected = sum(len(json.loads((ROOT / ref["file"]).read_text())["tests"])
                        - len(ref.get("exclude_tests", [])) for ref in next_manifest["suites"])
         self.assertEqual(37, len(SUITE["tests"]))
-        self.assertEqual(128, selected)
+        empty_selected = sum(len(json.loads((ROOT / ref["file"]).read_text())["tests"])
+                             - len(ref.get("exclude_tests", [])) for ref in next_manifest["suites"]
+                             if ref["file"].endswith("07-next-empty-keys.json"))
+        self.assertEqual(128, selected - empty_selected)
+        self.assertEqual(2, empty_selected)
+        empty_suite = json.loads((ROOT / "suites/07-next-empty-keys.json").read_text())
+        self.assertEqual("e3def93d945611ee950ff7e789b8caf48b5825a3",
+                         empty_suite["meta"]["specification_revision"])
+        self.assertEqual(130, selected)
 
 
 if __name__ == "__main__":

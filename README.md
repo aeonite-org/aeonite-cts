@@ -46,6 +46,12 @@ If a stress or fuzz asset is implementation hardening work but not part of a pub
 
 The current anti-drift coverage map is tracked in `CONFORMANCE-COVERAGE.md`.
 
+The [empty-key candidate](docs/conformance/empty-keys-candidate.md) adds ordinary
+empty property names to the mutable Core, AES projection/events, canonical,
+Telex, Film and SANSA development targets. Superseded rejection cases are excluded
+only from the evolving selections; released manifests and their suites retain
+their original bytes. No immutable snapshot has been promoted for this amendment.
+
 CTS compatibility snapshots are versioned explicitly. See
 `docs/cts-snapshot-versioning.md` for the naming convention, such as
 `mutate-cts-v1-snapshot-0.1`, and for the rule that released snapshots are
@@ -138,7 +144,7 @@ independent component/argument/clarifier/byte limits, malformed leaves and early
 rejection before further descent. Exactly one additional old expectation is
 excluded only in next: its original full optional-field bytes are retained in
 a new depth-zero acceptance case, while true depth exhaustion has new negative
-cases. Film next selects 128 operations; released Film 0.3 stays at 92, with
+cases. Film next selects 130 operations; released Film 0.3 stays at 92, with
 its manifests, suite bytes and hashes unchanged. These development expectations
 expose the pending codec correction, not a claim that existing readers pass.
 

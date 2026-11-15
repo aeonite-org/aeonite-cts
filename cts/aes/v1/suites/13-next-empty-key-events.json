@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "suite_id": "next-empty-key-events",
+    "lane": "aes-events",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#6-paths-and-aeon-projection"
+    ],
+    "event_contract": "aes.events.v1"
+  },
+  "id": "next-empty-key-events",
+  "title": "Empty Property Keys \u2014 aes-events",
+  "tests": [
+    {
+      "id": "aes-events-empty-key-member-attribute",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.[\"\"]",
+            "kind": "StringLiteral",
+            "value": ""
+          },
+          {
+            "path": "$.[\"\"].@.[\"\"]",
+            "kind": "StringLiteral",
+            "value": "meta"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": []
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "aes-events-empty-key-nested",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.[\"\"]",
+            "kind": "ObjectNode"
+          },
+          {
+            "path": "$.[\"\"].[\"\"]",
+            "kind": "NumberLiteral",
+            "value": "0"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": []
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "aes-events-empty-key-duplicate",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.[\"\"]",
+            "kind": "StringLiteral",
+            "value": ""
+          },
+          {
+            "path": "$.[\"\"]",
+            "kind": "StringLiteral",
+            "value": ""
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": [
+          "AES_DUPLICATE_PATH"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "aes-events-empty-key-missing-parent",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.a.[\"\"]",
+            "kind": "StringLiteral",
+            "value": ""
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": [
+          "AES_MISSING_PARENT"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "aes-events-empty-key-root-still-invalid",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$",
+            "kind": "StringLiteral",
+            "value": ""
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": [
+          "AES_INVALID_PATH",
+          "AES_MISSING_PARENT"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    }
+  ]
+}

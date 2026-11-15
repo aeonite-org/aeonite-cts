@@ -6,7 +6,7 @@
     "profile": "aes.complete.v1",
     "event_contract": "aes.events.v1",
     "sut_protocol": "cts.protocol.v1",
-    "description": "Development-only type-descriptor generic arguments; excludes superseded numeric-generic expectations",
+    "description": "Development-only type-descriptor generic arguments; excludes superseded numeric-generic expectations; ordinary empty property keys (development only)",
     "snapshot_id": "aes-events-next-cts-v1-snapshot-0.1",
     "conformance": {
       "surface": "experimental",
@@ -22,6 +22,10 @@
     {
       "id": "next-aes-events-type-only-generics",
       "file": "suites/06-next-type-only-generics.json"
+    },
+    {
+      "id": "next-empty-key-events",
+      "file": "suites/13-next-empty-key-events.json"
     }
   ]
 }

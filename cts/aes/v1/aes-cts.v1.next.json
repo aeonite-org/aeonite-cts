@@ -8,7 +8,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Experimental next AES snapshot after the portable projection 0.4 baseline",
+    "description": "Experimental next AES snapshot after the portable projection 0.4 baseline; ordinary empty property keys (development only)",
     "snapshot_id": "aes-cts-v1-snapshot-0.5"
   },
   "suites": [
@@ -24,7 +24,8 @@
       "id": "emission-coverage",
       "file": "suites/02-emission-coverage.json",
       "exclude_tests": [
-        "aes-emission-006-trimtick-string-value"
+        "aes-emission-006-trimtick-string-value",
+        "aes-emission-001b-empty-quoted-key-reject"
       ]
     },
     {
@@ -62,6 +63,10 @@
     {
       "id": "next-number-normalization",
       "file": "suites/11-next-number-normalization.json"
+    },
+    {
+      "id": "next-empty-key-projection",
+      "file": "suites/12-next-empty-key-projection.json"
     }
   ]
 }

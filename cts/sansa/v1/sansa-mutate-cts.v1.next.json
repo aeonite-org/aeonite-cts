@@ -10,16 +10,24 @@
     },
     "sut_protocol": "cts.protocol.v1",
     "snapshot_id": "sansa-mutate-next-cts-v1-snapshot-0.1",
-    "description": "Mutable experimental Mutate target development lane. Released snapshots remain unchanged."
+    "description": "Mutable experimental Mutate target development lane. Released snapshots remain unchanged.; ordinary empty property keys (development only)"
   },
   "suites": [
     {
       "id": "mutate-plan",
-      "file": "suites/07-mutate-plan.json"
+      "file": "suites/07-mutate-plan.json",
+      "exclude_tests": [
+        "sansa-mutate-0045a1-target-aeon-reports-nested-empty-key-value-path",
+        "sansa-mutate-0045a1a-target-aeon-reports-quoted-nested-key-value-path"
+      ]
     },
     {
       "id": "mutate-next-aeon-values",
       "file": "suites/11-mutate-next-aeon-values.json"
+    },
+    {
+      "id": "empty-key-mutate",
+      "file": "suites/16-empty-key-mutate.json"
     }
   ]
 }

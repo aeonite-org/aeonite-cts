@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "suite_id": "next-film-empty-keys",
+    "lane": "aes-film",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#6-paths-and-aeon-projection",
+      "aeonite-specs/sources/aes/v1/film-aes-v1.aeon"
+    ],
+    "event_contract": "aes.events.v1",
+    "format": "film.aes",
+    "format_version": "1",
+    "byte_encoding": "lowercase-hex",
+    "specification_revision": "e3def93d945611ee950ff7e789b8caf48b5825a3"
+  },
+  "id": "next-film-empty-keys",
+  "title": "Empty Property Keys \u2014 aes-film",
+  "tests": [
+    {
+      "id": "film-empty-key-decode",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff01000a000106242e5b22225d001500010d242e5b22225d2e402e5b22225d046d657461"
+      },
+      "expected": {
+        "ok": true,
+        "canonical_hex": "4f5f5fff01000a000106242e5b22225d001500010d242e5b22225d2e402e5b22225d046d657461",
+        "stream": {
+          "profile": "aes.complete.v1",
+          "profile_explicit": false,
+          "projection": null,
+          "projection_explicit": false,
+          "records": [
+            {
+              "path": "$.[\"\"]",
+              "kind": "StringLiteral",
+              "value": ""
+            },
+            {
+              "path": "$.[\"\"].@.[\"\"]",
+              "kind": "StringLiteral",
+              "value": "meta"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "film-empty-key-transcode",
+      "operation": "transcode",
+      "input": {
+        "telex": "telex.aes=1\n\npath=$.[\"\"]\nkind=StringLiteral\nvalue=\n\npath=$.[\"\"].@.[\"\"]\nkind=StringLiteral\nvalue=meta\n"
+      },
+      "expected": {
+        "ok": true,
+        "film_hex": "4f5f5fff01000a000106242e5b22225d001500010d242e5b22225d2e402e5b22225d046d657461",
+        "telex": "telex.aes=1\n\npath=$.[\"\"]\nkind=StringLiteral\nvalue=\n\npath=$.[\"\"].@.[\"\"]\nkind=StringLiteral\nvalue=meta\n"
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "suite_id": "empty-key-instruction",
+    "lane": "sansa-instruction",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/sansa/v1/instruction-v1.aeon#create"
+    ]
+  },
+  "id": "empty-key-instruction",
+  "title": "Empty Property Keys — sansa-instruction",
+  "tests": [
+    {
+      "id": "sansa-instruction-empty-key-parse",
+      "input": {
+        "namespace": "empty-keys",
+        "mode": "parse",
+        "source": "create \"\" with \"x\"",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "canonical": "create \"\" with \"x\""
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-instruction-empty-key-lower",
+      "input": {
+        "namespace": "empty-keys",
+        "mode": "lower",
+        "source": "create $.vacant.[\"\"] with \"\"",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.vacant",
+            "name": "",
+            "value": ""
+          }
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-instruction-empty-key-context",
+      "input": {
+        "namespace": "empty-keys",
+        "mode": "lower",
+        "source": "from $.vacant create \"\" with \"\"",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true,
+        "operations": [
+          {
+            "op": "create",
+            "parent": "$.vacant",
+            "name": "",
+            "value": ""
+          }
+        ]
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-instruction-empty-key-target-object",
+      "input": {
+        "namespace": "empty-keys",
+        "mode": "target",
+        "source": "create $.vacant.nested with :object, { \"\" = \"\" }",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-instruction-empty-key-target-empty",
+      "input": {
+        "namespace": "empty-keys",
+        "mode": "target",
+        "source": "create $.vacant.[\"\"] with \"\"",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": true
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-instruction-empty-key-duplicate",
+      "input": {
+        "namespace": "empty-keys",
+        "mode": "plan",
+        "source": "create $.[\"\"] with \"\"",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_MUTATE_TARGET_EXISTS"
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "sansa-instruction-empty-key-duplicate-payload",
+      "input": {
+        "namespace": "empty-keys",
+        "mode": "parse",
+        "source": "create $.vacant.nested with :object, { \"\" = 1, \"\" = 2 }",
+        "target": "aeon"
+      },
+      "expected": {
+        "ok": false,
+        "error": "SANSA_INSTRUCTION_DUPLICATE_OBJECT_FIELD"
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    }
+  ],
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "empty-keys",
+        "supportsParentTraversal": true,
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "name": "",
+              "address": "$.[\"\"]",
+              "representationKind": "object",
+              "children": [
+                {
+                  "name": "",
+                  "address": "$.[\"\"].[\"\"]",
+                  "representationKind": "string",
+                  "value": ""
+                }
+              ],
+              "attributeSpace": {
+                "address": "$.[\"\"].@",
+                "representationKind": "attributeSpace",
+                "children": [
+                  {
+                    "name": "",
+                    "address": "$.[\"\"].@.[\"\"]",
+                    "representationKind": "string",
+                    "value": "meta"
+                  }
+                ]
+              }
+            },
+            {
+              "name": " ",
+              "address": "$.[\" \"]",
+              "representationKind": "string",
+              "value": "space"
+            },
+            {
+              "name": "vacant",
+              "address": "$.vacant",
+              "representationKind": "object",
+              "children": []
+            }
+          ]
+        },
+        "supportsMutation": true
+      }
+    ]
+  }
+}

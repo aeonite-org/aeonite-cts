@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "sansa-address",
+    "capability": "SANSA.Addressing",
+    "profile": "addressing",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Development target for ordinary empty property keys; released snapshots remain unchanged.; ordinary empty property keys (development only)",
+    "snapshot_id": "sansa-address-parser-next-cts-v1-snapshot-0.1",
+    "status": "experimental"
+  },
+  "suites": [
+    {
+      "id": "address-parser",
+      "file": "suites/01-address-parser.json"
+    },
+    {
+      "id": "empty-key-address-parser",
+      "file": "suites/14-empty-key-address-parser.json"
+    }
+  ]
+}
