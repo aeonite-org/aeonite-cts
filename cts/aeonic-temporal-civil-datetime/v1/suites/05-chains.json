@@ -1,0 +1,1399 @@
+{
+  "id": "05-chains",
+  "tests": [
+    {
+      "id": "clamped-month-chain",
+      "kind": "chain",
+      "requires": [
+        "arithmetic"
+      ],
+      "steps": [
+        {
+          "request": {
+            "operation": "shift",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "unit": "month",
+                "count": "1"
+              },
+              "value": {
+                "temporal": {
+                  "category": "civilDateTime",
+                  "value": "2023-01-31T09:30:00"
+                }
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2023-02-28T09:30:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "day",
+              "originClockForm": "second",
+              "history": {
+                "clamping": "clamping-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "unit": "month",
+                "count": "1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "shift",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "unit": "month",
+                "count": "1"
+              },
+              "value": {
+                "temporal": {
+                  "category": "civilDateTimeSet",
+                  "pieces": [
+                    {
+                      "kind": "point",
+                      "at": "2023-02-28T09:30:00"
+                    }
+                  ]
+                },
+                "originDateGranularity": "day",
+                "originClockForm": "second",
+                "history": {
+                  "clamping": "clamping-declared",
+                  "approximation": "none-declared"
+                }
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2023-03-28T09:30:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "day",
+              "originClockForm": "second",
+              "history": {
+                "clamping": "clamping-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "unit": "month",
+                "count": "1"
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "value"
+        }
+      ]
+    },
+    {
+      "id": "clock-history-through-reversal-materialization",
+      "kind": "chain",
+      "requires": [
+        "arithmetic"
+      ],
+      "steps": [
+        {
+          "request": {
+            "operation": "shiftClock",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1"
+              },
+              "value": {
+                "temporal": {
+                  "category": "civilDateTime",
+                  "value": "2024-03-01T09:30:00"
+                }
+              },
+              "amount": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": ".5"
+                },
+                "history": "approximation-declared"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00.5"
+                  }
+                ]
+              },
+              "originDateGranularity": "day",
+              "originClockForm": "second",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "shiftClock",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1"
+              },
+              "value": {
+                "temporal": {
+                  "category": "civilDateTimeSet",
+                  "pieces": [
+                    {
+                      "kind": "point",
+                      "at": "2024-03-01T09:30:00.5"
+                    }
+                  ]
+                },
+                "originDateGranularity": "day",
+                "originClockForm": "second",
+                "history": {
+                  "clamping": "none-declared",
+                  "approximation": "approximation-declared"
+                }
+              },
+              "amount": {
+                "number": {
+                  "category": "finiteNumber",
+                  "value": "-.5"
+                },
+                "history": "none-declared"
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "day",
+              "originClockForm": "second",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "materialize",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "dateGranularity": "day",
+                "clockForm": "second"
+              },
+              "value": {
+                "temporal": {
+                  "category": "civilDateTimeSet",
+                  "pieces": [
+                    {
+                      "kind": "point",
+                      "at": "2024-03-01T09:30:00"
+                    }
+                  ]
+                },
+                "originDateGranularity": "day",
+                "originClockForm": "second",
+                "history": {
+                  "clamping": "none-declared",
+                  "approximation": "approximation-declared"
+                }
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30:00"
+              },
+              "originDateGranularity": "day",
+              "originClockForm": "second",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "dateGranularity": "day",
+                "clockForm": "second"
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "value"
+        },
+        {
+          "fromStep": 1,
+          "toStep": 2,
+          "input": "value"
+        }
+      ]
+    },
+    {
+      "id": "precise-partial-month-to-relations",
+      "kind": "chain",
+      "requires": [
+        "arithmetic",
+        "relations"
+      ],
+      "steps": [
+        {
+          "request": {
+            "operation": "shift",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "unit": "month",
+                "count": "1"
+              },
+              "value": {
+                "temporal": {
+                  "category": "civilDateTime",
+                  "value": "2024-02T09:30"
+                }
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-02T09:30:00",
+                    "end": "2024-03-02T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-03T09:30:00",
+                    "end": "2024-03-03T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-04T09:30:00",
+                    "end": "2024-03-04T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-05T09:30:00",
+                    "end": "2024-03-05T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-06T09:30:00",
+                    "end": "2024-03-06T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-07T09:30:00",
+                    "end": "2024-03-07T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-08T09:30:00",
+                    "end": "2024-03-08T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-09T09:30:00",
+                    "end": "2024-03-09T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-10T09:30:00",
+                    "end": "2024-03-10T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-11T09:30:00",
+                    "end": "2024-03-11T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-12T09:30:00",
+                    "end": "2024-03-12T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-13T09:30:00",
+                    "end": "2024-03-13T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-14T09:30:00",
+                    "end": "2024-03-14T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-15T09:30:00",
+                    "end": "2024-03-15T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-16T09:30:00",
+                    "end": "2024-03-16T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-17T09:30:00",
+                    "end": "2024-03-17T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-18T09:30:00",
+                    "end": "2024-03-18T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-19T09:30:00",
+                    "end": "2024-03-19T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-20T09:30:00",
+                    "end": "2024-03-20T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-21T09:30:00",
+                    "end": "2024-03-21T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-22T09:30:00",
+                    "end": "2024-03-22T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-23T09:30:00",
+                    "end": "2024-03-23T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-24T09:30:00",
+                    "end": "2024-03-24T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-25T09:30:00",
+                    "end": "2024-03-25T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-26T09:30:00",
+                    "end": "2024-03-26T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-27T09:30:00",
+                    "end": "2024-03-27T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-28T09:30:00",
+                    "end": "2024-03-28T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-29T09:30:00",
+                    "end": "2024-03-29T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "month",
+              "originClockForm": "minute",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "unit": "month",
+                "count": "1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "relate",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1"
+              },
+              "left": {
+                "temporal": {
+                  "category": "civilDateTimeSet",
+                  "pieces": [
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-01T09:30:00",
+                      "end": "2024-03-01T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-02T09:30:00",
+                      "end": "2024-03-02T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-03T09:30:00",
+                      "end": "2024-03-03T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-04T09:30:00",
+                      "end": "2024-03-04T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-05T09:30:00",
+                      "end": "2024-03-05T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-06T09:30:00",
+                      "end": "2024-03-06T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-07T09:30:00",
+                      "end": "2024-03-07T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-08T09:30:00",
+                      "end": "2024-03-08T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-09T09:30:00",
+                      "end": "2024-03-09T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-10T09:30:00",
+                      "end": "2024-03-10T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-11T09:30:00",
+                      "end": "2024-03-11T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-12T09:30:00",
+                      "end": "2024-03-12T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-13T09:30:00",
+                      "end": "2024-03-13T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-14T09:30:00",
+                      "end": "2024-03-14T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-15T09:30:00",
+                      "end": "2024-03-15T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-16T09:30:00",
+                      "end": "2024-03-16T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-17T09:30:00",
+                      "end": "2024-03-17T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-18T09:30:00",
+                      "end": "2024-03-18T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-19T09:30:00",
+                      "end": "2024-03-19T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-20T09:30:00",
+                      "end": "2024-03-20T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-21T09:30:00",
+                      "end": "2024-03-21T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-22T09:30:00",
+                      "end": "2024-03-22T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-23T09:30:00",
+                      "end": "2024-03-23T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-24T09:30:00",
+                      "end": "2024-03-24T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-25T09:30:00",
+                      "end": "2024-03-25T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-26T09:30:00",
+                      "end": "2024-03-26T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-27T09:30:00",
+                      "end": "2024-03-27T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-28T09:30:00",
+                      "end": "2024-03-28T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-29T09:30:00",
+                      "end": "2024-03-29T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    }
+                  ]
+                },
+                "originDateGranularity": "month",
+                "originClockForm": "minute",
+                "history": {
+                  "clamping": "none-declared",
+                  "approximation": "none-declared"
+                }
+              },
+              "right": {
+                "temporal": {
+                  "category": "civilDateTime",
+                  "value": "2024-03T09:30"
+                }
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "category": "symbol",
+              "value": "containedBy"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1"
+              },
+              "operandHistory": {
+                "left": {
+                  "clamping": "none-declared",
+                  "approximation": "none-declared"
+                },
+                "right": {
+                  "clamping": "none-declared",
+                  "approximation": "none-declared"
+                }
+              },
+              "operandOrigin": {
+                "left": {
+                  "dateGranularity": "month",
+                  "clockForm": "minute"
+                },
+                "right": {
+                  "dateGranularity": "month",
+                  "clockForm": "minute"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "left"
+        }
+      ]
+    },
+    {
+      "id": "complete-period-to-relations",
+      "kind": "chain",
+      "requires": [
+        "arithmetic",
+        "relations"
+      ],
+      "steps": [
+        {
+          "request": {
+            "operation": "step",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "dateGranularity": "month",
+                "clockForm": "minute",
+                "count": "1"
+              },
+              "value": {
+                "temporal": {
+                  "category": "civilDateTime",
+                  "value": "2024-02T09:30"
+                }
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-02T09:30:00",
+                    "end": "2024-03-02T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-03T09:30:00",
+                    "end": "2024-03-03T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-04T09:30:00",
+                    "end": "2024-03-04T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-05T09:30:00",
+                    "end": "2024-03-05T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-06T09:30:00",
+                    "end": "2024-03-06T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-07T09:30:00",
+                    "end": "2024-03-07T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-08T09:30:00",
+                    "end": "2024-03-08T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-09T09:30:00",
+                    "end": "2024-03-09T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-10T09:30:00",
+                    "end": "2024-03-10T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-11T09:30:00",
+                    "end": "2024-03-11T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-12T09:30:00",
+                    "end": "2024-03-12T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-13T09:30:00",
+                    "end": "2024-03-13T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-14T09:30:00",
+                    "end": "2024-03-14T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-15T09:30:00",
+                    "end": "2024-03-15T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-16T09:30:00",
+                    "end": "2024-03-16T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-17T09:30:00",
+                    "end": "2024-03-17T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-18T09:30:00",
+                    "end": "2024-03-18T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-19T09:30:00",
+                    "end": "2024-03-19T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-20T09:30:00",
+                    "end": "2024-03-20T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-21T09:30:00",
+                    "end": "2024-03-21T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-22T09:30:00",
+                    "end": "2024-03-22T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-23T09:30:00",
+                    "end": "2024-03-23T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-24T09:30:00",
+                    "end": "2024-03-24T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-25T09:30:00",
+                    "end": "2024-03-25T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-26T09:30:00",
+                    "end": "2024-03-26T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-27T09:30:00",
+                    "end": "2024-03-27T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-28T09:30:00",
+                    "end": "2024-03-28T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-29T09:30:00",
+                    "end": "2024-03-29T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-30T09:30:00",
+                    "end": "2024-03-30T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-31T09:30:00",
+                    "end": "2024-03-31T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "month",
+              "originClockForm": "minute",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1",
+                "dateGranularity": "month",
+                "clockForm": "minute",
+                "count": "1"
+              }
+            }
+          }
+        },
+        {
+          "request": {
+            "operation": "equal",
+            "input": {
+              "policy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1"
+              },
+              "left": {
+                "temporal": {
+                  "category": "civilDateTimeSet",
+                  "pieces": [
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-01T09:30:00",
+                      "end": "2024-03-01T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-02T09:30:00",
+                      "end": "2024-03-02T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-03T09:30:00",
+                      "end": "2024-03-03T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-04T09:30:00",
+                      "end": "2024-03-04T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-05T09:30:00",
+                      "end": "2024-03-05T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-06T09:30:00",
+                      "end": "2024-03-06T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-07T09:30:00",
+                      "end": "2024-03-07T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-08T09:30:00",
+                      "end": "2024-03-08T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-09T09:30:00",
+                      "end": "2024-03-09T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-10T09:30:00",
+                      "end": "2024-03-10T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-11T09:30:00",
+                      "end": "2024-03-11T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-12T09:30:00",
+                      "end": "2024-03-12T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-13T09:30:00",
+                      "end": "2024-03-13T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-14T09:30:00",
+                      "end": "2024-03-14T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-15T09:30:00",
+                      "end": "2024-03-15T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-16T09:30:00",
+                      "end": "2024-03-16T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-17T09:30:00",
+                      "end": "2024-03-17T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-18T09:30:00",
+                      "end": "2024-03-18T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-19T09:30:00",
+                      "end": "2024-03-19T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-20T09:30:00",
+                      "end": "2024-03-20T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-21T09:30:00",
+                      "end": "2024-03-21T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-22T09:30:00",
+                      "end": "2024-03-22T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-23T09:30:00",
+                      "end": "2024-03-23T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-24T09:30:00",
+                      "end": "2024-03-24T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-25T09:30:00",
+                      "end": "2024-03-25T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-26T09:30:00",
+                      "end": "2024-03-26T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-27T09:30:00",
+                      "end": "2024-03-27T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-28T09:30:00",
+                      "end": "2024-03-28T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-29T09:30:00",
+                      "end": "2024-03-29T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-30T09:30:00",
+                      "end": "2024-03-30T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    },
+                    {
+                      "kind": "interval",
+                      "start": "2024-03-31T09:30:00",
+                      "end": "2024-03-31T09:31:00",
+                      "includeStart": true,
+                      "includeEnd": false
+                    }
+                  ]
+                },
+                "originDateGranularity": "month",
+                "originClockForm": "minute",
+                "history": {
+                  "clamping": "none-declared",
+                  "approximation": "none-declared"
+                }
+              },
+              "right": {
+                "temporal": {
+                  "category": "civilDateTime",
+                  "value": "2024-03T09:30"
+                }
+              }
+            }
+          },
+          "expected": {
+            "outcome": "value",
+            "value": {
+              "category": "symbol",
+              "value": "equal"
+            },
+            "metadata": {
+              "evaluation": "exact-for-policy",
+              "clamping": "not-applied",
+              "effectivePolicy": {
+                "profile": "aeonic.operations.temporal.civil-datetime.v1"
+              },
+              "operandHistory": {
+                "left": {
+                  "clamping": "none-declared",
+                  "approximation": "none-declared"
+                },
+                "right": {
+                  "clamping": "none-declared",
+                  "approximation": "none-declared"
+                }
+              },
+              "operandOrigin": {
+                "left": {
+                  "dateGranularity": "month",
+                  "clockForm": "minute"
+                },
+                "right": {
+                  "dateGranularity": "month",
+                  "clockForm": "minute"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "links": [
+        {
+          "fromStep": 0,
+          "toStep": 1,
+          "input": "left"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "id": "06-laws",
+  "tests": [
+    {
+      "id": "endpoint-aware-set-laws",
+      "kind": "laws",
+      "requires": [
+        "relations"
+      ],
+      "values": [
+        {
+          "temporal": {
+            "category": "civilDateTime",
+            "value": "2024-03-01T09:30:00"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDateTime",
+            "value": "2024-03-01T09:30"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDateTime",
+            "value": "2024-03-01T09:31:00"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDateTime",
+            "value": "2024-03-01T09:32:00"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDateTime",
+            "value": "2024-03-01T09:30:00.1"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDateTime",
+            "value": "2024-03-01T09:30:00.10"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDateTimeSet",
+            "pieces": [
+              {
+                "kind": "interval",
+                "start": "2024-03-01T09:30:00",
+                "end": "2024-03-01T09:31:00",
+                "includeStart": false,
+                "includeEnd": false
+              }
+            ]
+          },
+          "originDateGranularity": "undeclared",
+          "originClockForm": "undeclared",
+          "history": {
+            "clamping": "none-declared",
+            "approximation": "none-declared"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilDateTimeSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": "2024-03-01T09:30:00"
+              },
+              {
+                "kind": "point",
+                "at": "2024-03-01T09:31:00"
+              }
+            ]
+          },
+          "originDateGranularity": "undeclared",
+          "originClockForm": "undeclared",
+          "history": {
+            "clamping": "none-declared",
+            "approximation": "none-declared"
+          }
+        }
+      ]
+    }
+  ]
+}
