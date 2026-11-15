@@ -58,7 +58,7 @@
     "specification_schema_sha256": "504177df460e4b2b39c53c5a1113224669c85a778f5796e5f9384051ace10a98",
     "specification_source_sha256": "cc50db9762324160b40e6644c909b45f9747ad7d51801cdc4a4aa48199f9d3b9",
     "binding_schema_sha256": "78c240d86f2d44578ff325508b3076c85603e742d41cc283f59e1e5bdd660a95",
-    "specification_revision": "bb49148c0e422b26f3a2b699b31f155927e3d99a"
+    "specification_revision": "4932f7f8a0df08eed730f559b9c43b69e06f25b2"
   },
   "suites": [
     {
