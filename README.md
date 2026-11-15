@@ -10,17 +10,19 @@ It is the source of truth for:
 - published lane manifests and compatibility support assets
 - conformance-pathway stress assets that are part of the official verification surface
 
-## Civil-date temporal working target
+## Civil-date temporal snapshot 0.1
 
 The [civil-date lane](docs/protocol/v1/lane-aeonic-temporal-civil-date.md) adds a
-mutable target for independent complete relations/calendar capabilities using
+frozen local target for independent complete relations/calendar capabilities using
 the shared exact date-set format. Its 181 operation cases, two actual-result
 chains and relation laws cover explicit profile selection, symbolic outcomes,
 clamping history, exact materialization and portable calendar-work limits.
 `run_aeonic_temporal_civil_date.py --specs-root ... --capability-set
 relations|calendar|all --check` validates artifacts without executing a SUT or
-claiming conformance. Existing immutable targets are unchanged; runtime
-implementation, capacity calibration and a temporal freeze remain later work.
+claiming conformance. The default is immutable snapshot 0.1; its byte-recognized
+manifest pins frozen source/schema, binding, suites and helpers. Mutable next
+advances separately to 0.2 and cannot establish a stable claim. Existing targets
+are unchanged. Implementation adoption and native capacity require separate evidence.
 
 ## Authority
 

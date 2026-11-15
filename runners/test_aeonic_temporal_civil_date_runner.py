@@ -207,7 +207,7 @@ class TemporalRunnerTests(unittest.TestCase):
         runner=Runner(self.args())
         bad=copy.deepcopy(runner.manifest);bad['meta']['conformance']['stable']=True
         with patch.object(Runner,'read',return_value=bad):
-            with self.assertRaisesRegex(ValueError,'mutable only'):Runner(self.args())
+            with self.assertRaisesRegex(ValueError,'Expected mutable next'):Runner(self.args())
         bad=copy.deepcopy(runner.manifest);bad['exclude_cases']=['something']
         with patch.object(Runner,'read',return_value=bad):
             with self.assertRaisesRegex(ValueError,'Unknown manifest'):Runner(self.args())
@@ -253,6 +253,58 @@ class TemporalRunnerTests(unittest.TestCase):
                     self.assertEqual(result.returncode,0 if variant=='control' else 1,result.stderr+result.stdout)
                     report=json.loads(result.stdout);self.assertFalse(report['stable_conformance_claim'])
                     self.assertEqual(len(report['failures']),0 if variant=='control' else 1)
+
+    def frozen_args(self, selection='all'):
+        args=self.args(selection)
+        args.manifest=args.manifest.with_name('aeonic-temporal-civil-date-cts.v1.snapshot-0.1.json')
+        return args
+
+    def test_frozen_checks_never_claim_semantic_conformance(self):
+        for choice in ['relations','calendar','all']:
+            runner=Runner(self.frozen_args(choice))
+            with patch.object(runner,'execute') as execute:report=runner.run(check_only=True)
+            execute.assert_not_called()
+            self.assertTrue(runner.immutable)
+            self.assertEqual(report['target_status'],'immutable-local')
+            self.assertEqual(report['target'],'aeonic-temporal-civil-date-cts-v1-snapshot-0.1')
+            self.assertFalse(report['stable_conformance_claim'])
+            self.assertFalse(report['semantic_execution'])
+            self.assertEqual(report['sut_executions'],0)
+
+    def test_frozen_reencoding_edits_exclusions_and_next_relabel_fail_closed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'lane'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            original=json.loads(args.manifest.read_text())
+            variants=[copy.deepcopy(original) for _ in range(5)]
+            variants[1]['meta']['description']='edited'
+            variants[2]['meta']['snapshot_id']='aeonic-temporal-civil-date-cts-v1-snapshot-9.9'
+            variants[3]['exclude_cases']=['one']
+            variants[4]=json.loads((lane/'aeonic-temporal-civil-date-cts.v1.next.json').read_text())
+            variants[4]['meta']['conformance']=original['meta']['conformance']
+            for variant in variants:
+                args.manifest.write_text(json.dumps(variant))
+                with self.assertRaisesRegex(ValueError,'Unrecognized or modified immutable'):Runner(args)
+
+    def test_frozen_wrong_response_cannot_claim_conformance(self):
+        runner=Runner(self.frozen_args())
+        with patch.object(runner,'execute',return_value=self.output(dict(outcome='diagnostic',reason='invalid_operand',context=dict(stage=4,path=None)))):
+            report=runner.run()
+        self.assertEqual(report['status'],'failed')
+        self.assertTrue(report['semantic_execution'])
+        self.assertFalse(report['stable_conformance_claim'])
+        self.assertGreater(len(report['failures']),0)
+
+    def test_frozen_suite_mutation_rejected_before_and_after_execution(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'lane'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            runner=Runner(args);suite=lane/runner.manifest['suites'][0]['file']
+            suite.write_text(suite.read_text()+'\n')
+            report=runner.run(check_only=True)
+            self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+            self.assertTrue(any(f['id']=='artifact-integrity' for f in report['failures']))
+            with self.assertRaisesRegex(ValueError,'Artifact digest mismatch'):Runner(args)
 
 
 if __name__=='__main__':unittest.main()
