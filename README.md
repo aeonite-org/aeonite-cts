@@ -315,3 +315,13 @@ always set `stable_conformance_claim: false`; checker tests and replay controls
 establish neither SUT conformance nor native capacity. Existing snapshots and
 their default targets remain unchanged. Timezone/WTC and elapsed-time authority
 are separate from this unqualified civil-coordinate contract.
+
+## Caption-only working-source refresh
+
+The mutable arithmetic, civil-date and civil date-time targets use specification
+revision `fd6eaa6a693464acbab36b0d63ba76f92ab066b9`, including accessible table
+captions. Only their working-source fingerprints and matching CI checkouts were
+refreshed. Schemas, suites, bindings, helpers, capabilities and selected limits
+are unchanged. Immutable snapshot sources and recognition hashes are untouched.
+Consumers should select a compatible specification/CTS revision pair; independent
+`main` checkouts can otherwise fail artifact validation before SUT execution.

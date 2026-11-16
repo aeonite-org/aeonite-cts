@@ -15,7 +15,7 @@
     "specification_source": "sources/aes/v1/aeonic-arithmetic-v1.aeon",
     "binding_schema": "binding.schema.json",
     "specification_schema_sha256": "ff166d0be1f1e3741dac5a0ad4bcd47fbae1f46062d5a02705ee6244b37e64b2",
-    "specification_source_sha256": "54d1a804f7d7714707c0a7b16dbaa7377fe23c7145e8bda03feaa5b7ff1d6d2a",
+    "specification_source_sha256": "17d8f004e582f1c409d8679b93f0182dda0d80cf80b9ddd241ef330e738deb1b",
     "binding_schema_sha256": "42f098b2839484781b321dadb8adeaeeab69515f40b779248de89001ef814e3d",
     "resource_limits": {
       "maxRequestBytes": 4194304,
