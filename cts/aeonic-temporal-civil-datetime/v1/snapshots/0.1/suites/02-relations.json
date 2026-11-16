@@ -1,0 +1,2107 @@
+{
+  "id": "02-relations",
+  "tests": [
+    {
+      "id": "excluded-touch-disjoint",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "included-touch-contains",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "included-touch-indeterminate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "authored-fraction-value-equality",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30:00.1"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30:00.10"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "minute-is-not-second",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30:00"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "interleaved-disjoint-chronology",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:32:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "interleaved-disjoint-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:32:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "missing-boundary-preserved",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:31:00",
+                    "end": "2024-03-01T09:32:00",
+                    "includeStart": false,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "strict-contained-by",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "containedBy"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "strict-after",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "boundary-only-overlap",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:31:00",
+                    "end": "2024-03-01T09:32:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "overlaps"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-0-0-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": false,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": false,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-0-0-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": false,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-0-0-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": false,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-0-1-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": false,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": false,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-0-1-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": false,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-0-1-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": false,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-1-0-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-1-0-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-1-0-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-1-1-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-1-1-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:31:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-flags-1-1-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:30:00",
+                    "end": "2024-03-01T09:31:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTimeSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "context-selection-only",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "overridden-valid-unknown-context",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilDateTime",
+                "value": "2024-03-01T09:30:00"
+              }
+            },
+            "context": {
+              "profile": "unavailable.but.well-formed"
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-datetime.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-datetime.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -141,7 +141,7 @@ def decimal_properties(bundle, limits=LIMITS):
     n=bundle['number']; kind=n['category']
     if kind=='finiteNumber':
         raw=n['value']; require(len(raw)<=limits['maxNumericCharacters'], 'Amount text exceeds allowance')
-        m=re.fullmatch(r'([+-]?)([0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:[eE]([+-]?[0-9]+))?',raw)
+        m=re.fullmatch(r'([+-]?)((?:0|[1-9][0-9]*)(?:\.[0-9]+)?|\.[0-9]+)(?:[eE]([+-]?[0-9]+))?',raw)
         require(m is not None, 'Invalid finite amount'); sign,mantissa,exp=m.groups(); exp=exp or '0'
         digits=exp.lstrip('+-').lstrip('0') or '0'; maximum=str(limits['maxExponentMagnitude'])
         require(len(digits)<len(maximum) or (len(digits)==len(maximum) and digits<=maximum), 'Authored exponent exceeds allowance')

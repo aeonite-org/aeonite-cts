@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.1.0-dev.0",
+    "version": "0.2.0-dev.0",
     "lane": "aeonic-temporal-civil-datetime",
     "profile": "aeonic.operations.temporal.civil-datetime.v1",
     "capabilities": {
@@ -27,8 +27,8 @@
       "surface": "working-next",
       "stable": false
     },
-    "description": "Mutable unqualified civil date-time target. Independent complete Relations and Arithmetic; no stable claim or frozen target.",
-    "snapshot_id": "aeonic-temporal-civil-datetime-cts-v1-snapshot-0.1",
+    "description": "Mutable next civil date-time target; independent complete Relations and Arithmetic capabilities, no stable claim. Frozen snapshot 0.1 remains separate.",
+    "snapshot_id": "aeonic-temporal-civil-datetime-cts-v1-snapshot-0.2",
     "specification_schema": "resources/aeonic-operations/v1/civil-datetime-contract.schema.json",
     "specification_source": "sources/aes/v1/aeonic-temporal-civil-datetime-v1.aeon",
     "binding_schema": "binding.schema.json",
@@ -36,7 +36,7 @@
       "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
       "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
       "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
-      "runners/temporal_civil_datetime_checks.py": "2d2e9ac1be22d3e70b56f46ee7166f2f6104e20398888aa1e292a365d790859f"
+      "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f"
     },
     "resource_limits": {
       "maxRequestBytes": 65536,
@@ -55,10 +55,10 @@
       "maxOutputCharacters": 1024,
       "maxResultBytes": 131072
     },
-    "specification_schema_sha256": "504177df460e4b2b39c53c5a1113224669c85a778f5796e5f9384051ace10a98",
-    "specification_source_sha256": "3380985a8f4081a2abcde41249ebb54ece4ff62ab2593c14741d4e4b74aa5845",
+    "specification_schema_sha256": "842e3512c710b278cac475ecba92b3305ac968019eb998ef4e57468e45baa908",
+    "specification_source_sha256": "c60aa38fced20938f81e4f238898abead266f500452936883b9c5af0e9f363e7",
     "binding_schema_sha256": "78c240d86f2d44578ff325508b3076c85603e742d41cc283f59e1e5bdd660a95",
-    "specification_revision": "fd6eaa6a693464acbab36b0d63ba76f92ab066b9"
+    "specification_revision": "373e25b4b1782dadd1f60418e73b8c7c43182333"
   },
   "suites": [
     {
@@ -90,6 +90,11 @@
       "id": "06-laws",
       "file": "suites/06-laws.json",
       "content_sha256": "fd3677573bf973876bc5be0d4fbfc59af9721daab029986970d261185b291995"
+    },
+    {
+      "id": "07-operand-boundaries",
+      "file": "suites/07-operand-boundaries.json",
+      "content_sha256": "ca3cfd29bf9a3e4578c3a3184d77cce415181a970a5fe8d2eb3bbd9760d2081b"
     }
   ]
 }

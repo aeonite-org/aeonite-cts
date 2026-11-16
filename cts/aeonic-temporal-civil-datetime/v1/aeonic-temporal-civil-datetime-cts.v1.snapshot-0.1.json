@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "aeonic-temporal-civil-datetime",
+    "profile": "aeonic.operations.temporal.civil-datetime.v1",
+    "capabilities": {
+      "relations": {
+        "id": "Aeonic.Operations.Temporal.CivilDateTime.Relations",
+        "operations": [
+          "equal",
+          "compare",
+          "relate"
+        ]
+      },
+      "arithmetic": {
+        "id": "Aeonic.Operations.Temporal.CivilDateTime.Arithmetic",
+        "operations": [
+          "shift",
+          "shiftClock",
+          "step",
+          "materialize"
+        ]
+      }
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "civil-datetime",
+      "stable": true,
+      "publication": "local-only"
+    },
+    "description": "Immutable civil date-time target: complete independent Relations and Arithmetic capabilities; 154 operation cases, four actual-result chains and one relation-law group. Selected limits and native capacity remain separate.",
+    "snapshot_id": "aeonic-temporal-civil-datetime-cts-v1-snapshot-0.1",
+    "specification_schema": "resources/aeonic-operations/v1/snapshots/0.1/civil-datetime-contract.schema.json",
+    "specification_source": "resources/aeonic-operations/v1/snapshots/0.1/aeonic-temporal-civil-datetime-v1.aeon",
+    "binding_schema": "snapshots/0.1/cts-binding.schema.json",
+    "helpers": {
+      "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+      "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+      "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+      "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f"
+    },
+    "resource_limits": {
+      "maxRequestBytes": 65536,
+      "maxRequestDepth": 32,
+      "maxTemporalCharacters": 1024,
+      "maxInputPieces": 512,
+      "maxIntermediatePieces": 4096,
+      "maxOutputPieces": 512,
+      "maxWork": 16384,
+      "maxFractionDigits": 256,
+      "maxCountCharacters": 32,
+      "maxNumericCharacters": 4096,
+      "maxCoefficientDigits": 1024,
+      "maxExponentMagnitude": 1000000,
+      "maxWorkspaceDigits": 4096,
+      "maxOutputCharacters": 1024,
+      "maxResultBytes": 131072
+    },
+    "specification_schema_sha256": "55ba948d45d7113c92f845cafc071c1f44f7794350543b31b7be179733332155",
+    "specification_source_sha256": "7c2f315c7ea19d17e01991ebea40e7474d5c2388286bbf827f38d6e56bff9fe1",
+    "binding_schema_sha256": "78c240d86f2d44578ff325508b3076c85603e742d41cc283f59e1e5bdd660a95",
+    "specification_revision": "373e25b4b1782dadd1f60418e73b8c7c43182333",
+    "spec_snapshot_id": "aeonic-temporal-civil-datetime-specs-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "01-arithmetic",
+      "file": "snapshots/0.1/suites/01-arithmetic.json",
+      "content_sha256": "53fa5aed6464126511ead2fed204c710c33ad7ac64fdd7f353c5e107303c7d15"
+    },
+    {
+      "id": "02-relations",
+      "file": "snapshots/0.1/suites/02-relations.json",
+      "content_sha256": "008779fb9b8c3c6bbaa769d4ac9d8f8e7180f81c1648e539d42854e4e3b09157"
+    },
+    {
+      "id": "03-resources",
+      "file": "snapshots/0.1/suites/03-resources.json",
+      "content_sha256": "96701477f706281880f94d03f337f50bb1c1cc5f8c3e646ad9ee4b9920970ad0"
+    },
+    {
+      "id": "04-precedence",
+      "file": "snapshots/0.1/suites/04-precedence.json",
+      "content_sha256": "b7e9a93ce2b8e24918a3f2306b1d752b6b4a049002b27b73f5d1f8be403dffe4"
+    },
+    {
+      "id": "05-chains",
+      "file": "snapshots/0.1/suites/05-chains.json",
+      "content_sha256": "f175ee7ccab3c57a5fcd163e8453a9d849cb846b898077b966b2837b1f545419"
+    },
+    {
+      "id": "06-laws",
+      "file": "snapshots/0.1/suites/06-laws.json",
+      "content_sha256": "fd3677573bf973876bc5be0d4fbfc59af9721daab029986970d261185b291995"
+    },
+    {
+      "id": "07-operand-boundaries",
+      "file": "snapshots/0.1/suites/07-operand-boundaries.json",
+      "content_sha256": "ca3cfd29bf9a3e4578c3a3184d77cce415181a970a5fe8d2eb3bbd9760d2081b"
+    }
+  ]
+}

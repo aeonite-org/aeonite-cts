@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutable civil date-time CTS; independent complete capabilities, Python 3.9+."""
+"""Pinned civil date-time snapshot and explicit mutable CTS; Python 3.9+."""
 import argparse
 import copy
 import hashlib
@@ -19,7 +19,8 @@ from temporal_civil_datetime_checks import (PROFILE, CAPABILITIES, LIMITS,
 
 ROOT = Path(__file__).resolve().parents[1]
 LANE = 'aeonic-temporal-civil-datetime'
-NEXT_TARGET = LANE + '-cts-v1-snapshot-0.1'
+NEXT_TARGET = LANE + '-cts-v1-snapshot-0.2'
+IMMUTABLE_TARGETS = {LANE + '-cts-v1-snapshot-0.1': 'e02470ed4bf85cf2cefed34e53cb327beb5011028daae53ac5059d462168ce1d'}  # Exact bytes; mutable next cannot acquire a stable claim.
 HELPERS = ['runners/run_aeonic_arithmetic.py', 'runners/run_aeonic_rational_arithmetic.py',
            'runners/temporal_civil_date_checks.py', 'runners/temporal_civil_datetime_checks.py']
 
@@ -34,16 +35,21 @@ class Runner(CommonRunner):
         self.manifest_path = args.manifest.resolve()
         self.manifest = self.read(self.manifest_path)
         meta = self.manifest['meta']
-        require(meta['conformance'] == dict(surface='working-next', stable=False),
-                'Only the mutable date-time target is recognized; no stable claim')
+        self.immutable = meta['conformance'] == dict(surface='civil-datetime', stable=True, publication='local-only')
+        if self.immutable:
+            require(IMMUTABLE_TARGETS.get(meta['snapshot_id']) == self.artifacts[self.manifest_path],
+                    'Unrecognized or modified immutable date-time target')
+        else:
+            require(meta['conformance'] == dict(surface='working-next', stable=False),
+                    'Expected mutable next or recognized immutable date-time target')
         require(set(self.manifest) == {'meta', 'suites'}, 'Unknown manifest fields')
         require(set(meta) == {'version', 'lane', 'profile', 'capabilities', 'sut_protocol',
                 'conformance', 'description', 'snapshot_id', 'specification_schema',
                 'specification_source', 'binding_schema', 'helpers', 'resource_limits',
                 'specification_schema_sha256', 'specification_source_sha256',
-                'binding_schema_sha256', 'specification_revision'}, 'Unknown or missing target metadata')
-        require(meta['version'] == '0.1.0-dev.0' and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong target version/protocol')
-        require(meta['lane'] == LANE and meta['profile'] == PROFILE and meta['snapshot_id'] == NEXT_TARGET,
+                'binding_schema_sha256', 'specification_revision'} | ({'spec_snapshot_id'} if self.immutable else set()), 'Unknown or missing target metadata')
+        require(meta['version'] == ('0.1.0' if self.immutable else '0.2.0-dev.0') and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong target version/protocol')
+        require(meta['lane'] == LANE and meta['profile'] == PROFILE and (self.immutable or meta['snapshot_id'] == NEXT_TARGET),
                 'Wrong date-time target identity')
         require(meta['capabilities'] == {k: dict(id=v[0], operations=list(v[1])) for k, v in CAPABILITIES.items()},
                 'Capability boundaries differ from the working contract')
@@ -310,7 +316,7 @@ class Runner(CommonRunner):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-temporal-civil-datetime/v1/aeonic-temporal-civil-datetime-cts.v1.next.json')
+    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-temporal-civil-datetime/v1/aeonic-temporal-civil-datetime-cts.v1.snapshot-0.1.json')
     parser.add_argument('--specs-root', type=Path, required=True)
     parser.add_argument('--capability-set', choices=['relations', 'arithmetic', 'all'], default='all')
     parser.add_argument('--check', action='store_true')

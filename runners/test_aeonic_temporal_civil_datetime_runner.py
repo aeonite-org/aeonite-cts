@@ -2,6 +2,10 @@
 import argparse
 import copy
 import json
+import shutil
+import subprocess
+import sys
+import tempfile
 import os
 from pathlib import Path
 import unittest
@@ -217,6 +221,81 @@ class CivilDateTimeRunnerTests(unittest.TestCase):
         self.assertEqual(relation_labels(gap,p)['compare'],'indeterminate')
         self.assertFalse(subset(p,gap))
         self.assertEqual(format_coordinate(coordinate('2024-03-01T09:30:00.000000000001')),'2024-03-01T09:30:00.000000000001')
+
+    def frozen_args(self, selection='all'):
+        args=self.args(selection)
+        args.manifest=args.manifest.with_name('aeonic-temporal-civil-datetime-cts.v1.snapshot-0.1.json')
+        return args
+
+    def test_frozen_checks_never_claim_semantic_conformance(self):
+        for choice in ['relations','arithmetic','all']:
+            r=Runner(self.frozen_args(choice))
+            with patch.object(r,'execute') as execute:report=r.run(check_only=True)
+            execute.assert_not_called()
+            self.assertTrue(r.immutable)
+            self.assertEqual(report['target_status'],'immutable-local')
+            self.assertEqual(report['target'],'aeonic-temporal-civil-datetime-cts-v1-snapshot-0.1')
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+            self.assertEqual(report['sut_executions'],0)
+            self.assertEqual(r.manifest['meta']['spec_snapshot_id'],'aeonic-temporal-civil-datetime-specs-v1-snapshot-0.1')
+
+    def test_frozen_reencoding_edits_exclusions_and_next_relabel_fail_closed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'lane'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            original=json.loads(args.manifest.read_text())
+            variants=[copy.deepcopy(original) for _ in range(5)]
+            variants[1]['meta']['description']='edited'
+            variants[2]['meta']['snapshot_id']='aeonic-temporal-civil-datetime-cts-v1-snapshot-9.9'
+            variants[3]['exclude_cases']=['one']
+            variants[4]=json.loads((lane/'aeonic-temporal-civil-datetime-cts.v1.next.json').read_text())
+            variants[4]['meta']['conformance']=original['meta']['conformance']
+            for variant in variants:
+                args.manifest.write_text(json.dumps(variant))
+                with self.assertRaisesRegex(ValueError,'Unrecognized or modified immutable'):Runner(args)
+
+    def test_frozen_wrong_responses_cannot_claim_conformance(self):
+        r=Runner(self.frozen_args())
+        with patch.object(r,'execute',return_value=self.output(dict(outcome='diagnostic',reason='invalid_operand',context=dict(stage=4,path=None)))):
+            report=r.run()
+        self.assertEqual(report['status'],'failed');self.assertTrue(report['semantic_execution'])
+        self.assertFalse(report['stable_conformance_claim']);self.assertGreater(len(report['failures']),0)
+
+    def test_frozen_artifacts_are_isolated_and_rechecked_after_execution(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'lane'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            # Evolving working fixtures cannot change the frozen copy.
+            (lane/'suites/01-arithmetic.json').write_text('{}')
+            r=Runner(args);self.assertEqual(r.run(True)['status'],'artifacts-validated')
+            suite=lane/r.manifest['suites'][0]['file'];suite.write_text(suite.read_text()+'\n')
+            report=r.run(True)
+            self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+            self.assertTrue(any(f['id']=='artifact-integrity' for f in report['failures']))
+            with self.assertRaisesRegex(ValueError,'Artifact digest mismatch'):Runner(args)
+
+    def test_default_cli_selects_frozen_and_explicit_next_remains_mutable(self):
+        for manifest,target in [(None,'0.1'),(self.args().manifest,'0.2')]:
+            command=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_civil_datetime.py'),'--specs-root',str(self.args().specs_root),'--check']
+            if manifest is not None:command+=['--manifest',str(manifest)]
+            child=subprocess.run(command,text=True,capture_output=True,timeout=20)
+            self.assertEqual(child.returncode,0,child.stderr+child.stdout)
+            report=json.loads(child.stdout);self.assertTrue(report['target'].endswith(target))
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+            self.assertEqual(report['sut_executions'],0)
+
+    def test_amount_grammar_and_scalar_diagnostics_are_asserted(self):
+        r=Runner(self.frozen_args())
+        for ident in ['amount-leading-zero-integer','amount-leading-zero-zero','amount-leading-zero-signed-decimal','amount-leading-zero-signed-exponent','temporal-scalar-count-1','raw-temporal-astral-scalar','derived-temporal-scalar-count']:
+            test=self.operation(r,ident)
+            with patch.object(r,'execute',return_value=self.output(test['expected'])):r.operation(test)
+            wrong=copy.deepcopy(test['expected']);wrong['reason']='resource_limit'
+            with patch.object(r,'execute',return_value=self.output(wrong)):
+                with self.assertRaises(ValueError):r.operation(test)
+        for value in ['01','00','-01.2','+01e2']:
+            with self.assertRaisesRegex(ValueError,'Invalid finite amount'):decimal_properties(dict(number=dict(category='finiteNumber',value=value)))
+        for value in ['0','.1','+1','-0','1E+0002']:
+            decimal_properties(dict(number=dict(category='finiteNumber',value=value)))
 
 
 if __name__=='__main__':unittest.main()

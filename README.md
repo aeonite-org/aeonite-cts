@@ -298,7 +298,7 @@ snapshots, defaults and package publication retain their separate scope.
 
 The [candidate regression contract and capability inventory](docs/conformance/unicode-hardening-candidate.md) records existing identity, casing, wildcard, UTF-16 length and search responsibilities. This implementation-test work does not promote an immutable snapshot or add a released profile/CTS claim.
 
-## Unqualified civil date-time working target
+## Unqualified civil date-time capabilities
 
 The [date-time lane](docs/protocol/v1/lane-aeonic-temporal-civil-datetime.md)
 provides independent complete Relations and Arithmetic capability selections.
@@ -309,19 +309,34 @@ coordinate shifts, complete-calendar-period steps and exact materialization.
 
 Run `python3 runners/run_aeonic_temporal_civil_datetime.py --specs-root ...
 --capability-set relations|arithmetic|all --check` to validate artifacts. The
-mutable target has 140 operation cases, four live-result chains and one eight-
-value relation-law group. All selected semantic cases are mandatory. Reports
-always set `stable_conformance_claim: false`; checker tests and replay controls
-establish neither SUT conformance nor native capacity. Existing snapshots and
+frozen target has 154 operation cases, four live-result chains and one eight-
+value relation-law group. All selected semantic cases are mandatory. Artifact-only and mutable runs
+set `stable_conformance_claim: false`; checker tests and replay controls
+establish neither SUT conformance nor native capacity. Earlier snapshots and
 their default targets remain unchanged. Timezone/WTC and elapsed-time authority
 are separate from this unqualified civil-coordinate contract.
 
-## Caption-only working-source refresh
+## Caption-only working-source refresh (historical)
 
-The mutable arithmetic, civil-date and civil date-time targets use specification
+The coordinated refresh updated the then-mutable arithmetic, civil-date and
+civil date-time targets against specification
 revision `fd6eaa6a693464acbab36b0d63ba76f92ab066b9`, including accessible table
 captions. Only their working-source fingerprints and matching CI checkouts were
 refreshed. Schemas, suites, bindings, helpers, capabilities and selected limits
 are unchanged. Immutable snapshot sources and recognition hashes are untouched.
+Civil date-time subsequently advances under the snapshot record below.
 Consumers should select a compatible specification/CTS revision pair; independent
 `main` checkouts can otherwise fail artifact validation before SUT execution.
+
+## Civil date-time snapshot 0.1
+
+The default civil date-time runner now selects immutable local
+`aeonic-temporal-civil-datetime-cts-v1-snapshot-0.1`, aligned with the specification
+snapshot of the same version. It freezes 154 operation cases, four actual-result
+chains and one relation-law group: 355 SUT executions / 380 assertions for a full run.
+Relations and Arithmetic remain independently complete selections. Exact manifest
+recognition, isolated binding/suites, pinned source/schema/helpers and post-run
+integrity checks guard stable claims. Artifact-only validation cannot claim
+semantic conformance. The separate mutable next target advances to 0.2. Older
+snapshots retain their bytes; implementation adoption, SANSA integration, native
+capacity and package publication remain separate work.
