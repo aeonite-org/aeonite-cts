@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: fd6eaa6a693464acbab36b0d63ba76f92ab066b9
+          ref: 373e25b4b1782dadd1f60418e73b8c7c43182333
           path: datetime-specs
 
       - name: Checkout unpublished property contract dependency

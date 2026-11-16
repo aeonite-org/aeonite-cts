@@ -1,11 +1,17 @@
-# Aeonic unqualified civil date-time working target
+# Aeonic unqualified civil date-time snapshot 0.1 and mutable next
 
-This mutable lane uses `aeonic.operations.temporal.civil-datetime.v1`, with the
-exact specification commit, source/schema hashes, helpers and suite hashes in
-`cts/aeonic-temporal-civil-datetime/v1/aeonic-temporal-civil-datetime-cts.v1.next.json`.
-No immutable target is recognized. Every report has
-`stable_conformance_claim: false`, including successful semantic executions.
-No package release or implementation capacity is established by this lane.
+The default immutable target is
+`cts/aeonic-temporal-civil-datetime/v1/aeonic-temporal-civil-datetime-cts.v1.snapshot-0.1.json`,
+aligned with `aeonic-temporal-civil-datetime-specs-v1-snapshot-0.1`. Exact manifest
+bytes are recognized by the runner; its source/schema, isolated binding/suite
+copies and checker helpers are hash-pinned. The explicitly selected profile is
+`aeonic.operations.temporal.civil-datetime.v1`.
+
+The separate `.next.json` target advances to snapshot 0.2 and remains mutable.
+Artifact-only checks, test replays, failures and mutable runs never establish a
+stable claim. A recognized frozen semantic execution must pass every selected
+case to set `stable_conformance_claim: true`. Native capacity and package release
+remain separate; there are no semantic case opt-outs.
 
 ## Complete capability selections
 
@@ -42,15 +48,22 @@ Semantic execution additionally supplies `--sut 'command arguments'`, with
 optional `--cwd`, `--timeout` and `--report`. Invocation is shell-free. Python
 3.9+ is supported. Tests may select the exact dependency through
 `AEONIC_DATETIME_SPECS_ROOT`; CI checks it out separately so older lanes retain
-their own pins. Old frozen files and imported helpers are not rewritten.
+their own pins. Earlier frozen files and imported shared helpers are not rewritten. The date-time
+amount checker is aligned with the already-required finite Number grammar before
+its first freeze.
 
-There are 140 operation cases, four live-result chains and one eight-value law
-group. Full execution makes 341 SUT calls, including 192 generated relation
+There are 154 operation cases, four live-result chains and one eight-value law
+group. Full execution makes 355 SUT calls, including 192 generated relation
 calls, plus cached equality/strict-before transitivity assertions. Artifact-only
 mode makes zero SUT calls and reports `artifacts-validated` with
-`semantic_execution: false`. Unit-test fixture providers/replay controls check
+`semantic_execution: false`. The new boundary cases enforce existing finite Number grammar reuse (no leading-zero
+integer mantissas) and scalar temporal-character admission, including raw JSON and
+derived coordinates. Unit-test fixture providers/replay controls check
 assertions and transport; they are not an operations implementation or semantic
 conformance evidence. Native default capacity needs separate probes.
+
+To select mutable development explicitly, add
+`--manifest cts/aeonic-temporal-civil-datetime/v1/aeonic-temporal-civil-datetime-cts.v1.next.json`.
 
 ## Binding and admission
 
