@@ -47,9 +47,9 @@
       "maxResultBytes": 16384
     },
     "specification_schema_sha256": "716c72d3a688dbd4c2f7fbf888b30bc45788b995d3c3f930e7c5afa06cb1305f",
-    "specification_source_sha256": "1daa5f02c00b4616f6b4c923c4c1d91d373d5eb6cb800243d2a7607fb978fe83",
+    "specification_source_sha256": "c645931d0545e45c3c63beec438a1765c7546251ab5d79c9da484cfcfc939cf7",
     "binding_schema_sha256": "1c44e40781c95cc5c6d008abf363750c5a4ffc04ec8a075bad045d45dd183eba",
-    "specification_revision": "279a7679d654dbf135296650e25038ca5bd5b037"
+    "specification_revision": "fd6eaa6a693464acbab36b0d63ba76f92ab066b9"
   },
   "suites": [
     {
