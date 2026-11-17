@@ -23,3 +23,5 @@ Normative protocol documents for CTS runner/SUT contracts.
 ## Version Policy
 - Protocol-major changes require `cts.protocol.v2`.
 - Lane suites MUST declare protocol version in manifest metadata (for example `sut_protocol: cts.protocol.v1`).
+
+- `lane-aeonic-temporal-civil-clock.md` - mutable standalone clocks, exact relative-day sets and independent complete capabilities.

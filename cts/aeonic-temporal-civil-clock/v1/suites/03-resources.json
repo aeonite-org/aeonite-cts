@@ -1,0 +1,2198 @@
+{
+  "id": "03-resources",
+  "tests": [
+    {
+      "id": "raw-negative-zero-width",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"},\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":-0}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 217
+        }
+      }
+    },
+    {
+      "id": "raw-negative-zero-width-exact-bytes",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"},\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":-0}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 218
+        }
+      }
+    },
+    {
+      "id": "raw-duplicate-operation",
+      "requires": [],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"operation\":\"compare\",\"input\":{}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "raw-multibyte-count",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"},\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":\"é😀\"}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "raw-container-depth-32",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[null]]]]]]]]]]]]]]]]]]]]]]]]]]]]}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "raw-container-depth-33",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[null]]]]]]]]]]]]]]]]]]]]]]]]]]]]]}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "raw-depth-ignores-quoted-escaped-content",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":\"ignored containers: [{]} and quoted \\\"[\\\" and backslash \\\\\"}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "limit-maxRequestBytes-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 231
+        }
+      }
+    },
+    {
+      "id": "limit-maxRequestBytes-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 230
+        }
+      }
+    },
+    {
+      "id": "limit-maxRequestDepth-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestDepth": 4
+        }
+      }
+    },
+    {
+      "id": "limit-maxRequestDepth-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestDepth": 3
+        }
+      }
+    },
+    {
+      "id": "limit-maxTemporalCharacters-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxTemporalCharacters": 8
+        }
+      }
+    },
+    {
+      "id": "limit-maxTemporalCharacters-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxTemporalCharacters": 7
+        }
+      }
+    },
+    {
+      "id": "limit-maxInputPieces-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputPieces": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxInputPieces-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputPieces": 0
+        }
+      }
+    },
+    {
+      "id": "limit-maxIntermediatePieces-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxIntermediatePieces": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxIntermediatePieces-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxIntermediatePieces": 0
+        }
+      }
+    },
+    {
+      "id": "limit-maxOutputPieces-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputPieces": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxOutputPieces-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputPieces": 0
+        }
+      }
+    },
+    {
+      "id": "limit-maxWork-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWork": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxWork-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWork": 0
+        }
+      }
+    },
+    {
+      "id": "limit-maxRelativeDayDigits-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRelativeDayDigits": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxRelativeDayDigits-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRelativeDayDigits": 0
+        }
+      }
+    },
+    {
+      "id": "limit-maxCountCharacters-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "step",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:"
+              }
+            },
+            "policy": {
+              "clockForm": "hour",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "interval",
+                "start": {
+                  "day": "1",
+                  "time": "00:00:00"
+                },
+                "end": {
+                  "day": "1",
+                  "time": "01:00:00"
+                },
+                "includeStart": true,
+                "includeEnd": false
+              }
+            ]
+          },
+          "originClockForm": "hour",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "clockForm": "hour",
+            "count": "1",
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCountCharacters": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxCountCharacters-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "step",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:"
+              }
+            },
+            "policy": {
+              "clockForm": "hour",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/count"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCountCharacters": 0
+        }
+      }
+    },
+    {
+      "id": "limit-maxNumericCharacters-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxNumericCharacters": 4
+        }
+      }
+    },
+    {
+      "id": "limit-maxNumericCharacters-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxNumericCharacters": 3
+        }
+      }
+    },
+    {
+      "id": "limit-maxCoefficientDigits-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCoefficientDigits": 2
+        }
+      }
+    },
+    {
+      "id": "limit-maxCoefficientDigits-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxCoefficientDigits": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxExponentMagnitude-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxExponentMagnitude": 2
+        }
+      }
+    },
+    {
+      "id": "limit-maxExponentMagnitude-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxExponentMagnitude": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxWorkspaceDigits-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWorkspaceDigits": 7
+        }
+      }
+    },
+    {
+      "id": "limit-maxWorkspaceDigits-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWorkspaceDigits": 6
+        }
+      }
+    },
+    {
+      "id": "limit-maxOutputCharacters-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:"
+              }
+            },
+            "policy": {
+              "clockForm": "hour"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClock",
+            "value": "23:"
+          },
+          "originClockForm": "hour",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "clockForm": "hour",
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 3
+        }
+      }
+    },
+    {
+      "id": "limit-maxOutputCharacters-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:"
+              }
+            },
+            "policy": {
+              "clockForm": "hour"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputCharacters": 2
+        }
+      }
+    },
+    {
+      "id": "limit-maxResultBytes-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "01:30:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxResultBytes": 304
+        }
+      }
+    },
+    {
+      "id": "limit-maxResultBytes-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "7200"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxResultBytes": 303
+        }
+      }
+    },
+    {
+      "id": "limit-maxFractionDigits-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "-.5"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "-1",
+                  "time": "23:59:59.5"
+                }
+              }
+            ]
+          },
+          "originClockForm": "second",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxFractionDigits": 1
+        }
+      }
+    },
+    {
+      "id": "limit-maxFractionDigits-one-below",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "-.5"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxFractionDigits": 0
+        }
+      }
+    },
+    {
+      "id": "day-input-exact",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "99",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "99",
+                  "time": "00:00:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "undeclared",
+          "history": "none-declared"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRelativeDayDigits": 2
+        }
+      }
+    },
+    {
+      "id": "day-input-denied",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "99",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/at/day"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRelativeDayDigits": 1
+        }
+      }
+    },
+    {
+      "id": "compact-positive-exponent-workspace",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e1000000"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "compact-negative-exponent-workspace",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1e-1000000"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "zero-authored-exponent-admission",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "0e1000001"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      }
+    },
+    {
+      "id": "raw-token--0-denied",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":-0}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 217
+        }
+      }
+    },
+    {
+      "id": "raw-token--0-admitted",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":-0}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 218
+        }
+      }
+    },
+    {
+      "id": "structured-token--0",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {"operation":"equal","input":{"left":{"temporal":{"category":"container","payload":-0}},"right":{"temporal":{"category":"civilClock","value":"09:30"}},"context":{"profile":"aeonic.operations.temporal.civil-clock.v1"}}}
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 217
+        }
+      }
+    },
+    {
+      "id": "raw-token-9007199254740993-denied",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":9007199254740993}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 231
+        }
+      }
+    },
+    {
+      "id": "raw-token-9007199254740993-admitted",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":9007199254740993}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 232
+        }
+      }
+    },
+    {
+      "id": "structured-token-9007199254740993",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {"operation":"equal","input":{"left":{"temporal":{"category":"container","payload":9007199254740993}},"right":{"temporal":{"category":"civilClock","value":"09:30"}},"context":{"profile":"aeonic.operations.temporal.civil-clock.v1"}}}
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 231
+        }
+      }
+    },
+    {
+      "id": "raw-token-1e1000000-denied",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":1e1000000}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 224
+        }
+      }
+    },
+    {
+      "id": "raw-token-1e1000000-admitted",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":1e1000000}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 225
+        }
+      }
+    },
+    {
+      "id": "structured-token-1e1000000",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {"operation":"equal","input":{"left":{"temporal":{"category":"container","payload":1e1000000}},"right":{"temporal":{"category":"civilClock","value":"09:30"}},"context":{"profile":"aeonic.operations.temporal.civil-clock.v1"}}}
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 224
+        }
+      }
+    },
+    {
+      "id": "raw-token-1e-1000000-denied",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":1e-1000000}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 225
+        }
+      }
+    },
+    {
+      "id": "raw-token-1e-1000000-admitted",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"equal\",\"input\":{\"left\":{\"temporal\":{\"category\":\"container\",\"payload\":1e-1000000}},\"right\":{\"temporal\":{\"category\":\"civilClock\",\"value\":\"09:30\"}},\"context\":{\"profile\":\"aeonic.operations.temporal.civil-clock.v1\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 226
+        }
+      }
+    },
+    {
+      "id": "structured-token-1e-1000000",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {"operation":"equal","input":{"left":{"temporal":{"category":"container","payload":1e-1000000}},"right":{"temporal":{"category":"civilClock","value":"09:30"}},"context":{"profile":"aeonic.operations.temporal.civil-clock.v1"}}}
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 225
+        }
+      }
+    }
+  ]
+}
