@@ -368,3 +368,13 @@ order/multiplicity, inspection/iterator budgets, Query records and denied-consum
 expectations. Its 167 cases are **not executed conformance coverage**. They remain
 excluded by default pending owning review, runtime adapters and an executable lane
 protocol. Existing snapshots, selections and capability claims are unchanged.
+
+## Physical newlines inside block comments
+
+Core next selects `cts/core/v1/suites/30-next-block-comment-newlines.json` with
+207 development vectors. It covers every block-comment channel at document,
+header, object, attribute, list, tuple and node-child separator positions; LF,
+CRLF, single-line and non-LF controls, inter-token layout, literal boundaries,
+first closers, strict/custom modes and unterminated comments. See the
+[amendment record](docs/conformance/block-comment-newlines.md). Released
+Core snapshots and suites are unchanged.
