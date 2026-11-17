@@ -9,7 +9,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "sansa-properties-preparation-v0.1",
-    "snapshot_id": "sansa-properties-next-cts-v1-candidate-0.2",
+    "snapshot_id": "sansa-properties-next-cts-v1-snapshot-0.2",
     "specification_revision": "ec43f7996d3d44d86e1a7639bb26d98b4fb829c1",
     "preparation_only": true,
     "description": "Unimplemented property-only preparation target. --check validates artefacts, not SUT conformance."

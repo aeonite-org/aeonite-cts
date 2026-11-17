@@ -365,6 +365,6 @@ record assertion coverage, pins and failure ordering. No immutable target exists
 The [experimental property-only target](docs/protocol/v1/lane-sansa-properties-preparation.md)
 prepares syntax/AST, authorized incoming keys and direct-head tags, scope/ownership,
 order/multiplicity, inspection/iterator budgets, Query records and denied-consumer
-expectations. Its 149 cases are **not executed conformance coverage**. They remain
+expectations. Its 167 cases are **not executed conformance coverage**. They remain
 excluded by default pending owning review, runtime adapters and an executable lane
 protocol. Existing snapshots, selections and capability claims are unchanged.
