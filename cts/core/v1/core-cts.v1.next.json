@@ -8,7 +8,7 @@
       "experimental_default": "exclude"
     },
     "sut_protocol": "cts.protocol.v1",
-    "description": "Next Core target with revised Aeonic limits, GP profile semantics, and authored-order reference validation within metadata; ordinary empty property keys (development only)",
+    "description": "Next Core target with revised Aeonic limits, GP profile semantics, and authored-order reference validation within metadata; ordinary empty property keys (development only); physical newlines inside block comments supply allowed newline separators",
     "snapshot_id": "core-next-cts-v1-snapshot-0.1"
   },
   "suites": [
@@ -146,6 +146,10 @@
     {
       "id": "next-empty-keys",
       "file": "suites/29-next-empty-keys.json"
+    },
+    {
+      "id": "next-block-comment-newlines",
+      "file": "suites/30-next-block-comment-newlines.json"
     }
   ]
 }

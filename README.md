@@ -52,6 +52,12 @@ If a stress or fuzz asset is implementation hardening work but not part of a pub
 
 ## Coverage
 
+The [block-comment newline amendment](docs/conformance/block-comment-newlines.md)
+adds 207 vectors to Core next: physical LF/CRLF inside all seven block-comment
+channels counts at every permitted newline-separator context. Released targets
+and their hash-pinned suites retain their original bytes.
+
+
 The current anti-drift coverage map is tracked in `CONFORMANCE-COVERAGE.md`.
 
 The [empty-key candidate](docs/conformance/empty-keys-candidate.md) adds ordinary
