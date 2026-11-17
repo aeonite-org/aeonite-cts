@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:aeonite:sansa:properties:fixture-candidate:0.1",
+  "$id": "urn:aeonite:sansa:properties:fixture-candidate:0.2",
   "type": "object",
   "properties": {
     "meta": {
@@ -439,7 +439,8 @@
                 "iterator",
                 "query",
                 "consumer-denial",
-                "legacy"
+                "legacy",
+                "head-tag-split"
               ]
             }
           }

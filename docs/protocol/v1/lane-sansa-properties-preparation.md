@@ -8,9 +8,9 @@ No existing development or released manifest selects these suites.
 
 The explicit target is
 `cts/sansa/v1/sansa-property-selectors-cts.v1.next.json`, profile
-`sansa-properties-read-only-candidate-0.1`, protocol
-`sansa-properties-preparation-v0.1`. It contains 149 expectations: 34 parser,
-83 Resolve, 15 Query and 17 denied-consumer cases. Positional selection and
+`sansa-properties-read-only-candidate-0.2`, protocol
+`sansa-properties-preparation-v0.1`. It contains 167 expectations: 40 parser,
+95 Resolve, 15 Query and 17 denied-consumer cases. Positional selection and
 new recursive selectors are outside this target.
 
 ## Preparation check

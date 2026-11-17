@@ -57,7 +57,7 @@ class PropertyPreparationTests(unittest.TestCase):
 
     def test_prepared_is_not_executed_conformance(self):
         result = checker.check(self.manifest, self.specs)
-        self.assertEqual(149, result['cases'])
+        self.assertEqual(167, result['cases'])
         self.assertEqual('prepared', result['status'])
         self.assertFalse(result['sutExecuted'])
         self.assertFalse(result['acceptanceQualification'])
