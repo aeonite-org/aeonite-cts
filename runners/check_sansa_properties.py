@@ -11,7 +11,7 @@ from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT = ROOT / 'cts/sansa/v1/sansa-property-selectors-cts.v1.next.json'
-PROFILE = 'sansa-properties-read-only-candidate-0.1'
+PROFILE = 'sansa-properties-read-only-candidate-0.2'
 PROTOCOL = 'sansa-properties-preparation-v0.1'
 
 class PreparationError(ValueError):

@@ -1,57 +1,57 @@
 {
   "meta": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "lane": "sansa-properties",
     "capability": "SANSA.Resolve",
-    "profile": "sansa-properties-read-only-candidate-0.1",
+    "profile": "sansa-properties-read-only-candidate-0.2",
     "conformance": {
       "surface": "experimental",
       "experimental_default": "exclude"
     },
     "sut_protocol": "sansa-properties-preparation-v0.1",
-    "snapshot_id": "sansa-properties-next-cts-v1-snapshot-0.1",
-    "specification_revision": "87af960eb26d15711369d20c9753efddb8617a48",
+    "snapshot_id": "sansa-properties-next-cts-v1-snapshot-0.2",
+    "specification_revision": "aa8833f3bca1d1a19a9cb13ddfb979bb7f7522e3",
     "preparation_only": true,
     "description": "Unimplemented property-only preparation target. --check validates artefacts, not SUT conformance."
   },
   "specification": {
     "source": "sources/sansa/v1/property-selectors-v1.aeon",
-    "source_sha256": "b5ded70801c14da207fa0a4e84211b0eb4331bb23ec4811e617aa1dca8754818",
+    "source_sha256": "37c13f405476dfc48e77062bc8f05cd36a620735d4f4e9b9e333cc6e20d74afc",
     "resource": "resources/sansa/v1/property-selectors-candidate.json",
-    "resource_sha256": "c7acb258f3fa88c76295dc9238528bdc4a098102e7d49a0b321a66dc2edbdbe1",
+    "resource_sha256": "4decdabaa5845fac14752ac9327622d3cd1038ed7b5c960a312c1025e00ddf79",
     "schema": "resources/sansa/v1/property-selectors-contract.schema.json",
-    "schema_sha256": "26772afd281c07bab996a1a59e8c2ef571765af8f8e1c2785fd56225f0a1eb1f"
+    "schema_sha256": "d8b31dbe31a6b57f72c6489b6c903d98477bcf2fe37818c65977ede86549257a"
   },
   "assets": [
     {
       "file": "fixtures/property-selectors-v1.json",
-      "content_sha256": "7261bc7219b49e8f8c03b2b43e931ac611fafd2fc3e48b28dd3e51f2e4072b16"
+      "content_sha256": "867feaee7445b4bbb7d86ed84c0b8ce18523ebbc1ec76cd4f845b24aec273a83"
     },
     {
       "file": "property-candidate-suite.schema.json",
-      "content_sha256": "7c88bb29ad7d417fb678044c390c9e552a09fd4bdc3798bf46c67fe92e9cd549"
+      "content_sha256": "75d3afbc34d29b91dbace4f8f5e92208173e6a4f53a05229badaacd193ae6eef"
     }
   ],
   "suites": [
     {
       "id": "property-parser",
       "file": "suites/18-property-parser.json",
-      "content_sha256": "84aac40fa4360a7fccfa16f820195edef5f0fe8938ad6d689a7c43c7477d25e0"
+      "content_sha256": "7549b6c501f306368ed76adf47ba3c7d8f605fd9b40338b3010dc1254eaa896b"
     },
     {
       "id": "property-resolve",
       "file": "suites/19-property-resolve.json",
-      "content_sha256": "724ea13d00ccf53c23cee502fa7f858925f2ef4b1e0e591759750e18d4290ec2"
+      "content_sha256": "3cafd875d3341719f4cb2b2b2fcc1d48404e2a9644c8b83ff6a8b80336690cba"
     },
     {
       "id": "property-query",
       "file": "suites/20-property-query.json",
-      "content_sha256": "6fada26fb866225dd85aa2602bf4a7c7e3e7ca6ce05f9046bd723fdc889c3f84"
+      "content_sha256": "a5c7c228702ceb708dd475e1b742521a08a1c7c4399572c70deb632db6a5b25c"
     },
     {
       "id": "property-boundaries",
       "file": "suites/21-property-boundaries.json",
-      "content_sha256": "60b4b43657ddcfc70c35af99b00f15de84251b78556363fa5ed6bd7db55bd1f9"
+      "content_sha256": "b75f0b7905cb9418e4cb6a259545fbeeb8e7d08e521844b45717db10b5acaa8c"
     }
   ]
 }
