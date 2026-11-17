@@ -1,9 +1,11 @@
 # SANSA property selectors: preparation protocol 0.1
 
-Status: **experimental, excluded by default, unimplemented**. The owning contract
+Status: **experimental preparation, excluded by default**. The owning contract
 is `sansa-v1-property-selectors` at specification commit
-`87af960eb26d15711369d20c9753efddb8617a48`. This protocol prepares test assets; it
+`aa8833f3bca1d1a19a9cb13ddfb979bb7f7522e3`. This protocol prepares test assets; it
 is not a runtime SUT protocol, capability claim or immutable CTS snapshot.
+Preparation status does not assert that experimental implementations are absent;
+implementation availability and admission are recorded separately by each runtime.
 No existing development or released manifest selects these suites.
 
 The explicit target is
@@ -36,7 +38,7 @@ be recorded as executed selector conformance. There is no SUT invocation option.
 The checker constructs bounded generated input but does not parse or evaluate a
 selector or calculate expected results. Review/merge of the proposed contract,
 actual provider adapters and a reviewed executable lane protocol are prerequisites
-to implementation claims. Unsupported instrumentation must fail rather than
+to an executed conformance claim for this lane. Unsupported instrumentation must fail rather than
 omit an expectation or become an optional-runtime skip.
 
 ## Fixture adapter obligations

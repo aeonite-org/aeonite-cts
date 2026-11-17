@@ -63,6 +63,14 @@ class PropertyPreparationTests(unittest.TestCase):
         self.assertFalse(result['acceptanceQualification'])
         self.assertEqual('exclude', result['defaultSelection'])
 
+    def test_guide_specification_pin_matches_manifest(self):
+        guide = checker.ROOT / 'docs/protocol/v1/lane-sansa-properties-preparation.md'
+        text = guide.read_text()
+        marker = 'at specification commit\n`'
+        self.assertEqual(1, text.count(marker))
+        pin = text.split(marker, 1)[1].split('`', 1)[0]
+        self.assertEqual(checker.load(checker.DEFAULT)['meta']['specification_revision'], pin)
+
     def test_default_admission_rejected(self):
         self.manifest_change(lambda d: d['meta']['conformance'].update(experimental_default='include'))
         self.reject()

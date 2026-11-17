@@ -10,17 +10,17 @@
     },
     "sut_protocol": "sansa-properties-preparation-v0.1",
     "snapshot_id": "sansa-properties-next-cts-v1-snapshot-0.2",
-    "specification_revision": "ec43f7996d3d44d86e1a7639bb26d98b4fb829c1",
+    "specification_revision": "aa8833f3bca1d1a19a9cb13ddfb979bb7f7522e3",
     "preparation_only": true,
     "description": "Unimplemented property-only preparation target. --check validates artefacts, not SUT conformance."
   },
   "specification": {
     "source": "sources/sansa/v1/property-selectors-v1.aeon",
-    "source_sha256": "b49e00bdc017ac7dfeb22275dbc7de3624e6d527590f199a8f3f26381fead94f",
+    "source_sha256": "37c13f405476dfc48e77062bc8f05cd36a620735d4f4e9b9e333cc6e20d74afc",
     "resource": "resources/sansa/v1/property-selectors-candidate.json",
     "resource_sha256": "4decdabaa5845fac14752ac9327622d3cd1038ed7b5c960a312c1025e00ddf79",
     "schema": "resources/sansa/v1/property-selectors-contract.schema.json",
-    "schema_sha256": "874baa5b2f7df3d54bdbf97f530c6eb3a05ef220a4e6dcf38a9defc853c37c01"
+    "schema_sha256": "d8b31dbe31a6b57f72c6489b6c903d98477bcf2fe37818c65977ede86549257a"
   },
   "assets": [
     {

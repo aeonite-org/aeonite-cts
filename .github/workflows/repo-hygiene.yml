@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: ec43f7996d3d44d86e1a7639bb26d98b4fb829c1
+          ref: aa8833f3bca1d1a19a9cb13ddfb979bb7f7522e3
           path: property-specs
 
       - name: Set up semantic runner Python
