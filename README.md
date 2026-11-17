@@ -340,3 +340,18 @@ integrity checks guard stable claims. Artifact-only validation cannot claim
 semantic conformance. The separate mutable next target advances to 0.2. Older
 snapshots retain their bytes; implementation adoption, SANSA integration, native
 capacity and package publication remain separate work.
+
+## Standalone civil clock working target
+
+The [civil clock lane](docs/protocol/v1/lane-aeonic-temporal-civil-clock.md) adds
+explicit `aeonic.operations.temporal.civil-clock.v1` selection, independently
+complete Relations and Arithmetic groups, exact point/interval sets and signed
+relative-day carry. Its `.next.json` manifest is mutable and cannot establish
+stable conformance. It has 180 operations, two actual-result chains and one law
+group (378 SUT calls for a full semantic run). `--check` makes no SUT calls;
+fixture replays test the harness, not an implementation's semantic conformance.
+Earlier frozen snapshots and shared helpers are unchanged.
+
+```sh
+python3 runners/run_aeonic_temporal_civil_clock.py --specs-root ../aeonite-specs --check
+```

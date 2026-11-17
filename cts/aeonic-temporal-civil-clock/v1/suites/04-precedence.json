@@ -1,0 +1,1220 @@
+{
+  "id": "04-precedence",
+  "tests": [
+    {
+      "id": "nonzero-day-does-not-materialize",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "1",
+                      "time": "01:30:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "policy": {
+              "clockForm": "second"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "off-grid-minute-does-not-materialize",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "09:30:00.5"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "09:31:00.5"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "minute",
+              "history": "none-declared"
+            },
+            "policy": {
+              "clockForm": "minute"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "off-grid-minute-does-not-step",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "step",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "09:30:00.5"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "09:31:00.5"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "minute",
+              "history": "none-declared"
+            },
+            "policy": {
+              "clockForm": "minute",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_operand",
+        "context": {
+          "stage": 6,
+          "path": "/input/value/temporal"
+        }
+      }
+    },
+    {
+      "id": "matching-work-denial-precedes-step-mismatch",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "step",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "09:30:00.5"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "09:31:00.5"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "minute",
+              "history": "none-declared"
+            },
+            "policy": {
+              "clockForm": "minute",
+              "count": "0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWork": 1
+        }
+      }
+    },
+    {
+      "id": "matching-candidate-denial-precedes-materialization-mismatch",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "materialize",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "09:30:00.5"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "09:31:00.5"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "minute",
+              "history": "none-declared"
+            },
+            "policy": {
+              "clockForm": "minute"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxIntermediatePieces": 0
+        }
+      }
+    },
+    {
+      "id": "step-target-work-phase",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "step",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "policy": {
+              "clockForm": "minute",
+              "count": "1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWork": 2
+        }
+      }
+    },
+    {
+      "id": "zero-step-still-pays-target-candidate",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "step",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "policy": {
+              "clockForm": "minute",
+              "count": "0"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxIntermediatePieces": 1
+        }
+      }
+    },
+    {
+      "id": "cancellation-still-pays-portable-workspace",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00.25"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": ".75"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWorkspaceDigits": 8
+        }
+      }
+    },
+    {
+      "id": "final-day-digit-capacity",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "9",
+                      "time": "23:59:59"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRelativeDayDigits": 1
+        }
+      }
+    },
+    {
+      "id": "missing-explicit-profile",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      }
+    },
+    {
+      "id": "unknown-effective-profile",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "context": {
+              "profile": "unknown"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "unknown-policy-field",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "policy": {
+              "profle": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profle"
+        }
+      }
+    },
+    {
+      "id": "recognized-date-is-deferred",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilDate",
+                "payload": "opaque"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "rational-amount-is-deferred",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "exactRational",
+                "payload": "opaque"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/amount/number/category"
+        }
+      }
+    },
+    {
+      "id": "unknown-operation-before-policy",
+      "requires": [],
+      "fixture": {
+        "request": {
+          "operation": "sort",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_operation",
+        "context": {
+          "stage": 2,
+          "path": "/operation"
+        }
+      }
+    },
+    {
+      "id": "arity-before-policy",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "policy": {
+              "profle": 1
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input/left"
+        }
+      }
+    },
+    {
+      "id": "unknown-root-key",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          },
+          "extra": true
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/extra"
+        }
+      }
+    },
+    {
+      "id": "unknown-input-key",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "extra": true
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input/extra"
+        }
+      }
+    },
+    {
+      "id": "null-context",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": null
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context"
+        }
+      }
+    },
+    {
+      "id": "null-policy",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "policy": null
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy"
+        }
+      }
+    },
+    {
+      "id": "malformed-overridden-context",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": null
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "unknown-category",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "invented"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "unknown-bundle-key",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              },
+              "extra": true
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/extra"
+        }
+      }
+    },
+    {
+      "id": "null-origin",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              },
+              "originClockForm": null
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/originClockForm"
+        }
+      }
+    },
+    {
+      "id": "history-before-origin",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              },
+              "originClockForm": null,
+              "history": null
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/history"
+        }
+      }
+    },
+    {
+      "id": "right-malformed-before-left-deferred",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "container",
+                "payload": null
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "24:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/right/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "amount-grammar-01",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      }
+    },
+    {
+      "id": "amount-grammar--01",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "-01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      }
+    },
+    {
+      "id": "amount-grammar-00.5",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "00.5"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      }
+    },
+    {
+      "id": "amount-grammar-1.",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1."
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      }
+    },
+    {
+      "id": "amount-grammar-1_0",
+      "requires": [
+        "arithmetic"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "shiftClock",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "value": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "23:30:00"
+              }
+            },
+            "amount": {
+              "number": {
+                "category": "finiteNumber",
+                "value": "1_0"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/amount/number/value"
+        }
+      }
+    }
+  ]
+}
