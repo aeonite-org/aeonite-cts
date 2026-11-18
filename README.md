@@ -370,3 +370,18 @@ JavaScript/Python runs. Stable claims require a passing complete selected
 semantic execution against the recognized frozen target; artifact-only checks,
 failures and mutable runs report no stable claim. Native capacity and consumer
 snapshot adoption remain separate.
+
+
+## Explicit single-day anchoring (mutable)
+
+The [anchoring lane](docs/protocol/v1/lane-aeonic-temporal-civil-anchor.md) adds
+one complete `Aeonic.Operations.Temporal.CivilAnchor` capability under explicit
+`aeonic.operations.temporal.civil-anchor.v1` selection. It translates clock sets
+and signed day carry to existing date-time bundles using one exact anchor day.
+All selected cases, metadata, diagnostic precedence and admission dimensions are
+mandatory. The target is mutable, with no stable snapshot or runtime conformance
+claim from artifact checks or fixture replay. Existing frozen targets stay intact.
+
+```sh
+python3 runners/run_aeonic_temporal_civil_anchor.py --specs-root ../aeonite-specs --check
+```

@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-19",
+  "scope": "Author verification of mutable owning artifacts and harness; no independent review or real anchoring provider execution.",
+  "specification_revision": "e111463ae8eeca584ef54e7217693cc3ec89400a",
+  "cts_base_revision": "042b0e9c51680a95fda1dbba57bd8f014b3e628e",
+  "manifest_sha256": "58e27630192c562c7f96f96a1a65f562526d9c2b0c35f1af4b6daa190a5d1f5a",
+  "runner_sha256": "eadb534b4bddd28170ae36079e589bdd163855e32f6ce6c8dfa848396244a5a6",
+  "source_sha256": "04ebb1a446d0a48bb59130f7271955d1a52efc800454666aeb7b5139c3138af7",
+  "schema_sha256": "deab60bb0a536558d49c9af0600a2ab04fcdfb7e66783ad004ed324c27081fb2",
+  "helper_hashes": {
+    "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+    "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+    "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+    "runners/temporal_civil_anchor_checks.py": "199c083f1c7298f34c3dffa66ce61a6bbdfd3f2a9f2a6ac31730f5410fe4f4b1"
+  },
+  "suites": [
+    {
+      "id": "01-translation",
+      "cases": 26,
+      "positive": 26,
+      "diagnostic": 0
+    },
+    {
+      "id": "02-resources",
+      "cases": 39,
+      "positive": 18,
+      "diagnostic": 21
+    },
+    {
+      "id": "03-precedence",
+      "cases": 50,
+      "positive": 0,
+      "diagnostic": 50
+    },
+    {
+      "id": "04-operands",
+      "cases": 96,
+      "positive": 0,
+      "diagnostic": 96
+    },
+    {
+      "id": "05-transport",
+      "cases": 23,
+      "positive": 1,
+      "diagnostic": 22
+    }
+  ],
+  "local_checks": [
+    {
+      "python": "3.9.6",
+      "unit_tests": 25,
+      "unit_status": "passed",
+      "artifact_status": "artifacts-validated",
+      "cases": 234,
+      "sut_executions": 0,
+      "stable_conformance_claim": false
+    },
+    {
+      "python": "3.14.3",
+      "unit_tests": 25,
+      "unit_status": "passed",
+      "artifact_status": "artifacts-validated",
+      "cases": 234,
+      "sut_executions": 0,
+      "stable_conformance_claim": false
+    }
+  ],
+  "synthetic_controls": {
+    "complete_fixture_replay_cases": 234,
+    "all_diagnostic_reason_stage_path_mutations_rejected": true,
+    "subprocess_passing_and_wrong_response_controls": true,
+    "independent_limit_companions": 11,
+    "guard_observation_widths": [
+      32,
+      64,
+      128
+    ]
+  },
+  "frozen_artifact_checks": [
+    {
+      "profile": "civil-date",
+      "status": "artifacts-validated",
+      "sut_executions": 0
+    },
+    {
+      "profile": "civil-datetime",
+      "status": "artifacts-validated",
+      "sut_executions": 0
+    },
+    {
+      "profile": "civil-clock",
+      "status": "artifacts-validated",
+      "sut_executions": 0
+    }
+  ],
+  "real_anchoring_sut_runs": [],
+  "native_capacity_claim": false,
+  "stable_conformance_claim": false,
+  "limits": [
+    "Diagnostic expectations are fixed assertions for future provider execution, not outcomes computed by a staged oracle.",
+    "Fixture replay and checker guard observations establish harness behavior only.",
+    "No hosted CI result, native graph/frame/heap/disk/whole-chain qualification or implementation conformance is claimed."
+  ]
+}
