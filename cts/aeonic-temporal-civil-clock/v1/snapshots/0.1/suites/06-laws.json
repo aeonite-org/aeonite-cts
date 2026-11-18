@@ -1,0 +1,82 @@
+{
+  "id": "06-laws",
+  "tests": [
+    {
+      "id": "relative-axis-endpoint-laws",
+      "kind": "laws",
+      "requires": [
+        "relations"
+      ],
+      "values": [
+        {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "-1",
+                  "time": "23:59:59.5"
+                }
+              }
+            ]
+          },
+          "originClockForm": "undeclared",
+          "history": "none-declared"
+        },
+        {
+          "temporal": {
+            "category": "civilClock",
+            "value": "00:00:00"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilClock",
+            "value": "09:"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilClock",
+            "value": "09:30"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilClock",
+            "value": "09:30:00"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilClock",
+            "value": "09:30:00.00"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilClock",
+            "value": "23:59"
+          }
+        },
+        {
+          "temporal": {
+            "category": "civilClockSet",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": {
+                  "day": "1",
+                  "time": "00:00:00"
+                }
+              }
+            ]
+          },
+          "originClockForm": "undeclared",
+          "history": "none-declared"
+        }
+      ]
+    }
+  ]
+}

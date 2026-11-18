@@ -1,0 +1,120 @@
+{
+  "verified_on": "2026-11-18",
+  "target": "aeonic-temporal-civil-clock-cts-v1-snapshot-0.1",
+  "spec_snapshot_id": "aeonic-temporal-civil-clock-specs-v1-snapshot-0.1",
+  "specification_revision": "f929059779b059c725c781e4b6dd8aa7c5b9b446",
+  "cts_base_revision": "7c9eddf424b3881bc3a037fdc83331a7fac2cd7f",
+  "sut_revision": "5761ce68c99b7bdb065f14729eee93bb47997471",
+  "sut_reviewed_tree_equivalent": "1e017d890a03cb1b645014d70adcf480c39b6a37",
+  "manifest_sha256": "970e64f25239e8bb322b101c8f1ce5cf4195c3ab6c0f6c45610727f1a8035322",
+  "runner_sha256": "b5878131fb0c2c7b1d451ece72320e3feee7cbdc74df251f9106f9fa2aa94ebc",
+  "specification_source_sha256": "f7fbaf66f854a54564b25353d6eed8ae9d783ec026ecace8ea0a2768beb5e6c7",
+  "specification_schema_sha256": "448921db259532011d0aa866f68a3483a5911d540edb691a56331e86e3cd7b69",
+  "helpers": {
+    "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+    "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+    "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+    "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f",
+    "runners/temporal_civil_clock_checks.py": "c1e18e93775bb2c54910e05d02458f5d188b0b3195d7185e3a1cd251bbdd6953"
+  },
+  "resource_limits": {
+    "maxRequestBytes": 65536,
+    "maxRequestDepth": 32,
+    "maxTemporalCharacters": 1024,
+    "maxInputPieces": 512,
+    "maxIntermediatePieces": 4096,
+    "maxOutputPieces": 512,
+    "maxWork": 16384,
+    "maxFractionDigits": 256,
+    "maxRelativeDayDigits": 256,
+    "maxCountCharacters": 32,
+    "maxNumericCharacters": 4096,
+    "maxCoefficientDigits": 1024,
+    "maxExponentMagnitude": 1000000,
+    "maxWorkspaceDigits": 4096,
+    "maxOutputCharacters": 1024,
+    "maxResultBytes": 131072
+  },
+  "implementations": {
+    "javascript": {
+      "runtime": "Node 24.22.2",
+      "frozen_reports": {
+        "all": "javascript-all-snapshot-0.1.json",
+        "relations": "javascript-relations-snapshot-0.1.json",
+        "arithmetic": "javascript-arithmetic-snapshot-0.1.json"
+      },
+      "mutable_report": "javascript-all-next.json"
+    },
+    "python39": {
+      "runtime": "Python 3.9.6",
+      "frozen_reports": {
+        "all": "python39-all-snapshot-0.1.json",
+        "relations": "python39-relations-snapshot-0.1.json",
+        "arithmetic": "python39-arithmetic-snapshot-0.1.json"
+      },
+      "mutable_report": "python39-all-next.json"
+    },
+    "python314": {
+      "runtime": "Python 3.14.3",
+      "frozen_reports": {
+        "all": "python314-all-snapshot-0.1.json",
+        "relations": "python314-relations-snapshot-0.1.json",
+        "arithmetic": "python314-arithmetic-snapshot-0.1.json"
+      },
+      "mutable_report": "python314-all-next.json"
+    }
+  },
+  "sut_files_sha256": {
+    "src/temporal-civil-clock.js": "5a6b4dc9a0d63cbe8bee87f009ef7c5bff954bae2070417e69376954529bd1d8",
+    "src/json.js": "96f4a8dbfa8b3f2f6411dae87e9cec74f9f5268209f787c5aae5b60df5f0db1c",
+    "src/rational-json.js": "d0d094c3e4df3992f996cf3452879c8c342a10368e064109d6e4a7b86b6c909a",
+    "implementations/python/temporal_civil_clock.py": "33d1b218d830a108775b43d0ed0ea19603c4081a6c1a130d8a1a6a60ea0bc628",
+    "implementations/python/aeonic.py": "8d4c702c3d58272f3f9d653b949008f473a0a9ad0e1fd81b8527569c7ea15b27",
+    "implementations/python/arithmetic.py": "67aa7b2525dd9e001155946a7946a3f0741ca239a8c79d49697d6327a083f180",
+    "implementations/python/rational_arithmetic.py": "9223b65ff31a9114630f261a6617291e489694f1fda28780fd92ce576e9ede7a",
+    "implementations/python/rational_json.py": "a55a04240e2df8152978fce1b357130572b3e508b3fbe54cbf657627b58aa6a4",
+    "scripts/temporal-civil-clock-cts-adapter.mjs": "fd0c968db9c9508e26a7f52023f693023e6b008ea521078770d385f340dbb56d",
+    "scripts/run-temporal-civil-clock-cts.py": "673e267f0fa2b1070b51bc79893669df223b190799667c5d4597b4559df70b26",
+    "scripts/calibrate-temporal-civil-clock-capacity.py": "6b2929e7c9c026ad973ef3cebb3a114ecc0121a4f3402a34b83627abf8c5eb0b",
+    "scripts/playground-worker.mjs": "e127336757b6c087ea795b2114520c70f28ca3b6f6784e3ab7fa4c8bc6834872",
+    "scripts/playground-evaluator.mjs": "d5aa39778228c4cedb92a16aeb7bad9efcdda471e11a2595f131cdcc3b8c0fc5",
+    "scripts/playground.mjs": "20da541d073e029d860c757db7d249079ac13f2495c5df31e70c2fe77b490ef6",
+    "tools/playground/model.mjs": "e76f44e2dc70bf59ae5ab6cb66924d90b4d361867581b5940651cffbe6566be3",
+    "tools/playground/app.mjs": "caa1a18c6d27d968fc9f8530a271cdadf7f00741f278382f037ab46f47f681cc",
+    "tools/playground/examples.mjs": "db521b5ce9c0fdd55c12eabeda93e1b28c358386db76315e7003277ba2cb3d8a",
+    "tools/playground/index.html": "b859b1a2cb33cee66213e792991b5a13180aaaed36a527ef4be90c05a65314e9",
+    "package.json": "b45ae2dc54bbc601800f101ce6af5eecafff030b0729a6cd78355322c76cb8de"
+  },
+  "equivalence": {
+    "status": "passed",
+    "specification_base": "0dc897a24c5575d89d309474302644395d60ff34",
+    "cts_base": "7c9eddf424b3881bc3a037fdc83331a7fac2cd7f",
+    "source_semantics": "identical sections1-10 apart from calibration-map status label",
+    "schema_semantics": "identical apart from root identity/title",
+    "binding_and_suites": {
+      "binding.schema.json": "e59e263fc6814137007ccb756053b16b7b367c7b0391a02770125eaba841e91e",
+      "suites/04-precedence.json": "3065038267e703aeb60abc66f0194645a071d25cdda2cc929c40ed2efe9cfef3",
+      "suites/01-arithmetic.json": "94c0b6c9580a5cdd180704c4b446cc8148ccb037a85c8a47fbbdec3616d9eedb",
+      "suites/05-chains.json": "8d13180ca34d5d760f787195116111be06bdfcacdc8a2b37d43b154aea38406c",
+      "suites/07-operand-boundaries.json": "abcd5b7d86d67c3fc02daea0250a50f3ba0fc35513deeaee3a30f180a8fd95ed",
+      "suites/02-relations.json": "06a82aa7b08b525d7ca6c422c8053fcf4683bd0e168ddbe41058cc526554c324",
+      "suites/06-laws.json": "ace4f83f99298b900cbba40899c2c572788650fbff82900cf46a71ed218bf702",
+      "suites/03-resources.json": "1fbd26bcc41178eaf2907e46dadc0b78d3d3150a3f77f40f07a15a511ff99fe8"
+    },
+    "helpers_unchanged": [
+      "runners/run_aeonic_arithmetic.py",
+      "runners/run_aeonic_rational_arithmetic.py",
+      "runners/temporal_civil_date_checks.py",
+      "runners/temporal_civil_datetime_checks.py",
+      "runners/temporal_civil_clock_checks.py"
+    ],
+    "sut_merge": "5761ce68c99b7bdb065f14729eee93bb47997471",
+    "sut_tree_equals_reviewed": "1e017d890a03cb1b645014d70adcf480c39b6a37"
+  },
+  "limits": [
+    "Actual SUT runs, not fixture replays. Executable/cwd paths normalized for portability; explicit local roots were used.",
+    "Native capacities retained at the pinned Aeonic revision; no new capacity/Cartesian/process/heap/whole-chain claim.",
+    "Reports verify target support but do not update Aeonic consumer defaults, claim files or publication status.",
+    "Only frozen passing semantic runs can report stable; mutable/check/failure runs remain false."
+  ]
+}

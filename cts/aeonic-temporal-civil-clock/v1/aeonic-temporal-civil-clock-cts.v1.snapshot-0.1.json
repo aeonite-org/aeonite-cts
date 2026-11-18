@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "aeonic-temporal-civil-clock",
+    "profile": "aeonic.operations.temporal.civil-clock.v1",
+    "capabilities": {
+      "relations": {
+        "id": "Aeonic.Operations.Temporal.CivilClock.Relations",
+        "operations": [
+          "equal",
+          "compare",
+          "relate"
+        ]
+      },
+      "arithmetic": {
+        "id": "Aeonic.Operations.Temporal.CivilClock.Arithmetic",
+        "operations": [
+          "shiftClock",
+          "step",
+          "materialize"
+        ]
+      }
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "civil-clock",
+      "stable": true,
+      "publication": "local-only"
+    },
+    "description": "Immutable civil-clock snapshot 0.1: complete independent Relations and Arithmetic;180 operation cases,two actual-result chains,one eight-value law group. Native capacity and selected limits remain separate.",
+    "snapshot_id": "aeonic-temporal-civil-clock-cts-v1-snapshot-0.1",
+    "specification_schema": "resources/aeonic-operations/v1/snapshots/0.1/civil-clock-contract.schema.json",
+    "specification_source": "resources/aeonic-operations/v1/snapshots/0.1/aeonic-temporal-civil-clock-v1.aeon",
+    "binding_schema": "snapshots/0.1/cts-binding.schema.json",
+    "helpers": {
+      "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+      "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+      "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+      "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f",
+      "runners/temporal_civil_clock_checks.py": "c1e18e93775bb2c54910e05d02458f5d188b0b3195d7185e3a1cd251bbdd6953"
+    },
+    "resource_limits": {
+      "maxRequestBytes": 65536,
+      "maxRequestDepth": 32,
+      "maxTemporalCharacters": 1024,
+      "maxInputPieces": 512,
+      "maxIntermediatePieces": 4096,
+      "maxOutputPieces": 512,
+      "maxWork": 16384,
+      "maxFractionDigits": 256,
+      "maxRelativeDayDigits": 256,
+      "maxCountCharacters": 32,
+      "maxNumericCharacters": 4096,
+      "maxCoefficientDigits": 1024,
+      "maxExponentMagnitude": 1000000,
+      "maxWorkspaceDigits": 4096,
+      "maxOutputCharacters": 1024,
+      "maxResultBytes": 131072
+    },
+    "specification_schema_sha256": "448921db259532011d0aa866f68a3483a5911d540edb691a56331e86e3cd7b69",
+    "specification_source_sha256": "f7fbaf66f854a54564b25353d6eed8ae9d783ec026ecace8ea0a2768beb5e6c7",
+    "binding_schema_sha256": "e59e263fc6814137007ccb756053b16b7b367c7b0391a02770125eaba841e91e",
+    "specification_revision": "f929059779b059c725c781e4b6dd8aa7c5b9b446",
+    "spec_snapshot_id": "aeonic-temporal-civil-clock-specs-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "01-arithmetic",
+      "file": "snapshots/0.1/suites/01-arithmetic.json",
+      "content_sha256": "94c0b6c9580a5cdd180704c4b446cc8148ccb037a85c8a47fbbdec3616d9eedb"
+    },
+    {
+      "id": "02-relations",
+      "file": "snapshots/0.1/suites/02-relations.json",
+      "content_sha256": "06a82aa7b08b525d7ca6c422c8053fcf4683bd0e168ddbe41058cc526554c324"
+    },
+    {
+      "id": "03-resources",
+      "file": "snapshots/0.1/suites/03-resources.json",
+      "content_sha256": "1fbd26bcc41178eaf2907e46dadc0b78d3d3150a3f77f40f07a15a511ff99fe8"
+    },
+    {
+      "id": "04-precedence",
+      "file": "snapshots/0.1/suites/04-precedence.json",
+      "content_sha256": "3065038267e703aeb60abc66f0194645a071d25cdda2cc929c40ed2efe9cfef3"
+    },
+    {
+      "id": "05-chains",
+      "file": "snapshots/0.1/suites/05-chains.json",
+      "content_sha256": "8d13180ca34d5d760f787195116111be06bdfcacdc8a2b37d43b154aea38406c"
+    },
+    {
+      "id": "06-laws",
+      "file": "snapshots/0.1/suites/06-laws.json",
+      "content_sha256": "ace4f83f99298b900cbba40899c2c572788650fbff82900cf46a71ed218bf702"
+    },
+    {
+      "id": "07-operand-boundaries",
+      "file": "snapshots/0.1/suites/07-operand-boundaries.json",
+      "content_sha256": "abcd5b7d86d67c3fc02daea0250a50f3ba0fc35513deeaee3a30f180a8fd95ed"
+    }
+  ]
+}

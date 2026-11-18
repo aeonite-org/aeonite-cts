@@ -1,12 +1,19 @@
-# Aeonic standalone civil clock working target
+# Aeonic standalone civil clock snapshot 0.1 and mutable next
 
-The mutable target is
-`cts/aeonic-temporal-civil-clock/v1/aeonic-temporal-civil-clock-cts.v1.next.json`.
-It pins the source/schema in aeonite-specs, its own binding/suites and all imported
-checker helpers. The explicitly selected profile is
-`aeonic.operations.temporal.civil-clock.v1`. There is no immutable clock snapshot;
-all runs report `stable_conformance_claim: false`, including passing semantic runs.
-Existing date, date-time and numerical snapshots retain their bytes and defaults.
+The default immutable target is
+`cts/aeonic-temporal-civil-clock/v1/aeonic-temporal-civil-clock-cts.v1.snapshot-0.1.json`,
+aligned with `aeonic-temporal-civil-clock-specs-v1-snapshot-0.1`. Exact manifest
+bytes are recognized by the runner; isolated source/schema, binding/suites and
+checker helpers are hash pinned. Profile selection remains explicitly
+`aeonic.operations.temporal.civil-clock.v1`.
+
+The separate `.next.json` target advances to snapshot 0.2 and remains mutable.
+Only an actual passing execution against the recognized immutable manifest, with
+every case in a complete selected capability and explicit limits, reports
+`stable_conformance_claim: true`. Artifact-only checks, failures and mutable runs
+never do. Synthetic fixture replays test the harness and are not evidence of a
+genuine implementation's semantics. Native capacities and publication remain
+separate facts; earlier frozen files/defaults are unchanged.
 
 ## Complete capabilities
 
@@ -62,10 +69,17 @@ eight-value law group. Full execution makes 378 SUT calls, including 192 generat
 relation cases, plus observed equality and strict-before transitivity assertions.
 Local fixture-provider replays and deliberate wrong responses verify assertion
 sensitivity and transport; they are not independent implementations or evidence
-of civil-clock semantic conformance. The initial fixtures promote the reviewed
-roadmap design's positive values and diagnostic clauses, with complete result
-metadata and additional resource/precedence/law controls. Diagnostic expectations
-have not yet been observed from a civil-clock implementation.
+of civil-clock semantic conformance. The fixtures preserve the reviewed working values, diagnostics and complete
+metadata/resource/precedence/law controls. Frozen-target runs against the merged
+independent JavaScript/Python implementations are retained under
+`docs/conformance/civil-clock-snapshot-0.1/`; fixture-provider replays remain
+separate. These runs do not automatically change consumer defaults or claims.
+
+To select mutable development explicitly, add
+`--manifest cts/aeonic-temporal-civil-clock/v1/aeonic-temporal-civil-clock-cts.v1.next.json`.
+New semantic cases belong there or in a newer snapshot; do not edit the frozen
+copies. The [freeze record](../../conformance/civil-clock-snapshot-0.1.md) records
+implementation revisions, fingerprints and verification limits.
 
 ## Binding and admission
 
