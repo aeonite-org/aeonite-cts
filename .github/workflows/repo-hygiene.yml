@@ -56,7 +56,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: bd4fc71879363fc98b8ac95146a8b01fdd8466a2
+          ref: f929059779b059c725c781e4b6dd8aa7c5b9b446
           path: clock-specs
 
       - name: Checkout unpublished property contract dependency

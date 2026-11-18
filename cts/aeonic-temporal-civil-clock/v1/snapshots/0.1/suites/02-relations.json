@@ -1,0 +1,1702 @@
+{
+  "id": "02-relations",
+  "tests": [
+    {
+      "id": "day-carry-changes-equality",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "1",
+                      "time": "01:30:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "01:30:00"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "authored-fraction-scales-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00.1"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00.10"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "second",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "origin-history-independent-of-equality",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "0",
+                      "time": "09:30:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "minute",
+              "history": "approximation-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "approximation-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "minute",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "before-across-negative-day",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "-1",
+                      "time": "23:59:59"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "after-across-negative-day",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "-1",
+                      "time": "23:59:59"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "second",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "positive-day-numeric-order",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "10",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "2",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "negative-day-numeric-order",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "-10",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "-2",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "minute-contains-point",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:30"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "minute",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "point-contained-by-minute",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "containedBy"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "second",
+            "right": "minute"
+          }
+        }
+      }
+    },
+    {
+      "id": "minute-point-order-indeterminate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:30"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "minute",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "interval-overlap",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "09:30:30"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "09:31:30"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "overlaps"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "minute",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "interleaved-disjoint",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    }
+                  },
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "0",
+                      "time": "00:00:03"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:02"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "interleaved-order-indeterminate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    }
+                  },
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "0",
+                      "time": "00:00:03"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:02"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "same-sets-relate-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "minute",
+            "right": "minute"
+          }
+        }
+      }
+    },
+    {
+      "id": "same-sets-compare-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "minute",
+            "right": "minute"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-00-end-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": false,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-00-end-order",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": false,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-00-start-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": false,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-01-end-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": false,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-01-end-order",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": false,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-01-start-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": false,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-10-end-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-10-end-order",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-10-start-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-11-end-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-11-end-order",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:01"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "endpoint-11-start-relation",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            },
+            "left": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "00:00:00"
+                    },
+                    "end": {
+                      "day": "0",
+                      "time": "00:00:01"
+                    },
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "00:00:00"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "undeclared",
+            "right": "second"
+          }
+        }
+      }
+    },
+    {
+      "id": "policy-overrides-unavailable-context",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30"
+              }
+            },
+            "context": {
+              "profile": "unavailable"
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-clock.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.civil-clock.v1"
+          },
+          "operandHistory": {
+            "left": "none-declared",
+            "right": "none-declared"
+          },
+          "operandOrigin": {
+            "left": "minute",
+            "right": "minute"
+          }
+        }
+      }
+    }
+  ]
+}

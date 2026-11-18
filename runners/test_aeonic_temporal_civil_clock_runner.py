@@ -217,7 +217,7 @@ class CivilClockRunnerTests(unittest.TestCase):
             args=self.args();lane=Path(folder)/'lane';shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
             original=json.loads(args.manifest.read_text());original['meta']['conformance']=dict(surface='civil-clock',stable=True)
             args.manifest.write_text(json.dumps(original))
-            with self.assertRaisesRegex(ValueError,'only a mutable'):Runner(args)
+            with self.assertRaisesRegex(ValueError,'Expected mutable next'):Runner(args)
         r=self.runner()
         with patch.object(r,'execute',return_value=self.output(dict(outcome='diagnostic',reason='invalid_operand',context=dict(stage=4,path=None)))):report=r.run()
         self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
@@ -229,10 +229,12 @@ class CivilClockRunnerTests(unittest.TestCase):
             self.assertEqual(r.run(True)['status'],'failed')
             with self.assertRaisesRegex(ValueError,'Artifact digest'):Runner(args)
 
-    def test_cli_check_defaults_to_mutable_lane(self):
+    def test_cli_check_defaults_to_frozen_lane_without_semantic_claim(self):
         child=subprocess.run([sys.executable,str(ROOT/'runners/run_aeonic_temporal_civil_clock.py'),'--specs-root',str(self.args().specs_root),'--check'],text=True,capture_output=True,timeout=20)
         self.assertEqual(child.returncode,0,child.stderr+child.stdout);report=json.loads(child.stdout)
         self.assertFalse(report['semantic_execution']);self.assertFalse(report['stable_conformance_claim'])
+        self.assertEqual(report['target_status'], 'immutable-local')
+        self.assertTrue(report['target'].endswith('0.1'))
 
     def test_stdio_transport_uses_complete_limits_and_preserves_raw_tokens(self):
         import shlex
@@ -265,6 +267,95 @@ class CivilClockRunnerTests(unittest.TestCase):
         with patch.object(r,'execute',side_effect=provider):report=r.run()
         self.assertEqual(report['status'],'passed',report['failures'])
         self.assertEqual(report['sut_executions'],378);self.assertFalse(report['stable_conformance_claim'])
+
+
+    def test_retained_runs_bind_frozen_identity_and_complete_capabilities(self):
+        root=ROOT/'docs/conformance/civil-clock-snapshot-0.1'
+        verification=json.loads((root/'verification.json').read_text())
+        r=Runner(self.frozen_args())
+        self.assertEqual(verification['target'],r.manifest['meta']['snapshot_id'])
+        self.assertEqual(verification['manifest_sha256'],r.artifacts[r.manifest_path])
+        self.assertEqual(set(verification['implementations']),{'javascript','python39','python314'})
+        for implementation in verification['implementations'].values():
+            self.assertEqual(set(implementation['frozen_reports']),{'all','relations','arithmetic'})
+            for capability,path in implementation['frozen_reports'].items():
+                report=json.loads((root/path).read_text())
+                self.assertEqual(report['status'],'passed');self.assertEqual(report['failures'],[])
+                self.assertTrue(report['semantic_execution']);self.assertTrue(report['stable_conformance_claim'])
+                self.assertEqual(report['target_status'],'immutable-local')
+                self.assertEqual(report['target'],verification['target'])
+                self.assertEqual(report['capabilities'],['arithmetic','relations'] if capability=='all' else [capability])
+                self.assertEqual(report['sut_executions'],{'all':378,'relations':261,'arithmetic':116}[capability])
+                self.assertEqual(report['assertions'],{'all':420,'relations':303,'arithmetic':116}[capability])
+                for name in ['manifest_sha256','runner_sha256','specification_source_sha256','specification_schema_sha256']:
+                    self.assertEqual(report[name],verification[name])
+                self.assertEqual(report['resource_limits'],verification['resource_limits'])
+                self.assertEqual(report['helper_hashes'],verification['helpers'])
+            mutable=json.loads((root/implementation['mutable_report']).read_text())
+            self.assertEqual(mutable['status'],'passed');self.assertEqual(mutable['target_status'],'mutable-working')
+            self.assertTrue(mutable['semantic_execution']);self.assertFalse(mutable['stable_conformance_claim'])
+
+    def frozen_args(self, selection='all'):
+        args=self.args(selection)
+        args.manifest=args.manifest.with_name('aeonic-temporal-civil-clock-cts.v1.snapshot-0.1.json')
+        return args
+
+    def test_frozen_checks_never_claim_semantic_conformance(self):
+        for choice in ['relations','arithmetic','all']:
+            r=Runner(self.frozen_args(choice))
+            with patch.object(r,'execute') as execute:report=r.run(check_only=True)
+            execute.assert_not_called()
+            self.assertTrue(r.immutable)
+            self.assertEqual(report['target_status'],'immutable-local')
+            self.assertEqual(report['target'],'aeonic-temporal-civil-clock-cts-v1-snapshot-0.1')
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+            self.assertEqual(report['sut_executions'],0)
+            self.assertEqual(r.manifest['meta']['spec_snapshot_id'],'aeonic-temporal-civil-clock-specs-v1-snapshot-0.1')
+
+    def test_frozen_reencoding_edits_exclusions_and_next_relabel_fail_closed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'lane'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            original=json.loads(args.manifest.read_text())
+            variants=[copy.deepcopy(original) for _ in range(5)]
+            variants[1]['meta']['description']='edited'
+            variants[2]['meta']['snapshot_id']='aeonic-temporal-civil-clock-cts-v1-snapshot-9.9'
+            variants[3]['exclude_cases']=['one']
+            variants[4]=json.loads((lane/'aeonic-temporal-civil-clock-cts.v1.next.json').read_text())
+            variants[4]['meta']['conformance']=original['meta']['conformance']
+            for variant in variants:
+                args.manifest.write_text(json.dumps(variant))
+                with self.assertRaisesRegex(ValueError,'Unrecognized or modified immutable'):Runner(args)
+
+    def test_frozen_wrong_responses_cannot_claim_conformance(self):
+        r=Runner(self.frozen_args())
+        with patch.object(r,'execute',return_value=self.output(dict(outcome='diagnostic',reason='invalid_operand',context=dict(stage=4,path=None)))):
+            report=r.run()
+        self.assertEqual(report['status'],'failed');self.assertTrue(report['semantic_execution'])
+        self.assertFalse(report['stable_conformance_claim']);self.assertGreater(len(report['failures']),0)
+
+    def test_frozen_artifacts_are_isolated_and_rechecked_after_execution(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'lane'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            # Evolving working fixtures cannot change the frozen copy.
+            (lane/'suites/01-arithmetic.json').write_text('{}')
+            r=Runner(args);self.assertEqual(r.run(True)['status'],'artifacts-validated')
+            suite=lane/r.manifest['suites'][0]['file'];suite.write_text(suite.read_text()+'\n')
+            report=r.run(True)
+            self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+            self.assertTrue(any(f['id']=='artifact-integrity' for f in report['failures']))
+            with self.assertRaisesRegex(ValueError,'Artifact digest mismatch'):Runner(args)
+
+    def test_default_cli_selects_frozen_and_explicit_next_remains_mutable(self):
+        for manifest,target in [(None,'0.1'),(self.args().manifest,'0.2')]:
+            command=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_civil_clock.py'),'--specs-root',str(self.args().specs_root),'--check']
+            if manifest is not None:command+=['--manifest',str(manifest)]
+            child=subprocess.run(command,text=True,capture_output=True,timeout=20)
+            self.assertEqual(child.returncode,0,child.stderr+child.stdout)
+            report=json.loads(child.stdout);self.assertTrue(report['target'].endswith(target))
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+            self.assertEqual(report['sut_executions'],0)
 
 
 if __name__=='__main__':unittest.main()

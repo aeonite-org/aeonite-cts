@@ -347,13 +347,15 @@ semantic conformance. The separate mutable next target advances to 0.2. Older
 snapshots retain their bytes; implementation adoption, SANSA integration, native
 capacity and package publication remain separate work.
 
-## Standalone civil clock working target
+## Standalone civil clock snapshot 0.1 and mutable next
 
 The [civil clock lane](docs/protocol/v1/lane-aeonic-temporal-civil-clock.md) adds
 explicit `aeonic.operations.temporal.civil-clock.v1` selection, independently
 complete Relations and Arithmetic groups, exact point/interval sets and signed
-relative-day carry. Its `.next.json` manifest is mutable and cannot establish
-stable conformance. It has 180 operations, two actual-result chains and one law
+relative-day carry. The default immutable target is
+`aeonic-temporal-civil-clock-cts-v1-snapshot-0.1`, aligned with
+`aeonic-temporal-civil-clock-specs-v1-snapshot-0.1`. Its separate `.next.json`
+advances to 0.2 and cannot establish stable conformance. It has 180 operations, two actual-result chains and one law
 group (378 SUT calls for a full semantic run). `--check` makes no SUT calls;
 fixture replays test the harness, not an implementation's semantic conformance.
 Earlier frozen snapshots and shared helpers are unchanged.
@@ -361,3 +363,10 @@ Earlier frozen snapshots and shared helpers are unchanged.
 ```sh
 python3 runners/run_aeonic_temporal_civil_clock.py --specs-root ../aeonite-specs --check
 ```
+
+The [civil-clock freeze record](docs/conformance/civil-clock-snapshot-0.1.md)
+records exact recognized bytes, isolated frozen copies and genuine independent
+JavaScript/Python runs. Stable claims require a passing complete selected
+semantic execution against the recognized frozen target; artifact-only checks,
+failures and mutable runs report no stable claim. Native capacity and consumer
+snapshot adoption remain separate.

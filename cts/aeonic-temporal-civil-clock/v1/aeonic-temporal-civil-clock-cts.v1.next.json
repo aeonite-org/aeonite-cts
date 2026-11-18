@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.1.0-dev.0",
+    "version": "0.2.0-dev.0",
     "lane": "aeonic-temporal-civil-clock",
     "profile": "aeonic.operations.temporal.civil-clock.v1",
     "capabilities": {
@@ -26,8 +26,8 @@
       "surface": "working-next",
       "stable": false
     },
-    "description": "Mutable standalone civil-clock target. Exact relative-day sets; complete independently claimable capabilities; no stable conformance claim.",
-    "snapshot_id": "aeonic-temporal-civil-clock-cts-v1-snapshot-0.1",
+    "description": "Mutable next civil-clock target; complete independently claimable capabilities, no stable claim. Frozen snapshot0.1 is separate.",
+    "snapshot_id": "aeonic-temporal-civil-clock-cts-v1-snapshot-0.2",
     "specification_schema": "resources/aeonic-operations/v1/civil-clock-contract.schema.json",
     "specification_source": "sources/aes/v1/aeonic-temporal-civil-clock-v1.aeon",
     "binding_schema": "binding.schema.json",
@@ -57,9 +57,9 @@
       "maxResultBytes": 131072
     },
     "specification_schema_sha256": "abebce703c72893e1ec739fa876d97cb9bedffd58a469d6d503c9aa469a539c7",
-    "specification_source_sha256": "6ac1346948f2e40328d08b895287ff314b0339034bf5134bc360e2e417ba200f",
+    "specification_source_sha256": "d8270c21f2dc5bc551cc710afd20e25972d87096f11d980b8167351da480ea7b",
     "binding_schema_sha256": "e59e263fc6814137007ccb756053b16b7b367c7b0391a02770125eaba841e91e",
-    "specification_revision": "bd4fc71879363fc98b8ac95146a8b01fdd8466a2"
+    "specification_revision": "f929059779b059c725c781e4b6dd8aa7c5b9b446"
   },
   "suites": [
     {
