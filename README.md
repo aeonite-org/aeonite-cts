@@ -370,3 +370,13 @@ JavaScript/Python runs. Stable claims require a passing complete selected
 semantic execution against the recognized frozen target; artifact-only checks,
 failures and mutable runs report no stable claim. Native capacity and consumer
 snapshot adoption remain separate.
+
+## Portable AEOS property-selector development target
+
+The [AEOS property consumer protocol](docs/protocol/v1/lane-aeos-properties.md)
+defines an explicitly selected, mutable target for portable AES/Telex validation.
+Its 52 shared cases exercise real TypeScript, Rust and pure Python APIs, exact
+targets, per-call budgets and native-event admission boundaries. The runner's
+artifact preparation is separate from semantic execution; neither changes
+released snapshots or grants a stable conformance claim. Follow the guide's
+exact specification checkout before preparing or executing this target.
