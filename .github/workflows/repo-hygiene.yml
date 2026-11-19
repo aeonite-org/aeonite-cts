@@ -18,6 +18,7 @@ jobs:
       # Comparison runner tests retain their own pinned sibling checkout.
       AEONIC_SPECS_ROOT: ${{ github.workspace }}/temporal-specs
       AEONIC_CLOCK_SPECS_ROOT: ${{ github.workspace }}/clock-specs
+      AEONIC_ANCHOR_SPECS_ROOT: ${{ github.workspace }}/anchor-specs
       AEONIC_DATETIME_SPECS_ROOT: ${{ github.workspace }}/datetime-specs
       AEONIC_TEMPORAL_SPECS_ROOT: ${{ github.workspace }}/temporal-specs
       SANSA_PROPERTY_SPECS_ROOT: ${{ github.workspace }}/property-specs
@@ -58,6 +59,13 @@ jobs:
           repository: aeonite-org/aeonite-specs
           ref: f929059779b059c725c781e4b6dd8aa7c5b9b446
           path: clock-specs
+
+      - name: Checkout anchoring specification dependency
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          repository: aeonite-org/aeonite-specs
+          ref: ccb9ad62b549eb93f12f2d0d2337b8cffe895d3d
+          path: anchor-specs
 
       - name: Checkout unpublished property contract dependency
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
