@@ -1,11 +1,11 @@
 {
   "date": "2026-11-19",
   "scope": "Author verification of mutable owning artifacts and harness; no independent review or real anchoring provider execution.",
-  "specification_revision": "e111463ae8eeca584ef54e7217693cc3ec89400a",
+  "specification_revision": "ccb9ad62b549eb93f12f2d0d2337b8cffe895d3d",
   "cts_base_revision": "042b0e9c51680a95fda1dbba57bd8f014b3e628e",
-  "manifest_sha256": "58e27630192c562c7f96f96a1a65f562526d9c2b0c35f1af4b6daa190a5d1f5a",
+  "manifest_sha256": "47f828391ad174bd6885bb73421202b061e16aac9ed5e6c1050fa8146d5b8614",
   "runner_sha256": "eadb534b4bddd28170ae36079e589bdd163855e32f6ce6c8dfa848396244a5a6",
-  "source_sha256": "04ebb1a446d0a48bb59130f7271955d1a52efc800454666aeb7b5139c3138af7",
+  "source_sha256": "96c5af381adcbff3af3f641b19651f2908014b3b3990005462d3e984f863be22",
   "schema_sha256": "deab60bb0a536558d49c9af0600a2ab04fcdfb7e66783ad004ed324c27081fb2",
   "helper_hashes": {
     "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
@@ -100,5 +100,18 @@
     "Diagnostic expectations are fixed assertions for future provider execution, not outcomes computed by a staged oracle.",
     "Fixture replay and checker guard observations establish harness behavior only.",
     "No hosted CI result, native graph/frame/heap/disk/whole-chain qualification or implementation conformance is claimed."
-  ]
+  ],
+  "source_refresh": "QA-2026-0098: escape both optional-fraction inline brackets through AEON and AND; semantic schema, suites, helpers and limits unchanged. Focused tests and artifact checks rerun against this corrected source.",
+  "publication_fix_verification": {
+    "finding": "QA-2026-0098",
+    "scope": "Author fix verification using the consuming publisher; no independent QA closure claim.",
+    "website_revision": "f19ab9dba9aa691e962c5147fad1d0e5f108d7d8",
+    "parsed_documents": 101,
+    "published_documents": 91,
+    "artifacts": 983,
+    "isolated_build": "passed",
+    "isolated_check": "passed",
+    "displayed_optional_fraction_code": "HH:MM:SS[.fraction]",
+    "corrected_occurrences": 2
+  }
 }

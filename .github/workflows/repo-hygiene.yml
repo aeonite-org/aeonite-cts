@@ -64,7 +64,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: e111463ae8eeca584ef54e7217693cc3ec89400a
+          ref: ccb9ad62b549eb93f12f2d0d2337b8cffe895d3d
           path: anchor-specs
 
       - name: Checkout unpublished property contract dependency
