@@ -1,0 +1,1703 @@
+{
+  "id": "03-precedence",
+  "tests": [
+    {
+      "id": "month-anchor",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_operand",
+        "context": {
+          "stage": 6,
+          "path": "/input/anchor/temporal"
+        }
+      }
+    },
+    {
+      "id": "year-anchor",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_operand",
+        "context": {
+          "stage": 6,
+          "path": "/input/anchor/temporal"
+        }
+      }
+    },
+    {
+      "id": "multi-day-range",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-28",
+                    "end": "2024-02-29"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_operand",
+        "context": {
+          "stage": 6,
+          "path": "/input/anchor/temporal"
+        }
+      }
+    },
+    {
+      "id": "multiple-date-ranges",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": [
+                  {
+                    "start": "2024-02-28",
+                    "end": "2024-02-28"
+                  },
+                  {
+                    "start": "2024-03-01",
+                    "end": "2024-03-01"
+                  }
+                ]
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "incompatible_operand",
+        "context": {
+          "stage": 6,
+          "path": "/input/anchor/temporal"
+        }
+      }
+    },
+    {
+      "id": "month-and-work-denial",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWork": 1
+        }
+      }
+    },
+    {
+      "id": "month-and-candidate-denial",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxIntermediatePieces": 0
+        }
+      }
+    },
+    {
+      "id": "month-and-malformed-clock",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/clock/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "both-malformed-operands",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-30"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/anchor/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "deferred-anchor-malformed-clock",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "container",
+                "opaque": {
+                  "arbitrary": true
+                }
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/clock/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "two-deferred-operands",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "container",
+                "opaque": {
+                  "arbitrary": true
+                }
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "container",
+                "opaque": {
+                  "arbitrary": true
+                }
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/anchor/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-clock",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "container",
+                "opaque": {
+                  "arbitrary": true
+                }
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/clock/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "missing-selection",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      }
+    },
+    {
+      "id": "unknown-profile-before-bad-date",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-30"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "other.valid.profile"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "malformed-overridden-context",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": null
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "unknown-policy-field",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            },
+            "policy": {
+              "anchorMode": "first"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/anchorMode"
+        }
+      }
+    },
+    {
+      "id": "included-upper-domain-point",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "9999-12-31"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "1",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "lower-domain-borrow",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "0001-01-01"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "-1",
+                      "time": "23:59:59"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "excluded-bound-beyond-domain",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "9999-12-31"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "23:59:59"
+                    },
+                    "end": {
+                      "day": "1",
+                      "time": "00:00:00.1"
+                    },
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "included-boundary",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "9999-12-31"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "day": "0",
+                      "time": "23:59:59"
+                    },
+                    "end": {
+                      "day": "1",
+                      "time": "00:00:00"
+                    },
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "domain-before-output-count",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "9999-12-31"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "1",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputPieces": 0
+        }
+      }
+    },
+    {
+      "id": "work-before-domain",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "9999-12-31"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "1",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWork": 1
+        }
+      }
+    },
+    {
+      "id": "output-count-denial",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputPieces": 0
+        }
+      }
+    },
+    {
+      "id": "output-bytes-denial",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 7,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxResultBytes": 0
+        }
+      }
+    },
+    {
+      "id": "empty-clock-before-length",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": []
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/clock/temporal/pieces"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputPieces": 0
+        }
+      }
+    },
+    {
+      "id": "clock-length-before-element",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClockSet",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "day": "not-a-day",
+                      "time": "00:00:00"
+                    }
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": "none-declared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/clock/temporal/pieces"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputPieces": 0
+        }
+      }
+    },
+    {
+      "id": "empty-date-before-length",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDateSet",
+                "ranges": []
+              },
+              "originGranularity": "undeclared",
+              "history": "none-declared"
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/anchor/temporal/ranges"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputRanges": 0
+        }
+      }
+    },
+    {
+      "id": "bad-context-26",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": null
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context"
+        }
+      }
+    },
+    {
+      "id": "bad-context-27",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": []
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context"
+        }
+      }
+    },
+    {
+      "id": "bad-context-28",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": null
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "bad-context-29",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": ""
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "bad-context-30",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1",
+              "extra": 1
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/extra"
+        }
+      }
+    },
+    {
+      "id": "bad-policy-31",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            },
+            "policy": null
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy"
+        }
+      }
+    },
+    {
+      "id": "bad-policy-32",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            },
+            "policy": []
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy"
+        }
+      }
+    },
+    {
+      "id": "bad-policy-33",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            },
+            "policy": {
+              "profile": null
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      }
+    },
+    {
+      "id": "bad-policy-34",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            },
+            "policy": {
+              "profile": ""
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      }
+    },
+    {
+      "id": "bad-policy-35",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            },
+            "policy": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1",
+              "extra": 1
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/extra"
+        }
+      }
+    },
+    {
+      "id": "authored-date-range-budget-before-payload",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "bad"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 4,
+          "path": "/input/anchor/temporal"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputRanges": 0
+        }
+      }
+    },
+    {
+      "id": "authored-clock-validity-before-implicit-capacity",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "bad"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/clock/temporal/value"
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxInputPieces": 0,
+          "maxRelativeDayDigits": 0
+        }
+      }
+    },
+    {
+      "id": "null-request",
+      "fixture": {
+        "request": null
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "array-request",
+      "fixture": {
+        "request": []
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "missing-operation",
+      "fixture": {
+        "request": {}
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/operation"
+        }
+      }
+    },
+    {
+      "id": "missing-input",
+      "fixture": {
+        "request": {
+          "operation": "anchor"
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input"
+        }
+      }
+    },
+    {
+      "id": "null-input",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": null
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input"
+        }
+      }
+    },
+    {
+      "id": "unknown-operation-before-arity",
+      "fixture": {
+        "request": {
+          "operation": "other",
+          "input": {}
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_operation",
+        "context": {
+          "stage": 2,
+          "path": "/operation"
+        }
+      }
+    },
+    {
+      "id": "missing-anchor",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {}
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input/anchor"
+        }
+      }
+    },
+    {
+      "id": "missing-clock",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {}
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input/clock"
+        }
+      }
+    },
+    {
+      "id": "closed-request-46",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          },
+          "extra": true
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/extra"
+        }
+      }
+    },
+    {
+      "id": "closed-input-47",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            },
+            "extra": true
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input/extra"
+        }
+      }
+    },
+    {
+      "id": "closed-request-48",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            }
+          },
+          "a/b~c": true
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/a~1b~0c"
+        }
+      }
+    },
+    {
+      "id": "closed-input-49",
+      "fixture": {
+        "request": {
+          "operation": "anchor",
+          "input": {
+            "anchor": {
+              "temporal": {
+                "category": "civilDate",
+                "value": "2024-02-28"
+              }
+            },
+            "clock": {
+              "temporal": {
+                "category": "civilClock",
+                "value": "09:30:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.civil-anchor.v1"
+            },
+            "a/b~c": true
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input/a~1b~0c"
+        }
+      }
+    }
+  ]
+}

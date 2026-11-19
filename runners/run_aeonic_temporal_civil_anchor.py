@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the complete mutable civil-date anchoring CTS; Python 3.9+."""
+"""Run recognized civil anchoring snapshot0.1 or explicit mutable next; Python 3.9+."""
 import argparse
 import hashlib
 import json
@@ -17,6 +17,8 @@ from temporal_civil_anchor_checks import (PROFILE, CAPABILITY, LIMITS, compact_b
 
 ROOT = Path(__file__).resolve().parents[1]
 LANE = 'aeonic-temporal-civil-anchor'
+NEXT_TARGET = LANE+'-cts-v1-snapshot-0.2'
+IMMUTABLE_TARGETS = {LANE+'-cts-v1-snapshot-0.1': '2512f3524c0bc0ba0dd561a769a7a4dc548c3c48fef72c4a945980193eca2b9b'}
 HELPERS = ['runners/run_aeonic_arithmetic.py', 'runners/run_aeonic_rational_arithmetic.py',
            'runners/temporal_civil_date_checks.py', 'runners/temporal_civil_anchor_checks.py']
 
@@ -28,17 +30,26 @@ class Runner:
         self.manifest = self.read(self.manifest_path)
         require(set(self.manifest) == {'meta', 'suites'}, 'Unknown manifest fields')
         meta = self.manifest['meta']
+        self.immutable = meta.get('conformance') == dict(surface='civil-anchor', stable=True, publication='local-only')
+        if self.immutable:
+            require(IMMUTABLE_TARGETS.get(meta.get('snapshot_id')) == self.artifacts[self.manifest_path],
+                    'Unrecognized or modified immutable civil-anchor target')
+        else:
+            require(meta.get('conformance') == dict(surface='working-next', stable=False),
+                    'Expected mutable next or recognized immutable civil-anchor target')
         require(set(meta) == {'version', 'lane', 'profile', 'capability', 'operations',
                 'sut_protocol', 'conformance', 'description', 'snapshot_id',
                 'specification_revision', 'specification_source', 'specification_schema',
                 'specification_source_sha256', 'specification_schema_sha256',
                 'reuse_inventory', 'reuse_inventory_sha256', 'binding_schema',
-                'binding_schema_sha256', 'helpers', 'resource_limits'}, 'Unknown or missing metadata')
-        require(meta['version'] == '0.1.0-dev.0' and meta['lane'] == LANE and
+                'binding_schema_sha256', 'helpers', 'resource_limits'} | ({'spec_snapshot_id'} if self.immutable else set()), 'Unknown or missing metadata')
+        require(meta['version'] == ('0.1.0' if self.immutable else '0.2.0-dev.0') and meta['lane'] == LANE and
                 meta['profile'] == PROFILE and meta['capability'] == CAPABILITY and
                 meta['operations'] == ['anchor'] and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong lane identity')
-        require(meta['snapshot_id'] == LANE+'-cts-v1-snapshot-0.1' and
-                meta['conformance'] == dict(surface='working-next', stable=False), 'Only mutable next is supported')
+        if self.immutable:
+            require(meta['spec_snapshot_id'] == LANE+'-specs-v1-snapshot-0.1', 'Wrong owning specification snapshot')
+        else:
+            require(meta['snapshot_id'] == NEXT_TARGET, 'Wrong mutable next identity')
         require(isinstance(meta['specification_revision'], str) and
                 re.fullmatch('[0-9a-f]{40}', meta['specification_revision']) is not None, 'Exact specs revision required')
         require(set(meta['helpers']) == set(HELPERS), 'Unexpected or missing helper')
@@ -83,6 +94,7 @@ class Runner:
                 seen.add(test['id']); self.validate_test(test); self.tests.append(test)
         require(any(t['expected']['outcome'] == 'value' for t in self.tests), 'No positive operation coverage')
         require(any(t['expected']['outcome'] == 'diagnostic' for t in self.tests), 'No diagnostic coverage')
+        self.target_case_ids = tuple(test['id'] for test in self.tests)
 
     def read(self, path):
         data = path.read_bytes(); self.artifacts[path] = hashlib.sha256(data).hexdigest()
@@ -163,16 +175,23 @@ class Runner:
 
     def run(self, check_only=False):
         failures = []
+        initial_executions, initial_assertions = self.executions, self.assertions
         if not check_only:
             for test in self.tests:
                 try: self.operation(test)
                 except Exception as error: failures.append(dict(id=test['id'], failure=str(error)[:1500]))
+        complete = (not check_only and tuple(t['id'] for t in self.tests) == self.target_case_ids
+                    and self.executions-initial_executions == len(self.target_case_ids)
+                    and self.assertions-initial_assertions == len(self.target_case_ids))
+        if not check_only and not complete:
+            failures.append(dict(id='execution-completeness', failure='Every mandatory case must execute and pass in this run'))
         for path, sha in self.artifacts.items():
             if not path.exists() or digest(path) != sha:
                 failures.append(dict(id='artifact-integrity', failure='Artifact changed during run: '+path.name))
         return dict(status='failed' if failures else 'artifacts-validated' if check_only else 'passed',
-                    target=self.manifest['meta']['snapshot_id'], target_status='mutable-working',
-                    stable_conformance_claim=False, semantic_execution=not check_only,
+                    target=self.manifest['meta']['snapshot_id'], target_status='immutable-local' if self.immutable else 'mutable-working',
+                    stable_conformance_claim=self.immutable and not check_only and not failures, semantic_execution=not check_only,
+                    complete_passing_execution=complete and not failures,
                     capability=CAPABILITY, operation_cases=len(self.tests),
                     sut_executions=self.executions, assertions=self.assertions,
                     manifest_sha256=self.artifacts[self.manifest_path], runner_sha256=digest(Path(__file__).resolve()),
@@ -185,7 +204,7 @@ class Runner:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--manifest', type=Path, default=ROOT/'cts/aeonic-temporal-civil-anchor/v1/aeonic-temporal-civil-anchor-cts.v1.next.json')
+    parser.add_argument('--manifest', type=Path, default=ROOT/'cts/aeonic-temporal-civil-anchor/v1/aeonic-temporal-civil-anchor-cts.v1.snapshot-0.1.json')
     parser.add_argument('--specs-root', type=Path, required=True)
     parser.add_argument('--check', action='store_true')
     parser.add_argument('--sut'); parser.add_argument('--cwd', type=Path, default=Path.cwd())

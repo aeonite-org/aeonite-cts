@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "aeonic-temporal-civil-anchor",
+    "profile": "aeonic.operations.temporal.civil-anchor.v1",
+    "capability": "Aeonic.Operations.Temporal.CivilAnchor",
+    "operations": [
+      "anchor"
+    ],
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "civil-anchor",
+      "stable": true,
+      "publication": "local-only"
+    },
+    "description": "Immutable local civil anchoring snapshot0.1; all234 cases are mandatory. Genuine passing provider execution and retained artifact integrity are required for stable claims.",
+    "snapshot_id": "aeonic-temporal-civil-anchor-cts-v1-snapshot-0.1",
+    "specification_revision": "30a243beea0345d58cbe1af736e41775e554256b",
+    "specification_source": "resources/aeonic-operations/v1/snapshots/0.1/aeonic-temporal-civil-anchor-v1.aeon",
+    "specification_schema": "resources/aeonic-operations/v1/snapshots/0.1/civil-anchor-contract.schema.json",
+    "reuse_inventory": "resources/aeonic-operations/v1/snapshots/0.1/civil-anchor-reuse.json",
+    "binding_schema": "snapshots/0.1/cts-binding.schema.json",
+    "resource_limits": {
+      "maxRequestBytes": 65536,
+      "maxRequestDepth": 32,
+      "maxTemporalCharacters": 1024,
+      "maxInputRanges": 128,
+      "maxInputPieces": 512,
+      "maxRelativeDayDigits": 256,
+      "maxFractionDigits": 256,
+      "maxWork": 16384,
+      "maxIntermediatePieces": 4096,
+      "maxOutputPieces": 512,
+      "maxResultBytes": 131072
+    },
+    "specification_source_sha256": "dbb2a63e058a9efc99982af6875239163aac179da008a27a0f93b7b74cd769ab",
+    "specification_schema_sha256": "943c954fb1f6d1b936852b4bf26ff1b813e0009107a77bdbd022353041d0d25b",
+    "reuse_inventory_sha256": "692cd25b278c459ee198b19b9948950fcf3b3a04265fd446859115eb7a35cddb",
+    "binding_schema_sha256": "2ac841584ce5fe2afa78ddf1f99fd465b8f20f276010f48b47c327ee5c1bd65f",
+    "helpers": {
+      "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+      "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+      "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+      "runners/temporal_civil_anchor_checks.py": "199c083f1c7298f34c3dffa66ce61a6bbdfd3f2a9f2a6ac31730f5410fe4f4b1"
+    },
+    "spec_snapshot_id": "aeonic-temporal-civil-anchor-specs-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "01-translation",
+      "file": "snapshots/0.1/suites/01-translation.json",
+      "content_sha256": "aa9e08d78a9faac0be4528772a3183959588631c4dcbbd18c5842e25e5a2785e"
+    },
+    {
+      "id": "02-resources",
+      "file": "snapshots/0.1/suites/02-resources.json",
+      "content_sha256": "b0166d0e59fd570bf2373da9617a13e9af1408100c837d7e99137cd12bdd27fa"
+    },
+    {
+      "id": "03-precedence",
+      "file": "snapshots/0.1/suites/03-precedence.json",
+      "content_sha256": "02f6946dc70b2237e6da442c4a5a5f5b802bb55c413b7e2f19e28d784b5ac62e"
+    },
+    {
+      "id": "04-operands",
+      "file": "snapshots/0.1/suites/04-operands.json",
+      "content_sha256": "e7f9a14bc4645d1e685b56c137513bb890cbc38bfdb8df6d64648bf3c3329c6a"
+    },
+    {
+      "id": "05-transport",
+      "file": "snapshots/0.1/suites/05-transport.json",
+      "content_sha256": "86a0a92cd6459d8fd2e58c88ee09c8f4c9e4d74c263c32f472ae95672e5ba107"
+    }
+  ]
+}
