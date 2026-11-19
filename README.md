@@ -372,16 +372,19 @@ failures and mutable runs report no stable claim. Native capacity and consumer
 snapshot adoption remain separate.
 
 
-## Explicit single-day anchoring (mutable)
+## Explicit single-day anchoring
 
 The [anchoring lane](docs/protocol/v1/lane-aeonic-temporal-civil-anchor.md) adds
 one complete `Aeonic.Operations.Temporal.CivilAnchor` capability under explicit
 `aeonic.operations.temporal.civil-anchor.v1` selection. It translates clock sets
 and signed day carry to existing date-time bundles using one exact anchor day.
 All selected cases, metadata, diagnostic precedence and admission dimensions are
-mandatory. The target is mutable, with no stable snapshot or runtime conformance
-claim from artifact checks or fixture replay. Existing frozen targets stay intact.
+mandatory. Snapshot 0.1 is the immutable default; explicit mutable next 0.2 remains
+separate. Only complete passing executions against a genuine implementation can
+establish semantic conformance. Artifact checks and fixture replay cannot.
+See the [snapshot evidence](docs/conformance/civil-anchor-snapshot-0.1.md).
 
 ```sh
 python3 runners/run_aeonic_temporal_civil_anchor.py --specs-root ../aeonite-specs --check
+python3 runners/run_aeonic_temporal_civil_anchor.py --specs-root ../aeonite-specs --manifest cts/aeonic-temporal-civil-anchor/v1/aeonic-temporal-civil-anchor-cts.v1.next.json --check
 ```

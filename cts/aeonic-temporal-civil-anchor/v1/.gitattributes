@@ -1,0 +1,3 @@
+# Preserve exact recognized snapshot bytes across checkout platforms.
+aeonic-temporal-civil-anchor-cts.v1.snapshot-*.json -text
+snapshots/** -text

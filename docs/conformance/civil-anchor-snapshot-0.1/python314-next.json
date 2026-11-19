@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "target": "aeonic-temporal-civil-anchor-cts-v1-snapshot-0.2",
+  "target_status": "mutable-working",
+  "stable_conformance_claim": false,
+  "semantic_execution": true,
+  "complete_passing_execution": true,
+  "capability": "Aeonic.Operations.Temporal.CivilAnchor",
+  "operation_cases": 234,
+  "sut_executions": 234,
+  "assertions": 234,
+  "manifest_sha256": "a387b9e2177ccd9ca8b060759922212766f68f177ea1e9800c78607047584683",
+  "runner_sha256": "e88c06a22cee9a475b55bc0f64cb3186016e4dfd7f48734cc9aabf74b6874752",
+  "specification_revision": "30a243beea0345d58cbe1af736e41775e554256b",
+  "specification_source_sha256": "6ef4e8043c9397c8fc4449d8bf5dbe22bb31e63c982e3a69a05a880adb49afc7",
+  "specification_schema_sha256": "deab60bb0a536558d49c9af0600a2ab04fcdfb7e66783ad004ed324c27081fb2",
+  "helper_hashes": {
+    "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+    "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+    "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+    "runners/temporal_civil_anchor_checks.py": "199c083f1c7298f34c3dffa66ce61a6bbdfd3f2a9f2a6ac31730f5410fe4f4b1"
+  },
+  "resource_limits": {
+    "maxRequestBytes": 65536,
+    "maxRequestDepth": 32,
+    "maxTemporalCharacters": 1024,
+    "maxInputRanges": 128,
+    "maxInputPieces": 512,
+    "maxRelativeDayDigits": 256,
+    "maxFractionDigits": 256,
+    "maxWork": 16384,
+    "maxIntermediatePieces": 4096,
+    "maxOutputPieces": 512,
+    "maxResultBytes": 131072
+  },
+  "sut": "python3.14 -B implementations/python/temporal_civil_anchor.py",
+  "cwd": "<aeonic-root>",
+  "failures": []
+}

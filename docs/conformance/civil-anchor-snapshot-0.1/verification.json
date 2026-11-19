@@ -1,0 +1,99 @@
+{
+  "verified_on": "2026-11-20",
+  "target": "aeonic-temporal-civil-anchor-cts-v1-snapshot-0.1",
+  "spec_snapshot_id": "aeonic-temporal-civil-anchor-specs-v1-snapshot-0.1",
+  "specification_revision": "30a243beea0345d58cbe1af736e41775e554256b",
+  "cts_base_revision": "3c71add23cbb5690b530505ef2e8da15e539ae91",
+  "sut_revision": "ee9e3dcc67c551cb0ea22de9ad8bce98006e61cf",
+  "sut_reviewed_tree_equivalent": "a4bafbc3e0ba13c50056a956adc26818dc155119",
+  "manifest_sha256": "2512f3524c0bc0ba0dd561a769a7a4dc548c3c48fef72c4a945980193eca2b9b",
+  "runner_sha256": "e88c06a22cee9a475b55bc0f64cb3186016e4dfd7f48734cc9aabf74b6874752",
+  "specification_source_sha256": "dbb2a63e058a9efc99982af6875239163aac179da008a27a0f93b7b74cd769ab",
+  "specification_schema_sha256": "943c954fb1f6d1b936852b4bf26ff1b813e0009107a77bdbd022353041d0d25b",
+  "reuse_inventory_sha256": "692cd25b278c459ee198b19b9948950fcf3b3a04265fd446859115eb7a35cddb",
+  "binding_schema_sha256": "2ac841584ce5fe2afa78ddf1f99fd465b8f20f276010f48b47c327ee5c1bd65f",
+  "suite_sha256": {
+    "01-translation": "aa9e08d78a9faac0be4528772a3183959588631c4dcbbd18c5842e25e5a2785e",
+    "02-resources": "b0166d0e59fd570bf2373da9617a13e9af1408100c837d7e99137cd12bdd27fa",
+    "03-precedence": "02f6946dc70b2237e6da442c4a5a5f5b802bb55c413b7e2f19e28d784b5ac62e",
+    "04-operands": "e7f9a14bc4645d1e685b56c137513bb890cbc38bfdb8df6d64648bf3c3329c6a",
+    "05-transport": "86a0a92cd6459d8fd2e58c88ee09c8f4c9e4d74c263c32f472ae95672e5ba107"
+  },
+  "helpers": {
+    "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+    "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+    "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+    "runners/temporal_civil_anchor_checks.py": "199c083f1c7298f34c3dffa66ce61a6bbdfd3f2a9f2a6ac31730f5410fe4f4b1"
+  },
+  "resource_limits": {
+    "maxRequestBytes": 65536,
+    "maxRequestDepth": 32,
+    "maxTemporalCharacters": 1024,
+    "maxInputRanges": 128,
+    "maxInputPieces": 512,
+    "maxRelativeDayDigits": 256,
+    "maxFractionDigits": 256,
+    "maxWork": 16384,
+    "maxIntermediatePieces": 4096,
+    "maxOutputPieces": 512,
+    "maxResultBytes": 131072
+  },
+  "implementations": {
+    "javascript": {
+      "runtime": "Node 24.22.2",
+      "frozen_report": "javascript-snapshot-0.1.json",
+      "mutable_report": "javascript-next.json"
+    },
+    "python39": {
+      "runtime": "Python 3.9.6",
+      "frozen_report": "python39-snapshot-0.1.json",
+      "mutable_report": "python39-next.json"
+    },
+    "python314": {
+      "runtime": "Python 3.14.3",
+      "frozen_report": "python314-snapshot-0.1.json",
+      "mutable_report": "python314-next.json"
+    }
+  },
+  "sut_files_sha256": {
+    "src/temporal-civil-anchor.js": "9871cff38c9c403e7fcaa7318e177b782263191179a91b7af18bfd4a5fac211e",
+    "src/json.js": "96f4a8dbfa8b3f2f6411dae87e9cec74f9f5268209f787c5aae5b60df5f0db1c",
+    "src/rational-json.js": "d0d094c3e4df3992f996cf3452879c8c342a10368e064109d6e4a7b86b6c909a",
+    "implementations/python/temporal_civil_anchor.py": "567ceeb320028b848fd09c0232f7a858da99d31ddd176bbcd813737b2b2b1932",
+    "implementations/python/aeonic.py": "8d4c702c3d58272f3f9d653b949008f473a0a9ad0e1fd81b8527569c7ea15b27",
+    "implementations/python/arithmetic.py": "67aa7b2525dd9e001155946a7946a3f0741ca239a8c79d49697d6327a083f180",
+    "implementations/python/rational_arithmetic.py": "9223b65ff31a9114630f261a6617291e489694f1fda28780fd92ce576e9ede7a",
+    "implementations/python/rational_json.py": "a55a04240e2df8152978fce1b357130572b3e508b3fbe54cbf657627b58aa6a4",
+    "scripts/temporal-civil-anchor-cts-adapter.mjs": "cc7fefcb8ab0e19a2a34138221b70922cad8aee9812df4fa5ab3f4441a2deafd",
+    "scripts/calibrate-temporal-civil-anchor-capacity.py": "6d26310e97b3a48c6b7fe54d2f4742a9f91eb1059759c7357bbce1e7e0ac0ab8",
+    "conformance/anchor-default-capacities.json": "20ce483db0165f05119f7fea999a486fa1001620ce5c015c39c31b27d0db8550"
+  },
+  "equivalence": {
+    "suites": "byte-identical to reviewed CTS 3c71add",
+    "binding": "identical except root $id",
+    "schema": "identical except root $id and title",
+    "reuse_inventory": "identical except description; six source/schema authorities unchanged",
+    "source": "status, identity and asset-reference changes only; no operation semantic change"
+  },
+  "harness_tests": {
+    "python39": 31,
+    "python314": 31
+  },
+  "specification_publication": {
+    "canonical_sources": 101,
+    "published_documents": 91,
+    "artifacts": 989,
+    "isolated_build_and_check": "passed"
+  },
+  "prior_independent_reviews": {
+    "implementation": "REV-2026-0175: no actionable findings",
+    "default_admission": "REV-2026-0177: no actionable findings",
+    "capture": "not independently reviewed by these prior reviews"
+  },
+  "limits": [
+    "Actual provider runs, not fixture replays. Executable and cwd paths normalized; explicit local roots used.",
+    "26 native default-capacity probes per runtime remain separate evidence at the pinned provider revision; no new Cartesian/native-object/process/heap/outer-transport/browser/chain floor.",
+    "No consumer default/claim or package publication change.",
+    "Artifact checks, failures and incomplete execution cannot establish a stable claim; mutable next remains false."
+  ]
+}

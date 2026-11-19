@@ -1,4 +1,4 @@
-# Mutable single-day civil anchoring
+# Single-day civil anchoring
 
 The explicitly selected profile is `aeonic.operations.temporal.civil-anchor.v1`.
 The one complete capability, `Aeonic.Operations.Temporal.CivilAnchor`, requires
@@ -9,15 +9,19 @@ and both histories are preserved under the specified translation. One long
 interval remains one piece. Timezone, WTC, leap/UTC realization, elapsed-time
 authority, reduced-date broadcasting and inverse operations remain separate.
 
-This lane is mutable. There is no recognized immutable anchoring target and every
-report sets `stable_conformance_claim: false`. Existing frozen targets and shared
-checker helpers are unchanged. The complete selection has no case filters or
-semantic opt-outs; claiming anchoring does not require other producer capabilities.
+Snapshot 0.1 is the recognized immutable default. Its manifest is recognized by
+exact SHA-256 bytes, with binding and suites isolated under `snapshots/0.1/` and
+owning source/schema/reuse inventory captured separately. Explicit mutable next
+0.2 remains available and always reports `stable_conformance_claim: false`.
+Existing frozen targets and shared checker helpers are unchanged. The complete
+selection has no case filters or semantic opt-outs; claiming anchoring does not
+require other producer capabilities.
 
 ```sh
 python3 -m pip install -r runners/requirements-aeonic-operations.txt
 python3 runners/run_aeonic_temporal_civil_anchor.py --specs-root ../aeonite-specs --check
 python3 runners/run_aeonic_temporal_civil_anchor.py --specs-root ../aeonite-specs --sut 'command arguments' --report anchor-report.json
+python3 runners/run_aeonic_temporal_civil_anchor.py --specs-root ../aeonite-specs --manifest cts/aeonic-temporal-civil-anchor/v1/aeonic-temporal-civil-anchor-cts.v1.next.json --sut 'command arguments' --report anchor-next-report.json
 ```
 
 Use the exact owning specification revision recorded in the manifest, including
@@ -60,11 +64,15 @@ observed response: exact output pieces, endpoint flags, histories, origins,
 effective profile, or diagnostic reason/stage/pointer. Protocol status, errors and
 warnings must agree. Returned human-readable messages may vary.
 
-The initial mutable target has 234 operation cases: 45 successful values and
-189 diagnostics. The [author verification record](../../conformance/civil-anchor-working.json)
-records 25 focused harness tests passing on Python 3.9.6 and 3.14.3, complete
-artifact checks with zero SUT calls, and unchanged frozen temporal artifact
-controls. It records no real anchoring provider run or independent review.
+Snapshot 0.1 captures all 234 operation cases unchanged: 45 successful values
+and 189 diagnostics. The [snapshot record](../../conformance/civil-anchor-snapshot-0.1.md)
+retains genuine JavaScript, Python 3.9 and Python 3.14 executions of both frozen
+and mutable targets. A stable report requires recognized frozen bytes, every
+mandatory case executed and asserted in the current run, no failures, and
+unchanged artifacts after execution. Modified/unknown immutable manifests,
+filtered runs, missing executions and wrong responses cannot establish a claim.
+The [original working record](../../conformance/civil-anchor-working.json) remains
+historical harness-only evidence; its fixture replays are not provider runs.
 
 `--check` validates artifacts and positive mathematical images without invoking a
 provider; it reports `semantic_execution: false` and zero SUT executions. Harness
@@ -74,8 +82,8 @@ Those controls establish assertion sensitivity and transport, not anchoring
 implementation conformance. The bounded helper checks only successful fixtures;
 it does not implement a staged diagnostic evaluator and cannot be the SUT.
 
-Before implementation claims, execute the entire mutable target against each real
-provider. Separately verify native JSON graph admission, cycle/shared-subtree
+Implementation claims require executing the entire selected target against each
+real provider. Separately verify native JSON graph admission, cycle/shared-subtree
 behavior, actual conversion/construction guards, host framing and selected
 capacities. The JSON protocol cannot exercise native getters/proxies/subclasses
 or prove a whole-chain, heap, disk or browser capacity. Checker guard observations

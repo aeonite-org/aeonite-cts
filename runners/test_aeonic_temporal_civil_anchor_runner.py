@@ -1,9 +1,11 @@
 """Anchoring harness sensitivity and bounded fixture admission, not SUT conformance."""
 import argparse
 import copy
+import hashlib
 from datetime import date
 import json
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -12,7 +14,7 @@ import unittest
 from unittest.mock import patch
 
 from run_aeonic_arithmetic import RawNumber, encode
-from run_aeonic_temporal_civil_anchor import ROOT, LANE, Runner
+from run_aeonic_temporal_civil_anchor import ROOT, LANE, Runner, IMMUTABLE_TARGETS
 from temporal_civil_anchor_checks import (LIMITS, PROFILE, clock, coordinate, dates,
     pieces, target_ordinal, expected_positive, compact_bytes, compare, decode_artifact)
 
@@ -253,6 +255,82 @@ class CivilAnchorRunnerTests(unittest.TestCase):
     def test_cannot_promote_mutable_artifacts_or_skip_cases(self):
         r = self.runner(); test = copy.deepcopy(r.tests[0]); test['skip'] = True
         with self.assertRaisesRegex(ValueError,'opt-outs'): r.validate_test(test)
+
+    def frozen_args(self):
+        args = self.args()
+        args.manifest = ROOT/'cts/aeonic-temporal-civil-anchor/v1/aeonic-temporal-civil-anchor-cts.v1.snapshot-0.1.json'
+        return args
+
+    def test_recognized_frozen_artifact_check_does_not_claim_execution(self):
+        r = Runner(self.frozen_args())
+        self.assertTrue(r.immutable);self.assertEqual(len(r.tests),234)
+        with patch.object(r,'execute') as execute: report = r.run(True)
+        execute.assert_not_called();self.assertEqual(report['status'],'artifacts-validated')
+        self.assertEqual(report['target_status'],'immutable-local')
+        self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+        self.assertEqual(report['manifest_sha256'],IMMUTABLE_TARGETS[report['target']])
+        mutable=self.runner();self.assertFalse(mutable.immutable)
+        self.assertEqual(mutable.manifest['meta']['version'],'0.2.0-dev.0')
+        self.assertEqual(mutable.manifest['meta']['snapshot_id'],LANE+'-cts-v1-snapshot-0.2')
+
+    def test_modified_or_relabelled_immutable_manifest_is_rejected(self):
+        original=json.loads(self.frozen_args().manifest.read_text())
+        for field,value in [('description','edited'),('snapshot_id',LANE+'-cts-v1-snapshot-0.9'),('spec_snapshot_id','other-specs-v1-snapshot-0.1')]:
+            with tempfile.TemporaryDirectory() as directory:
+                changed=copy.deepcopy(original);changed['meta'][field]=value
+                path=Path(directory)/'manifest.json';path.write_text(json.dumps(changed,indent=2)+'\n')
+                args=self.frozen_args();args.manifest=path
+                with self.assertRaisesRegex(ValueError,'Unrecognized or modified'):Runner(args)
+
+    def test_frozen_suites_are_isolated_and_byte_identical_to_reviewed_cases(self):
+        # Reviewed mutable0.1 bytes at CTS3c71add, independent of future next edits.
+        reviewed = {
+            '01-translation':'aa9e08d78a9faac0be4528772a3183959588631c4dcbbd18c5842e25e5a2785e',
+            '02-resources':'b0166d0e59fd570bf2373da9617a13e9af1408100c837d7e99137cd12bdd27fa',
+            '03-precedence':'02f6946dc70b2237e6da442c4a5a5f5b802bb55c413b7e2f19e28d784b5ac62e',
+            '04-operands':'e7f9a14bc4645d1e685b56c137513bb890cbc38bfdb8df6d64648bf3c3329c6a',
+            '05-transport':'86a0a92cd6459d8fd2e58c88ee09c8f4c9e4d74c263c32f472ae95672e5ba107',
+        }
+        frozen=Runner(self.frozen_args());self.assertEqual(len(frozen.tests),234)
+        self.assertEqual(frozen.manifest['meta']['resource_limits'],LIMITS)
+        self.assertEqual({s['id']:s['content_sha256'] for s in frozen.manifest['suites']},reviewed)
+        for suite in frozen.manifest['suites']:
+            self.assertTrue(suite['file'].startswith('snapshots/0.1/suites/'))
+            self.assertEqual(hashlib.sha256((frozen.manifest_path.parent/suite['file']).read_bytes()).hexdigest(),reviewed[suite['id']])
+        self.assertEqual(frozen.schema['$id'],'urn:aeonic-operations:temporal-civil-anchor-contract:v1:snapshot-0.1')
+
+    def test_frozen_target_ignores_mutable_edits_but_rejects_frozen_edits(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)/'lane';shutil.copytree(self.frozen_args().manifest.parent,root)
+            (root/'suites/01-translation.json').write_text('{}\n')
+            args=self.frozen_args();args.manifest=root/args.manifest.name
+            self.assertEqual(Runner(args).run(True)['status'],'artifacts-validated')
+            (root/'snapshots/0.1/suites/01-translation.json').write_text('{}\n')
+            with self.assertRaisesRegex(ValueError,'digest mismatch'):Runner(args)
+
+    def test_a_failed_frozen_execution_cannot_make_a_stable_claim(self):
+        r=Runner(self.frozen_args());cases={t['id']:t for t in r.tests}
+        def replay(envelope):
+            value=copy.deepcopy(cases[envelope['case_id']]['expected'])
+            if envelope['case_id']=='same-day-point':value['value']['originClockForm']='year'
+            return self.output(value)
+        # Synthetic wrong-response control only; genuine passing frozen runs
+        # are retained separately and cannot be inferred from this replay.
+        with patch.object(r,'execute',side_effect=replay):report=r.run()
+        self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+        self.assertEqual(report['sut_executions'],234)
+        self.assertTrue(any(f['id']=='same-day-point' for f in report['failures']))
+
+    def test_frozen_stable_claim_requires_all_actual_executions_and_assertions(self):
+        r=Runner(self.frozen_args())
+        with patch.object(r,'operation',return_value=None):report=r.run()
+        self.assertEqual(report['status'],'failed');self.assertEqual(report['sut_executions'],0)
+        self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['complete_passing_execution'])
+        self.assertTrue(any(f['id']=='execution-completeness' for f in report['failures']))
+        r=Runner(self.frozen_args());r.tests=r.tests[:-1];cases={t['id']:t for t in r.tests}
+        with patch.object(r,'execute',side_effect=lambda e:self.output(cases[e['case_id']]['expected'])):partial=r.run()
+        self.assertEqual(partial['sut_executions'],233);self.assertEqual(partial['status'],'failed')
+        self.assertFalse(partial['stable_conformance_claim'])
 
     def test_subprocess_transport_has_a_passing_and_wrong_response_control(self):
         # This deliberately synthetic fixture provider tests framing/assertions;
