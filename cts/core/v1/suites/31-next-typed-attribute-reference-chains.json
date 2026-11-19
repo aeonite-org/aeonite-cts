@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "suite_id": "next-typed-attribute-reference-chains",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/addressing-references-v1.aeon#reference-legality"
+    ]
+  },
+  "id": "next-typed-attribute-reference-chains",
+  "title": "Typed Attribute Reference Chains",
+  "tests": [
+    {
+      "id": "core-typed-attr-ref-001-valid-chain",
+      "description": "Typed attributes accept clone and pointer chains that end at a list, including earlier sibling attributes.",
+      "input": {
+        "source": "aeon:mode = \"transport\"\ntarget:list = [1]\nalias:list = ~>target\nitem@{first:list = ~>alias, second:list = ~item.@.first, third:list = ~>item.@.second}:number = 1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": { "parse_ok": true }
+      },
+      "tags": ["development", "attributes", "references", "datatype"]
+    },
+    {
+      "id": "core-typed-attr-ref-002-terminal-type-mismatch",
+      "description": "A number-typed attribute rejects a reference chain whose terminal value is a list.",
+      "input": {
+        "source": "aeon:mode = \"transport\"\ntarget:list = [1]\nalias:list = ~>target\nitem@{value:number = ~>alias}:number = 1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          { "code": "DATATYPE_LITERAL_MISMATCH", "path": "$.item.@.value" }
+        ],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["development", "attributes", "references", "datatype", "reject"]
+    }
+  ]
+}
