@@ -217,6 +217,23 @@
       "expected": {
         "ok": true
       }
+    },
+    {
+      "id": "sansa-mutate-next-radix16",
+      "input": {
+        "namespace": "values",
+        "target": "aeon",
+        "operation": {
+          "op": "replace",
+          "target": "$.value",
+          "datatype": "radix16",
+          "kind": "radix",
+          "value": "BEEF"
+        }
+      },
+      "expected": {
+        "ok": true
+      }
     }
   ]
 }
