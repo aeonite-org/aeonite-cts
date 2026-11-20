@@ -150,6 +150,10 @@
     {
       "id": "next-block-comment-newlines",
       "file": "suites/30-next-block-comment-newlines.json"
+    },
+    {
+      "id": "next-typed-attribute-reference-chains",
+      "file": "suites/31-next-typed-attribute-reference-chains.json"
     }
   ]
 }
