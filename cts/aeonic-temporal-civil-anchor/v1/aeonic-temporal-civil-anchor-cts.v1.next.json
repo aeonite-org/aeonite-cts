@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "version": "0.2.0-dev.0",
+    "lane": "aeonic-temporal-civil-anchor",
+    "profile": "aeonic.operations.temporal.civil-anchor.v1",
+    "capability": "Aeonic.Operations.Temporal.CivilAnchor",
+    "operations": [
+      "anchor"
+    ],
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "working-next",
+      "stable": false
+    },
+    "description": "Mutable next anchoring target0.2; no stable claim. Immutable snapshot0.1 is separate and retains all reviewed semantic cases.",
+    "snapshot_id": "aeonic-temporal-civil-anchor-cts-v1-snapshot-0.2",
+    "specification_revision": "30a243beea0345d58cbe1af736e41775e554256b",
+    "specification_source": "sources/aes/v1/aeonic-temporal-civil-anchor-v1.aeon",
+    "specification_schema": "resources/aeonic-operations/v1/civil-anchor-contract.schema.json",
+    "reuse_inventory": "resources/aeonic-operations/v1/civil-anchor-reuse.json",
+    "binding_schema": "binding.schema.json",
+    "resource_limits": {
+      "maxRequestBytes": 65536,
+      "maxRequestDepth": 32,
+      "maxTemporalCharacters": 1024,
+      "maxInputRanges": 128,
+      "maxInputPieces": 512,
+      "maxRelativeDayDigits": 256,
+      "maxFractionDigits": 256,
+      "maxWork": 16384,
+      "maxIntermediatePieces": 4096,
+      "maxOutputPieces": 512,
+      "maxResultBytes": 131072
+    },
+    "specification_source_sha256": "6ef4e8043c9397c8fc4449d8bf5dbe22bb31e63c982e3a69a05a880adb49afc7",
+    "specification_schema_sha256": "deab60bb0a536558d49c9af0600a2ab04fcdfb7e66783ad004ed324c27081fb2",
+    "reuse_inventory_sha256": "e3e53241ee1e9ec17a5ef51bb7006ec5e9229a58a14034c137bbcd8f3dd5b9cd",
+    "binding_schema_sha256": "47167e429a4a17f081a85f3643efddd14bccef78e3b0114921ececca0f6df6d1",
+    "helpers": {
+      "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+      "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+      "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+      "runners/temporal_civil_anchor_checks.py": "199c083f1c7298f34c3dffa66ce61a6bbdfd3f2a9f2a6ac31730f5410fe4f4b1"
+    }
+  },
+  "suites": [
+    {
+      "id": "01-translation",
+      "file": "suites/01-translation.json",
+      "content_sha256": "aa9e08d78a9faac0be4528772a3183959588631c4dcbbd18c5842e25e5a2785e"
+    },
+    {
+      "id": "02-resources",
+      "file": "suites/02-resources.json",
+      "content_sha256": "b0166d0e59fd570bf2373da9617a13e9af1408100c837d7e99137cd12bdd27fa"
+    },
+    {
+      "id": "03-precedence",
+      "file": "suites/03-precedence.json",
+      "content_sha256": "02f6946dc70b2237e6da442c4a5a5f5b802bb55c413b7e2f19e28d784b5ac62e"
+    },
+    {
+      "id": "04-operands",
+      "file": "suites/04-operands.json",
+      "content_sha256": "e7f9a14bc4645d1e685b56c137513bb890cbc38bfdb8df6d64648bf3c3329c6a"
+    },
+    {
+      "id": "05-transport",
+      "file": "suites/05-transport.json",
+      "content_sha256": "86a0a92cd6459d8fd2e58c88ee09c8f4c9e4d74c263c32f472ae95672e5ba107"
+    }
+  ]
+}
