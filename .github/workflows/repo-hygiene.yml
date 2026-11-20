@@ -22,6 +22,7 @@ jobs:
       AEONIC_DATETIME_SPECS_ROOT: ${{ github.workspace }}/datetime-specs
       AEONIC_TEMPORAL_SPECS_ROOT: ${{ github.workspace }}/temporal-specs
       SANSA_PROPERTY_SPECS_ROOT: ${{ github.workspace }}/property-specs
+      AEOS_PROPERTY_SPECS_ROOT: ${{ github.workspace }}/aeos-property-specs
     defaults:
       run:
         working-directory: aeonite-cts
@@ -79,6 +80,13 @@ jobs:
         with:
           python-version: '3.14'
 
+      - name: Checkout unpublished AEOS property profile dependency
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          repository: aeonite-org/aeonite-specs
+          ref: e772651a6e2c4ad3c0ce4651d116da7e1bc696d0
+          path: aeos-property-specs
+
       - name: Install semantic runner dependencies
         run: python3 -m pip install -r runners/requirements-aeonic-operations.txt
 
@@ -93,6 +101,9 @@ jobs:
 
       - name: Verify snapshot integrity and development fixtures
         run: python3 -m unittest discover -s runners -p 'test_*.py'
+
+      - name: Prepare excluded AEOS property consumer target
+        run: python3 runners/run_aeos_properties.py --specs-root "$AEOS_PROPERTY_SPECS_ROOT" --check
 
   rational-runner-python39:
     # Keep the minimum-runtime job on an image with Python 3.9 distributions.

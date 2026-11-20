@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "aeos-properties",
+    "profile": "aeos-properties-0.1",
+    "sut_protocol": "aeos-properties-v0.1",
+    "snapshot_id": "aeos-properties-next-cts-v1-snapshot-0.1",
+    "specification_revision": "e772651a6e2c4ad3c0ce4651d116da7e1bc696d0",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "description": "Explicit portable AEOS property-consumer development target; no stable conformance claim."
+  },
+  "specification": {
+    "assets": [
+      {
+        "file": "sources/aeos/v1/sansa-property-selectors-v1.aeon",
+        "content_sha256": "407aef6943b434cb1af86ee1f013e805d05e8470c2901605cf845108e3ef0281"
+      },
+      {
+        "file": "resources/aeos/v1/sansa-property-selectors-candidate.json",
+        "content_sha256": "bea03c8bc64d2b9b9ac3422c6edd0e1377cfc3da22a77278ee7b22017259b943"
+      }
+    ]
+  },
+  "fixture_schema": {
+    "file": "aeos-properties-fixture.schema.json",
+    "content_sha256": "68fcf1d33b7fb918f256754dd32623e017378f23f23e76b3ca102c6e0e97e1b8"
+  },
+  "suites": [
+    {
+      "id": "aeos-properties-v1",
+      "file": "fixtures/property-selectors-v1.json",
+      "content_sha256": "377c0e78ff66f74c9659d81307752e68906e7d822a1cd9c5ff60615c1f118787"
+    }
+  ]
+}

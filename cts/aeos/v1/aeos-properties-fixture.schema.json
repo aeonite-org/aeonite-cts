@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "status", "tests"],
+  "properties": {
+    "id": {"const": "aeos-properties-v1"},
+    "version": {"const": "aeos-properties-0.1"},
+    "status": {"const": "experimental-development"},
+    "tests": {
+      "type": "array", "minItems": 52, "maxItems": 52,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "entrypoint", "records", "schema", "expected"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "entrypoint": {"enum": ["legacy", "portable"]},
+          "records": {"type": "array", "maxItems": 1024, "items": {"type": "object", "additionalProperties": {"type": "string"}, "required": ["path", "kind"]}},
+          "schema": {"type": "object", "required": ["rules"]},
+          "options": {"type": "object"},
+          "expected": {
+            "type": "object", "additionalProperties": false, "required": ["ok", "errors"],
+            "properties": {
+              "ok": {"type": "boolean"},
+              "errors": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["code", "path"], "properties": {"code": {"type": "string"}, "path": {"type": "string"}}}}
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -388,3 +388,13 @@ See the [snapshot evidence](docs/conformance/civil-anchor-snapshot-0.1.md).
 python3 runners/run_aeonic_temporal_civil_anchor.py --specs-root ../aeonite-specs --check
 python3 runners/run_aeonic_temporal_civil_anchor.py --specs-root ../aeonite-specs --manifest cts/aeonic-temporal-civil-anchor/v1/aeonic-temporal-civil-anchor-cts.v1.next.json --check
 ```
+
+## Portable AEOS property-selector development target
+
+The [AEOS property consumer protocol](docs/protocol/v1/lane-aeos-properties.md)
+defines an explicitly selected, mutable target for portable AES/Telex validation.
+Its 52 shared cases exercise real TypeScript, Rust and pure Python APIs, exact
+targets, per-call budgets and native-event admission boundaries. The runner's
+artifact preparation is separate from semantic execution; neither changes
+released snapshots or grants a stable conformance claim. Follow the guide's
+exact specification checkout before preparing or executing this target.
