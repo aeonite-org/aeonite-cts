@@ -17,6 +17,7 @@
       "id": "mutate-plan",
       "file": "suites/07-mutate-plan.json",
       "exclude_tests": [
+        "sansa-mutate-0045e-target-aeon-rejects-unsupported-radix-alias",
         "sansa-mutate-0045a1-target-aeon-reports-nested-empty-key-value-path",
         "sansa-mutate-0045a1a-target-aeon-reports-quoted-nested-key-value-path"
       ]
