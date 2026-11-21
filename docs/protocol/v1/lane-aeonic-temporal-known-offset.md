@@ -79,3 +79,9 @@ Structured bytes use minimal JSON string escapes and literal UTF-8, with root
 container depth one; raw text pays its supplied bytes verbatim. The fixtures cover
 non-ASCII literal versus escaped bytes, exact depth boundaries and 1,051 nested
 arrays in raw text.
+
+A distinct-input equality witness requires different complete logical operand
+values with equal coordinate coverage. Object-key order and position in the law
+array do not make otherwise identical values distinct. Exact copies, including
+independently allocated deep copies, cannot replace the cross-frame equality
+pair when validating or executing a target.

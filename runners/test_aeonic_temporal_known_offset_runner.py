@@ -92,6 +92,40 @@ class KnownOffsetRunnerTests(unittest.TestCase):
         with self.disposable_target(collapse) as args:
             with self.assertRaisesRegex(ValueError,'strict-before'):Runner(args)
 
+    def test_identical_logical_inputs_do_not_witness_distinct_equality(self):
+        original=self.case('cross-frame-ordering-laws')['values']
+        for variant in ('same-object','deep-copy','reordered-keys'):
+            values=copy.deepcopy(original)
+            duplicate=values[0] if variant=='same-object' else copy.deepcopy(values[0])
+            if variant=='reordered-keys':
+                duplicate=dict(reversed(list(duplicate.items())))
+                duplicate['temporal']=dict(reversed(list(duplicate['temporal'].items())))
+            values[1]=duplicate
+            with self.subTest(variant=variant),self.assertRaisesRegex(ValueError,'distinct inputs'):
+                law_witnesses(values)
+        self.assertEqual(law_witnesses(original),2)
+
+    def test_duplicate_equality_witness_is_rejected_when_loading_target(self):
+        def duplicate(m,data):
+            for test in data['tests']:
+                if test.get('kind')=='laws':test['values'][1]=copy.deepcopy(test['values'][0])
+        with self.disposable_target(duplicate) as args:
+            for choice in ('relations','all'):
+                args.capability_set=choice
+                with self.subTest(capability=choice),self.assertRaisesRegex(ValueError,'distinct inputs'):
+                    Runner(args)
+
+    def test_loaded_target_cannot_drop_distinct_equality_witness(self):
+        test=self.case('cross-frame-ordering-laws');original=test['values']
+        try:
+            test['values']=copy.deepcopy(original)
+            test['values'][1]=copy.deepcopy(test['values'][0])
+            report=self.r.run(True)
+            self.assertEqual(report['status'],'failed')
+            self.assertFalse(report['complete_passing_execution'])
+            self.assertTrue(any(f['id']=='required-coverage' and 'distinct inputs' in f['failure'] for f in report['failures']))
+        finally:test['values']=original
+
     def test_strict_before_transitivity_has_two_actual_witnesses(self):
         test=self.case('cross-frame-ordering-laws')
         self.assertEqual(law_witnesses(test['values']),2)

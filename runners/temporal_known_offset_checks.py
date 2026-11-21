@@ -2,7 +2,7 @@
 import copy
 import re
 import json
-from run_aeonic_arithmetic import RawNumber, pairs, require
+from run_aeonic_arithmetic import RawNumber, equal, pairs, require
 from temporal_civil_date_checks import compact_bytes, decode_artifact, validate_pointer_text
 from temporal_civil_datetime_checks import (B, coverage as civil_coverage,
     format_coordinate, history, origin as civil_origin, relation_labels)
@@ -95,10 +95,11 @@ def decode_request(text):
 
 
 def law_witnesses(values, limits=LIMITS):
-    """Require a non-reflexive equality pair and a strict-before triple."""
+    """Require different logical representations of equal coverage and a before triple."""
     spans=[common(value,limits['maxInputPieces'],limits) for value in values]
     labels={(i,j):relation_labels(a,b) for i,a in enumerate(spans) for j,b in enumerate(spans)}
-    equality=any(i!=j and result['equal']=='equal' for (i,j),result in labels.items())
+    equality=any(i!=j and not equal(values[i],values[j]) and result['equal']=='equal'
+                 for (i,j),result in labels.items())
     before=sum(labels[i,j]['compare']==labels[j,k]['compare']=='before'
                for i in range(len(values)) for j in range(len(values)) for k in range(len(values)))
     require(equality,'Law group needs distinct inputs with equal coverage')
