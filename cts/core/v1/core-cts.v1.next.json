@@ -16,6 +16,7 @@
       "id": "baseline",
       "file": "suites/01-baseline.json",
       "exclude_tests": [
+        "core-baseline-015-strict-stale-radix-alias-reject",
         "core-baseline-016-separator-depth-default-reject",
         "core-baseline-018-generic-depth-default-reject"
       ]
@@ -152,8 +153,12 @@
       "file": "suites/30-next-block-comment-newlines.json"
     },
     {
+      "id": "next-radix16",
+      "file": "suites/31-next-radix16.json"
+    },
+    {
       "id": "next-typed-attribute-reference-chains",
-      "file": "suites/31-next-typed-attribute-reference-chains.json"
+      "file": "suites/32-next-typed-attribute-reference-chains.json"
     }
   ]
 }
