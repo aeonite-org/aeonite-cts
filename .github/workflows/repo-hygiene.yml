@@ -92,7 +92,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: 4f7565f99a5d4df96a835ceeffdf7f3cc9718df5
+          ref: 427254696af1c1e38898b0c5b8c6158b745cb2ff
           path: known-offset-specs
 
       - name: Install semantic runner dependencies

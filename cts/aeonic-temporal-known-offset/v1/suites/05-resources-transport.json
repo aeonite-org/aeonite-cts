@@ -3458,9 +3458,7 @@
     },
     {
       "id": "request-bytes-one-over",
-      "requires": [
-        "conversion"
-      ],
+      "requires": [],
       "fixture": {
         "requestText": "{\"operation\":\"convert\",\"input\":{\"value\":{\"temporal\":{\"category\":\"knownOffsetDateTime\",\"value\":\"2024-03-01T10:00:00+01:00\"}},\"policy\":{\"destinationOffset\":\"Z\"},\"context\":{\"profile\":\"aeonic.operations.temporal.known-offset.v1\"}}}"
       },
@@ -3578,9 +3576,7 @@
     },
     {
       "id": "request-depth",
-      "requires": [
-        "conversion"
-      ],
+      "requires": [],
       "fixture": {
         "request": {
           "operation": "convert",
@@ -3700,9 +3696,7 @@
     },
     {
       "id": "negative-zero-byte-limit-minus-one",
-      "requires": [
-        "conversion"
-      ],
+      "requires": [],
       "fixture": {
         "requestText": "{\"operation\":\"convert\",\"input\":{\"value\":{\"temporal\":{\"category\":\"container\",\"payload\":-0}},\"context\":{\"profile\":\"aeonic.operations.temporal.known-offset.v1\"},\"policy\":{\"destinationOffset\":\"Z\"}}}"
       },
@@ -3756,6 +3750,284 @@
             "destinationOffset": "Z",
             "profile": "aeonic.operations.temporal.known-offset.v1"
           }
+        }
+      }
+    },
+    {
+      "id": "native-unicode-exact-bytes",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z",
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            },
+            "context": {
+              "profile": "\u00e9\ud83d\ude00"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "knownOffsetDateTimeSet",
+            "offset": "Z",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": "2024-03-01T09:00:00"
+              }
+            ]
+          },
+          "originDateGranularity": "day",
+          "originClockForm": "second",
+          "history": {
+            "clamping": "none-declared",
+            "approximation": "none-declared"
+          },
+          "originalOffset": "+01:00"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "destinationOffset": "Z",
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 246
+        }
+      }
+    },
+    {
+      "id": "native-unicode-one-byte-over",
+      "requires": [],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z",
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            },
+            "context": {
+              "profile": "\u00e9\ud83d\ude00"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 245
+        }
+      }
+    },
+    {
+      "id": "raw-escaped-unicode-exact-bytes",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "requestText": "{\"operation\":\"convert\",\"input\":{\"value\":{\"temporal\":{\"category\":\"knownOffsetDateTime\",\"value\":\"2024-03-01T10:00:00+01:00\"}},\"policy\":{\"destinationOffset\":\"Z\",\"profile\":\"aeonic.operations.temporal.known-offset.v1\"},\"context\":{\"profile\":\"\\u00e9\\ud83d\\ude00\"}}}"
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "knownOffsetDateTimeSet",
+            "offset": "Z",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": "2024-03-01T09:00:00"
+              }
+            ]
+          },
+          "originDateGranularity": "day",
+          "originClockForm": "second",
+          "history": {
+            "clamping": "none-declared",
+            "approximation": "none-declared"
+          },
+          "originalOffset": "+01:00"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "destinationOffset": "Z",
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 258
+        }
+      }
+    },
+    {
+      "id": "raw-escaped-unicode-is-not-compacted",
+      "requires": [],
+      "fixture": {
+        "requestText": "{\"operation\":\"convert\",\"input\":{\"value\":{\"temporal\":{\"category\":\"knownOffsetDateTime\",\"value\":\"2024-03-01T10:00:00+01:00\"}},\"policy\":{\"destinationOffset\":\"Z\",\"profile\":\"aeonic.operations.temporal.known-offset.v1\"},\"context\":{\"profile\":\"\\u00e9\\ud83d\\ude00\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestBytes": 246
+        }
+      }
+    },
+    {
+      "id": "native-root-depth-one-exact-four",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "knownOffsetDateTimeSet",
+            "offset": "Z",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": "2024-03-01T09:00:00"
+              }
+            ]
+          },
+          "originDateGranularity": "day",
+          "originClockForm": "second",
+          "history": {
+            "clamping": "none-declared",
+            "approximation": "none-declared"
+          },
+          "originalOffset": "+01:00"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "destinationOffset": "Z",
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestDepth": 4
+        }
+      }
+    },
+    {
+      "id": "native-root-depth-one-over-three",
+      "requires": [],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestDepth": 3
+        }
+      }
+    },
+    {
+      "id": "raw-deep-depth-before-decoding",
+      "requires": [],
+      "fixture": {
+        "requestText": "{\"operation\":\"convert\",\"input\":{\"value\":{\"temporal\":{\"category\":\"container\",\"payload\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[0]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]}},\"policy\":{\"profile\":\"aeonic.operations.temporal.known-offset.v1\",\"destinationOffset\":\"Z\"}}}"
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 1,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxRequestDepth": 1
         }
       }
     }

@@ -38,6 +38,7 @@ def generate(specs):
     def negative(name,r,reason,stage,path=None,suite='03-operands',limits=None,text=False,requires=None):
         op=r.get('operation') if isinstance(r,dict) else None
         req=requires if requires is not None else ['conversion'] if op=='convert' else ['relations'] if op in ('equal','compare','relate') else []
+        if stage==1: req=[]  # Admission precedes operation dispatch for every capability.
         t=dict(id=name,requires=req,fixture={'requestText' if text else 'request':r},expected=diagnostic(reason,stage,path))
         if limits is not None:t['policy']=dict(resourceLimits=limits)
         suites[suite].append(t);return t
@@ -163,6 +164,23 @@ def generate(specs):
     negative('negative-zero-byte-limit-minus-one',raw,'resource_limit',1,suite=suite,limits=dict(maxRequestBytes=len(raw.encode())-1),text=True,requires=['conversion'])
     t=positive('raw-success-whitespace',request('convert',A),suite)
     t['fixture']={'requestText':json.dumps(t['fixture']['request'],indent=2)}
+    # Native ingress has one minimal UTF-8 byte recipe and root depth one.
+    unicode_request=request('convert',A)
+    unicode_request['input']['context']['profile']='é😀'
+    unicode_request['input']['policy']['profile']=PROFILE
+    native_bytes=len(json.dumps(unicode_request,ensure_ascii=False,separators=(',',':')).encode())
+    positive('native-unicode-exact-bytes',unicode_request,suite,dict(maxRequestBytes=native_bytes))
+    negative('native-unicode-one-byte-over',unicode_request,'resource_limit',1,suite=suite,limits=dict(maxRequestBytes=native_bytes-1))
+    raw_escaped=json.dumps(unicode_request,ensure_ascii=True,separators=(',',':'))
+    t=positive('raw-escaped-unicode-exact-bytes',unicode_request,suite,dict(maxRequestBytes=len(raw_escaped.encode())))
+    t['fixture']={'requestText':raw_escaped}
+    negative('raw-escaped-unicode-is-not-compacted',raw_escaped,'resource_limit',1,suite=suite,limits=dict(maxRequestBytes=native_bytes),text=True)
+    positive('native-root-depth-one-exact-four',request('convert',A),suite,dict(maxRequestDepth=4))
+    negative('native-root-depth-one-over-three',request('convert',A),'resource_limit',1,suite=suite,limits=dict(maxRequestDepth=3))
+    raw_prefix='{"operation":"convert","input":{"value":{"temporal":{"category":"container","payload":'
+    raw_suffix='}},"policy":{"profile":"'+PROFILE+'","destinationOffset":"Z"}}}'
+    deep_raw=raw_prefix+'['*1051+'0'+']'*1051+raw_suffix
+    negative('raw-deep-depth-before-decoding',deep_raw,'resource_limit',1,suite=suite,limits=dict(maxRequestDepth=1),text=True)
     # Literal source chain expected placeholders are replaced at validation and execution.
     suite='06-chains-laws'
     for mixed in (False,True):
@@ -175,7 +193,7 @@ def generate(specs):
             steps.append(dict(request=request('equal',A,Z),expected=e2));links.append(dict(fromStep=1,toStep=2,input='left'))
             steps[2]['request']['input']['right']=r2['input']['right']
         suites[suite].append(dict(id='actual-returned-chain'+('-relations' if mixed else ''),kind='chain',requires=['conversion','relations'] if mixed else ['conversion'],steps=steps,links=links))
-    suites[suite].append(dict(id='cross-frame-ordering-laws',kind='laws',requires=['relations'],values=[A,Z,end]))
+    suites[suite].append(dict(id='cross-frame-ordering-laws',kind='laws',requires=['relations'],values=[A,Z,end,authored(day+'09:02:00Z')]))
     for key,tests in suites.items():write(TARGET/'suites'/(key+'.json'),dict(id=key,tests=tests))
     binding=json.loads((ROOT/'cts/aeonic-temporal-civil-anchor/v1/binding.schema.json').read_text())
     binding['$id']='urn:aeonic-temporal-known-offset:cts-binding:v1:working';binding['properties']['lane']['const']=LANE

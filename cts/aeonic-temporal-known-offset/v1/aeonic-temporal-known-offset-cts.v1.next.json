@@ -26,7 +26,7 @@
     },
     "description": "Mutable known-offset coordinate contract; no immutable or stable conformance claim.",
     "snapshot_id": "aeonic-temporal-known-offset-cts-v1-snapshot-0.1",
-    "specification_revision": "4f7565f99a5d4df96a835ceeffdf7f3cc9718df5",
+    "specification_revision": "427254696af1c1e38898b0c5b8c6158b745cb2ff",
     "specification_source": "sources/aes/v1/aeonic-temporal-known-offset-v1.aeon",
     "specification_schema": "resources/aeonic-operations/v1/known-offset-contract.schema.json",
     "binding_schema": "binding.schema.json",
@@ -35,7 +35,7 @@
       "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
       "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
       "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f",
-      "runners/temporal_known_offset_checks.py": "c54d80f8c3834a3a0f2a7e9a37ef7ff51bde514ea2d0c9e130985fde86f5900f"
+      "runners/temporal_known_offset_checks.py": "98584df885f0f4d846586232805a2c26c8c94b50cd7e876102fc9b27ac84c48d"
     },
     "resource_limits": {
       "maxRequestBytes": 65536,
@@ -48,7 +48,7 @@
       "maxFractionDigits": 256,
       "maxResultBytes": 262144
     },
-    "specification_source_sha256": "fb85cd1fb0d5c4e482d844fdaedabb8a5f85adfddf5948926c3865420804a0fc",
+    "specification_source_sha256": "ecd0795cdd3484ef6f91a8c7b592ba8b250ef997cc2583cde0541a8e23967a00",
     "specification_schema_sha256": "0ce5fb621ffe0d3d48ae92334f101bc3f9ade6c431b387808b908319ae836fef",
     "binding_schema_sha256": "473f6fcb7cfb51671da9c8e08c612c4f6768da700a2bf90f59b4de63e9462eed"
   },
@@ -76,12 +76,12 @@
     {
       "id": "05-resources-transport",
       "file": "suites/05-resources-transport.json",
-      "content_sha256": "a56733a3d057b1b1f55c9d4896436d429e369b6260e450ee7d89e4f863b86229"
+      "content_sha256": "3f7732c60f677edc1e6cc30abd44bcae86c7b0c18c4130292343ebb7c2e29b76"
     },
     {
       "id": "06-chains-laws",
       "file": "suites/06-chains-laws.json",
-      "content_sha256": "abcd61b151c3a47bf45f4a6b0b0f9f45fdeac9f0d3a160edfd344a5bca2b7d9d"
+      "content_sha256": "27178de6de67f72889978dd3b8af1743930d57b073d223a9db755d16d070197d"
     }
   ]
 }

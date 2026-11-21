@@ -2,6 +2,12 @@
 import copy
 import json
 import os
+import hashlib
+import shutil
+import shlex
+import sys
+import tempfile
+from contextlib import contextmanager
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
@@ -9,7 +15,7 @@ from unittest.mock import patch
 
 from run_aeonic_temporal_known_offset import ROOT, LANE, Runner
 from temporal_known_offset_checks import (LIMITS, PROFILE, expected_positive,
-    common, offset, relation_labels)
+    common, offset, relation_labels, decode_request, law_witnesses, compact_bytes)
 
 SPECS=Path(os.environ.get('AEONIC_KNOWN_OFFSET_SPECS_ROOT', ROOT.parent/'aeonite-specs'))
 
@@ -32,6 +38,116 @@ class KnownOffsetRunnerTests(unittest.TestCase):
         bad=copy.deepcopy(test['expected']);mutate(bad)
         with patch.object(self.r,'execute',return_value=self.output(bad)):
             with self.assertRaises(Exception):self.r.operation(test)
+
+    @contextmanager
+    def disposable_target(self, transform):
+        with tempfile.TemporaryDirectory() as directory:
+            target=Path(directory)/'v1'
+            shutil.copytree(self.args.manifest.parent,target)
+            path=target/self.args.manifest.name
+            manifest=json.loads(path.read_text())
+            for suite in manifest['suites']:
+                file=target/suite['file'];data=json.loads(file.read_text())
+                transform(manifest,data)
+                file.write_text(json.dumps(data,ensure_ascii=True,indent=2)+'\n')
+                suite['content_sha256']=hashlib.sha256(file.read_bytes()).hexdigest()
+            path.write_text(json.dumps(manifest,indent=2)+'\n')
+            args=copy.copy(self.args);args.manifest=path
+            yield args
+
+    def test_missing_chain_law_suite_is_rejected_for_every_capability(self):
+        with self.disposable_target(lambda m,d:None) as args:
+            m=json.loads(args.manifest.read_text())
+            m['suites']=[suite for suite in m['suites'] if suite['id']!='06-chains-laws']
+            args.manifest.write_text(json.dumps(m))
+            for choice in ('conversion','relations','all'):
+                args.capability_set=choice
+                with self.subTest(choice=choice),self.assertRaises(ValueError):Runner(args)
+
+    def test_laws_cannot_be_removed_while_chains_remain(self):
+        def remove(m,data):data['tests']=[t for t in data['tests'] if t.get('kind')!='laws']
+        with self.disposable_target(remove) as args:
+            for choice in ('relations','all'):
+                args.capability_set=choice
+                with self.assertRaises(ValueError):Runner(args)
+            args.capability_set='conversion'
+            self.assertEqual(Runner(args).run(True)['status'],'artifacts-validated')
+
+    def test_combined_claim_requires_cross_capability_link(self):
+        def remove(m,data):data['tests']=[t for t in data['tests'] if t.get('kind')!='chain' or len(t['requires'])==1]
+        with self.disposable_target(remove) as args:
+            with self.assertRaises(ValueError):Runner(args)
+            for choice in ('conversion','relations'):
+                args.capability_set=choice
+                self.assertEqual(Runner(args).run(True)['status'],'artifacts-validated')
+
+    def test_unlinked_chain_is_not_coverage(self):
+        chain=copy.deepcopy(self.case('actual-returned-chain'));chain['links']=[]
+        with self.assertRaises(ValueError):self.r.validate_test(chain)
+
+    def test_vacuous_laws_are_rejected_when_loading_a_target(self):
+        def collapse(m,data):
+            for t in data['tests']:
+                if t.get('kind')=='laws':t['values']=t['values'][:3]
+        with self.disposable_target(collapse) as args:
+            with self.assertRaisesRegex(ValueError,'strict-before'):Runner(args)
+
+    def test_strict_before_transitivity_has_two_actual_witnesses(self):
+        test=self.case('cross-frame-ordering-laws')
+        self.assertEqual(law_witnesses(test['values']),2)
+        before=self.r.strict_before_assertions
+        with patch.object(self.r,'operation',side_effect=lambda t:t['expected']),patch.object(self.r,'assertion',wraps=self.r.assertion) as assertions:
+            self.r.laws(test)
+        self.assertEqual(self.r.strict_before_assertions-before,2)
+        self.assertEqual(sum(call.args[1]=='strict-before transitivity' for call in assertions.call_args_list),2)
+
+    def test_raw_only_positive_operation_coverage_is_valid(self):
+        def raw(m,data):
+            for t in data['tests']:
+                if t.get('kind','operation')=='operation' and t['expected']['outcome']=='value':
+                    request=t['fixture'].get('request')
+                    if request is not None and request['operation']=='relate':
+                        t['fixture']={'requestText':json.dumps(request)}
+        with self.disposable_target(raw) as args:
+            r=Runner(args)
+            self.assertTrue(all('requestText' in t['fixture'] for t in r.tests if t.get('kind','operation')=='operation' and t['expected']['outcome']=='value' and 'relate' in json.dumps(t['fixture'])))
+            self.assertEqual(r.run(True)['status'],'artifacts-validated')
+
+    def test_wrapper_only_raw_positive_is_rejected(self):
+        test=copy.deepcopy(self.case('preserve-all-markers'))
+        request=json.dumps(test['fixture']['request'])
+        raw=request+'},"ignored":{"request":'+request
+        # This was valid in the old synthetic wrapper, but not standalone JSON.
+        json.loads('{"fixture":{"request":'+raw+'}}')
+        test['fixture']={'requestText':raw}
+        with self.assertRaises(ValueError):self.r.validate_test(test)
+
+    def test_standalone_raw_decoder_preserves_tokens_and_rejects_duplicates(self):
+        value=decode_request('{"zero":-0,"large":1e1000000}')
+        self.assertEqual(value['zero'].text,'-0');self.assertEqual(value['large'].text,'1e1000000')
+        for raw in ('{} {}','{"a":1,"a":2}','{"x":NaN}'):
+            with self.assertRaises(ValueError):decode_request(raw)
+
+    def test_deep_raw_admission_fixture_reaches_real_stdio_adapter(self):
+        test=self.case('raw-deep-depth-before-decoding')
+        with patch('run_aeonic_temporal_known_offset.decode_request',side_effect=AssertionError('Do not decode stage-1 fixture')):
+            self.r.validate_test(test)
+        code=('import json,sys; e=json.load(sys.stdin); '
+              'assert e["fixture"]["requestText"].count("[")==1051; '
+              'r={"outcome":"diagnostic","reason":"resource_limit","context":{"stage":1,"path":None}}; '
+              'print(json.dumps({"ok":False,"result":r,"warnings":[],"errors":[{"code":"resource_limit","path":None,"span":None,"phase":None}]}))')
+        with patch.object(self.r.args,'sut',shlex.quote(sys.executable)+' -c '+shlex.quote(code)):
+            self.assertEqual(self.r.operation(test)['context']['stage'],1)
+
+    def test_structured_unicode_bytes_and_root_depth_are_exact(self):
+        test=self.case('native-unicode-exact-bytes');request=test['fixture']['request']
+        literal=len(json.dumps(request,ensure_ascii=False,separators=(',',':')).encode())
+        escaped=len(json.dumps(request,ensure_ascii=True,separators=(',',':')).encode())
+        self.assertGreater(escaped,literal)
+        self.assertEqual(compact_bytes(request,literal),literal)
+        with self.assertRaises(ValueError):expected_positive(request,dict(LIMITS,maxRequestBytes=literal-1))
+        expected_positive(request,dict(LIMITS,maxRequestBytes=literal,maxRequestDepth=4))
+        with self.assertRaises(ValueError):expected_positive(request,dict(LIMITS,maxRequestDepth=3))
 
     def test_artifacts_are_mutable_and_not_execution(self):
         report=self.r.run(True)

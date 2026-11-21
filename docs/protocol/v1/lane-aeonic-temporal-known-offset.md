@@ -7,7 +7,7 @@ preserves original offset claims without verifying physical UTC realization.
 
 The sole target is mutable
 `cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json`.
-It has 217 cases: 214 operation vectors, two actual-result chains and one relation
+It has 224 cases: 221 operation vectors, two actual-result chains and one relation
 law group. There is no immutable target or stable conformance claim. Artifact
 checking validates pinned sources/schema/helpers, expected positive images and
 closed diagnostic expectations; it does not execute a SUT or independently prove
@@ -61,3 +61,21 @@ only this mutable target and refreshes its exact content fingerprints. Review al
 changed expectations. Commit the owning source/schema first so regeneration pins
 an actual retained specification revision, then keep CI's checkout at that pin.
 Never use this generator on immutable artifacts. Existing lanes remain unchanged.
+
+Coverage guards require successful linked conversion-to-conversion chains for
+Conversion, non-vacuous law groups for Relations, and linked conversion-to-relation
+chains for combined claims. The law group retains the cross-frame equality pair
+and now has three strictly ordered extents (four input representations), giving
+two strict-before transitivity witnesses. Removing required coverage rejects the
+target before artifact validity or complete execution can be reported. Combined
+execution requires 274 SUT calls; this remains a mutable target.
+
+Positive raw requests are parsed as strict standalone JSON with numerical token
+spellings preserved. Their validated operation counts toward coverage exactly
+like structured positives. Stage-1 negative requests are shared admission cases
+with no capability requirement, classified without recursively decoding raw
+bodies. This permits deep depth-limit cases on the minimum Python runtime.
+Structured bytes use minimal JSON string escapes and literal UTF-8, with root
+container depth one; raw text pays its supplied bytes verbatim. The fixtures cover
+non-ASCII literal versus escaped bytes, exact depth boundaries and 1,051 nested
+arrays in raw text.

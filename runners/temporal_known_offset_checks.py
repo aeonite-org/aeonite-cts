@@ -1,7 +1,8 @@
 """Bounded positive fixture checks for known-offset coordinates; no diagnostic engine."""
 import copy
 import re
-from run_aeonic_arithmetic import require
+import json
+from run_aeonic_arithmetic import RawNumber, pairs, require
 from temporal_civil_date_checks import compact_bytes, decode_artifact, validate_pointer_text
 from temporal_civil_datetime_checks import (B, coverage as civil_coverage,
     format_coordinate, history, origin as civil_origin, relation_labels)
@@ -83,6 +84,26 @@ def relation_result(op,left,right,label):
             operandHistory=dict(left=history(left),right=history(right)),
             operandOrigin=dict(left=origin(left),right=origin(right)),
             operandOriginalOffset=dict(left=original(left),right=original(right))))
+
+
+def decode_request(text):
+    """Strict standalone logical JSON, preserving every numeric token spelling."""
+    def constant(value):
+        raise ValueError('Non-JSON constant: '+value)
+    return json.loads(text, object_pairs_hook=pairs, parse_int=RawNumber,
+                      parse_float=RawNumber, parse_constant=constant)
+
+
+def law_witnesses(values, limits=LIMITS):
+    """Require a non-reflexive equality pair and a strict-before triple."""
+    spans=[common(value,limits['maxInputPieces'],limits) for value in values]
+    labels={(i,j):relation_labels(a,b) for i,a in enumerate(spans) for j,b in enumerate(spans)}
+    equality=any(i!=j and result['equal']=='equal' for (i,j),result in labels.items())
+    before=sum(labels[i,j]['compare']==labels[j,k]['compare']=='before'
+               for i in range(len(values)) for j in range(len(values)) for k in range(len(values)))
+    require(equality,'Law group needs distinct inputs with equal coverage')
+    require(before>0,'Law group needs a strict-before transitivity witness')
+    return before
 
 
 def expected_positive(logical, limits=LIMITS):

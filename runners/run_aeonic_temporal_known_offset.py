@@ -16,7 +16,7 @@ from run_aeonic_arithmetic import Runner as CommonRunner, decode, digest, equal,
 from run_aeonic_rational_arithmetic import Runner as BoundedTransport
 from temporal_known_offset_checks import (PROFILE, CAPABILITIES, LIMITS,
     compact_bytes, coverage, common, decode_artifact, expected_positive,
-    relation_labels, relation_result, validate_pointer_text)
+    relation_labels, relation_result, validate_pointer_text, decode_request, law_witnesses)
 
 ROOT = Path(__file__).resolve().parents[1]
 LANE = 'aeonic-temporal-known-offset'
@@ -30,6 +30,7 @@ class Runner(CommonRunner):
     def __init__(self, args):
         self.args = args; self.artifacts = {}; self.executions = self.assertions = 0
         self.immutable = False
+        self.strict_before_assertions = 0
         choice = getattr(args, 'capability_set', 'all')
         require(choice in {'relations', 'conversion', 'all'}, 'Unknown capability selection')
         self.selected = set(CAPABILITIES) if choice == 'all' else {choice}
@@ -93,19 +94,43 @@ class Runner(CommonRunner):
             for test in data['tests']:
                 require(isinstance(test.get('id'), str) and test['id'] and test['id'] not in seen,
                         'Missing or duplicate case identity')
-                seen.add(test['id']); self.validate_test(test)
+                seen.add(test['id']); positive_operation = self.validate_test(test)
                 if set(test['requires']) <= self.selected:
                     self.tests.append(test)
-                    if test.get('kind', 'operation') == 'operation' and test['expected']['outcome'] == 'value':
-                        logical = test['fixture'].get('request')
-                        if logical:
-                            operation_coverage.add(logical['operation'])
+                    if positive_operation:
+                        operation_coverage.add(positive_operation)
                 else:
                     self.excluded.append(test['id'])
         required_ops = {op for key in self.selected for op in CAPABILITIES[key][1]}
         require(required_ops <= operation_coverage, 'Selected capability lacks positive operation coverage')
         require(bool(self.tests), 'Empty capability target cannot validate or pass')
+        self.validate_required_coverage()
         self.target_case_ids = tuple(t['id'] for t in self.tests)
+
+    def validate_required_coverage(self):
+        chains = set()
+        has_laws = False
+        for test in self.tests:
+            kind = test.get('kind', 'operation')
+            if kind == 'laws':
+                law_witnesses(test['values'], self.resource_limits)
+                has_laws = True
+            elif kind == 'chain':
+                for link in test['links']:
+                    source, target = (test['steps'][link[k]] for k in ('fromStep', 'toStep'))
+                    if source['expected']['outcome'] != 'value' or target['expected']['outcome'] != 'value':
+                        continue
+                    if source['request']['operation'] == target['request']['operation'] == 'convert' and link['input'] == 'value':
+                        chains.add('conversion')
+                    if (source['request']['operation'] == 'convert' and
+                            target['request']['operation'] in CAPABILITIES['relations'][1] and link['input'] in {'left', 'right'}):
+                        chains.add('combined')
+        if 'conversion' in self.selected:
+            require('conversion' in chains, 'Conversion requires a linked successful conversion-to-conversion chain')
+        if 'relations' in self.selected:
+            require(has_laws, 'Relations requires non-vacuous relation laws')
+        if self.selected == set(CAPABILITIES):
+            require('combined' in chains, 'Combined capability requires a linked conversion-to-relation chain')
 
     def read(self, path):
         content = path.read_bytes(); self.artifacts[path] = hashlib.sha256(content).hexdigest()
@@ -150,8 +175,10 @@ class Runner(CommonRunner):
                 require(len(fixture['requestText'].encode('utf-8')) <= limits['maxRequestBytes'], 'Successful text fixture exceeds byte allowance')
             else:
                 compact_bytes(fixture['request'], limits['maxRequestBytes'])
-            logical = fixture['request'] if 'request' in fixture else decode_artifact('{"fixture":{"request":' + fixture['requestText'] + '}}')['fixture']['request']
+            logical = fixture['request'] if 'request' in fixture else decode_request(fixture['requestText'])
             self.validate_positive(logical, test['expected'], limits)
+            return logical
+        return None
 
     def requirements(self, logical):
         if not isinstance(logical, dict):
@@ -164,22 +191,30 @@ class Runner(CommonRunner):
                 and not any(0xD800 <= ord(ch) <= 0xDFFF for ch in test['id']), 'Case identity must be nonempty Unicode-scalar text')
         require(isinstance(test.get('requires'), list) and len(test['requires']) == len(set(test['requires']))
                 and set(test['requires']) <= set(CAPABILITIES), 'Invalid capability requirement')
-        kind = test.get('kind', 'operation'); required = set()
+        kind = test.get('kind', 'operation'); required = set(); positive_operation = None
         if kind == 'operation':
             require(set(test) <= {'id', 'kind', 'requires', 'fixture', 'policy', 'expected'}, 'Unknown operation case field')
-            self.validate_operation(test)
+            logical = self.validate_operation(test)
             fixture = test['fixture']
-            if 'request' in fixture:
+            if test['expected']['outcome'] == 'diagnostic' and test['expected']['context']['stage'] == 1:
+                # Admission precedes dispatch: shared by all capabilities. Do not
+                # recursively decode a raw body that the adapter must reject.
+                required = set()
+            elif logical is not None:
+                required = self.requirements(logical)
+                positive_operation = logical['operation']
+            elif 'request' in fixture:
                 required = self.requirements(fixture['request'])
             else:
                 try:
-                    logical = decode(fixture['requestText'])
-                except (ValueError, json.JSONDecodeError):
+                    logical = decode_request(fixture['requestText'])
+                except (ValueError, RecursionError):
                     logical = None
                 required = self.requirements(logical)
         elif kind == 'chain':
             require(set(test) == {'id', 'kind', 'requires', 'steps', 'links'}, 'Unknown chain fields')
             require(isinstance(test['steps'], list) and test['steps'], 'Chain cannot be empty')
+            require(isinstance(test['links'], list) and test['links'], 'Chain needs actual returned-value links')
             targets = set()
             for link in test['links']:
                 require(set(link) == {'fromStep', 'toStep', 'input'}, 'Malformed link')
@@ -202,12 +237,14 @@ class Runner(CommonRunner):
             required = {'relations'}
             for value in test['values']:
                 self.bundle_schema.validate(value); coverage(value, self.resource_limits['maxInputPieces'], self.resource_limits)
+            law_witnesses(test['values'], self.resource_limits)
             for left, right in itertools.product(test['values'], repeat=2):
                 for op in CAPABILITIES['relations'][1]:
                     expected_positive(dict(operation=op, input=dict(left=left, right=right, context=dict(profile=PROFILE))), self.resource_limits)
         else:
             raise ValueError('Unknown case kind')
         require(set(test['requires']) == required, 'Case capability requirements differ from its operations: ' + test['id'])
+        return positive_operation
 
     execute = BoundedTransport.execute
 
@@ -251,15 +288,32 @@ class Runner(CommonRunner):
                 expected = relation_result(op, values[i], values[j], labels[op])
                 actual = self.operation(dict(id=test['id'] + '/%s-%d-%d' % (op, i, j), fixture=dict(request=logical), expected=expected))
                 observed[(op, i, j)] = actual['value']['value']
+        inverse = dict(equal='equal', before='after', after='before', indeterminate='indeterminate')
+        inverse_set = dict(equal='equal', contains='containedBy', containedBy='contains', overlaps='overlaps', disjoint='disjoint')
+        for i, j in itertools.product(range(len(values)), repeat=2):
+            self.assertion(observed['equal',i,j] == observed['equal',j,i], 'equality symmetry')
+            self.assertion(observed['compare',i,j] == inverse[observed['compare',j,i]], 'chronology inversion')
+            self.assertion(observed['relate',i,j] == inverse_set[observed['relate',j,i]], 'set relation inversion')
+        start_before = self.strict_before_assertions
         for i, j, k in itertools.product(range(len(values)), repeat=3):
             if observed[('equal', i, j)] == observed[('equal', j, k)] == 'equal':
                 self.assertion(observed[('equal', i, k)] == 'equal', 'extent equality transitivity')
             if observed[('compare', i, j)] == observed[('compare', j, k)] == 'before':
                 self.assertion(observed[('compare', i, k)] == 'before', 'strict-before transitivity')
+                self.strict_before_assertions += 1
+
+        require(self.strict_before_assertions > start_before, 'No strict-before transitivity assertions executed')
 
     def run(self, check_only=False):
         failures = []; counts = dict(operation_cases=0, chains=0, law_groups=0)
+        coverage_valid = True
+        try:
+            self.validate_required_coverage()
+        except ValueError as error:
+            coverage_valid = False
+            failures.append(dict(id='required-coverage', failure=str(error)))
         start_executions, start_assertions = self.executions, self.assertions
+        start_before = self.strict_before_assertions
         expected_executions = sum(1 if t.get('kind', 'operation') == 'operation' else
             len(t['steps']) if t['kind'] == 'chain' else 3 * len(t['values']) ** 2 for t in self.tests)
         for test in self.tests:
@@ -270,7 +324,9 @@ class Runner(CommonRunner):
                 getattr(self, {'operation':'operation','chain':'chain','laws':'laws'}[kind])(test)
             except Exception as error:
                 failures.append(dict(id=test['id'], failure=str(error)[:1500]))
-        complete = (not check_only and tuple(t['id'] for t in self.tests) == self.target_case_ids
+        complete = (not check_only and coverage_valid
+                    and ('relations' not in self.selected or self.strict_before_assertions > start_before)
+                    and tuple(t['id'] for t in self.tests) == self.target_case_ids
                     and self.executions - start_executions == expected_executions
                     and self.assertions - start_assertions >= expected_executions)
         if not check_only and not complete:
@@ -286,6 +342,7 @@ class Runner(CommonRunner):
                     capabilities=sorted(self.selected),
                     excluded_unclaimed_capability_cases=len(self.excluded), **counts,
                     sut_executions=self.executions, assertions=self.assertions,
+                    strict_before_transitivity_assertions=self.strict_before_assertions - start_before,
                     manifest_sha256=self.artifacts[self.manifest_path], runner_sha256=self.artifacts[Path(__file__).resolve()],
                     specification_source_sha256=self.manifest['meta']['specification_source_sha256'],
                     specification_schema_sha256=self.manifest['meta']['specification_schema_sha256'],

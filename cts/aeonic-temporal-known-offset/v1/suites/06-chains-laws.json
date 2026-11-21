@@ -331,6 +331,12 @@
             "category": "knownOffsetDateTime",
             "value": "2024-03-01T09:01:00Z"
           }
+        },
+        {
+          "temporal": {
+            "category": "knownOffsetDateTime",
+            "value": "2024-03-01T09:02:00Z"
+          }
         }
       ]
     }

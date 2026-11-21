@@ -409,7 +409,7 @@ exact specification checkout before preparing or executing this target.
 
 The [known-offset lane](docs/protocol/v1/lane-aeonic-temporal-known-offset.md)
 adds mutable coverage for independent complete Conversion and Relations
-capabilities. Its 217 cases cover exact framed sets, original offset/history
+capabilities. Its 224 cases cover exact framed sets, original offset/history
 preservation, aggregate limits, deterministic diagnostics, returned-value chains
 and relation laws. `run_aeonic_temporal_known_offset.py --specs-root ... --check`
 validates artifacts without executing a SUT or making a stable conformance claim.
