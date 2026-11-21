@@ -16,6 +16,7 @@
       "id": "baseline",
       "file": "suites/01-baseline.json",
       "exclude_tests": [
+        "aes-baseline-009-stale-radix-alias-reject",
         "aes-baseline-010-separator-depth-default-reject",
         "aes-baseline-012-generic-depth-default-reject"
       ]
@@ -67,6 +68,10 @@
     {
       "id": "next-empty-key-projection",
       "file": "suites/12-next-empty-key-projection.json"
+    },
+    {
+      "id": "next-radix16",
+      "file": "suites/14-next-radix16.json"
     }
   ]
 }

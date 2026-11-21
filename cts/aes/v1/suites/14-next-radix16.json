@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "suite_id": "next-radix16",
+    "lane": "aes",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#radix-2"
+    ]
+  },
+  "id": "next-radix16",
+  "title": "Fixed Base-16 Radix Datatype",
+  "tests": [
+    {
+      "id": "aes-radix16-preserves-datatype",
+      "description": "AES preserves the datatype spelling and literal family",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nr:radix16 = %00_BE.EF\nh:hex = #beef\nb:radix[16] = %00_BE.EF",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.r",
+              "datatype": "radix16",
+              "value_kind": "RadixLiteral"
+            },
+            {
+              "path": "$.h",
+              "datatype": "hex",
+              "value_kind": "HexLiteral"
+            },
+            {
+              "path": "$.b",
+              "datatype": "radix[16]",
+              "value_kind": "RadixLiteral"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "radix",
+        "development"
+      ],
+      "spec_refs": [
+        "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#radix-2"
+      ]
+    }
+  ]
+}

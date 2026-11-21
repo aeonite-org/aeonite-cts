@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "suite_id": "next-radix16",
+    "lane": "sansa-instruction",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#radix-2"
+    ]
+  },
+  "id": "next-radix16",
+  "title": "Fixed Base-16 Radix Datatype",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "values",
+        "supportsMutation": true,
+        "root": {
+          "address": "$",
+          "representationKind": "object",
+          "children": [
+            {
+              "address": "$.value",
+              "name": "value",
+              "representationKind": "string",
+              "value": "old"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "sansa-instruction-next-radix16",
+      "input": {
+        "namespace": "values",
+        "mode": "target",
+        "target": "aeon",
+        "source": "replace $.value with :radix16, %BEEF"
+      },
+      "expected": {
+        "ok": true
+      }
+    }
+  ]
+}

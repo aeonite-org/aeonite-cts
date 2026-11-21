@@ -18,6 +18,7 @@
       "id": "instruction",
       "file": "suites/08-instruction.json",
       "exclude_tests": [
+        "sansa-instruction-0180d-target-aeon-rejects-unsupported-radix-alias",
         "sansa-instruction-039-parse-rejects-empty-quoted-create-member",
         "sansa-instruction-0180j1-target-aeon-rejects-empty-quoted-object-field"
       ]
@@ -25,6 +26,10 @@
     {
       "id": "empty-key-instruction",
       "file": "suites/17-empty-key-instruction.json"
+    },
+    {
+      "id": "next-radix16",
+      "file": "suites/22-next-radix16-instruction.json"
     }
   ]
 }

@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "suite_id": "next-radix16",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#radix-2"
+    ]
+  },
+  "id": "next-radix16",
+  "title": "Fixed Base-16 Radix Datatype",
+  "tests": [
+    {
+      "id": "core-radix16-strict",
+      "description": "Core accepts both base-16 radix spellings and the hex literal family",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nr:radix16 = %00_BE.EF\nh:hex = #beef\nb:radix[16] = %00_BE.EF",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.r",
+              "datatype": "radix16",
+              "kind": "binding"
+            },
+            {
+              "path": "$.h",
+              "datatype": "hex",
+              "kind": "binding"
+            },
+            {
+              "path": "$.b",
+              "datatype": "radix[16]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "radix",
+        "development"
+      ],
+      "spec_refs": [
+        "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#radix-2"
+      ]
+    },
+    {
+      "id": "core-radix16-hex-mismatch",
+      "description": "The radix16 datatype requires a radix literal",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nr:radix16 = #beef",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.r",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "radix",
+        "development"
+      ],
+      "spec_refs": [
+        "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#radix-2"
+      ]
+    },
+    {
+      "id": "core-radix16-unreserved-alias",
+      "description": "Other unreserved radix aliases remain custom",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nr:radix10 = %10",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "CUSTOM_DATATYPE_NOT_ALLOWED",
+            "path": "$.r",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "radix",
+        "development"
+      ],
+      "spec_refs": [
+        "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#radix-2"
+      ]
+    }
+  ]
+}
