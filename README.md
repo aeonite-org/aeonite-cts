@@ -403,3 +403,14 @@ targets, per-call budgets and native-event admission boundaries. The runner's
 artifact preparation is separate from semantic execution; neither changes
 released snapshots or grants a stable conformance claim. Follow the guide's
 exact specification checkout before preparing or executing this target.
+
+
+## Known-offset coordinate working target
+
+The [known-offset lane](docs/protocol/v1/lane-aeonic-temporal-known-offset.md)
+adds mutable coverage for independent complete Conversion and Relations
+capabilities. Its 224 cases cover exact framed sets, original offset/history
+preservation, aggregate limits, deterministic diagnostics, returned-value chains
+and relation laws. `run_aeonic_temporal_known_offset.py --specs-root ... --check`
+validates artifacts without executing a SUT or making a stable conformance claim.
+No immutable capture, implementation or native-capacity claim is added.

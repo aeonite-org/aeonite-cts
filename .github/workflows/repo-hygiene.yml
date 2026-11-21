@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Comparison runner tests retain their own pinned sibling checkout.
+      AEONIC_KNOWN_OFFSET_SPECS_ROOT: ${{ github.workspace }}/known-offset-specs
       AEONIC_SPECS_ROOT: ${{ github.workspace }}/temporal-specs
       AEONIC_CLOCK_SPECS_ROOT: ${{ github.workspace }}/clock-specs
       AEONIC_ANCHOR_SPECS_ROOT: ${{ github.workspace }}/anchor-specs
@@ -86,6 +87,13 @@ jobs:
           repository: aeonite-org/aeonite-specs
           ref: e772651a6e2c4ad3c0ce4651d116da7e1bc696d0
           path: aeos-property-specs
+
+      - name: Checkout known-offset working specification dependency
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          repository: aeonite-org/aeonite-specs
+          ref: 427254696af1c1e38898b0c5b8c6158b745cb2ff
+          path: known-offset-specs
 
       - name: Install semantic runner dependencies
         run: python3 -m pip install -r runners/requirements-aeonic-operations.txt
