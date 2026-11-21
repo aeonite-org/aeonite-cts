@@ -155,6 +155,10 @@
     {
       "id": "next-radix16",
       "file": "suites/31-next-radix16.json"
+    },
+    {
+      "id": "next-typed-attribute-reference-chains",
+      "file": "suites/32-next-typed-attribute-reference-chains.json"
     }
   ]
 }
