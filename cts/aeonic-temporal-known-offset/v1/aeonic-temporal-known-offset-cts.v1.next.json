@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "0.1.0-dev.0",
+    "version": "0.2.0-dev.0",
     "lane": "aeonic-temporal-known-offset",
     "profile": "aeonic.operations.temporal.known-offset.v1",
     "capabilities": {
@@ -25,8 +25,8 @@
       "stable": false
     },
     "description": "Mutable known-offset coordinate contract; no immutable or stable conformance claim.",
-    "snapshot_id": "aeonic-temporal-known-offset-cts-v1-snapshot-0.1",
-    "specification_revision": "427254696af1c1e38898b0c5b8c6158b745cb2ff",
+    "snapshot_id": "aeonic-temporal-known-offset-cts-v1-snapshot-0.2",
+    "specification_revision": "3cf609130fd1f9fea719f7e1c01703c7e2a09271",
     "specification_source": "sources/aes/v1/aeonic-temporal-known-offset-v1.aeon",
     "specification_schema": "resources/aeonic-operations/v1/known-offset-contract.schema.json",
     "binding_schema": "binding.schema.json",
@@ -48,7 +48,7 @@
       "maxFractionDigits": 256,
       "maxResultBytes": 262144
     },
-    "specification_source_sha256": "ecd0795cdd3484ef6f91a8c7b592ba8b250ef997cc2583cde0541a8e23967a00",
+    "specification_source_sha256": "bc551acc403621c78e58deb95e7faf7e852a1f10e6c7a8dab85e6df29ed82517",
     "specification_schema_sha256": "0ce5fb621ffe0d3d48ae92334f101bc3f9ade6c431b387808b908319ae836fef",
     "binding_schema_sha256": "473f6fcb7cfb51671da9c8e08c612c4f6768da700a2bf90f59b4de63e9462eed"
   },

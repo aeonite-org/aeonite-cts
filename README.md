@@ -414,3 +414,16 @@ preservation, aggregate limits, deterministic diagnostics, returned-value chains
 and relation laws. `run_aeonic_temporal_known_offset.py --specs-root ... --check`
 validates artifacts without executing a SUT or making a stable conformance claim.
 No immutable capture, implementation or native-capacity claim is added.
+
+
+## Known-offset coordinate snapshot 0.1
+
+The [known-offset lane](docs/protocol/v1/lane-aeonic-temporal-known-offset.md)
+now defaults to the exact byte-recognized immutable local snapshot 0.1. Its six
+isolated suites preserve all 224 reviewed cases and the independent Conversion /
+Relations boundaries. The [capture record](docs/conformance/known-offset-snapshot-0.1.md)
+retains genuine complete, capability-restricted and separate mutable-next runs
+against the merged JavaScript/Python providers. Mutable next advances to 0.2;
+artifact checks, replay, failed/incomplete/mutable runs and native capacity probes
+cannot establish a stable snapshot claim. Existing snapshots are unchanged;
+consumer adoption and releases remain separate.

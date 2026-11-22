@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "target": "aeonic-temporal-known-offset-cts-v1-snapshot-0.2",
+  "target_status": "mutable-working",
+  "stable_conformance_claim": false,
+  "semantic_execution": true,
+  "complete_passing_execution": true,
+  "capabilities": [
+    "conversion",
+    "relations"
+  ],
+  "excluded_unclaimed_capability_cases": 0,
+  "operation_cases": 221,
+  "chains": 2,
+  "law_groups": 1,
+  "sut_executions": 274,
+  "assertions": 334,
+  "strict_before_transitivity_assertions": 2,
+  "manifest_sha256": "b4bf07665df15e95022b8424927c8211895f034bf8525a1251411f3f297bf169",
+  "runner_sha256": "d478a85446148273c5be1c9926310f3cb3bab94d6dbbcd82eaaeedac9b5108da",
+  "specification_source_sha256": "bc551acc403621c78e58deb95e7faf7e852a1f10e6c7a8dab85e6df29ed82517",
+  "specification_schema_sha256": "0ce5fb621ffe0d3d48ae92334f101bc3f9ade6c431b387808b908319ae836fef",
+  "helper_hashes": {
+    "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+    "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+    "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+    "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f",
+    "runners/temporal_known_offset_checks.py": "9f9c14ed5ea0ec6cff8528443a42bdfbf2b3ef0eeae7748fdd286fab638ab4ae"
+  },
+  "resource_limits": {
+    "maxRequestBytes": 65536,
+    "maxRequestDepth": 32,
+    "maxTemporalCharacters": 1024,
+    "maxInputPieces": 1024,
+    "maxIntermediatePieces": 1024,
+    "maxOutputPieces": 1024,
+    "maxWork": 2048,
+    "maxFractionDigits": 256,
+    "maxResultBytes": 262144
+  },
+  "sut": "node scripts/temporal-known-offset-cts-adapter.mjs --capability-set all",
+  "cwd": ".",
+  "failures": []
+}

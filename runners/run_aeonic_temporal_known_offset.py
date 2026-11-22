@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pinned known-offset mutable working CTS; Python 3.9+."""
+"""Pinned known-offset snapshot and mutable CTS; Python 3.9+."""
 import argparse
 import copy
 import hashlib
@@ -20,7 +20,8 @@ from temporal_known_offset_checks import (PROFILE, CAPABILITIES, LIMITS,
 
 ROOT = Path(__file__).resolve().parents[1]
 LANE = 'aeonic-temporal-known-offset'
-NEXT_TARGET = LANE + '-cts-v1-snapshot-0.1'
+NEXT_TARGET = LANE + '-cts-v1-snapshot-0.2'
+IMMUTABLE_TARGETS = {LANE + '-cts-v1-snapshot-0.1': '274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b'}  # Exact recognized manifest bytes.
 HELPERS = ['runners/run_aeonic_arithmetic.py', 'runners/run_aeonic_rational_arithmetic.py',
            'runners/temporal_civil_date_checks.py', 'runners/temporal_civil_datetime_checks.py',
            'runners/temporal_known_offset_checks.py']
@@ -29,7 +30,6 @@ HELPERS = ['runners/run_aeonic_arithmetic.py', 'runners/run_aeonic_rational_arit
 class Runner(CommonRunner):
     def __init__(self, args):
         self.args = args; self.artifacts = {}; self.executions = self.assertions = 0
-        self.immutable = False
         self.strict_before_assertions = 0
         choice = getattr(args, 'capability_set', 'all')
         require(choice in {'relations', 'conversion', 'all'}, 'Unknown capability selection')
@@ -37,16 +37,21 @@ class Runner(CommonRunner):
         self.manifest_path = args.manifest.resolve()
         self.manifest = self.read(self.manifest_path)
         meta = self.manifest['meta']
-        require(meta['conformance'] == dict(surface='working-next', stable=False),
-                'Only the mutable working target is recognized')
+        self.immutable = meta['conformance'] == dict(surface='known-offset', stable=True, publication='local-only')
+        if self.immutable:
+            require(IMMUTABLE_TARGETS.get(meta['snapshot_id']) == self.artifacts[self.manifest_path],
+                    'Unrecognized or modified immutable known-offset target')
+        else:
+            require(meta['conformance'] == dict(surface='working-next', stable=False),
+                    'Expected mutable next or recognized immutable known-offset target')
         require(set(self.manifest) == {'meta', 'suites'}, 'Unknown manifest fields')
         require(set(meta) == {'version', 'lane', 'profile', 'capabilities', 'sut_protocol',
                 'conformance', 'description', 'snapshot_id', 'specification_schema',
                 'specification_source', 'binding_schema', 'helpers', 'resource_limits',
                 'specification_schema_sha256', 'specification_source_sha256',
-                'binding_schema_sha256', 'specification_revision'}, 'Unknown or missing target metadata')
-        require(meta['version'] == '0.1.0-dev.0' and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong target version/protocol')
-        require(meta['lane'] == LANE and meta['profile'] == PROFILE and meta['snapshot_id'] == NEXT_TARGET,
+                'binding_schema_sha256', 'specification_revision'} | ({'spec_snapshot_id'} if self.immutable else set()), 'Unknown or missing target metadata')
+        require(meta['version'] == ('0.1.0' if self.immutable else '0.2.0-dev.0') and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong target version/protocol')
+        require(meta['lane'] == LANE and meta['profile'] == PROFILE and (self.immutable or meta['snapshot_id'] == NEXT_TARGET),
                 'Wrong known-offset target identity')
         require(meta['capabilities'] == {k: dict(id=v[0], operations=list(v[1])) for k, v in CAPABILITIES.items()},
                 'Capability boundaries differ from the working contract')
@@ -336,8 +341,8 @@ class Runner(CommonRunner):
                 failures.append(dict(id='artifact-integrity', failure='Artifact changed during run: ' + path.name))
         return dict(status='failed' if failures else 'artifacts-validated' if check_only else 'passed',
                     target=self.manifest['meta']['snapshot_id'],
-                    target_status='mutable-working',
-                    stable_conformance_claim=False,
+                    target_status='immutable-local' if self.immutable else 'mutable-working',
+                    stable_conformance_claim=self.immutable and complete and not failures,
                     semantic_execution=not check_only, complete_passing_execution=complete and not failures,
                     capabilities=sorted(self.selected),
                     excluded_unclaimed_capability_cases=len(self.excluded), **counts,
@@ -352,7 +357,7 @@ class Runner(CommonRunner):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json')
+    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.snapshot-0.1.json')
     parser.add_argument('--specs-root', type=Path, required=True)
     parser.add_argument('--capability-set', choices=['relations', 'conversion', 'all'], default='all')
     parser.add_argument('--check', action='store_true')

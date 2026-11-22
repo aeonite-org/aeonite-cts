@@ -1,0 +1,2066 @@
+{
+  "id": "03-operands",
+  "tests": [
+    {
+      "id": "malformed-'2024-02-30T09:00Z'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-02-30T09:00Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'0000-01-01T09:00Z'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0000-01-01T09:00Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'2024-01-01T24:00Z'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-01-01T24:00Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'2024-01-01T09:60Z'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-01-01T09:60Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'2024-01-01T09:00:61Z'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-01-01T09:00:61Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'2024-01-01T09:00:00,1Z'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-01-01T09:00:00,1Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'2024-01-01T09:00+24:00'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-01-01T09:00+24:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'2024-01-01T09:00+01:00:01'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-01-01T09:00+01:00:01"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'2024-01-01T09:00Z&'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-01-01T09:00Z&"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'2024-01-01T09:00Z\\n'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-01-01T09:00Z\n"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-'T09:30Z'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "T09:30Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "deferred-2024-03-01T09:00",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-2024-03-01T09:00-00:00",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00-00:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-09:30Z",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "09:30Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-09:+01:00",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "09:+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-2024-03-01T09:00:60Z",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:60Z"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-2024-03-01T23:59:60.1+01:00",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T23:59:60.1+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-2024-03-01T09:00Z&Europe/Paris",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z&Europe/Paris"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-2024-03-01T09:00+01:00&local",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00+01:00&local"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-claim-direct",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "clockModel": "direct"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-claim-smear",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "clockModel": "smear"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "deferred-claim-TAI",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "timescale": "TAI"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "invalid-marker-clockModel",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "clockModel": ""
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/clockModel"
+        }
+      }
+    },
+    {
+      "id": "invalid-marker-timescale",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "timescale": null
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/timescale"
+        }
+      }
+    },
+    {
+      "id": "invalid-marker-history",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "history": {}
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/history/clamping"
+        }
+      }
+    },
+    {
+      "id": "invalid-marker-originClockForm",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "originClockForm": "nano"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/originClockForm"
+        }
+      }
+    },
+    {
+      "id": "invalid-marker-originDateGranularity",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "originDateGranularity": "week"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/originDateGranularity"
+        }
+      }
+    },
+    {
+      "id": "invalid-marker-originalOffset",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              },
+              "originalOffset": "Z"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/originalOffset"
+        }
+      }
+    },
+    {
+      "id": "missing-derived-originDateGranularity",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00"
+                  }
+                ]
+              },
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/originDateGranularity"
+        }
+      }
+    },
+    {
+      "id": "missing-derived-originClockForm",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/originClockForm"
+        }
+      }
+    },
+    {
+      "id": "missing-derived-history",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/history"
+        }
+      }
+    },
+    {
+      "id": "missing-derived-originalOffset",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/originalOffset"
+        }
+      }
+    },
+    {
+      "id": "empty-derived",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": []
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces"
+        }
+      }
+    },
+    {
+      "id": "unknown-derived-frame",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "-00:00",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "bad-derived-coordinate-2024-03-01T09:00:00.10",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00.10"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/at"
+        }
+      }
+    },
+    {
+      "id": "bad-derived-coordinate-2024-03-01T09:00:00.0",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00.0"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/at"
+        }
+      }
+    },
+    {
+      "id": "bad-derived-coordinate-2024-03-01T09:00:60",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:60"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/at"
+        }
+      }
+    },
+    {
+      "id": "bad-derived-coordinate-2024-03-01T09:00",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/at"
+        }
+      }
+    },
+    {
+      "id": "bad-derived-coordinate-2024-03-01T09:00:00Z",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00Z"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/at"
+        }
+      }
+    },
+    {
+      "id": "noncanonical-zero",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:00",
+                    "end": "2024-03-01T09:00:00",
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/end"
+        }
+      }
+    },
+    {
+      "id": "noncanonical-reversed",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T10:00:00",
+                    "end": "2024-03-01T09:00:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/end"
+        }
+      }
+    },
+    {
+      "id": "noncanonical-overlap",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:00",
+                    "end": "2024-03-01T10:00:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:30:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/1/at"
+        }
+      }
+    },
+    {
+      "id": "noncanonical-unsorted",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T10:00:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T09:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/1/at"
+        }
+      }
+    },
+    {
+      "id": "noncanonical-mergeable",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:00",
+                    "end": "2024-03-01T10:00:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  },
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T10:00:00",
+                    "end": "2024-03-01T11:00:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/1/start"
+        }
+      }
+    },
+    {
+      "id": "invalid-boundary-point",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": {
+                      "boundary": "endOfDomain"
+                    }
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/at"
+        }
+      }
+    },
+    {
+      "id": "invalid-boundary-start",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": {
+                      "boundary": "endOfDomain"
+                    },
+                    "end": "2024-03-01T10:00:00",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/start"
+        }
+      }
+    },
+    {
+      "id": "invalid-boundary-included",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:00",
+                    "end": {
+                      "boundary": "endOfDomain"
+                    },
+                    "includeStart": true,
+                    "includeEnd": true
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/pieces/0/includeEnd"
+        }
+      }
+    },
+    {
+      "id": "opaque-civilDate",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilDate",
+                "payload": {
+                  "anything": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "opaque-civilClockSet",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "civilClockSet",
+                "payload": {
+                  "anything": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "opaque-exactRational",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "exactRational",
+                "payload": {
+                  "anything": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "opaque-container",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "container",
+                "payload": {
+                  "anything": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "opaque-temporal",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "temporal",
+                "payload": {
+                  "anything": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "unknown-category",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "typo"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/value/temporal/category"
+        }
+      }
+    }
+  ]
+}

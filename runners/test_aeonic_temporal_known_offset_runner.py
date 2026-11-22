@@ -6,6 +6,7 @@ import hashlib
 import shutil
 import shlex
 import sys
+import subprocess
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
@@ -339,5 +340,155 @@ class KnownOffsetRunnerTests(unittest.TestCase):
             with patch.object(self.r,'operation'),patch.object(self.r,'chain'),patch.object(self.r,'laws'):
                 self.assertEqual(self.r.run(False)['status'],'failed')
         finally:self.r.tests=old
+
+    def frozen_args(self, choice='all'):
+        args=copy.copy(self.args);args.capability_set=choice
+        args.manifest=args.manifest.with_name(LANE+'-cts.v1.snapshot-0.1.json')
+        return args
+
+    def test_frozen_artifact_checks_never_claim_semantic_conformance(self):
+        for choice in ('conversion','relations','all'):
+            r=Runner(self.frozen_args(choice))
+            with patch.object(r,'execute') as execute:report=r.run(True)
+            execute.assert_not_called()
+            self.assertTrue(r.immutable);self.assertEqual(report['status'],'artifacts-validated')
+            self.assertEqual(report['target_status'],'immutable-local')
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+            self.assertFalse(report['complete_passing_execution']);self.assertEqual(report['sut_executions'],0)
+            self.assertEqual(r.manifest['meta']['spec_snapshot_id'],LANE+'-specs-v1-snapshot-0.1')
+            self.assertEqual(len(r.tests),{'all':224,'conversion':146,'relations':88}[choice])
+        self.assertFalse(self.r.immutable)
+        self.assertEqual(self.r.manifest['meta']['snapshot_id'],LANE+'-cts-v1-snapshot-0.2')
+
+    def test_frozen_manifest_reencoding_mutations_and_next_relabel_reject(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'v1'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            original=json.loads(args.manifest.read_text())
+            variants=[copy.deepcopy(original) for _ in range(6)]
+            variants[1]['meta']['description']='edited'
+            variants[2]['meta']['snapshot_id']=LANE+'-cts-v1-snapshot-9.9'
+            variants[3]['meta']['spec_snapshot_id']='other-specs-v1-snapshot-0.1'
+            variants[4]['suites'][0]['exclude_tests']=['one']
+            variants[5]=json.loads((lane/(LANE+'-cts.v1.next.json')).read_text())
+            variants[5]['meta']['conformance']=original['meta']['conformance']
+            for variant in variants:
+                args.manifest.write_text(json.dumps(variant))
+                with self.assertRaisesRegex(ValueError,'Unrecognized or modified immutable'):Runner(args)
+
+    def test_frozen_fixture_bytes_are_isolated_and_integrity_checked(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'v1'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            (lane/'suites/01-conversion.json').write_text('{}')
+            (lane/'binding.schema.json').write_text('{}')
+            r=Runner(args);self.assertEqual(r.run(True)['status'],'artifacts-validated')
+            for suite in r.manifest['suites']:self.assertTrue(suite['file'].startswith('snapshots/0.1/suites/'))
+            self.assertEqual(r.manifest['meta']['binding_schema'],'snapshots/0.1/cts-binding.schema.json')
+            suite=lane/r.manifest['suites'][0]['file'];suite.write_text(suite.read_text()+'\n')
+            report=r.run(True)
+            self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+            self.assertTrue(any(f['id']=='artifact-integrity' for f in report['failures']))
+            with self.assertRaisesRegex(ValueError,'Artifact digest mismatch'):Runner(args)
+
+    def test_frozen_source_and_schema_are_isolated_from_working_inputs(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();args.specs_root=Path(folder)
+            for key in ('specification_source','specification_schema'):
+                relative=Runner(self.frozen_args()).manifest['meta'][key]
+                target=args.specs_root/relative;target.parent.mkdir(parents=True,exist_ok=True)
+                shutil.copyfile(SPECS/relative,target)
+            work=args.specs_root/'resources/aeonic-operations/v1/known-offset-contract.schema.json'
+            work.write_text('{}')
+            source=args.specs_root/'sources/aes/v1/aeonic-temporal-known-offset-v1.aeon'
+            source.parent.mkdir(parents=True);source.write_text('invalid working source')
+            r=Runner(args);self.assertEqual(r.run(True)['status'],'artifacts-validated')
+            frozen=args.specs_root/r.manifest['meta']['specification_schema'];frozen.write_text('{}')
+            with self.assertRaisesRegex(ValueError,'Artifact digest mismatch'):Runner(args)
+
+    def test_capture_preserves_schema_binding_suite_and_limit_semantics(self):
+        r=Runner(self.frozen_args());meta=r.manifest['meta']
+        working=json.loads((SPECS/'resources/aeonic-operations/v1/known-offset-contract.schema.json').read_text())
+        frozen=json.loads((SPECS/meta['specification_schema']).read_text())
+        self.assertEqual(frozen['$id'],'urn:aeonic-operations:temporal:known-offset:contract:v1:snapshot-0.1')
+        self.assertEqual({k:v for k,v in working.items() if k not in ('$id','title')},{k:v for k,v in frozen.items() if k not in ('$id','title')})
+        root=r.manifest_path.parent
+        binding=json.loads((root/meta['binding_schema']).read_text());moving=json.loads((root/'binding.schema.json').read_text())
+        self.assertEqual({k:v for k,v in binding.items() if k!='$id'},{k:v for k,v in moving.items() if k!='$id'})
+        self.assertEqual(r.resource_limits,self.r.resource_limits);self.assertEqual(meta['helpers'],self.r.manifest['meta']['helpers'])
+        for suite in r.manifest['suites']:
+            self.assertEqual((root/suite['file']).read_bytes(),(root/'suites'/Path(suite['file']).name).read_bytes())
+
+    def test_frozen_noop_and_filtered_execution_cannot_claim_conformance(self):
+        for filtered in (False,True):
+            r=Runner(self.frozen_args())
+            if filtered:r.tests=r.tests[:-1]
+            with patch.object(r,'operation'),patch.object(r,'chain'),patch.object(r,'laws'):report=r.run()
+            self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+            self.assertFalse(report['complete_passing_execution'])
+
+    def test_frozen_wrong_responses_cannot_claim_conformance(self):
+        r=Runner(self.frozen_args())
+        bad=self.output(dict(outcome='diagnostic',reason='invalid_operand',context=dict(stage=4,path=None)))
+        with patch.object(r,'execute',return_value=bad):report=r.run()
+        self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+        self.assertTrue(report['semantic_execution']);self.assertGreater(len(report['failures']),0)
+
+    def test_cli_default_frozen_and_explicit_next_are_separate(self):
+        for manifest,target in ((None,'0.1'),(self.args.manifest,'0.2')):
+            command=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check']
+            if manifest is not None:command+=['--manifest',str(manifest)]
+            child=subprocess.run(command,text=True,capture_output=True,timeout=20)
+            self.assertEqual(child.returncode,0,child.stderr+child.stdout);report=json.loads(child.stdout)
+            self.assertEqual(report['status'],'artifacts-validated');self.assertTrue(report['target'].endswith(target))
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+            self.assertEqual(report['sut_executions'],0)
+
+    def test_generator_preserves_frozen_artifacts_and_next_identity(self):
+        import generate_temporal_known_offset as generator
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);target=root/'cts'/LANE/'v1';shutil.copytree(self.args.manifest.parent,target)
+            binding=root/'cts/aeonic-temporal-civil-anchor/v1/binding.schema.json'
+            binding.parent.mkdir(parents=True);shutil.copyfile(ROOT/'cts/aeonic-temporal-civil-anchor/v1/binding.schema.json',binding)
+            for relative in self.r.manifest['meta']['helpers']:
+                path=root/relative;path.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/relative,path)
+            files=[target/(LANE+'-cts.v1.snapshot-0.1.json'),*(target/'snapshots').rglob('*')]
+            before={p:hashlib.sha256(p.read_bytes()).hexdigest() for p in files if p.is_file()}
+            with patch.object(generator,'ROOT',root),patch.object(generator,'TARGET',target):generator.generate(SPECS)
+            self.assertEqual({p:hashlib.sha256(p.read_bytes()).hexdigest() for p in before},before)
+            m=json.loads((target/(LANE+'-cts.v1.next.json')).read_text())
+            self.assertEqual(m['meta']['version'],'0.2.0-dev.0');self.assertTrue(m['meta']['snapshot_id'].endswith('0.2'))
+            self.assertEqual(m['meta']['conformance'],dict(surface='working-next',stable=False))
+
+    def test_retained_genuine_reports_cover_frozen_and_mutable_capabilities(self):
+        root=ROOT/'docs/conformance/known-offset-snapshot-0.1'
+        verification=json.loads((root/'verification.json').read_text());r=Runner(self.frozen_args())
+        self.assertEqual(verification['target'],r.manifest['meta']['snapshot_id'])
+        self.assertEqual(verification['manifest_sha256'],r.artifacts[r.manifest_path])
+        self.assertEqual(verification['runner_sha256'],hashlib.sha256((ROOT/'runners/run_aeonic_temporal_known_offset.py').read_bytes()).hexdigest())
+        self.assertEqual(set(verification['implementations']),{'javascript','python39','python314'})
+        for implementation in verification['implementations'].values():
+            self.assertEqual(set(implementation['frozen_reports']),{'all','conversion','relations'})
+            for cap,file in implementation['frozen_reports'].items():
+                path=root/file;report=json.loads(path.read_text())
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),verification['report_sha256'][file])
+                self.assertEqual(report['status'],'passed');self.assertEqual(report['failures'],[])
+                self.assertTrue(report['semantic_execution']);self.assertTrue(report['stable_conformance_claim'])
+                self.assertTrue(report['complete_passing_execution']);self.assertEqual(report['target_status'],'immutable-local')
+                self.assertEqual(report['target'],verification['target'])
+                self.assertEqual(report['capabilities'],['conversion','relations'] if cap=='all' else [cap])
+                self.assertEqual(report['sut_executions'],{'all':274,'conversion':147,'relations':135}[cap])
+                self.assertEqual(report['assertions'],{'all':334,'conversion':147,'relations':195}[cap])
+                self.assertEqual(report['strict_before_transitivity_assertions'],0 if cap=='conversion' else 2)
+                for name in ['manifest_sha256','runner_sha256','specification_source_sha256','specification_schema_sha256']:
+                    self.assertEqual(report[name],verification[name])
+                self.assertEqual(report['resource_limits'],verification['resource_limits'])
+                self.assertEqual(report['helper_hashes'],verification['helpers'])
+            for key in ('mutable_report','capacity_report'):
+                file=implementation[key];path=root/file;report=json.loads(path.read_text())
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),verification['report_sha256'][file])
+                self.assertEqual(report['status'],'passed');self.assertFalse(report['stable_conformance_claim'])
+                if key=='mutable_report':self.assertEqual(report['target_status'],'mutable-working');self.assertEqual(report['sut_executions'],274)
+                else:self.assertEqual(report['checks'],19);self.assertEqual(len(report['covered_dimensions']),9)
 
 if __name__=='__main__':unittest.main()

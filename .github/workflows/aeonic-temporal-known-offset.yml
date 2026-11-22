@@ -1,4 +1,4 @@
-name: Known-offset working contract
+name: Known-offset snapshot and working contract
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: 427254696af1c1e38898b0c5b8c6158b745cb2ff
+          ref: 3cf609130fd1f9fea719f7e1c01703c7e2a09271
           path: aeonite-specs
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
@@ -38,9 +38,14 @@ jobs:
         run: python3 -m pip install -r runners/requirements-aeonic-operations.txt
       - name: Verify complete-result assertions and harness boundaries
         run: python3 -m unittest discover -s runners -p test_aeonic_temporal_known_offset_runner.py -v
-      - name: Validate complete mutable target without a conformance claim
+      - name: Validate frozen target without executing or claiming conformance
         run: python3 runners/run_aeonic_temporal_known_offset.py --specs-root ../aeonite-specs --check
       - name: Validate independent capability boundaries
         run: |
           python3 runners/run_aeonic_temporal_known_offset.py --specs-root ../aeonite-specs --capability-set conversion --check
           python3 runners/run_aeonic_temporal_known_offset.py --specs-root ../aeonite-specs --capability-set relations --check
+      - name: Validate mutable next separately
+        run: |
+          python3 runners/run_aeonic_temporal_known_offset.py --manifest cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json --specs-root ../aeonite-specs --check
+          python3 runners/run_aeonic_temporal_known_offset.py --manifest cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json --specs-root ../aeonite-specs --capability-set conversion --check
+          python3 runners/run_aeonic_temporal_known_offset.py --manifest cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json --specs-root ../aeonite-specs --capability-set relations --check

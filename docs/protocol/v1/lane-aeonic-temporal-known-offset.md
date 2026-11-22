@@ -1,14 +1,19 @@
-# Known-offset coordinate mutable CTS
+# Known-offset coordinate snapshot and mutable CTS
 
 This lane exercises `aeonic.operations.temporal.known-offset.v1` in the ordinary
 86,400-second coordinate model. Conversion and Relations are independently complete
 capabilities; combined claims additionally execute cross-capability chains. It
 preserves original offset claims without verifying physical UTC realization.
 
-The sole target is mutable
-`cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json`.
-It has 224 cases: 221 operation vectors, two actual-result chains and one relation
-law group. There is no immutable target or stable conformance claim. Artifact
+The default target is immutable local snapshot 0.1:
+`cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.snapshot-0.1.json`.
+It retains 224 cases: 221 operation vectors, two actual-result chains and one
+relation-law group. Its exact recognized manifest pins isolated binding/suite and
+owning source/schema copies. Mutable `.next.json` advances independently to 0.2.
+Only complete genuine passing execution against the recognized immutable target
+supports a stable claim. Mutation, failure, missing calls/assertions, filtering,
+artifact-only checks and mutable runs cannot establish it. See the
+[capture and provider evidence](../../conformance/known-offset-snapshot-0.1.md). Artifact
 checking validates pinned sources/schema/helpers, expected positive images and
 closed diagnostic expectations; it does not execute a SUT or independently prove
 that a diagnostic vector has the right precedence. Harness mutation tests are
@@ -27,7 +32,8 @@ the adapter's working directory. A selected capability executes every mandatory
 case for that complete capability, plus shared admission cases. Cross-capability
 cases are omitted only when a capability is unclaimed, never by semantic case
 exclusion. A complete mutable pass still reports `stable_conformance_claim: false`.
-No implementation is supplied or claimed by this change.
+The separately merged provider is verified in the capture record; consumer default
+and claim adoption follows owning snapshot merge.
 
 The protocol envelope has `lane`, `case_id`, `fixture`, `policy` and transport
 extensions. Fixture contains exactly one of `request` (logical structured JSON)
@@ -68,7 +74,8 @@ chains for combined claims. The law group retains the cross-frame equality pair
 and now has three strictly ordered extents (four input representations), giving
 two strict-before transitivity witnesses. Removing required coverage rejects the
 target before artifact validity or complete execution can be reported. Combined
-execution requires 274 SUT calls; this remains a mutable target.
+execution requires 274 SUT calls. These requirements apply to both frozen and
+mutable targets; only the exact recognized frozen target can establish a stable claim.
 
 Positive raw requests are parsed as strict standalone JSON with numerical token
 spellings preserved. Their validated operation counts toward coverage exactly
@@ -85,3 +92,13 @@ values with equal coordinate coverage. Object-key order and position in the law
 array do not make otherwise identical values distinct. Exact copies, including
 independently allocated deep copies, cannot replace the cross-frame equality
 pair when validating or executing a target.
+
+
+Explicit mutable development uses `--manifest
+cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json`.
+All three capability selections are supported on each target. The frozen set's
+147 Conversion-only calls and 135 Relations-only calls include shared admission
+cases; combined execution uses 274 calls and 334 assertions. Conformance never
+waives admitted semantics in response to a provider's implementation capacity.
+The retained native default probes establish only their individual dimensions,
+not a combined capacity floor, arbitrary native-object or process quota.

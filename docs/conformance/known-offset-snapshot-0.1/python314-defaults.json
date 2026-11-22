@@ -1,0 +1,175 @@
+{
+  "status": "passed",
+  "stable_conformance_claim": false,
+  "profile": "aeonic.operations.temporal.known-offset.v1",
+  "defaults": {
+    "maxRequestBytes": 65536,
+    "maxRequestDepth": 32,
+    "maxTemporalCharacters": 1024,
+    "maxInputPieces": 1024,
+    "maxIntermediatePieces": 1024,
+    "maxOutputPieces": 1024,
+    "maxWork": 2048,
+    "maxFractionDigits": 256,
+    "maxResultBytes": 262144
+  },
+  "checks": 19,
+  "covered_dimensions": [
+    "maxFractionDigits",
+    "maxInputPieces",
+    "maxIntermediatePieces",
+    "maxOutputPieces",
+    "maxRequestBytes",
+    "maxRequestDepth",
+    "maxResultBytes",
+    "maxTemporalCharacters",
+    "maxWork"
+  ],
+  "cases": [
+    {
+      "id": "raw-bytes-65536",
+      "dimension": "maxRequestBytes",
+      "expected": "value",
+      "companion_limits": {}
+    },
+    {
+      "id": "raw-bytes-65537",
+      "dimension": "maxRequestBytes",
+      "expected": "resource_limit:1",
+      "companion_limits": {}
+    },
+    {
+      "id": "root-depth-32",
+      "dimension": "maxRequestDepth",
+      "expected": "unsupported_domain:5",
+      "companion_limits": {}
+    },
+    {
+      "id": "root-depth-33",
+      "dimension": "maxRequestDepth",
+      "expected": "resource_limit:1",
+      "companion_limits": {}
+    },
+    {
+      "id": "temporal-text-1024",
+      "dimension": "maxTemporalCharacters",
+      "expected": "unsupported_domain:5",
+      "companion_limits": {}
+    },
+    {
+      "id": "temporal-text-1025",
+      "dimension": "maxTemporalCharacters",
+      "expected": "resource_limit:4",
+      "companion_limits": {}
+    },
+    {
+      "id": "fraction-256",
+      "dimension": "maxFractionDigits",
+      "expected": "value",
+      "companion_limits": {}
+    },
+    {
+      "id": "fraction-257",
+      "dimension": "maxFractionDigits",
+      "expected": "resource_limit:4",
+      "companion_limits": {}
+    },
+    {
+      "id": "input-pieces-1024",
+      "dimension": "maxInputPieces",
+      "expected": "value",
+      "companion_limits": {}
+    },
+    {
+      "id": "input-pieces-1025",
+      "dimension": "maxInputPieces",
+      "expected": "resource_limit:4",
+      "companion_limits": {}
+    },
+    {
+      "id": "candidates-1024",
+      "dimension": "maxIntermediatePieces",
+      "expected": "value",
+      "companion_limits": {
+        "maxInputPieces": 2048,
+        "maxRequestBytes": 262144,
+        "maxOutputPieces": 2048
+      }
+    },
+    {
+      "id": "candidates-1025",
+      "dimension": "maxIntermediatePieces",
+      "expected": "resource_limit:6",
+      "companion_limits": {
+        "maxInputPieces": 2048,
+        "maxRequestBytes": 262144,
+        "maxOutputPieces": 2048
+      }
+    },
+    {
+      "id": "output-pieces-1024",
+      "dimension": "maxOutputPieces",
+      "expected": "value",
+      "companion_limits": {
+        "maxInputPieces": 2048,
+        "maxRequestBytes": 262144,
+        "maxIntermediatePieces": 2048
+      }
+    },
+    {
+      "id": "output-pieces-1025",
+      "dimension": "maxOutputPieces",
+      "expected": "resource_limit:7",
+      "companion_limits": {
+        "maxInputPieces": 2048,
+        "maxRequestBytes": 262144,
+        "maxIntermediatePieces": 2048
+      }
+    },
+    {
+      "id": "work-2048",
+      "dimension": "maxWork",
+      "expected": "value",
+      "companion_limits": {
+        "maxInputPieces": 4096,
+        "maxRequestBytes": 524288
+      }
+    },
+    {
+      "id": "work-2049",
+      "dimension": "maxWork",
+      "expected": "resource_limit:6",
+      "companion_limits": {
+        "maxInputPieces": 4096,
+        "maxRequestBytes": 524288
+      }
+    },
+    {
+      "id": "result-sizing-control",
+      "dimension": "maxResultBytes",
+      "expected": "value",
+      "companion_limits": {}
+    },
+    {
+      "id": "result-bytes-262144",
+      "dimension": "maxResultBytes",
+      "expected": "value",
+      "companion_limits": {
+        "maxRequestBytes": 1048576,
+        "maxTemporalCharacters": 1048576,
+        "maxFractionDigits": 1048576
+      }
+    },
+    {
+      "id": "result-bytes-262145",
+      "dimension": "maxResultBytes",
+      "expected": "resource_limit:7",
+      "companion_limits": {
+        "maxRequestBytes": 1048576,
+        "maxTemporalCharacters": 1048576,
+        "maxFractionDigits": 1048576
+      }
+    }
+  ],
+  "calibrator_sha256": "4dea7ad38d1afae263905ef4acb5aa482836f11a95a91ecdc82dea309e236945"
+}
