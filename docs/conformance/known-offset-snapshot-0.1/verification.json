@@ -35,7 +35,7 @@
     "docs/temporal-known-offset.md": "568caa5bacb4e111b4eed115d714fbd9870a83fcb3d4d08cb4e589a4cfe81769"
   },
   "manifest_sha256": "274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b",
-  "runner_sha256": "a568f8b2110081616065df621bcb38b3029618953321bc8706876d6b3ec51ae3",
+  "runner_sha256": "cee9aa6588aa5a4866c150be95152c3fb8933713fda296a8b3c0767461f1fae1",
   "specification_source_sha256": "54c089b38b08f25369d88880b0ff4326b097fe058830ed123c3ea2578fe193bb",
   "specification_schema_sha256": "2ec8ff1fe00ad652186d99387edb90d89e37a810bf38e27f3d2ca0d21dbb7fa4",
   "helpers": {
@@ -75,9 +75,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "javascript-all-snapshot-0.1.json": "50eac65479ae4c9c6e5f5e54b78fad5fdb482d9c1479ba1e2ec4b23ef15355bc",
-          "javascript-conversion-snapshot-0.1.json": "950fc569e7458f6760698887532bb5ec96147a16723e7de95049172c7c52e996",
-          "javascript-relations-snapshot-0.1.json": "5a1a1c4a91a1668c988b3eba29198e48e8c5a96173aa3b49962088d3e58f9284"
+          "javascript-all-snapshot-0.1.json": "8187be18ae1a78cd000f6074b3187d3e0203e2e99debd1f401bbf9a2ae96efcf",
+          "javascript-conversion-snapshot-0.1.json": "ed7efb63edc736c99b25db25cdeaaa43bebac71ac51868a1741b8ca70b7e9a10",
+          "javascript-relations-snapshot-0.1.json": "b1ae9768a2291a74d8b34ad2ff513beebbf3a8ce4d560199f3e3b45730d7cf91"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -102,9 +102,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "python39-all-snapshot-0.1.json": "a696fb849ff65a5e795fee4e374ab7e026d0fdc8a4726fa1b6d22651350c7328",
-          "python39-conversion-snapshot-0.1.json": "9ba51f8908898ee059586d3dce079a7fe529c58ec32240ee19419ee8301150f5",
-          "python39-relations-snapshot-0.1.json": "c3755feb9bac9044bb69527d927b7b7e133650edc7fccdb03d82b4c78547291f"
+          "python39-all-snapshot-0.1.json": "40256a6fcd73b1b26cceb9c89684b7564f06a142ace8c6e5935b9f543ecd3566",
+          "python39-conversion-snapshot-0.1.json": "300554388924bada023fd39a8625faab40356d3f333f3f8dece2b5ca03ba84b5",
+          "python39-relations-snapshot-0.1.json": "8e3e654899506e8dfa774a450a339cd6e6fd07862e17228d353ff7fd0616a12a"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -129,9 +129,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "python314-all-snapshot-0.1.json": "a696fb849ff65a5e795fee4e374ab7e026d0fdc8a4726fa1b6d22651350c7328",
-          "python314-conversion-snapshot-0.1.json": "9ba51f8908898ee059586d3dce079a7fe529c58ec32240ee19419ee8301150f5",
-          "python314-relations-snapshot-0.1.json": "c3755feb9bac9044bb69527d927b7b7e133650edc7fccdb03d82b4c78547291f"
+          "python314-all-snapshot-0.1.json": "40256a6fcd73b1b26cceb9c89684b7564f06a142ace8c6e5935b9f543ecd3566",
+          "python314-conversion-snapshot-0.1.json": "300554388924bada023fd39a8625faab40356d3f333f3f8dece2b5ca03ba84b5",
+          "python314-relations-snapshot-0.1.json": "8e3e654899506e8dfa774a450a339cd6e6fd07862e17228d353ff7fd0616a12a"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -140,20 +140,20 @@
     }
   },
   "report_sha256": {
-    "javascript-all-snapshot-0.1.json": "50eac65479ae4c9c6e5f5e54b78fad5fdb482d9c1479ba1e2ec4b23ef15355bc",
-    "javascript-conversion-snapshot-0.1.json": "950fc569e7458f6760698887532bb5ec96147a16723e7de95049172c7c52e996",
-    "javascript-relations-snapshot-0.1.json": "5a1a1c4a91a1668c988b3eba29198e48e8c5a96173aa3b49962088d3e58f9284",
-    "javascript-all-next-0.2.json": "b896016378629b527d74bd371b0be2a060b2be6612f65c420cdb8465aad695b0",
+    "javascript-all-snapshot-0.1.json": "8187be18ae1a78cd000f6074b3187d3e0203e2e99debd1f401bbf9a2ae96efcf",
+    "javascript-conversion-snapshot-0.1.json": "ed7efb63edc736c99b25db25cdeaaa43bebac71ac51868a1741b8ca70b7e9a10",
+    "javascript-relations-snapshot-0.1.json": "b1ae9768a2291a74d8b34ad2ff513beebbf3a8ce4d560199f3e3b45730d7cf91",
+    "javascript-all-next-0.2.json": "7ac62093c896a77c90e4a05bd8a7d0c9ca585b81d26c1a8b8b0ca188d7b5c2cc",
     "javascript-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python39-all-snapshot-0.1.json": "a696fb849ff65a5e795fee4e374ab7e026d0fdc8a4726fa1b6d22651350c7328",
-    "python39-conversion-snapshot-0.1.json": "9ba51f8908898ee059586d3dce079a7fe529c58ec32240ee19419ee8301150f5",
-    "python39-relations-snapshot-0.1.json": "c3755feb9bac9044bb69527d927b7b7e133650edc7fccdb03d82b4c78547291f",
-    "python39-all-next-0.2.json": "a395a0228762512415aea332291f05f456993effbade8efedfa56046f63c62d4",
+    "python39-all-snapshot-0.1.json": "40256a6fcd73b1b26cceb9c89684b7564f06a142ace8c6e5935b9f543ecd3566",
+    "python39-conversion-snapshot-0.1.json": "300554388924bada023fd39a8625faab40356d3f333f3f8dece2b5ca03ba84b5",
+    "python39-relations-snapshot-0.1.json": "8e3e654899506e8dfa774a450a339cd6e6fd07862e17228d353ff7fd0616a12a",
+    "python39-all-next-0.2.json": "09977e0feca90980838040ad147e9c6935db08a707d540bd06db6e72dae04d27",
     "python39-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python314-all-snapshot-0.1.json": "a696fb849ff65a5e795fee4e374ab7e026d0fdc8a4726fa1b6d22651350c7328",
-    "python314-conversion-snapshot-0.1.json": "9ba51f8908898ee059586d3dce079a7fe529c58ec32240ee19419ee8301150f5",
-    "python314-relations-snapshot-0.1.json": "c3755feb9bac9044bb69527d927b7b7e133650edc7fccdb03d82b4c78547291f",
-    "python314-all-next-0.2.json": "a395a0228762512415aea332291f05f456993effbade8efedfa56046f63c62d4",
+    "python314-all-snapshot-0.1.json": "40256a6fcd73b1b26cceb9c89684b7564f06a142ace8c6e5935b9f543ecd3566",
+    "python314-conversion-snapshot-0.1.json": "300554388924bada023fd39a8625faab40356d3f333f3f8dece2b5ca03ba84b5",
+    "python314-relations-snapshot-0.1.json": "8e3e654899506e8dfa774a450a339cd6e6fd07862e17228d353ff7fd0616a12a",
+    "python314-all-next-0.2.json": "09977e0feca90980838040ad147e9c6935db08a707d540bd06db6e72dae04d27",
     "python314-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91"
   },
   "verification_limits": [
@@ -328,6 +328,30 @@
         "An absent source ACL replaces inherited staging ACLs without adding read access.",
         "Injected ACL read/allocation/write failures retain the original inode, contents, owner/group/mode and ACL and remove staging files.",
         "The known-offset CI matrix adds macOS Python 3.14; platform-specific tests skip on Linux."
+      ],
+      "providers": "Fresh frozen complete/restricted, separate next and 19 default probes per runtime on Node24 and Python3.9/3.14, with reviewed source fingerprints checked before/after actual commands."
+    }
+  },
+  "author_macos_staging_cleanup_followup": {
+    "reviewed_head": "4380a0e67377c0ff866645b47758fc09a056517f",
+    "findings": [
+      "QA-2026-0240"
+    ],
+    "scope": "Author fix verification only; independent QA remains separate. When macOS unlink is denied during failed-write cleanup, only the staging ACL is cleared and unlink is retried. The original report and its ACL remain unchanged, and successful cleanup preserves the original write/validation exception. Frozen assets, provider code, helper bytes and operation semantics are unchanged.",
+    "verification": {
+      "focused_tests_per_python_version": 62,
+      "all_runner_tests_per_python_version": 245,
+      "platform": "macOS",
+      "python_versions": [
+        "3.9.6",
+        "3.14.3"
+      ],
+      "controls": [
+        "A real delete-denial ACL causes two native replacement failures; each retry removes all staging files.",
+        "Two injected replacement failures preserve the exact exception object while clearing only staging ACLs and removing staging files.",
+        "Two injected post-copy validation failures preserve the exact exception object and remove staging files.",
+        "After every retry, original inode, contents, owner/group/mode and exact ACL entries are unchanged.",
+        "Existing effective read-grant/read-denial, empty ACL and ACL read/allocation/write-failure regressions remain covered on macOS."
       ],
       "providers": "Fresh frozen complete/restricted, separate next and 19 default probes per runtime on Node24 and Python3.9/3.14, with reviewed source fingerprints checked before/after actual commands."
     }

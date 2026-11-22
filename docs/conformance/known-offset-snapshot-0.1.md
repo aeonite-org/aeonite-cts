@@ -46,9 +46,9 @@ snapshots remain unchanged. No package release, SANSA/Query/Rust adoption, physi
 UTC alignment, timezone/WTC authority or elapsed-time resolution is introduced.
 
 
-All 61 focused snapshot/harness tests pass on macOS with Python 3.9 and 3.14, including
+All 62 focused snapshot/harness tests pass on macOS with Python 3.9 and 3.14, including
 manifest mutations, immutable isolation, missing executions, wrong responses,
-artifact-only gates and generator preservation. All 244 runner regressions pass
+artifact-only gates and generator preservation. All 245 runner regressions pass
 in isolated CI-layout fixtures on both runtimes. The older comparison-next unit
 suite receives its separately pinned historical source/schema in that disposable
 fixture; known-offset inputs retain the exact new owning revision. No comparison
@@ -97,3 +97,9 @@ preserve the original inode, contents, ownership, mode and ACL and clean up the
 temporary file. The known-offset CI matrix includes macOS Python 3.14 in addition
 to the two Linux jobs; macOS-only ACL tests are skipped on other platforms.
 Independent QA verification of this correction remains separate.
+
+Failed-write cleanup also handles a copied delete-denial ACL: if unlink is
+denied, only the staging ACL is cleared before retrying removal. Repeated native
+replacement failures and injected replacement/validation failures leave no
+staging files, retain the original report's inode/contents/ownership/mode/ACL,
+and preserve the original exception. Independent QA verification remains separate.

@@ -145,7 +145,10 @@ on POSIX, its owner and group. On macOS it also preserves the complete file ACL,
 including explicit grants/denials and an absent ACL. The ACL is applied after
 ownership and mode restoration, before replacement. Failure to read, allocate or
 apply the ACL leaves the original intact, as do ownership/mode failures; the
-temporary file is removed. New
+temporary file is removed. If a copied delete-denial ACL blocks staging removal
+after a failed write, cleanup clears only the staging ACL and retries unlink.
+Successful cleanup preserves the original write/validation exception; it never
+relaxes the original report's ACL. New
 reports and replacements of permitted output symlinks use private temporary-file
 permissions; replacing a symlink does not change its referent or copy its mode.
 

@@ -810,6 +810,41 @@ class KnownOffsetRunnerTests(unittest.TestCase):
                 if failure=='write':library.acl_free.assert_called_once_with(123)
                 else:library.acl_free.assert_not_called()
 
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS file ACLs required')
+    def test_delete_denial_acl_cannot_leave_staging_files_after_failed_retries(self):
+        import pwd
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('existing report');report.chmod(0o640)
+            subprocess.run(['/bin/chmod','+a','user:'+pwd.getpwuid(os.getuid()).pw_name+' deny delete',str(report)],check=True)
+            before=report.stat()
+            entries=subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True).stdout.splitlines()[1:]
+            r=Runner(self.frozen_args());validate=r.validate_report_destination
+            try:
+                for failure in ('native','replacement','validation'):
+                    for attempt in range(2):
+                        original=PermissionError('injected replacement failure') if failure=='replacement' else ValueError('injected validation failure')
+                        if failure=='replacement':
+                            context=patch('os.replace',side_effect=original)
+                        elif failure=='validation':
+                            def fail_validation(destination):
+                                if list(folder.glob('.known-offset-report-*')):raise original
+                                return validate(destination)
+                            context=patch.object(r,'validate_report_destination',side_effect=fail_validation)
+                        else:
+                            context=patch('os.replace',wraps=os.replace)
+                        with context:
+                            with self.assertRaises(OSError if failure=='native' else type(original)) as raised:
+                                r.write_report(report,'replacement')
+                        if failure!='native':self.assertIs(raised.exception,original)
+                        after=report.stat();self.assertEqual(report.read_text(),'existing report')
+                        self.assertEqual((after.st_ino,after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                                         (before.st_ino,before.st_uid,before.st_gid,0o640))
+                        self.assertEqual(subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True).stdout.splitlines()[1:],entries)
+                        self.assertEqual(list(folder.glob('.known-offset-report-*')),[],(failure,attempt))
+            finally:
+                for path in [report,*folder.glob('.known-offset-report-*')]:
+                    subprocess.run(['/bin/chmod','-N',str(path)],check=True)
+
     def test_missing_adapter_launch_reports_attempts_without_protocol_execution(self):
         with tempfile.TemporaryDirectory() as name:
             folder=Path(name);missing=folder/'missing-adapter';report=folder/'report.json'

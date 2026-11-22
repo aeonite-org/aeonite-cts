@@ -408,6 +408,7 @@ class Runner(CommonRunner):
 
     @staticmethod
     def preserve_report_acl(source, target):
+        """Copy a macOS ACL; source=None clears only a failed staging file's ACL."""
         if sys.platform != 'darwin':
             return
         # Darwin ACLs are not represented by stat's mode/owner/group fields.
@@ -424,15 +425,17 @@ class Runner(CommonRunner):
         library.acl_init.argtypes = [ctypes.c_int]
         library.acl_init.restype = ctypes.c_void_p
         acl_type_extended = 0x100  # Darwin <sys/acl.h> ACL_TYPE_EXTENDED.
-        acl = library.acl_get_file(os.fsencode(source), acl_type_extended)
-        if not acl and ctypes.get_errno() == errno.ENOENT:
+        acl = (library.acl_init(0) if source is None else
+               library.acl_get_file(os.fsencode(source), acl_type_extended))
+        if source is not None and not acl and ctypes.get_errno() == errno.ENOENT:
             # Darwin also uses ENOENT when an existing file has no ACL.
             # Confirm the file still exists, then explicitly clear inheritance.
             source.stat()
             acl = library.acl_init(0)
         if not acl:
             error = ctypes.get_errno()
-            raise OSError(error, 'Cannot read report ACL: ' + os.strerror(error), str(source))
+            raise OSError(error, 'Cannot read/initialize report ACL: ' + os.strerror(error),
+                          str(target if source is None else source))
         try:
             if library.acl_set_file(os.fsencode(target), acl_type_extended, acl) != 0:
                 error = ctypes.get_errno()
@@ -468,7 +471,16 @@ class Runner(CommonRunner):
             os.replace(temporary, destination)
         finally:
             if temporary is not None:
-                temporary.unlink(missing_ok=True)
+                try:
+                    temporary.unlink(missing_ok=True)
+                except PermissionError:
+                    if sys.platform != 'darwin':
+                        raise
+                    # A copied delete-denial ACE can also block staging cleanup.
+                    # Clear only staging, never the original report's ACL. Once
+                    # removal succeeds, the original write error propagates.
+                    self.preserve_report_acl(None, temporary)
+                    temporary.unlink(missing_ok=True)
 
 
 def main():
