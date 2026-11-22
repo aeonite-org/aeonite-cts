@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "aeonic-temporal-known-offset",
+    "profile": "aeonic.operations.temporal.known-offset.v1",
+    "capabilities": {
+      "conversion": {
+        "id": "Aeonic.Operations.Temporal.KnownOffset.Conversion",
+        "operations": [
+          "convert"
+        ]
+      },
+      "relations": {
+        "id": "Aeonic.Operations.Temporal.KnownOffset.Relations",
+        "operations": [
+          "equal",
+          "compare",
+          "relate"
+        ]
+      }
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "known-offset",
+      "stable": true,
+      "publication": "local-only"
+    },
+    "description": "Immutable known-offset coordinate snapshot 0.1: complete independent Conversion and Relations; 221 operation vectors, two actual-result chains and one non-vacuous law group. Native capacity remains separate.",
+    "snapshot_id": "aeonic-temporal-known-offset-cts-v1-snapshot-0.1",
+    "specification_revision": "3cf609130fd1f9fea719f7e1c01703c7e2a09271",
+    "specification_source": "resources/aeonic-operations/v1/snapshots/0.1/aeonic-temporal-known-offset-v1.aeon",
+    "specification_schema": "resources/aeonic-operations/v1/snapshots/0.1/known-offset-contract.schema.json",
+    "binding_schema": "snapshots/0.1/cts-binding.schema.json",
+    "helpers": {
+      "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+      "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+      "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+      "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f",
+      "runners/temporal_known_offset_checks.py": "9f9c14ed5ea0ec6cff8528443a42bdfbf2b3ef0eeae7748fdd286fab638ab4ae"
+    },
+    "resource_limits": {
+      "maxRequestBytes": 65536,
+      "maxRequestDepth": 32,
+      "maxTemporalCharacters": 1024,
+      "maxInputPieces": 1024,
+      "maxIntermediatePieces": 1024,
+      "maxOutputPieces": 1024,
+      "maxWork": 2048,
+      "maxFractionDigits": 256,
+      "maxResultBytes": 262144
+    },
+    "specification_source_sha256": "54c089b38b08f25369d88880b0ff4326b097fe058830ed123c3ea2578fe193bb",
+    "specification_schema_sha256": "2ec8ff1fe00ad652186d99387edb90d89e37a810bf38e27f3d2ca0d21dbb7fa4",
+    "binding_schema_sha256": "f711093b895272ada919894b15327e5caa361cc6cf9e8ce7a57d3d81e3cbd5ce",
+    "spec_snapshot_id": "aeonic-temporal-known-offset-specs-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "01-conversion",
+      "file": "snapshots/0.1/suites/01-conversion.json",
+      "content_sha256": "9bc5ca2ef2faaba2b92956ed4b6e2f69846e893dd2e352c7a67bcc3045714ef5"
+    },
+    {
+      "id": "02-relations",
+      "file": "snapshots/0.1/suites/02-relations.json",
+      "content_sha256": "341774f05272868702fb1b48e85d4b097f741f5f6c563c8bb3b2b66ef8061d88"
+    },
+    {
+      "id": "03-operands",
+      "file": "snapshots/0.1/suites/03-operands.json",
+      "content_sha256": "7e0b9058954a0ef551f0dea4bc75b1ce9127cfafb38570cf6e3aec6217842b06"
+    },
+    {
+      "id": "04-policy-precedence",
+      "file": "snapshots/0.1/suites/04-policy-precedence.json",
+      "content_sha256": "ca1f4c8d85675a588dee4333a68422bb58a494db69ff8ce03c39a01a696a0716"
+    },
+    {
+      "id": "05-resources-transport",
+      "file": "snapshots/0.1/suites/05-resources-transport.json",
+      "content_sha256": "3f7732c60f677edc1e6cc30abd44bcae86c7b0c18c4130292343ebb7c2e29b76"
+    },
+    {
+      "id": "06-chains-laws",
+      "file": "snapshots/0.1/suites/06-chains-laws.json",
+      "content_sha256": "27178de6de67f72889978dd3b8af1743930d57b073d223a9db755d16d070197d"
+    }
+  ]
+}

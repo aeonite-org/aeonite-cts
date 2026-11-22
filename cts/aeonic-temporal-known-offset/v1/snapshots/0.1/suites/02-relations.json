@@ -1,0 +1,4667 @@
+{
+  "id": "02-relations",
+  "tests": [
+    {
+      "id": "cross-frame-equal-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "cross-frame-equal-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "cross-frame-equal-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "cross-frame-equal-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "cross-frame-equal-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "cross-frame-equal-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-form-equal-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00+00:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+00:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-form-equal-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00+00:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+00:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-form-equal-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00+00:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+00:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-form-equal-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00+00:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+00:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-form-equal-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00+00:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+00:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "zero-form-equal-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00+00:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+00:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "contains-start-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "contains-start-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "contains-start-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "contains-start-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "contains-start-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "contains"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "contains-start-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "containedBy"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "excluded-end-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "excluded-end-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "excluded-end-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "excluded-end-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "excluded-end-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "excluded-end-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "strict-before-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "strict-before-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "strict-before-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "strict-before-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "strict-before-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "strict-before-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "disjoint-interleaved-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "+01:00",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T10:00:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T12:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T12:00:00+02:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "undeclared",
+            "right": "+02:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "disjoint-interleaved-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T12:00:00+02:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "+01:00",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T10:00:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T12:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+02:00",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "disjoint-interleaved-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "+01:00",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T10:00:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T12:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T12:00:00+02:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "undeclared",
+            "right": "+02:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "disjoint-interleaved-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T12:00:00+02:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "+01:00",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T10:00:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T12:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+02:00",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "disjoint-interleaved-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "+01:00",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T10:00:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T12:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T12:00:00+02:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "undeclared",
+            "right": "+02:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "disjoint-interleaved-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T12:00:00+02:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "+01:00",
+                "pieces": [
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T10:00:00"
+                  },
+                  {
+                    "kind": "point",
+                    "at": "2024-03-01T12:00:00"
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+02:00",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "overlapping-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:30",
+                    "end": "2024-03-01T09:01:30",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "overlapping-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:30",
+                    "end": "2024-03-01T09:01:30",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "undeclared",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "overlapping-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:30",
+                    "end": "2024-03-01T09:01:30",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "overlapping-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:30",
+                    "end": "2024-03-01T09:01:30",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "indeterminate"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "undeclared",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "overlapping-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:30",
+                    "end": "2024-03-01T09:01:30",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "overlaps"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "undeclared"
+          }
+        }
+      }
+    },
+    {
+      "id": "overlapping-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTimeSet",
+                "offset": "Z",
+                "pieces": [
+                  {
+                    "kind": "interval",
+                    "start": "2024-03-01T09:00:30",
+                    "end": "2024-03-01T09:01:30",
+                    "includeStart": true,
+                    "includeEnd": false
+                  }
+                ]
+              },
+              "originDateGranularity": "undeclared",
+              "originClockForm": "undeclared",
+              "history": {
+                "clamping": "none-declared",
+                "approximation": "none-declared"
+              },
+              "originalOffset": "undeclared"
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "overlaps"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "undeclared",
+              "clockForm": "undeclared"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "undeclared",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "below-zero-common-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "below-zero-common-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "below-zero-common-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "below-zero-common-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "below-zero-common-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "below-zero-common-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "above-B-common-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59-01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "-01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "above-B-common-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59-01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "notEqual"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "-01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "above-B-common-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59-01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "after"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "-01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "above-B-common-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59-01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "-01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "above-B-common-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59-01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "-01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "above-B-common-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59-01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "disjoint"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "-01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "metadata-distinct-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00.1+01:00"
+              },
+              "originDateGranularity": "year",
+              "originClockForm": "hour",
+              "history": {
+                "clamping": "clamping-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T08:00:00.1Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "clamping-declared",
+              "approximation": "approximation-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "hour"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "metadata-distinct-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T08:00:00.1Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00.1+01:00"
+              },
+              "originDateGranularity": "year",
+              "originClockForm": "hour",
+              "history": {
+                "clamping": "clamping-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "clamping-declared",
+              "approximation": "approximation-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "hour"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "metadata-distinct-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00.1+01:00"
+              },
+              "originDateGranularity": "year",
+              "originClockForm": "hour",
+              "history": {
+                "clamping": "clamping-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T08:00:00.1Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "clamping-declared",
+              "approximation": "approximation-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "hour"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "metadata-distinct-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T08:00:00.1Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00.1+01:00"
+              },
+              "originDateGranularity": "year",
+              "originClockForm": "hour",
+              "history": {
+                "clamping": "clamping-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "clamping-declared",
+              "approximation": "approximation-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "hour"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "metadata-distinct-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00.1+01:00"
+              },
+              "originDateGranularity": "year",
+              "originClockForm": "hour",
+              "history": {
+                "clamping": "clamping-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T08:00:00.1Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "clamping-declared",
+              "approximation": "approximation-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "hour"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "metadata-distinct-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T08:00:00.1Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00.1+01:00"
+              },
+              "originDateGranularity": "year",
+              "originClockForm": "hour",
+              "history": {
+                "clamping": "clamping-declared",
+                "approximation": "approximation-declared"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "clamping-declared",
+              "approximation": "approximation-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "hour"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-completion-equality-equal",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T09:30Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T10:30+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-completion-equality-equal-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "equal",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T10:30+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T09:30Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-completion-equality-compare",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T09:30Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T10:30+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-completion-equality-compare-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T10:30+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T09:30Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-completion-equality-relate",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T09:30Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T10:30+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "+01:00"
+          }
+        }
+      }
+    },
+    {
+      "id": "year-completion-equality-relate-reverse",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "relate",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T10:30+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-T09:30Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "equal"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            },
+            "right": {
+              "dateGranularity": "year",
+              "clockForm": "minute"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "+01:00",
+            "right": "Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "relations-no-output-piece-charge",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:01:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "category": "symbol",
+          "value": "before"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          },
+          "operandHistory": {
+            "left": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            },
+            "right": {
+              "clamping": "none-declared",
+              "approximation": "none-declared"
+            }
+          },
+          "operandOrigin": {
+            "left": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            },
+            "right": {
+              "dateGranularity": "day",
+              "clockForm": "second"
+            }
+          },
+          "operandOriginalOffset": {
+            "left": "Z",
+            "right": "Z"
+          }
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxIntermediatePieces": 0,
+          "maxOutputPieces": 0
+        }
+      }
+    }
+  ]
+}

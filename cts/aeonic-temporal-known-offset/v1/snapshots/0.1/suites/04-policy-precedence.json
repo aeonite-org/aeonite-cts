@@ -1,0 +1,839 @@
+{
+  "id": "04-policy-precedence",
+  "tests": [
+    {
+      "id": "invalid-destination-'-00:00'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "-00:00"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/destinationOffset"
+        }
+      }
+    },
+    {
+      "id": "invalid-destination-'+24:00'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "+24:00"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/destinationOffset"
+        }
+      }
+    },
+    {
+      "id": "invalid-destination-'+01:00:01'",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "+01:00:01"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/destinationOffset"
+        }
+      }
+    },
+    {
+      "id": "invalid-destination-''",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": ""
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/destinationOffset"
+        }
+      }
+    },
+    {
+      "id": "invalid-destination-None",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": null
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/destinationOffset"
+        }
+      }
+    },
+    {
+      "id": "missing-destination",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {},
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/destinationOffset"
+        }
+      }
+    },
+    {
+      "id": "missing-policy",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy"
+        }
+      }
+    },
+    {
+      "id": "missing-profile",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/profile"
+        }
+      }
+    },
+    {
+      "id": "unavailable-profile",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "future"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_profile",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "policy-overrides-context",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z",
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            },
+            "context": {
+              "profile": "future"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "value",
+        "value": {
+          "temporal": {
+            "category": "knownOffsetDateTimeSet",
+            "offset": "Z",
+            "pieces": [
+              {
+                "kind": "point",
+                "at": "2024-03-01T09:00:00"
+              }
+            ]
+          },
+          "originDateGranularity": "day",
+          "originClockForm": "second",
+          "history": {
+            "clamping": "none-declared",
+            "approximation": "none-declared"
+          },
+          "originalOffset": "+01:00"
+        },
+        "metadata": {
+          "evaluation": "exact-for-policy",
+          "clamping": "not-applied",
+          "effectivePolicy": {
+            "destinationOffset": "Z",
+            "profile": "aeonic.operations.temporal.known-offset.v1"
+          }
+        }
+      }
+    },
+    {
+      "id": "bad-overridden-context",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z",
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            },
+            "context": {
+              "profile": null
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/context/profile"
+        }
+      }
+    },
+    {
+      "id": "relation-destination-forbidden",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T09:00:00Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/destinationOffset"
+        }
+      }
+    },
+    {
+      "id": "malformed-right-beats-deferred-left",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "09:30Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-02-30T09:30Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/right/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "malformed-left-before-right",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-02-30T09:30Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-02-31T09:30Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 4,
+          "path": "/input/left/temporal/value"
+        }
+      }
+    },
+    {
+      "id": "deferred-left-before-right",
+      "requires": [
+        "relations"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "compare",
+          "input": {
+            "left": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "09:30Z"
+              }
+            },
+            "right": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "10:30Z"
+              }
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_domain",
+        "context": {
+          "stage": 5,
+          "path": "/input/left/temporal/category"
+        }
+      }
+    },
+    {
+      "id": "bad-policy-before-operand",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "bad"
+              }
+            },
+            "policy": {
+              "destinationOffset": "-00:00"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_policy",
+        "context": {
+          "stage": 3,
+          "path": "/input/policy/destinationOffset"
+        }
+      }
+    },
+    {
+      "id": "dispatch-before-policy",
+      "requires": [],
+      "fixture": {
+        "request": {
+          "operation": "future",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "bad"
+              }
+            },
+            "policy": null
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unsupported_operation",
+        "context": {
+          "stage": 2,
+          "path": "/operation"
+        }
+      }
+    },
+    {
+      "id": "unknown-request-field",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          },
+          "extra": true
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/extra"
+        }
+      }
+    },
+    {
+      "id": "unknown-input-field",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "2024-03-01T10:00:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            },
+            "extra": true
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "invalid_operand",
+        "context": {
+          "stage": 2,
+          "path": "/input/extra"
+        }
+      }
+    },
+    {
+      "id": "lower-domain",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    },
+    {
+      "id": "work-before-domain",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxWork": 0
+        }
+      }
+    },
+    {
+      "id": "candidate-before-domain",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "resource_limit",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxIntermediatePieces": 0
+        }
+      }
+    },
+    {
+      "id": "domain-before-output",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "0001-01-01T00:30:00+01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      },
+      "policy": {
+        "resourceLimits": {
+          "maxOutputPieces": 0,
+          "maxResultBytes": 0
+        }
+      }
+    },
+    {
+      "id": "upper-domain",
+      "requires": [
+        "conversion"
+      ],
+      "fixture": {
+        "request": {
+          "operation": "convert",
+          "input": {
+            "value": {
+              "temporal": {
+                "category": "knownOffsetDateTime",
+                "value": "9999-12-31T23:59:59-01:00"
+              }
+            },
+            "policy": {
+              "destinationOffset": "Z"
+            },
+            "context": {
+              "profile": "aeonic.operations.temporal.known-offset.v1"
+            }
+          }
+        }
+      },
+      "expected": {
+        "outcome": "diagnostic",
+        "reason": "unrepresentable_result",
+        "context": {
+          "stage": 6,
+          "path": null
+        }
+      }
+    }
+  ]
+}

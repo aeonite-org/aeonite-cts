@@ -1,0 +1,4 @@
+# Preserve exact recognized snapshot bytes across checkout platforms.
+*.json -text
+suites/** -text
+snapshots/** -text

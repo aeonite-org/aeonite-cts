@@ -1,0 +1,8 @@
+# Preserve byte-pinned known-offset checker inputs and the report's runner digest.
+run_aeonic_arithmetic.py -text
+run_aeonic_rational_arithmetic.py -text
+temporal_civil_date_checks.py -text
+temporal_civil_datetime_checks.py -text
+temporal_known_offset_checks.py -text
+run_aeonic_temporal_known_offset.py -text
+generate_temporal_known_offset.py -text

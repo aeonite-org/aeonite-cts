@@ -5,13 +5,15 @@ import os
 import hashlib
 import shutil
 import shlex
+import stat
 import sys
+import subprocess
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from run_aeonic_temporal_known_offset import ROOT, LANE, Runner
 from temporal_known_offset_checks import (LIMITS, PROFILE, expected_positive,
@@ -339,5 +341,532 @@ class KnownOffsetRunnerTests(unittest.TestCase):
             with patch.object(self.r,'operation'),patch.object(self.r,'chain'),patch.object(self.r,'laws'):
                 self.assertEqual(self.r.run(False)['status'],'failed')
         finally:self.r.tests=old
+
+    def frozen_args(self, choice='all'):
+        args=copy.copy(self.args);args.capability_set=choice
+        args.manifest=args.manifest.with_name(LANE+'-cts.v1.snapshot-0.1.json')
+        return args
+
+    def test_frozen_artifact_checks_never_claim_semantic_conformance(self):
+        for choice in ('conversion','relations','all'):
+            r=Runner(self.frozen_args(choice))
+            with patch.object(r,'execute') as execute:report=r.run(True)
+            execute.assert_not_called()
+            self.assertTrue(r.immutable);self.assertEqual(report['status'],'artifacts-validated')
+            self.assertEqual(report['target_status'],'immutable-local')
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+            self.assertFalse(report['complete_passing_execution']);self.assertEqual(report['sut_executions'],0)
+            self.assertEqual(r.manifest['meta']['spec_snapshot_id'],LANE+'-specs-v1-snapshot-0.1')
+            self.assertEqual(len(r.tests),{'all':224,'conversion':146,'relations':88}[choice])
+        self.assertFalse(self.r.immutable)
+        self.assertEqual(self.r.manifest['meta']['snapshot_id'],LANE+'-cts-v1-snapshot-0.2')
+
+    def test_frozen_manifest_reencoding_mutations_and_next_relabel_reject(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'v1'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            original=json.loads(args.manifest.read_text())
+            variants=[copy.deepcopy(original) for _ in range(6)]
+            variants[1]['meta']['description']='edited'
+            variants[2]['meta']['snapshot_id']=LANE+'-cts-v1-snapshot-9.9'
+            variants[3]['meta']['spec_snapshot_id']='other-specs-v1-snapshot-0.1'
+            variants[4]['suites'][0]['exclude_tests']=['one']
+            variants[5]=json.loads((lane/(LANE+'-cts.v1.next.json')).read_text())
+            variants[5]['meta']['conformance']=original['meta']['conformance']
+            for variant in variants:
+                args.manifest.write_text(json.dumps(variant))
+                with self.assertRaisesRegex(ValueError,'Unrecognized or modified immutable'):Runner(args)
+
+    def test_frozen_fixture_bytes_are_isolated_and_integrity_checked(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();lane=Path(folder)/'v1'
+            shutil.copytree(args.manifest.parent,lane);args.manifest=lane/args.manifest.name
+            (lane/'suites/01-conversion.json').write_text('{}')
+            (lane/'binding.schema.json').write_text('{}')
+            r=Runner(args);self.assertEqual(r.run(True)['status'],'artifacts-validated')
+            for suite in r.manifest['suites']:self.assertTrue(suite['file'].startswith('snapshots/0.1/suites/'))
+            self.assertEqual(r.manifest['meta']['binding_schema'],'snapshots/0.1/cts-binding.schema.json')
+            suite=lane/r.manifest['suites'][0]['file'];suite.write_text(suite.read_text()+'\n')
+            report=r.run(True)
+            self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+            self.assertTrue(any(f['id']=='artifact-integrity' for f in report['failures']))
+            with self.assertRaisesRegex(ValueError,'Artifact digest mismatch'):Runner(args)
+
+    def test_frozen_source_and_schema_are_isolated_from_working_inputs(self):
+        with tempfile.TemporaryDirectory() as folder:
+            args=self.frozen_args();args.specs_root=Path(folder)
+            for key in ('specification_source','specification_schema'):
+                relative=Runner(self.frozen_args()).manifest['meta'][key]
+                target=args.specs_root/relative;target.parent.mkdir(parents=True,exist_ok=True)
+                shutil.copyfile(SPECS/relative,target)
+            work=args.specs_root/'resources/aeonic-operations/v1/known-offset-contract.schema.json'
+            work.write_text('{}')
+            source=args.specs_root/'sources/aes/v1/aeonic-temporal-known-offset-v1.aeon'
+            source.parent.mkdir(parents=True);source.write_text('invalid working source')
+            r=Runner(args);self.assertEqual(r.run(True)['status'],'artifacts-validated')
+            frozen=args.specs_root/r.manifest['meta']['specification_schema'];frozen.write_text('{}')
+            with self.assertRaisesRegex(ValueError,'Artifact digest mismatch'):Runner(args)
+
+    def test_capture_preserves_fixed_capture_time_semantics(self):
+        r=Runner(self.frozen_args());meta=r.manifest['meta'];root=r.manifest_path.parent
+        capture=json.loads((ROOT/'docs/conformance/known-offset-snapshot-0.1/verification.json').read_text())['capture_semantics']
+        def projection(value,ignored):
+            encoded=json.dumps({k:v for k,v in value.items() if k not in ignored},sort_keys=True,separators=(',',':')).encode()
+            return hashlib.sha256(encoded).hexdigest()
+        frozen=json.loads((SPECS/meta['specification_schema']).read_text())
+        binding=json.loads((root/meta['binding_schema']).read_text())
+        self.assertEqual(frozen['$id'],'urn:aeonic-operations:temporal:known-offset:contract:v1:snapshot-0.1')
+        self.assertEqual(projection(frozen,{'$id','title'}),capture['schema_projection_sha256'])
+        self.assertEqual(projection(binding,{'$id'}),capture['binding_projection_sha256'])
+        self.assertEqual(r.resource_limits,capture['resource_limits']);self.assertEqual(meta['helpers'],capture['helpers'])
+        self.assertEqual({suite['id']:suite['content_sha256'] for suite in r.manifest['suites']},capture['suite_sha256'])
+        for suite in r.manifest['suites']:
+            self.assertEqual(hashlib.sha256((root/suite['file']).read_bytes()).hexdigest(),capture['suite_sha256'][suite['id']])
+
+    def test_valid_mutable_only_addition_does_not_redefine_capture(self):
+        def append(manifest,data):
+            if data['id']=='01-conversion':
+                case=copy.deepcopy(next(t for t in data['tests'] if t['expected']['outcome']=='value'))
+                case['id']='next-only-valid-conversion';data['tests'].append(case)
+        with self.disposable_target(append) as args:
+            with patch.object(self,'args',args):
+                frozen=Runner(self.frozen_args());moving=Runner(args)
+                self.assertEqual(frozen.run(True)['operation_cases'],221)
+                self.assertEqual(moving.run(True)['operation_cases'],222)
+                self.assertEqual(moving.run(True)['status'],'artifacts-validated')
+                self.test_capture_preserves_fixed_capture_time_semantics()
+
+    def test_frozen_noop_and_filtered_execution_cannot_claim_conformance(self):
+        for filtered in (False,True):
+            r=Runner(self.frozen_args())
+            if filtered:r.tests=r.tests[:-1]
+            with patch.object(r,'operation'),patch.object(r,'chain'),patch.object(r,'laws'):report=r.run()
+            self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+            self.assertFalse(report['complete_passing_execution'])
+
+    def test_frozen_wrong_responses_cannot_claim_conformance(self):
+        r=Runner(self.frozen_args())
+        bad=self.output(dict(outcome='diagnostic',reason='invalid_operand',context=dict(stage=4,path=None)))
+        with patch.object(r,'execute',return_value=bad):report=r.run()
+        self.assertEqual(report['status'],'failed');self.assertFalse(report['stable_conformance_claim'])
+        self.assertFalse(report['semantic_execution']);self.assertTrue(report['protocol_execution']);self.assertGreater(len(report['failures']),0)
+
+    def test_cli_default_frozen_and_explicit_next_are_separate(self):
+        for manifest,target in ((None,'0.1'),(self.args.manifest,'0.2')):
+            command=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check']
+            if manifest is not None:command+=['--manifest',str(manifest)]
+            child=subprocess.run(command,text=True,capture_output=True,timeout=20)
+            self.assertEqual(child.returncode,0,child.stderr+child.stdout);report=json.loads(child.stdout)
+            self.assertEqual(report['status'],'artifacts-validated');self.assertTrue(report['target'].endswith(target))
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+            self.assertEqual(report['sut_executions'],0)
+
+    def test_generator_preserves_frozen_artifacts_and_next_identity(self):
+        import generate_temporal_known_offset as generator
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);target=root/'cts'/LANE/'v1';shutil.copytree(self.args.manifest.parent,target)
+            binding=root/'cts/aeonic-temporal-civil-anchor/v1/binding.schema.json'
+            binding.parent.mkdir(parents=True);shutil.copyfile(ROOT/'cts/aeonic-temporal-civil-anchor/v1/binding.schema.json',binding)
+            for relative in self.r.manifest['meta']['helpers']:
+                path=root/relative;path.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/relative,path)
+            files=[target/(LANE+'-cts.v1.snapshot-0.1.json'),*(target/'snapshots').rglob('*')]
+            before={p:hashlib.sha256(p.read_bytes()).hexdigest() for p in files if p.is_file()}
+            with patch.object(generator,'ROOT',root),patch.object(generator,'TARGET',target):generator.generate(SPECS)
+            self.assertEqual({p:hashlib.sha256(p.read_bytes()).hexdigest() for p in before},before)
+            m=json.loads((target/(LANE+'-cts.v1.next.json')).read_text())
+            self.assertEqual(m['meta']['version'],'0.2.0-dev.0');self.assertTrue(m['meta']['snapshot_id'].endswith('0.2'))
+            self.assertEqual(m['meta']['conformance'],dict(surface='working-next',stable=False))
+
+    def test_retained_genuine_reports_cover_frozen_and_mutable_capabilities(self):
+        root=ROOT/'docs/conformance/known-offset-snapshot-0.1'
+        verification=json.loads((root/'verification.json').read_text());r=Runner(self.frozen_args())
+        self.assertEqual(verification['target'],r.manifest['meta']['snapshot_id'])
+        self.assertEqual(verification['manifest_sha256'],r.artifacts[r.manifest_path])
+        self.assertEqual(verification['runner_sha256'],hashlib.sha256((ROOT/'runners/run_aeonic_temporal_known_offset.py').read_bytes()).hexdigest())
+        self.assertEqual(set(verification['implementations']),{'javascript','python39','python314'})
+        for implementation in verification['implementations'].values():
+            self.assertEqual(set(implementation['frozen_reports']),{'all','conversion','relations'})
+            qualification=implementation['qualification']
+            self.assertEqual(qualification['basis'],'reviewed-source-and-controlled-provider-execution')
+            self.assertTrue(qualification['stable_conformance_claim']);self.assertTrue(qualification['semantic_execution'])
+            self.assertEqual(qualification['provider_revision'],verification['provider_revision'])
+            self.assertEqual(qualification['provider_tree'],verification['provider_tree'])
+            self.assertEqual(qualification['report_sha256'],{file:verification['report_sha256'][file] for file in implementation['frozen_reports'].values()})
+            for cap,file in implementation['frozen_reports'].items():
+                path=root/file;report=json.loads(path.read_text())
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),verification['report_sha256'][file])
+                self.assertEqual(report['status'],'passed');self.assertEqual(report['failures'],[])
+                self.assertFalse(report['semantic_execution']);self.assertFalse(report['stable_conformance_claim'])
+                self.assertTrue(report['protocol_execution']);self.assertFalse(report['provider_execution_verified'])
+                self.assertTrue(report['complete_passing_execution']);self.assertEqual(report['target_status'],'immutable-local')
+                self.assertEqual(report['target'],verification['target'])
+                self.assertEqual(report['capabilities'],['conversion','relations'] if cap=='all' else [cap])
+                self.assertEqual(report['sut_executions'],{'all':274,'conversion':147,'relations':135}[cap])
+                self.assertEqual(report['sut_attempts'],report['sut_executions'])
+                self.assertEqual(report['assertions'],{'all':334,'conversion':147,'relations':195}[cap])
+                self.assertEqual(report['strict_before_transitivity_assertions'],0 if cap=='conversion' else 2)
+                for name in ['manifest_sha256','runner_sha256','specification_source_sha256','specification_schema_sha256']:
+                    self.assertEqual(report[name],verification[name])
+                self.assertEqual(report['resource_limits'],verification['resource_limits'])
+                self.assertEqual(report['helper_hashes'],verification['helpers'])
+            for key in ('mutable_report','capacity_report'):
+                file=implementation[key];path=root/file;report=json.loads(path.read_text())
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),verification['report_sha256'][file])
+                self.assertEqual(report['status'],'passed');self.assertFalse(report['stable_conformance_claim'])
+                if key=='mutable_report':self.assertEqual(report['target_status'],'mutable-working');self.assertEqual(report['sut_executions'],274)
+                else:self.assertEqual(report['checks'],19);self.assertEqual(len(report['covered_dimensions']),9)
+
+    def test_frozen_fixture_replay_subprocess_cannot_earn_semantic_claim(self):
+        r=Runner(self.frozen_args('conversion'));replies={}
+        for case in r.tests:
+            if case.get('kind','operation')=='operation':replies[case['id']]=case['expected']
+            elif case['kind']=='chain':
+                for i,step in enumerate(case['steps']):replies[case['id']+'/'+str(i)]=step['expected']
+        with tempfile.TemporaryDirectory() as folder:
+            folder=Path(folder);data=folder/'answers.json';data.write_text(json.dumps(replies))
+            provider=folder/'replay.py';provider.write_text('import json,sys\nx=json.load(sys.stdin)\ny=json.load(open(sys.argv[1]))[x["case_id"]]\nok=y["outcome"]=="value"\nprint(json.dumps(dict(ok=ok,result=y,warnings=[],errors=[] if ok else [dict(code=y["reason"],path=None,span=None,phase=None)])))\n')
+            cmd=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--capability-set','conversion','--sut',shlex.join([sys.executable,str(provider),str(data)])]
+            child=subprocess.run(cmd,text=True,capture_output=True,timeout=40)
+            self.assertEqual(child.returncode,0,child.stderr);report=json.loads(child.stdout)
+            self.assertEqual(report['status'],'passed');self.assertTrue(report['complete_passing_execution'])
+            self.assertEqual(report['sut_executions'],147);self.assertEqual(report['assertions'],147)
+            self.assertTrue(report['protocol_execution']);self.assertFalse(report['provider_execution_verified'])
+            self.assertFalse(report['stable_conformance_claim']);self.assertFalse(report['semantic_execution'])
+
+    def test_report_aliases_reject_before_execution_and_preserve_inputs(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);cts=folder/'cts';owner=folder/'owner'
+            shutil.copytree(ROOT,cts,ignore=shutil.ignore_patterns('.git','__pycache__'))
+            r=Runner(self.frozen_args())
+            for key in ('specification_source','specification_schema'):
+                relative=r.manifest['meta'][key];dest=owner/relative;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(SPECS/relative,dest)
+            manifest=cts/r.manifest_path.relative_to(ROOT)
+            inputs=[manifest,manifest.parent/r.manifest['meta']['binding_schema'],manifest.parent/r.manifest['suites'][0]['file'],owner/r.manifest['meta']['specification_source'],owner/r.manifest['meta']['specification_schema'],cts/'runners/run_aeonic_arithmetic.py',cts/'runners/run_aeonic_temporal_known_offset.py']
+            before={p:p.read_bytes() for p in inputs};marker=folder/'executed';provider=folder/'provider.py'
+            provider.write_text('from pathlib import Path\nPath('+repr(str(marker))+').write_text("ran")\n')
+            aliases=[]
+            for kind in ('hard','symbolic'):
+                alias=folder/(kind+'.json')
+                try:
+                    if kind=='hard':os.link(manifest,alias)
+                    else:alias.symlink_to(manifest)
+                except (OSError,NotImplementedError):continue
+                aliases.append(alias)
+            base=[sys.executable,str(cts/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(owner)]
+            for destination in [*inputs,*aliases]:
+                child=subprocess.run([*base,'--sut',shlex.join([sys.executable,str(provider)]),'--report',str(destination)],text=True,capture_output=True,timeout=20)
+                self.assertEqual(child.returncode,2,child.stdout);self.assertEqual(child.stdout,'');self.assertIn('overlaps',child.stderr)
+                self.assertFalse(marker.exists());self.assertEqual({p:p.read_bytes() for p in inputs},before)
+            report=folder/'report.json'
+            child=subprocess.run([*base,'--check','--report',str(report)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(child.returncode,0,child.stderr);self.assertEqual(json.loads(report.read_text()),json.loads(child.stdout))
+            self.assertEqual({p:p.read_bytes() for p in inputs},before)
+
+    def test_clean_git_crlf_checkout_preserves_every_pinned_frozen_input(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);repo=folder/'index';checkout=folder/'checkout';repo.mkdir();checkout.mkdir()
+            r=Runner(self.frozen_args());files={}
+            for source in r.artifacts:
+                if ROOT in source.parents:files[source.relative_to(ROOT)]=source
+                else:files[Path('owner')/source.relative_to(SPECS.resolve())]=source
+            for relative,source in list(files.items()):
+                origin=ROOT if ROOT in source.parents else SPECS.resolve()
+                for parent in source.parents:
+                    if parent==origin.parent:break
+                    attr=parent/'.gitattributes'
+                    if attr.exists():
+                        dest=attr.relative_to(origin) if origin==ROOT else Path('owner')/attr.relative_to(origin)
+                        files[dest]=attr
+            for relative,source in files.items():
+                dest=repo/relative;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(source.read_bytes())
+            (repo/'conversion-control.txt').write_bytes(b'convert\nthese\n')
+            for args in (['init','--quiet'],['config','core.autocrlf','true'],['add','--all'],['checkout-index','--all','--force','--prefix='+str(checkout)+os.sep]):
+                result=subprocess.run(['git',*args],cwd=repo,text=True,capture_output=True)
+                self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual((checkout/'conversion-control.txt').read_bytes(),b'convert\r\nthese\r\n')
+            for relative,source in files.items():
+                if source in r.artifacts:self.assertEqual((checkout/relative).read_bytes(),source.read_bytes(),str(relative))
+            child=subprocess.run([sys.executable,str(checkout/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(checkout/'owner'),'--check'],text=True,capture_output=True,timeout=20)
+            self.assertEqual(child.returncode,0,child.stderr);self.assertEqual(json.loads(child.stdout)['status'],'artifacts-validated')
+
+    def test_readme_working_command_selects_next_even_when_default_frozen_is_valid(self):
+        import re
+        section=(ROOT/'README.md').read_text().split('## Known-offset coordinate working target',1)[1].split('## ',1)[0]
+        command=re.search(r'python3 runners/run_aeonic_temporal_known_offset.py[^\n]+',section).group()
+        args=shlex.split(command)[1:];self.assertIn('--manifest',args)
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);lane=folder/'v1';shutil.copytree(self.args.manifest.parent,lane)
+            path=lane/self.args.manifest.name;manifest=json.loads(path.read_text());manifest['meta']['version']='invalid';path.write_text(json.dumps(manifest))
+            args[0]=str(ROOT/args[0]);args[args.index('--manifest')+1]=str(path);args[args.index('--specs-root')+1]=str(SPECS)
+            child=subprocess.run([sys.executable,*args],text=True,capture_output=True,timeout=20)
+            self.assertEqual(child.returncode,2);self.assertIn('Wrong target version',child.stderr)
+            self.assertEqual(Runner(self.frozen_args()).run(True)['status'],'artifacts-validated')
+
+    def test_protected_output_entries_reject_outgoing_and_dangling_links(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);cts=folder/'cts';owner=folder/'owner'
+            shutil.copytree(ROOT,cts,ignore=shutil.ignore_patterns('.git','__pycache__'))
+            frozen=Runner(self.frozen_args());moving=Runner(self.args)
+            for runner in (frozen,moving):
+                for key in ('specification_source','specification_schema'):
+                    relative=runner.manifest['meta'][key];target=owner/relative
+                    target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(SPECS/relative,target)
+            lane=cts/'cts'/LANE/'v1';outside=folder/'external-lane';shutil.copytree(lane,outside)
+            entry=lane/self.args.manifest.name;entry.unlink();referent=outside/entry.name
+            entry.symlink_to(referent)
+            directory_alias=folder/'lane-alias';directory_alias.symlink_to(lane,target_is_directory=True)
+            base=[sys.executable,str(cts/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(owner),'--check']
+            def check_next():
+                result=subprocess.run([*base,'--manifest',str(entry)],text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,0,result.stderr)
+            check_next();before=referent.read_bytes()
+            entries=[entry,directory_alias/entry.name]
+            case_alias=cts/'CTS'/LANE/'v1'/entry.name
+            if case_alias.exists():entries.append(case_alias)
+            dangling=[]
+            for root in (cts/'runners',owner):
+                link=root/'dangling-report.json';link.symlink_to(folder/'absent.json');dangling.append(link)
+            for destination in [*entries,*dangling]:
+                result=subprocess.run([*base,'--report',str(destination)],text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,2,result.stdout);self.assertIn('overlaps',result.stderr)
+                self.assertTrue(destination.is_symlink());self.assertEqual(referent.read_bytes(),before);check_next()
+            # A separate output link can be replaced without changing its referent.
+            target=folder/'outside.txt';target.write_text('unchanged');output=folder/'report.json';output.symlink_to(target)
+            result=subprocess.run([*base,'--report',str(output)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr);self.assertFalse(output.is_symlink())
+            self.assertEqual(target.read_text(),'unchanged');self.assertEqual(json.loads(output.read_text())['status'],'artifacts-validated')
+            # The same protected leaf entry must reject when its referent is absent.
+            referent.unlink()
+            result=subprocess.run([*base,'--report',str(entry)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,2);self.assertTrue(entry.is_symlink());self.assertFalse(referent.exists())
+
+    @unittest.skipUnless(os.name == 'posix', 'POSIX permission bits required')
+    def test_atomic_report_replacement_preserves_existing_regular_file_permissions(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json'
+            base=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check','--report',str(report)]
+            for mode in (0o640,0o644,0o600):
+                report.write_text('old report');report.chmod(mode)
+                result=subprocess.run(base,text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,0,result.stderr)
+                self.assertEqual(stat.S_IMODE(report.stat().st_mode),mode)
+                self.assertEqual(json.loads(report.read_text()),json.loads(result.stdout))
+                self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+            report.unlink()
+            result=subprocess.run(base,text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual(stat.S_IMODE(report.stat().st_mode),0o600)
+            report.unlink();target=folder/'external.json';target.write_text('original');target.chmod(0o640)
+            report.symlink_to(target)
+            result=subprocess.run(base,text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr);self.assertFalse(report.is_symlink())
+            self.assertEqual(target.read_text(),'original');self.assertEqual(stat.S_IMODE(target.stat().st_mode),0o640)
+            self.assertEqual(stat.S_IMODE(report.stat().st_mode),0o600)
+
+    def test_report_parent_symlink_then_dotdot_uses_filesystem_resolution(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);cts=folder/'cts';owner=folder/'owner'
+            shutil.copytree(ROOT,cts,ignore=shutil.ignore_patterns('.git','__pycache__'))
+            r=Runner(self.frozen_args())
+            for key in ('specification_source','specification_schema'):
+                relative=r.manifest['meta'][key];target=owner/relative
+                target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(SPECS/relative,target)
+            external=folder/'external';(external/'child').mkdir(parents=True)
+            alias=cts/'cts'/'external-alias';alias.symlink_to(external/'child',target_is_directory=True)
+            direct=external/'report.json';indirect=alias/'..'/'report.json'
+            self.assertEqual(indirect.parent.resolve()/indirect.name,direct.resolve())
+            base=[sys.executable,str(cts/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(owner),'--check']
+            for destination in (direct,indirect,indirect.relative_to(cts)):
+                direct.unlink(missing_ok=True)
+                result=subprocess.run([*base,'--report',str(destination)],cwd=cts,text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,0,result.stderr)
+                self.assertEqual(json.loads(direct.read_text()),json.loads(result.stdout))
+                self.assertFalse((cts/'cts'/'report.json').exists());self.assertTrue(alias.is_symlink())
+            with patch('tempfile.NamedTemporaryFile',wraps=tempfile.NamedTemporaryFile) as temporary:
+                r.write_report(indirect,'external report')
+            self.assertEqual(temporary.call_args.kwargs['dir'],external.resolve())
+            self.assertEqual(direct.read_text(),'external report')
+            # The reverse traversal actually ends in an input tree and must reject.
+            child=cts/'runners'/'child';child.mkdir()
+            protected_alias=external/'protected-alias';protected_alias.symlink_to(child,target_is_directory=True)
+            protected=cts/'runners'/'run_aeonic_temporal_known_offset.py';before=protected.read_bytes()
+            result=subprocess.run([*base,'--report',str(protected_alias/'..'/protected.name)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,2);self.assertIn('overlaps',result.stderr)
+            self.assertEqual(protected.read_bytes(),before)
+
+    def test_untraversable_report_paths_reject_before_execution_without_writes(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('existing report')
+            regular=folder/'regular-file';regular.write_text('not a directory')
+            alias=folder/'file-alias';alias.symlink_to(regular)
+            marker=folder/'executed';provider=folder/'provider.py'
+            provider.write_text('from pathlib import Path\nPath('+repr(str(marker))+').write_text("ran")\n')
+            base=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--sut',shlex.join([sys.executable,str(provider)])]
+            paths=[regular/'..'/report.name,alias/'..'/report.name,
+                   regular/'child'/'..'/'..'/report.name,
+                   folder/'missing'/'..'/report.name]
+            for destination in paths:
+                result=subprocess.run([*base,'--report',str(destination)],text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,2,result.stdout);self.assertEqual(result.stdout,'')
+                self.assertFalse(marker.exists());self.assertEqual(report.read_text(),'existing report')
+                self.assertEqual(regular.read_text(),'not a directory');self.assertTrue(alias.is_symlink())
+                self.assertFalse((folder/'missing').exists());self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+            # A normal missing output directory is still created.
+            valid=folder/'new'/'nested'/'report.json'
+            result=subprocess.run([*base[:base.index('--sut')],'--check','--report',str(valid)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual(json.loads(valid.read_text()),json.loads(result.stdout))
+
+    @unittest.skipUnless(os.name == 'posix', 'POSIX file ownership required')
+    def test_atomic_report_preserves_a_distinct_shared_group(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('shared report')
+            groups=(set(os.getgroups())|{os.getegid()})-{folder.stat().st_gid}
+            if not groups:self.skipTest('No second permitted group available')
+            os.chown(report,-1,min(groups));report.chmod(0o640);before=report.stat()
+            result=subprocess.run([sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check','--report',str(report)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr);after=report.stat()
+            self.assertEqual((after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                             (before.st_uid,before.st_gid,0o640))
+            self.assertEqual(json.loads(report.read_text()),json.loads(result.stdout))
+
+    @unittest.skipUnless(os.name == 'posix', 'POSIX file ownership required')
+    def test_ownership_preservation_failure_retains_original_report(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('shared report');report.chmod(0o640)
+            before=report.stat();r=Runner(self.frozen_args())
+            with patch('os.chown',side_effect=PermissionError('Cannot retain ownership')):
+                with self.assertRaises(PermissionError):r.write_report(report,'replacement')
+            after=report.stat();self.assertEqual(report.read_text(),'shared report')
+            self.assertEqual((after.st_ino,after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                             (before.st_ino,before.st_uid,before.st_gid,0o640))
+            self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS file ACLs required')
+    def test_atomic_report_preserves_explicit_acl_and_effective_read_access(self):
+        import pwd
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';reader=pwd.getpwuid(os.getuid()).pw_name
+            base=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check','--report',str(report)]
+            def acl():
+                result=subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True)
+                return result.stdout.splitlines()[1:]
+            def assert_readable(expected):
+                result=subprocess.run([sys.executable,'-c','import pathlib,sys; pathlib.Path(sys.argv[1]).read_bytes()',str(report)],capture_output=True)
+                self.assertEqual(result.returncode == 0,expected,result.stderr.decode(errors='replace'))
+            for mode,permission,expected in ((0o000,'allow',True),(0o600,'deny',False)):
+                if report.exists():
+                    subprocess.run(['/bin/chmod','-N',str(report)],check=True)
+                    report.chmod(0o600)
+                report.write_text('existing report');report.chmod(mode)
+                subprocess.run(['/bin/chmod','+a','user:'+reader+' '+permission+' read',str(report)],check=True)
+                before=report.stat();entries=acl();self.assertTrue(entries)
+                assert_readable(expected)
+                result=subprocess.run(base,text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,0,result.stderr)
+                self.assertEqual(acl(),entries);assert_readable(expected)
+                after=report.stat()
+                self.assertEqual((after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                                 (before.st_uid,before.st_gid,mode))
+            subprocess.run(['/bin/chmod','-N',str(report)],check=True);report.chmod(0o600)
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS file ACLs required')
+    def test_empty_report_acl_replaces_inherited_temporary_acl(self):
+        import pwd
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';reader=pwd.getpwuid(os.getuid()).pw_name
+            subprocess.run(['/bin/chmod','+a','user:'+reader+' allow read,file_inherit',str(folder)],check=True)
+            report.write_text('existing report')
+            subprocess.run(['/bin/chmod','-N',str(report)],check=True);report.chmod(0o000)
+            result=subprocess.run([sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check','--report',str(report)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr)
+            listing=subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True)
+            self.assertEqual(listing.stdout.splitlines()[1:],[])
+            denied=subprocess.run([sys.executable,'-c','import pathlib,sys; pathlib.Path(sys.argv[1]).read_bytes()',str(report)],capture_output=True)
+            self.assertNotEqual(denied.returncode,0)
+            report.chmod(0o600);self.assertEqual(json.loads(report.read_text()),json.loads(result.stdout))
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS file ACLs required')
+    def test_acl_preservation_failure_retains_original_report(self):
+        import ctypes
+        import pwd
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('existing report');report.chmod(0o640)
+            subprocess.run(['/bin/chmod','+a','user:'+pwd.getpwuid(os.getuid()).pw_name+' allow read',str(report)],check=True)
+            acl=subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True).stdout.splitlines()[1:]
+            before=report.stat();r=Runner(self.frozen_args())
+            for failure in ('read','write','allocate'):
+                def rejected(*args):ctypes.set_errno(12 if failure=='allocate' else 13);return -1 if failure=='write' else None
+                def absent(*args):ctypes.set_errno(2);return None
+                library=SimpleNamespace(acl_get_file=Mock(side_effect=absent if failure=='allocate' else rejected) if failure!='write' else Mock(return_value=123),
+                                        acl_set_file=Mock(side_effect=rejected),acl_free=Mock(return_value=0),acl_init=Mock(side_effect=rejected))
+                with patch('ctypes.CDLL',return_value=library):
+                    with self.assertRaises(OSError):r.write_report(report,'replacement')
+                after=report.stat();self.assertEqual(report.read_text(),'existing report')
+                self.assertEqual((after.st_ino,after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                                 (before.st_ino,before.st_uid,before.st_gid,0o640))
+                self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+                self.assertEqual(subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True).stdout.splitlines()[1:],acl)
+                if failure=='write':library.acl_free.assert_called_once_with(123)
+                else:library.acl_free.assert_not_called()
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS file ACLs required')
+    def test_delete_denial_acl_cannot_leave_staging_files_after_failed_retries(self):
+        import pwd
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('existing report');report.chmod(0o640)
+            subprocess.run(['/bin/chmod','+a','user:'+pwd.getpwuid(os.getuid()).pw_name+' deny delete',str(report)],check=True)
+            before=report.stat()
+            entries=subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True).stdout.splitlines()[1:]
+            r=Runner(self.frozen_args());validate=r.validate_report_destination
+            try:
+                for failure in ('native','replacement','validation'):
+                    for attempt in range(2):
+                        original=PermissionError('injected replacement failure') if failure=='replacement' else ValueError('injected validation failure')
+                        if failure=='replacement':
+                            context=patch('os.replace',side_effect=original)
+                        elif failure=='validation':
+                            def fail_validation(destination):
+                                if list(folder.glob('.known-offset-report-*')):raise original
+                                return validate(destination)
+                            context=patch.object(r,'validate_report_destination',side_effect=fail_validation)
+                        else:
+                            context=patch('os.replace',wraps=os.replace)
+                        with context:
+                            with self.assertRaises(OSError if failure=='native' else type(original)) as raised:
+                                r.write_report(report,'replacement')
+                        if failure!='native':self.assertIs(raised.exception,original)
+                        after=report.stat();self.assertEqual(report.read_text(),'existing report')
+                        self.assertEqual((after.st_ino,after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                                         (before.st_ino,before.st_uid,before.st_gid,0o640))
+                        self.assertEqual(subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True).stdout.splitlines()[1:],entries)
+                        self.assertEqual(list(folder.glob('.known-offset-report-*')),[],(failure,attempt))
+            finally:
+                for path in [report,*folder.glob('.known-offset-report-*')]:
+                    subprocess.run(['/bin/chmod','-N',str(path)],check=True)
+
+    def test_missing_adapter_launch_reports_attempts_without_protocol_execution(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);missing=folder/'missing-adapter';report=folder/'report.json'
+            command=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--sut',shlex.join([str(missing)]),'--report',str(report)]
+            result=subprocess.run(command,text=True,capture_output=True,timeout=30)
+            self.assertEqual(result.returncode,1,result.stderr);data=json.loads(report.read_text())
+            self.assertEqual(data,json.loads(result.stdout));self.assertEqual(data['status'],'failed')
+            self.assertGreater(data['sut_attempts'],0);self.assertEqual(data['sut_executions'],0);self.assertEqual(data['assertions'],0)
+            self.assertFalse(data['protocol_execution']);self.assertFalse(data['complete_passing_execution'])
+            self.assertFalse(data['semantic_execution']);self.assertFalse(data['stable_conformance_claim'])
+
+    def test_execution_flags_and_counts_are_local_to_each_run(self):
+        r=Runner(self.frozen_args('conversion'));case=next(t for t in r.tests if t.get('kind','operation')=='operation')
+        with patch.object(r,'execute',return_value=self.output(case['expected'])):r.operation(case)
+        self.assertEqual(r.executions,1)
+        for error in (FileNotFoundError('missing adapter'),subprocess.TimeoutExpired('adapter',0.01),ValueError('SUT harness failure')):
+            with patch.object(r,'execute',side_effect=error):report=r.run()
+            self.assertEqual(report['status'],'failed');self.assertGreater(report['sut_attempts'],0)
+            self.assertEqual(report['sut_executions'],0);self.assertEqual(report['assertions'],0)
+            self.assertFalse(report['protocol_execution']);self.assertFalse(report['complete_passing_execution'])
+        checked=r.run(True)
+        self.assertEqual(checked['sut_attempts'],0);self.assertEqual(checked['sut_executions'],0)
+        self.assertEqual(checked['assertions'],0);self.assertFalse(checked['protocol_execution'])
 
 if __name__=='__main__':unittest.main()

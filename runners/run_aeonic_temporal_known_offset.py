@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Pinned known-offset mutable working CTS; Python 3.9+."""
+"""Pinned known-offset snapshot and mutable CTS; Python 3.9+."""
 import argparse
 import copy
 import hashlib
 import itertools
 import json
+import os
 import re
+import stat
 from pathlib import Path
 import sys
+import tempfile
 
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
@@ -20,7 +23,8 @@ from temporal_known_offset_checks import (PROFILE, CAPABILITIES, LIMITS,
 
 ROOT = Path(__file__).resolve().parents[1]
 LANE = 'aeonic-temporal-known-offset'
-NEXT_TARGET = LANE + '-cts-v1-snapshot-0.1'
+NEXT_TARGET = LANE + '-cts-v1-snapshot-0.2'
+IMMUTABLE_TARGETS = {LANE + '-cts-v1-snapshot-0.1': '274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b'}  # Exact recognized manifest bytes.
 HELPERS = ['runners/run_aeonic_arithmetic.py', 'runners/run_aeonic_rational_arithmetic.py',
            'runners/temporal_civil_date_checks.py', 'runners/temporal_civil_datetime_checks.py',
            'runners/temporal_known_offset_checks.py']
@@ -28,8 +32,7 @@ HELPERS = ['runners/run_aeonic_arithmetic.py', 'runners/run_aeonic_rational_arit
 
 class Runner(CommonRunner):
     def __init__(self, args):
-        self.args = args; self.artifacts = {}; self.executions = self.assertions = 0
-        self.immutable = False
+        self.args = args; self.artifacts = {}; self.attempts = self.executions = self.assertions = 0
         self.strict_before_assertions = 0
         choice = getattr(args, 'capability_set', 'all')
         require(choice in {'relations', 'conversion', 'all'}, 'Unknown capability selection')
@@ -37,16 +40,21 @@ class Runner(CommonRunner):
         self.manifest_path = args.manifest.resolve()
         self.manifest = self.read(self.manifest_path)
         meta = self.manifest['meta']
-        require(meta['conformance'] == dict(surface='working-next', stable=False),
-                'Only the mutable working target is recognized')
+        self.immutable = meta['conformance'] == dict(surface='known-offset', stable=True, publication='local-only')
+        if self.immutable:
+            require(IMMUTABLE_TARGETS.get(meta['snapshot_id']) == self.artifacts[self.manifest_path],
+                    'Unrecognized or modified immutable known-offset target')
+        else:
+            require(meta['conformance'] == dict(surface='working-next', stable=False),
+                    'Expected mutable next or recognized immutable known-offset target')
         require(set(self.manifest) == {'meta', 'suites'}, 'Unknown manifest fields')
         require(set(meta) == {'version', 'lane', 'profile', 'capabilities', 'sut_protocol',
                 'conformance', 'description', 'snapshot_id', 'specification_schema',
                 'specification_source', 'binding_schema', 'helpers', 'resource_limits',
                 'specification_schema_sha256', 'specification_source_sha256',
-                'binding_schema_sha256', 'specification_revision'}, 'Unknown or missing target metadata')
-        require(meta['version'] == '0.1.0-dev.0' and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong target version/protocol')
-        require(meta['lane'] == LANE and meta['profile'] == PROFILE and meta['snapshot_id'] == NEXT_TARGET,
+                'binding_schema_sha256', 'specification_revision'} | ({'spec_snapshot_id'} if self.immutable else set()), 'Unknown or missing target metadata')
+        require(meta['version'] == ('0.1.0' if self.immutable else '0.2.0-dev.0') and meta['sut_protocol'] == 'cts.protocol.v1', 'Wrong target version/protocol')
+        require(meta['lane'] == LANE and meta['profile'] == PROFILE and (self.immutable or meta['snapshot_id'] == NEXT_TARGET),
                 'Wrong known-offset target identity')
         require(meta['capabilities'] == {k: dict(id=v[0], operations=list(v[1])) for k, v in CAPABILITIES.items()},
                 'Capability boundaries differ from the working contract')
@@ -252,7 +260,10 @@ class Runner(CommonRunner):
         envelope = dict(lane=LANE, case_id=case_id, fixture=fixture, policy=policy)
         self.binding_schema.validate(envelope)
         limits = self.limits(policy); envelope['policy'] = dict(resourceLimits=limits)
-        self.executions += 1; output = decode(self.execute(envelope))
+        self.attempts += 1
+        raw = self.execute(envelope)
+        self.executions += 1
+        output = decode(raw)
         require(isinstance(output, dict), 'Protocol output must be an object')
         actual = output.get('result'); self.validate_result(actual, limits)
         ok = actual['outcome'] == 'value'
@@ -312,7 +323,7 @@ class Runner(CommonRunner):
         except ValueError as error:
             coverage_valid = False
             failures.append(dict(id='required-coverage', failure=str(error)))
-        start_executions, start_assertions = self.executions, self.assertions
+        start_attempts, start_executions, start_assertions = self.attempts, self.executions, self.assertions
         start_before = self.strict_before_assertions
         expected_executions = sum(1 if t.get('kind', 'operation') == 'operation' else
             len(t['steps']) if t['kind'] == 'chain' else 3 * len(t['values']) ** 2 for t in self.tests)
@@ -336,12 +347,16 @@ class Runner(CommonRunner):
                 failures.append(dict(id='artifact-integrity', failure='Artifact changed during run: ' + path.name))
         return dict(status='failed' if failures else 'artifacts-validated' if check_only else 'passed',
                     target=self.manifest['meta']['snapshot_id'],
-                    target_status='mutable-working',
-                    stable_conformance_claim=False,
-                    semantic_execution=not check_only, complete_passing_execution=complete and not failures,
+                    target_status='immutable-local' if self.immutable else 'mutable-working',
+                    # Replies establish a protocol result, not how the provider
+                    # computed it. Genuine implementation qualification is external.
+                    stable_conformance_claim=False, semantic_execution=False,
+                    protocol_execution=self.executions > start_executions, provider_execution_verified=False,
+                    complete_passing_execution=complete and not failures,
                     capabilities=sorted(self.selected),
                     excluded_unclaimed_capability_cases=len(self.excluded), **counts,
-                    sut_executions=self.executions, assertions=self.assertions,
+                    sut_attempts=self.attempts - start_attempts,
+                    sut_executions=self.executions - start_executions, assertions=self.assertions - start_assertions,
                     strict_before_transitivity_assertions=self.strict_before_assertions - start_before,
                     manifest_sha256=self.artifacts[self.manifest_path], runner_sha256=self.artifacts[Path(__file__).resolve()],
                     specification_source_sha256=self.manifest['meta']['specification_source_sha256'],
@@ -349,10 +364,128 @@ class Runner(CommonRunner):
                     helper_hashes=self.manifest['meta']['helpers'], resource_limits=self.resource_limits,
                     sut=self.args.sut, cwd=str(self.args.cwd.resolve()), failures=failures)
 
+    @staticmethod
+    def report_entry_path(destination):
+        # stat() asks the filesystem to traverse the original path first.
+        # resolve() alone can incorrectly erase a file/.. or missing/.. step.
+        parent = destination.parent; missing = []
+        while True:
+            try:
+                info = parent.stat()
+            except FileNotFoundError:
+                # Only ordinary missing directory suffixes may be created.
+                # A missing traversal through '..' or a dangling link is invalid.
+                if parent.name in ('', '..') or parent.is_symlink():
+                    raise
+                missing.append(parent.name); parent = parent.parent
+            else:
+                require(stat.S_ISDIR(info.st_mode), 'Report parent must be a directory')
+                return parent.resolve(strict=True).joinpath(*reversed(missing), destination.name)
+
+    def validate_report_destination(self, destination):
+        # replace() changes the leaf entry, not a leaf symlink's referent. Check
+        # both, including entry paths reached through parent-directory symlinks.
+        # Resolve parent symlinks before '..', as the filesystem does. Lexical
+        # abspath() collapses '..' first and can name a different directory.
+        entry = self.report_entry_path(destination)
+        paths = {entry, destination.resolve()}
+        def inside(path, root):
+            if path == root or root in path.parents:
+                return True
+            # Filesystem identity also covers case aliases on case-insensitive
+            # hosts without treating the leaf referent as the replacement entry.
+            return root.exists() and any(parent.exists() and os.path.samefile(parent, root)
+                                         for parent in (path, *path.parents))
+        reserved = [ROOT / 'cts', ROOT / 'runners', self.args.specs_root]
+        for root in reserved:
+            require(not any(inside(path, root.resolve()) for path in paths),
+                    'Report destination overlaps an input tree')
+        for artifact in self.artifacts:
+            require(artifact.resolve() not in paths and
+                    not (destination.exists() and artifact.exists() and os.path.samefile(destination, artifact)),
+                    'Report destination overlaps a pinned input')
+        return entry
+
+    @staticmethod
+    def preserve_report_acl(source, target):
+        """Copy a macOS ACL; source=None clears only a failed staging file's ACL."""
+        if sys.platform != 'darwin':
+            return
+        # Darwin ACLs are not represented by stat's mode/owner/group fields.
+        # Copy the complete ACL, including an empty ACL, after chmod/chown.
+        import ctypes
+        import errno
+        library = ctypes.CDLL('/usr/lib/libSystem.B.dylib', use_errno=True)
+        library.acl_get_file.argtypes = [ctypes.c_char_p, ctypes.c_int]
+        library.acl_get_file.restype = ctypes.c_void_p
+        library.acl_set_file.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_void_p]
+        library.acl_set_file.restype = ctypes.c_int
+        library.acl_free.argtypes = [ctypes.c_void_p]
+        library.acl_free.restype = ctypes.c_int
+        library.acl_init.argtypes = [ctypes.c_int]
+        library.acl_init.restype = ctypes.c_void_p
+        acl_type_extended = 0x100  # Darwin <sys/acl.h> ACL_TYPE_EXTENDED.
+        acl = (library.acl_init(0) if source is None else
+               library.acl_get_file(os.fsencode(source), acl_type_extended))
+        if source is not None and not acl and ctypes.get_errno() == errno.ENOENT:
+            # Darwin also uses ENOENT when an existing file has no ACL.
+            # Confirm the file still exists, then explicitly clear inheritance.
+            source.stat()
+            acl = library.acl_init(0)
+        if not acl:
+            error = ctypes.get_errno()
+            raise OSError(error, 'Cannot read/initialize report ACL: ' + os.strerror(error),
+                          str(target if source is None else source))
+        try:
+            if library.acl_set_file(os.fsencode(target), acl_type_extended, acl) != 0:
+                error = ctypes.get_errno()
+                raise OSError(error, 'Cannot preserve report ACL: ' + os.strerror(error), str(target))
+        finally:
+            library.acl_free(acl)
+
+    def write_report(self, destination, text):
+        # Use the same physical parent for temporary-file creation and replace;
+        # tempfile itself may otherwise collapse a symlink/.. path lexically.
+        destination = self.validate_report_destination(destination)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            existing = destination.lstat()
+        except FileNotFoundError:
+            existing = None
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', newline='\n',
+                    dir=destination.parent, prefix='.known-offset-report-', delete=False) as stream:
+                temporary = Path(stream.name)
+                stream.write(text)
+            # Preserve who can read an existing regular report, not only its mode.
+            # If ownership cannot be retained, fail before replacing the original.
+            # A replaced symlink does not donate its referent's metadata.
+            if existing is not None and stat.S_ISREG(existing.st_mode):
+                if os.name == 'posix':
+                    os.chown(temporary, existing.st_uid, existing.st_gid)
+                # chown may clear permission bits, so restore them afterwards.
+                temporary.chmod(stat.S_IMODE(existing.st_mode))
+                self.preserve_report_acl(destination, temporary)
+            self.validate_report_destination(destination)
+            os.replace(temporary, destination)
+        finally:
+            if temporary is not None:
+                try:
+                    temporary.unlink(missing_ok=True)
+                except PermissionError:
+                    if sys.platform != 'darwin':
+                        raise
+                    # A copied delete-denial ACE can also block staging cleanup.
+                    # Clear only staging, never the original report's ACL. Once
+                    # removal succeeds, the original write error propagates.
+                    self.preserve_report_acl(None, temporary)
+                    temporary.unlink(missing_ok=True)
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json')
+    parser.add_argument('--manifest', type=Path, default=ROOT / 'cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.snapshot-0.1.json')
     parser.add_argument('--specs-root', type=Path, required=True)
     parser.add_argument('--capability-set', choices=['relations', 'conversion', 'all'], default='all')
     parser.add_argument('--check', action='store_true')
@@ -361,9 +494,12 @@ def main():
     args = parser.parse_args()
     require(args.check or args.sut, '--sut required unless --check selected')
     require(0 < args.timeout < float('inf'), 'Timeout must be positive and finite')
-    report = Runner(args).run(check_only=args.check); text = json.dumps(report, indent=2) + '\n'
+    runner = Runner(args)
     if args.report:
-        args.report.parent.mkdir(parents=True, exist_ok=True); args.report.write_text(text, encoding='utf-8')
+        runner.validate_report_destination(args.report)
+    report = runner.run(check_only=args.check); text = json.dumps(report, indent=2) + '\n'
+    if args.report:
+        runner.write_report(args.report, text)
     print(text, end=''); return 1 if report['status'] == 'failed' else 0
 
 

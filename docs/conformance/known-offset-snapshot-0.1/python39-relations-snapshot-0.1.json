@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "target": "aeonic-temporal-known-offset-cts-v1-snapshot-0.1",
+  "target_status": "immutable-local",
+  "stable_conformance_claim": false,
+  "semantic_execution": false,
+  "protocol_execution": true,
+  "provider_execution_verified": false,
+  "complete_passing_execution": true,
+  "capabilities": [
+    "relations"
+  ],
+  "excluded_unclaimed_capability_cases": 136,
+  "operation_cases": 87,
+  "chains": 0,
+  "law_groups": 1,
+  "sut_attempts": 135,
+  "sut_executions": 135,
+  "assertions": 195,
+  "strict_before_transitivity_assertions": 2,
+  "manifest_sha256": "274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b",
+  "runner_sha256": "cee9aa6588aa5a4866c150be95152c3fb8933713fda296a8b3c0767461f1fae1",
+  "specification_source_sha256": "54c089b38b08f25369d88880b0ff4326b097fe058830ed123c3ea2578fe193bb",
+  "specification_schema_sha256": "2ec8ff1fe00ad652186d99387edb90d89e37a810bf38e27f3d2ca0d21dbb7fa4",
+  "helper_hashes": {
+    "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+    "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+    "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+    "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f",
+    "runners/temporal_known_offset_checks.py": "9f9c14ed5ea0ec6cff8528443a42bdfbf2b3ef0eeae7748fdd286fab638ab4ae"
+  },
+  "resource_limits": {
+    "maxRequestBytes": 65536,
+    "maxRequestDepth": 32,
+    "maxTemporalCharacters": 1024,
+    "maxInputPieces": 1024,
+    "maxIntermediatePieces": 1024,
+    "maxOutputPieces": 1024,
+    "maxWork": 2048,
+    "maxFractionDigits": 256,
+    "maxResultBytes": 262144
+  },
+  "sut": "python3 implementations/python/temporal_known_offset.py --capability-set relations",
+  "cwd": ".",
+  "failures": []
+}

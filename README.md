@@ -411,6 +411,32 @@ The [known-offset lane](docs/protocol/v1/lane-aeonic-temporal-known-offset.md)
 adds mutable coverage for independent complete Conversion and Relations
 capabilities. Its 224 cases cover exact framed sets, original offset/history
 preservation, aggregate limits, deterministic diagnostics, returned-value chains
-and relation laws. `run_aeonic_temporal_known_offset.py --specs-root ... --check`
-validates artifacts without executing a SUT or making a stable conformance claim.
-No immutable capture, implementation or native-capacity claim is added.
+and relation laws. Select the mutable target explicitly:
+
+```sh
+python3 runners/run_aeonic_temporal_known_offset.py --specs-root ../aeonite-specs --manifest cts/aeonic-temporal-known-offset/v1/aeonic-temporal-known-offset-cts.v1.next.json --check
+```
+
+This validates next without executing a SUT or making a stable conformance claim.
+Omitting `--manifest` selects frozen 0.1, described below.
+
+
+## Known-offset coordinate snapshot 0.1
+
+The [known-offset lane](docs/protocol/v1/lane-aeonic-temporal-known-offset.md)
+now defaults to the exact byte-recognized immutable local snapshot 0.1. Its six
+isolated suites preserve all 224 reviewed cases and the independent Conversion /
+Relations boundaries. The [capture record](docs/conformance/known-offset-snapshot-0.1.md)
+retains complete protocol reports and separate reviewed-source/provider
+qualification for the merged JavaScript/Python implementations, including
+capability-restricted and separate mutable-next runs. Mutable next advances to 0.2;
+artifact checks, replay, failed/incomplete/mutable runs and native capacity probes
+cannot establish a stable snapshot claim. Existing snapshots are unchanged;
+consumer adoption and releases remain separate.
+
+
+Known-offset runner reports never automatically assert semantic or stable
+conformance: a stored-answer subprocess can pass the same protocol checks.
+The capture record separates controlled genuine-provider execution and reviewed
+source/report fingerprints from those raw results. Follow the lane guide's
+qualification boundary when adopting the immutable snapshot.
