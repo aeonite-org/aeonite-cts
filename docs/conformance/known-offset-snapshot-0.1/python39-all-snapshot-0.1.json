@@ -15,11 +15,12 @@
   "operation_cases": 221,
   "chains": 2,
   "law_groups": 1,
+  "sut_attempts": 274,
   "sut_executions": 274,
   "assertions": 334,
   "strict_before_transitivity_assertions": 2,
   "manifest_sha256": "274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b",
-  "runner_sha256": "e10e4c8814dd9ebdb6362b5bc9524f7849ecce92d39a1cf929f5c5a77d4686c1",
+  "runner_sha256": "98bfdb62aa71f05aa6bf48f578823fe791564fb9680661c2a3519153598fba30",
   "specification_source_sha256": "54c089b38b08f25369d88880b0ff4326b097fe058830ed123c3ea2578fe193bb",
   "specification_schema_sha256": "2ec8ff1fe00ad652186d99387edb90d89e37a810bf38e27f3d2ca0d21dbb7fa4",
   "helper_hashes": {

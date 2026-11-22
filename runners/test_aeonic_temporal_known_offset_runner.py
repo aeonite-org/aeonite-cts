@@ -501,6 +501,7 @@ class KnownOffsetRunnerTests(unittest.TestCase):
                 self.assertEqual(report['target'],verification['target'])
                 self.assertEqual(report['capabilities'],['conversion','relations'] if cap=='all' else [cap])
                 self.assertEqual(report['sut_executions'],{'all':274,'conversion':147,'relations':135}[cap])
+                self.assertEqual(report['sut_attempts'],report['sut_executions'])
                 self.assertEqual(report['assertions'],{'all':334,'conversion':147,'relations':195}[cap])
                 self.assertEqual(report['strict_before_transitivity_assertions'],0 if cap=='conversion' else 2)
                 for name in ['manifest_sha256','runner_sha256','specification_source_sha256','specification_schema_sha256']:
@@ -599,5 +600,67 @@ class KnownOffsetRunnerTests(unittest.TestCase):
             child=subprocess.run([sys.executable,*args],text=True,capture_output=True,timeout=20)
             self.assertEqual(child.returncode,2);self.assertIn('Wrong target version',child.stderr)
             self.assertEqual(Runner(self.frozen_args()).run(True)['status'],'artifacts-validated')
+
+    def test_protected_output_entries_reject_outgoing_and_dangling_links(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);cts=folder/'cts';owner=folder/'owner'
+            shutil.copytree(ROOT,cts,ignore=shutil.ignore_patterns('.git','__pycache__'))
+            frozen=Runner(self.frozen_args());moving=Runner(self.args)
+            for runner in (frozen,moving):
+                for key in ('specification_source','specification_schema'):
+                    relative=runner.manifest['meta'][key];target=owner/relative
+                    target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(SPECS/relative,target)
+            lane=cts/'cts'/LANE/'v1';outside=folder/'external-lane';shutil.copytree(lane,outside)
+            entry=lane/self.args.manifest.name;entry.unlink();referent=outside/entry.name
+            entry.symlink_to(referent)
+            directory_alias=folder/'lane-alias';directory_alias.symlink_to(lane,target_is_directory=True)
+            base=[sys.executable,str(cts/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(owner),'--check']
+            def check_next():
+                result=subprocess.run([*base,'--manifest',str(entry)],text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,0,result.stderr)
+            check_next();before=referent.read_bytes()
+            entries=[entry,directory_alias/entry.name]
+            case_alias=cts/'CTS'/LANE/'v1'/entry.name
+            if case_alias.exists():entries.append(case_alias)
+            dangling=[]
+            for root in (cts/'runners',owner):
+                link=root/'dangling-report.json';link.symlink_to(folder/'absent.json');dangling.append(link)
+            for destination in [*entries,*dangling]:
+                result=subprocess.run([*base,'--report',str(destination)],text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,2,result.stdout);self.assertIn('overlaps',result.stderr)
+                self.assertTrue(destination.is_symlink());self.assertEqual(referent.read_bytes(),before);check_next()
+            # A separate output link can be replaced without changing its referent.
+            target=folder/'outside.txt';target.write_text('unchanged');output=folder/'report.json';output.symlink_to(target)
+            result=subprocess.run([*base,'--report',str(output)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr);self.assertFalse(output.is_symlink())
+            self.assertEqual(target.read_text(),'unchanged');self.assertEqual(json.loads(output.read_text())['status'],'artifacts-validated')
+            # The same protected leaf entry must reject when its referent is absent.
+            referent.unlink()
+            result=subprocess.run([*base,'--report',str(entry)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,2);self.assertTrue(entry.is_symlink());self.assertFalse(referent.exists())
+
+    def test_missing_adapter_launch_reports_attempts_without_protocol_execution(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);missing=folder/'missing-adapter';report=folder/'report.json'
+            command=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--sut',shlex.join([str(missing)]),'--report',str(report)]
+            result=subprocess.run(command,text=True,capture_output=True,timeout=30)
+            self.assertEqual(result.returncode,1,result.stderr);data=json.loads(report.read_text())
+            self.assertEqual(data,json.loads(result.stdout));self.assertEqual(data['status'],'failed')
+            self.assertGreater(data['sut_attempts'],0);self.assertEqual(data['sut_executions'],0);self.assertEqual(data['assertions'],0)
+            self.assertFalse(data['protocol_execution']);self.assertFalse(data['complete_passing_execution'])
+            self.assertFalse(data['semantic_execution']);self.assertFalse(data['stable_conformance_claim'])
+
+    def test_execution_flags_and_counts_are_local_to_each_run(self):
+        r=Runner(self.frozen_args('conversion'));case=next(t for t in r.tests if t.get('kind','operation')=='operation')
+        with patch.object(r,'execute',return_value=self.output(case['expected'])):r.operation(case)
+        self.assertEqual(r.executions,1)
+        for error in (FileNotFoundError('missing adapter'),subprocess.TimeoutExpired('adapter',0.01),ValueError('SUT harness failure')):
+            with patch.object(r,'execute',side_effect=error):report=r.run()
+            self.assertEqual(report['status'],'failed');self.assertGreater(report['sut_attempts'],0)
+            self.assertEqual(report['sut_executions'],0);self.assertEqual(report['assertions'],0)
+            self.assertFalse(report['protocol_execution']);self.assertFalse(report['complete_passing_execution'])
+        checked=r.run(True)
+        self.assertEqual(checked['sut_attempts'],0);self.assertEqual(checked['sut_executions'],0)
+        self.assertEqual(checked['assertions'],0);self.assertFalse(checked['protocol_execution'])
 
 if __name__=='__main__':unittest.main()

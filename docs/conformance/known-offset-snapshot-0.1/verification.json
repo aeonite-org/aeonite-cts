@@ -35,7 +35,7 @@
     "docs/temporal-known-offset.md": "568caa5bacb4e111b4eed115d714fbd9870a83fcb3d4d08cb4e589a4cfe81769"
   },
   "manifest_sha256": "274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b",
-  "runner_sha256": "e10e4c8814dd9ebdb6362b5bc9524f7849ecce92d39a1cf929f5c5a77d4686c1",
+  "runner_sha256": "98bfdb62aa71f05aa6bf48f578823fe791564fb9680661c2a3519153598fba30",
   "specification_source_sha256": "54c089b38b08f25369d88880b0ff4326b097fe058830ed123c3ea2578fe193bb",
   "specification_schema_sha256": "2ec8ff1fe00ad652186d99387edb90d89e37a810bf38e27f3d2ca0d21dbb7fa4",
   "helpers": {
@@ -75,9 +75,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "javascript-all-snapshot-0.1.json": "892191b58352b4947ce499dab5c7cdaef0ab074855ed661e4c0943fad22c1866",
-          "javascript-conversion-snapshot-0.1.json": "97938c72237a910a9344634844808846a307aef9d86ef7bc95e7db70fa2a8291",
-          "javascript-relations-snapshot-0.1.json": "798f945a69e08388b1a5dc5616dea1836721646a4c406f826e8d8c2b073c18ed"
+          "javascript-all-snapshot-0.1.json": "d0a66c750d823dcf110960f806e282333de344250043e0839918f327cd8298c4",
+          "javascript-conversion-snapshot-0.1.json": "c196f60845130496a00b7ef7681fca333b315d3a4f3ce85e34c165eaad36919b",
+          "javascript-relations-snapshot-0.1.json": "120e435dc02e1d52b6db0a63b3416a27b078665f382bd08ae1055bf00a1c4783"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -102,9 +102,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "python39-all-snapshot-0.1.json": "0a8ef1a05becb731f072303c8d73a3b8ac343ec5b0b7bf72da8df71c2df7562f",
-          "python39-conversion-snapshot-0.1.json": "acb2597171ee1c9952316c148006eb117df8c5514de800cac81753e4124ab869",
-          "python39-relations-snapshot-0.1.json": "dce0617d7c35f2206c99c161c3b512a25b5a40c1e21b118cd0351591cfcd8fae"
+          "python39-all-snapshot-0.1.json": "c6acdb71b9d5cb83ff9d0587ada4c2e9edaa580cf5de1681cfd9c3841e8c0daa",
+          "python39-conversion-snapshot-0.1.json": "612954a2ffc88405e134f480bf5a37941c0a3e86fa6fad3bd0079ed5999f9ac4",
+          "python39-relations-snapshot-0.1.json": "d964f8cfd15caa4606c3aa921363a1475d3ff44dfa480be435bc233989cc38d9"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -129,9 +129,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "python314-all-snapshot-0.1.json": "0a8ef1a05becb731f072303c8d73a3b8ac343ec5b0b7bf72da8df71c2df7562f",
-          "python314-conversion-snapshot-0.1.json": "acb2597171ee1c9952316c148006eb117df8c5514de800cac81753e4124ab869",
-          "python314-relations-snapshot-0.1.json": "dce0617d7c35f2206c99c161c3b512a25b5a40c1e21b118cd0351591cfcd8fae"
+          "python314-all-snapshot-0.1.json": "c6acdb71b9d5cb83ff9d0587ada4c2e9edaa580cf5de1681cfd9c3841e8c0daa",
+          "python314-conversion-snapshot-0.1.json": "612954a2ffc88405e134f480bf5a37941c0a3e86fa6fad3bd0079ed5999f9ac4",
+          "python314-relations-snapshot-0.1.json": "d964f8cfd15caa4606c3aa921363a1475d3ff44dfa480be435bc233989cc38d9"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -140,20 +140,20 @@
     }
   },
   "report_sha256": {
-    "javascript-all-snapshot-0.1.json": "892191b58352b4947ce499dab5c7cdaef0ab074855ed661e4c0943fad22c1866",
-    "javascript-conversion-snapshot-0.1.json": "97938c72237a910a9344634844808846a307aef9d86ef7bc95e7db70fa2a8291",
-    "javascript-relations-snapshot-0.1.json": "798f945a69e08388b1a5dc5616dea1836721646a4c406f826e8d8c2b073c18ed",
-    "javascript-all-next-0.2.json": "452700db723d90853f20d458eef019c1291d47b08134b240145888e9af75248a",
+    "javascript-all-snapshot-0.1.json": "d0a66c750d823dcf110960f806e282333de344250043e0839918f327cd8298c4",
+    "javascript-conversion-snapshot-0.1.json": "c196f60845130496a00b7ef7681fca333b315d3a4f3ce85e34c165eaad36919b",
+    "javascript-relations-snapshot-0.1.json": "120e435dc02e1d52b6db0a63b3416a27b078665f382bd08ae1055bf00a1c4783",
+    "javascript-all-next-0.2.json": "0f4e390ca92d37279dc3e16751bbaa607d45b9154b535feac1b01f045c85cd70",
     "javascript-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python39-all-snapshot-0.1.json": "0a8ef1a05becb731f072303c8d73a3b8ac343ec5b0b7bf72da8df71c2df7562f",
-    "python39-conversion-snapshot-0.1.json": "acb2597171ee1c9952316c148006eb117df8c5514de800cac81753e4124ab869",
-    "python39-relations-snapshot-0.1.json": "dce0617d7c35f2206c99c161c3b512a25b5a40c1e21b118cd0351591cfcd8fae",
-    "python39-all-next-0.2.json": "478fdf0d7451b5429ed41f6ef53ed2ed7091949dee31e7111a5a056813164762",
+    "python39-all-snapshot-0.1.json": "c6acdb71b9d5cb83ff9d0587ada4c2e9edaa580cf5de1681cfd9c3841e8c0daa",
+    "python39-conversion-snapshot-0.1.json": "612954a2ffc88405e134f480bf5a37941c0a3e86fa6fad3bd0079ed5999f9ac4",
+    "python39-relations-snapshot-0.1.json": "d964f8cfd15caa4606c3aa921363a1475d3ff44dfa480be435bc233989cc38d9",
+    "python39-all-next-0.2.json": "d13ae1728a4732ea9a61a04f5a0b659b69184a2e24029ca3cafee176c03a4367",
     "python39-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python314-all-snapshot-0.1.json": "0a8ef1a05becb731f072303c8d73a3b8ac343ec5b0b7bf72da8df71c2df7562f",
-    "python314-conversion-snapshot-0.1.json": "acb2597171ee1c9952316c148006eb117df8c5514de800cac81753e4124ab869",
-    "python314-relations-snapshot-0.1.json": "dce0617d7c35f2206c99c161c3b512a25b5a40c1e21b118cd0351591cfcd8fae",
-    "python314-all-next-0.2.json": "478fdf0d7451b5429ed41f6ef53ed2ed7091949dee31e7111a5a056813164762",
+    "python314-all-snapshot-0.1.json": "c6acdb71b9d5cb83ff9d0587ada4c2e9edaa580cf5de1681cfd9c3841e8c0daa",
+    "python314-conversion-snapshot-0.1.json": "612954a2ffc88405e134f480bf5a37941c0a3e86fa6fad3bd0079ed5999f9ac4",
+    "python314-relations-snapshot-0.1.json": "d964f8cfd15caa4606c3aa921363a1475d3ff44dfa480be435bc233989cc38d9",
+    "python314-all-next-0.2.json": "d13ae1728a4732ea9a61a04f5a0b659b69184a2e24029ca3cafee176c03a4367",
     "python314-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91"
   },
   "verification_limits": [
@@ -165,8 +165,8 @@
     "Consumer command defaults, claim files and publication are unchanged by capture. Owning snapshot merge precedes explicit implementation adoption."
   ],
   "harness_verification": {
-    "focused_tests_per_python_version": 50,
-    "full_runner_tests_per_python_version": 233,
+    "focused_tests_per_python_version": 53,
+    "full_runner_tests_per_python_version": 236,
     "python_versions": [
       "3.9.6",
       "3.14.3"
@@ -235,6 +235,30 @@
         "README next command rejects invalid mutable target while frozen remains valid"
       ],
       "providers": "Fresh complete/restricted frozen, separate next and default-capacity runs on Node24 and Python3.9/3.14; provider revision and all retained source fingerprints checked before/after actual commands."
+    }
+  },
+  "author_qa_followup": {
+    "reviewed_head": "27c074e61708be73c15a81897ebfbd6ac92dd601",
+    "findings": [
+      "QA-2026-0219",
+      "QA-2026-0220"
+    ],
+    "scope": "Author fixes only; independent QA verification remains separate. Report validation protects the replacement entry and referent, including parent and case aliases. Attempts, returned transports and assertions are counted per run; failed launches do not indicate protocol execution. Frozen assets, provider code, helper bytes and operation semantics are unchanged.",
+    "verification": {
+      "focused_tests_per_python_version": 53,
+      "all_runner_tests_per_python_version": 236,
+      "python_versions": [
+        "3.9.6",
+        "3.14.3"
+      ],
+      "controls": [
+        "Outgoing and dangling protected leaf links retain their entries and referents; next validation remains valid after rejection.",
+        "Parent-directory aliases and case aliases where supported cannot route report replacement into protected trees.",
+        "Separate output links can be atomically replaced while external referents remain unchanged.",
+        "Missing adapter launch reports attempts, zero returned transports/zero assertions and protocol_execution false.",
+        "Reused runner instances report run-local attempts, returned calls and assertions; launch/timeout/nonzero failures do not reuse earlier execution evidence."
+      ],
+      "providers": "Fresh frozen complete/restricted, separate next and 19 default probes per runtime on Node24 and Python3.9/3.14, with reviewed source fingerprints checked before/after actual commands."
     }
   }
 }

@@ -31,7 +31,7 @@ HELPERS = ['runners/run_aeonic_arithmetic.py', 'runners/run_aeonic_rational_arit
 
 class Runner(CommonRunner):
     def __init__(self, args):
-        self.args = args; self.artifacts = {}; self.executions = self.assertions = 0
+        self.args = args; self.artifacts = {}; self.attempts = self.executions = self.assertions = 0
         self.strict_before_assertions = 0
         choice = getattr(args, 'capability_set', 'all')
         require(choice in {'relations', 'conversion', 'all'}, 'Unknown capability selection')
@@ -259,7 +259,10 @@ class Runner(CommonRunner):
         envelope = dict(lane=LANE, case_id=case_id, fixture=fixture, policy=policy)
         self.binding_schema.validate(envelope)
         limits = self.limits(policy); envelope['policy'] = dict(resourceLimits=limits)
-        self.executions += 1; output = decode(self.execute(envelope))
+        self.attempts += 1
+        raw = self.execute(envelope)
+        self.executions += 1
+        output = decode(raw)
         require(isinstance(output, dict), 'Protocol output must be an object')
         actual = output.get('result'); self.validate_result(actual, limits)
         ok = actual['outcome'] == 'value'
@@ -319,7 +322,7 @@ class Runner(CommonRunner):
         except ValueError as error:
             coverage_valid = False
             failures.append(dict(id='required-coverage', failure=str(error)))
-        start_executions, start_assertions = self.executions, self.assertions
+        start_attempts, start_executions, start_assertions = self.attempts, self.executions, self.assertions
         start_before = self.strict_before_assertions
         expected_executions = sum(1 if t.get('kind', 'operation') == 'operation' else
             len(t['steps']) if t['kind'] == 'chain' else 3 * len(t['values']) ** 2 for t in self.tests)
@@ -347,11 +350,12 @@ class Runner(CommonRunner):
                     # Replies establish a protocol result, not how the provider
                     # computed it. Genuine implementation qualification is external.
                     stable_conformance_claim=False, semantic_execution=False,
-                    protocol_execution=not check_only, provider_execution_verified=False,
+                    protocol_execution=self.executions > start_executions, provider_execution_verified=False,
                     complete_passing_execution=complete and not failures,
                     capabilities=sorted(self.selected),
                     excluded_unclaimed_capability_cases=len(self.excluded), **counts,
-                    sut_executions=self.executions, assertions=self.assertions,
+                    sut_attempts=self.attempts - start_attempts,
+                    sut_executions=self.executions - start_executions, assertions=self.assertions - start_assertions,
                     strict_before_transitivity_assertions=self.strict_before_assertions - start_before,
                     manifest_sha256=self.artifacts[self.manifest_path], runner_sha256=self.artifacts[Path(__file__).resolve()],
                     specification_source_sha256=self.manifest['meta']['specification_source_sha256'],
@@ -360,13 +364,24 @@ class Runner(CommonRunner):
                     sut=self.args.sut, cwd=str(self.args.cwd.resolve()), failures=failures)
 
     def validate_report_destination(self, destination):
-        path = destination.resolve()
+        # replace() changes the leaf entry, not a leaf symlink's referent. Check
+        # both, including entry paths reached through parent-directory symlinks.
+        paths = {Path(os.path.abspath(destination)),
+                 destination.parent.resolve() / destination.name, destination.resolve()}
+        def inside(path, root):
+            if path == root or root in path.parents:
+                return True
+            # Filesystem identity also covers case aliases on case-insensitive
+            # hosts without treating the leaf referent as the replacement entry.
+            return root.exists() and any(parent.exists() and os.path.samefile(parent, root)
+                                         for parent in (path, *path.parents))
         reserved = [ROOT / 'cts', ROOT / 'runners', self.args.specs_root]
         for root in reserved:
-            root = root.resolve()
-            require(path != root and root not in path.parents, 'Report destination overlaps an input tree')
+            for location in {Path(os.path.abspath(root)), root.resolve()}:
+                require(not any(inside(path, location) for path in paths),
+                        'Report destination overlaps an input tree')
         for artifact in self.artifacts:
-            require(path != artifact.resolve() and
+            require(artifact.resolve() not in paths and
                     not (destination.exists() and artifact.exists() and os.path.samefile(destination, artifact)),
                     'Report destination overlaps a pinned input')
 

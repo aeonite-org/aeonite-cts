@@ -109,8 +109,13 @@ not a combined capacity floor, arbitrary native-object or process quota.
 The runner observes requests and replies, not the implementation that produced
 them. A stored-answer subprocess can pass the complete protocol suite. Therefore
 raw reports always set `stable_conformance_claim`, `semantic_execution` and
-`provider_execution_verified` to false. `protocol_execution` records whether a
-SUT command was invoked; `complete_passing_execution` records complete successful
+`provider_execution_verified` to false. `sut_attempts` counts adapter transport
+attempts; `sut_executions` counts calls that returned captured output successfully.
+`protocol_execution` is true only when at least one such call returned during the
+current run. Failed launches do not count as executions. A returned malformed
+reply can count as execution while validation still fails; a launch, timeout or
+nonzero-exit failure alone cannot set the flag. Counts are per run, including on
+reused runner instances. `complete_passing_execution` records complete successful
 protocol checking. Those fields do not authenticate genuine computation, even
 for a recognized immutable manifest. There is no CLI flag that upgrades replies
 to a semantic claim.
@@ -125,7 +130,10 @@ record. Future implementation adoption must retain both the protocol reports
 and the provider qualification, without treating a bare harness pass as proof.
 
 `--report` may not overlap pinned inputs (including symlink/hard-link aliases),
-the specification input tree, or CTS/runner input directories. It is checked
+the specification input tree, or CTS/runner input directories. The replacement
+entry and its referent are both checked, including parent-directory aliases and
+dangling leaf links. A link inside an input directory cannot be replaced by a
+report even when its referent is outside that directory. It is checked
 before SUT execution and again before an atomic report replacement. Use a separate
 output directory, such as `docs/conformance/` or an external results directory.
 

@@ -46,9 +46,9 @@ snapshots remain unchanged. No package release, SANSA/Query/Rust adoption, physi
 UTC alignment, timezone/WTC authority or elapsed-time resolution is introduced.
 
 
-All 50 focused snapshot/harness tests pass on Python 3.9 and 3.14, including
+All 53 focused snapshot/harness tests pass on Python 3.9 and 3.14, including
 manifest mutations, immutable isolation, missing executions, wrong responses,
-artifact-only gates and generator preservation. All 233 runner regressions pass
+artifact-only gates and generator preservation. All 236 runner regressions pass
 in isolated CI-layout fixtures on both runtimes. The older comparison-next unit
 suite receives its separately pinned historical source/schema in that disposable
 fixture; known-offset inputs retain the exact new owning revision. No comparison
@@ -62,3 +62,12 @@ bytes, actual provider commands and the regenerated report hashes; no independen
 QA closure is inferred. Capture-time projections no longer compare frozen assets
 with changing live next fixtures. Report/input aliases reject before execution,
 and a real clean Git CRLF conversion control validates the frozen target.
+
+
+The report guard checks both the replacement entry and its referent, including
+parent aliases and outgoing/dangling links inside input trees. A rejected report
+cannot replace next's link; next remains independently valid. Run counters now
+separate attempted transports from returned calls. Failed launches have no
+protocol execution, and reused runners cannot borrow a previous run's evidence.
+These are harness corrections; frozen contract/provider/helper bytes and operation
+semantics are unchanged. Independent fix verification remains separate.
