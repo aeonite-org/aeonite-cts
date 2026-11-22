@@ -88,11 +88,11 @@ jobs:
           ref: e772651a6e2c4ad3c0ce4651d116da7e1bc696d0
           path: aeos-property-specs
 
-      - name: Checkout known-offset working specification dependency
+      - name: Checkout known-offset snapshot and working specification dependency
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: aeonite-org/aeonite-specs
-          ref: 427254696af1c1e38898b0c5b8c6158b745cb2ff
+          ref: 3cf609130fd1f9fea719f7e1c01703c7e2a09271
           path: known-offset-specs
 
       - name: Install semantic runner dependencies
