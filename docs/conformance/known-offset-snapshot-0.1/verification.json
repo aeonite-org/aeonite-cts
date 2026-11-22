@@ -35,7 +35,7 @@
     "docs/temporal-known-offset.md": "568caa5bacb4e111b4eed115d714fbd9870a83fcb3d4d08cb4e589a4cfe81769"
   },
   "manifest_sha256": "274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b",
-  "runner_sha256": "8068ec1b2a6c83ebe8a14f568faf20dbe0548ca857bf14a96559948a7b4998f9",
+  "runner_sha256": "32ca212324fe53c21152a5e13232142d3488b13a79c4b4340d72efc35b92378c",
   "specification_source_sha256": "54c089b38b08f25369d88880b0ff4326b097fe058830ed123c3ea2578fe193bb",
   "specification_schema_sha256": "2ec8ff1fe00ad652186d99387edb90d89e37a810bf38e27f3d2ca0d21dbb7fa4",
   "helpers": {
@@ -75,9 +75,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "javascript-all-snapshot-0.1.json": "c5c609578f0056c80a071e486880c8f5225ee37f3c126a07ff7f9799205db996",
-          "javascript-conversion-snapshot-0.1.json": "19da8ca49ab16ea7672e39bcb696d0f8865722767edca77d9c83c55c4ebba942",
-          "javascript-relations-snapshot-0.1.json": "1ecd10854ccd92e5afffd5e8fe1269ab20abd1780e34cb09b98c197a14b3de69"
+          "javascript-all-snapshot-0.1.json": "203305c4f2c38a709ba89f2b61f952fddef211c55486e044e9c4de5ff3a550a2",
+          "javascript-conversion-snapshot-0.1.json": "8d6ce94f37ece6df19e3efbac63e8e3f78b8f5c6d941d4d3342c4bc849e695d5",
+          "javascript-relations-snapshot-0.1.json": "a2a721a8c00c08d4b9a9c851f38943e30d70079a9faa72a64f3c227a2b708696"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -102,9 +102,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "python39-all-snapshot-0.1.json": "4efc18b48b9d87cae005bd8b2efd6dab6257c864b42c0e79b9a2e958919e54b8",
-          "python39-conversion-snapshot-0.1.json": "90bb2aae390fbc005c55c9f61dee3f291e3baa4c46abfcd05b8fd8f4bbc28da5",
-          "python39-relations-snapshot-0.1.json": "3d2a61a11c1bdc008f9e503efc5e8a2b5e3b7f7a2e5f067a3ac1e3cbaf287425"
+          "python39-all-snapshot-0.1.json": "0d397db36422f7d276629d4aeffab3b04237c7746d30c7a9210240a75ccaabec",
+          "python39-conversion-snapshot-0.1.json": "8320a13c31396672b97865cda9dfb389cfe85a8bb70cf50c72e777ec81634465",
+          "python39-relations-snapshot-0.1.json": "99f08edc3dc0ae1d29ab0f3a651ec6d69c314ff92af759915f69f4cb559db7cd"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -129,9 +129,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "python314-all-snapshot-0.1.json": "4efc18b48b9d87cae005bd8b2efd6dab6257c864b42c0e79b9a2e958919e54b8",
-          "python314-conversion-snapshot-0.1.json": "90bb2aae390fbc005c55c9f61dee3f291e3baa4c46abfcd05b8fd8f4bbc28da5",
-          "python314-relations-snapshot-0.1.json": "3d2a61a11c1bdc008f9e503efc5e8a2b5e3b7f7a2e5f067a3ac1e3cbaf287425"
+          "python314-all-snapshot-0.1.json": "0d397db36422f7d276629d4aeffab3b04237c7746d30c7a9210240a75ccaabec",
+          "python314-conversion-snapshot-0.1.json": "8320a13c31396672b97865cda9dfb389cfe85a8bb70cf50c72e777ec81634465",
+          "python314-relations-snapshot-0.1.json": "99f08edc3dc0ae1d29ab0f3a651ec6d69c314ff92af759915f69f4cb559db7cd"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -140,20 +140,20 @@
     }
   },
   "report_sha256": {
-    "javascript-all-snapshot-0.1.json": "c5c609578f0056c80a071e486880c8f5225ee37f3c126a07ff7f9799205db996",
-    "javascript-conversion-snapshot-0.1.json": "19da8ca49ab16ea7672e39bcb696d0f8865722767edca77d9c83c55c4ebba942",
-    "javascript-relations-snapshot-0.1.json": "1ecd10854ccd92e5afffd5e8fe1269ab20abd1780e34cb09b98c197a14b3de69",
-    "javascript-all-next-0.2.json": "f0e291f2e85ccb6c7018f054d3df694ad3201d1819d1dbdf8f4c8bd4a6391ea0",
+    "javascript-all-snapshot-0.1.json": "203305c4f2c38a709ba89f2b61f952fddef211c55486e044e9c4de5ff3a550a2",
+    "javascript-conversion-snapshot-0.1.json": "8d6ce94f37ece6df19e3efbac63e8e3f78b8f5c6d941d4d3342c4bc849e695d5",
+    "javascript-relations-snapshot-0.1.json": "a2a721a8c00c08d4b9a9c851f38943e30d70079a9faa72a64f3c227a2b708696",
+    "javascript-all-next-0.2.json": "9d63ec5d06d78f7e90b48288cc797301f375d654a6a92c5b8df6b23bba31df2f",
     "javascript-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python39-all-snapshot-0.1.json": "4efc18b48b9d87cae005bd8b2efd6dab6257c864b42c0e79b9a2e958919e54b8",
-    "python39-conversion-snapshot-0.1.json": "90bb2aae390fbc005c55c9f61dee3f291e3baa4c46abfcd05b8fd8f4bbc28da5",
-    "python39-relations-snapshot-0.1.json": "3d2a61a11c1bdc008f9e503efc5e8a2b5e3b7f7a2e5f067a3ac1e3cbaf287425",
-    "python39-all-next-0.2.json": "4cc8ea5bd1980a4e15b2766abbe1a5f2d902f57272954447857e41f9bb0e5325",
+    "python39-all-snapshot-0.1.json": "0d397db36422f7d276629d4aeffab3b04237c7746d30c7a9210240a75ccaabec",
+    "python39-conversion-snapshot-0.1.json": "8320a13c31396672b97865cda9dfb389cfe85a8bb70cf50c72e777ec81634465",
+    "python39-relations-snapshot-0.1.json": "99f08edc3dc0ae1d29ab0f3a651ec6d69c314ff92af759915f69f4cb559db7cd",
+    "python39-all-next-0.2.json": "a1c15b3398251a0e5aae8eee7c9483a5a314c91e68fc7b3cb74d93b534c235c0",
     "python39-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python314-all-snapshot-0.1.json": "4efc18b48b9d87cae005bd8b2efd6dab6257c864b42c0e79b9a2e958919e54b8",
-    "python314-conversion-snapshot-0.1.json": "90bb2aae390fbc005c55c9f61dee3f291e3baa4c46abfcd05b8fd8f4bbc28da5",
-    "python314-relations-snapshot-0.1.json": "3d2a61a11c1bdc008f9e503efc5e8a2b5e3b7f7a2e5f067a3ac1e3cbaf287425",
-    "python314-all-next-0.2.json": "4cc8ea5bd1980a4e15b2766abbe1a5f2d902f57272954447857e41f9bb0e5325",
+    "python314-all-snapshot-0.1.json": "0d397db36422f7d276629d4aeffab3b04237c7746d30c7a9210240a75ccaabec",
+    "python314-conversion-snapshot-0.1.json": "8320a13c31396672b97865cda9dfb389cfe85a8bb70cf50c72e777ec81634465",
+    "python314-relations-snapshot-0.1.json": "99f08edc3dc0ae1d29ab0f3a651ec6d69c314ff92af759915f69f4cb559db7cd",
+    "python314-all-next-0.2.json": "a1c15b3398251a0e5aae8eee7c9483a5a314c91e68fc7b3cb74d93b534c235c0",
     "python314-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91"
   },
   "verification_limits": [
@@ -281,6 +281,29 @@
         "Direct, absolute symlink/dot-dot and relative symlink/dot-dot destinations create the same permitted external report.",
         "Reverse symlink/dot-dot traversal into protected input rejects without replacing its bytes.",
         "Earlier protected leaf, parent, dangling, hard-link and case-alias controls still pass."
+      ],
+      "providers": "Fresh frozen complete/restricted, separate next and 19 default probes per runtime on Node24 and Python3.9/3.14, with reviewed source fingerprints checked before/after actual commands."
+    }
+  },
+  "author_report_path_ownership_followup": {
+    "reviewed_head": "f0964a25b1e5986ef70d445e56af00b2d53e7461",
+    "findings": [
+      "QA-2026-0227",
+      "QA-2026-0228"
+    ],
+    "scope": "Author fixes only; independent QA verification remains separate. Original parent traversal must succeed before path normalization; ordinary missing directory suffixes may be created. Existing regular reports retain POSIX owner/group and permission bits, with failure before replacement if ownership cannot be retained. Frozen assets, provider code, helper bytes and operation semantics are unchanged.",
+    "verification": {
+      "focused_tests_per_python_version": 58,
+      "all_runner_tests_per_python_version": 241,
+      "python_versions": [
+        "3.9.6",
+        "3.14.3"
+      ],
+      "controls": [
+        "Regular-file/dot-dot, symlink-to-file/dot-dot, file/child traversal and missing-directory/dot-dot paths reject before adapter execution and retain sibling report bytes.",
+        "Ordinary missing output directories are created; prior valid symlink/dot-dot and protected-input controls still pass.",
+        "CLI replacement of a 0640 report with a distinct permitted group retains its owner, group and mode (local group 12 versus directory group 20).",
+        "Injected ownership-preservation failure retains the original inode, contents, owner, group and mode and removes the temporary file."
       ],
       "providers": "Fresh frozen complete/restricted, separate next and 19 default probes per runtime on Node24 and Python3.9/3.14, with reviewed source fingerprints checked before/after actual commands."
     }

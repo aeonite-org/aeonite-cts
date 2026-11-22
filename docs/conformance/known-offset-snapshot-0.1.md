@@ -46,9 +46,9 @@ snapshots remain unchanged. No package release, SANSA/Query/Rust adoption, physi
 UTC alignment, timezone/WTC authority or elapsed-time resolution is introduced.
 
 
-All 55 focused snapshot/harness tests pass on Python 3.9 and 3.14, including
+All 58 focused snapshot/harness tests pass on Python 3.9 and 3.14, including
 manifest mutations, immutable isolation, missing executions, wrong responses,
-artifact-only gates and generator preservation. All 238 runner regressions pass
+artifact-only gates and generator preservation. All 241 runner regressions pass
 in isolated CI-layout fixtures on both runtimes. The older comparison-next unit
 suite receives its separately pinned historical source/schema in that disposable
 fixture; known-offset inputs retain the exact new owning revision. No comparison
@@ -79,3 +79,12 @@ output-link replacement, permitted external paths reached through a protected
 directory's symlink, and reverse traversals that actually enter protected inputs.
 The frozen assets and operation semantics remain unchanged; independent QA
 verification of these follow-up fixes remains separate.
+
+The parent-path guard checks actual filesystem traversal before resolution, so
+`regular-file/../report.json` and missing-directory/`..` paths reject before SUT
+execution without replacing sibling reports. Normal missing output directories
+remain supported. Existing regular reports retain POSIX owner/group before their
+mode is restored; an ownership-preservation failure leaves the report unchanged
+and cleans up the temporary file. Tests exercise a distinct available group and
+an injected ownership failure separately. Independent QA verification remains
+separate from this author verification.

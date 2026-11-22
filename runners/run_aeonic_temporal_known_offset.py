@@ -364,12 +364,31 @@ class Runner(CommonRunner):
                     helper_hashes=self.manifest['meta']['helpers'], resource_limits=self.resource_limits,
                     sut=self.args.sut, cwd=str(self.args.cwd.resolve()), failures=failures)
 
+    @staticmethod
+    def report_entry_path(destination):
+        # stat() asks the filesystem to traverse the original path first.
+        # resolve() alone can incorrectly erase a file/.. or missing/.. step.
+        parent = destination.parent; missing = []
+        while True:
+            try:
+                info = parent.stat()
+            except FileNotFoundError:
+                # Only ordinary missing directory suffixes may be created.
+                # A missing traversal through '..' or a dangling link is invalid.
+                if parent.name in ('', '..') or parent.is_symlink():
+                    raise
+                missing.append(parent.name); parent = parent.parent
+            else:
+                require(stat.S_ISDIR(info.st_mode), 'Report parent must be a directory')
+                return parent.resolve(strict=True).joinpath(*reversed(missing), destination.name)
+
     def validate_report_destination(self, destination):
         # replace() changes the leaf entry, not a leaf symlink's referent. Check
         # both, including entry paths reached through parent-directory symlinks.
         # Resolve parent symlinks before '..', as the filesystem does. Lexical
         # abspath() collapses '..' first and can name a different directory.
-        paths = {destination.parent.resolve() / destination.name, destination.resolve()}
+        entry = self.report_entry_path(destination)
+        paths = {entry, destination.resolve()}
         def inside(path, root):
             if path == root or root in path.parents:
                 return True
@@ -385,27 +404,31 @@ class Runner(CommonRunner):
             require(artifact.resolve() not in paths and
                     not (destination.exists() and artifact.exists() and os.path.samefile(destination, artifact)),
                     'Report destination overlaps a pinned input')
+        return entry
 
     def write_report(self, destination, text):
-        self.validate_report_destination(destination)
         # Use the same physical parent for temporary-file creation and replace;
         # tempfile itself may otherwise collapse a symlink/.. path lexically.
-        destination = destination.parent.resolve() / destination.name
+        destination = self.validate_report_destination(destination)
         destination.parent.mkdir(parents=True, exist_ok=True)
         try:
-            existing_mode = destination.lstat().st_mode
+            existing = destination.lstat()
         except FileNotFoundError:
-            existing_mode = None
+            existing = None
         temporary = None
         try:
             with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', newline='\n',
                     dir=destination.parent, prefix='.known-offset-report-', delete=False) as stream:
                 temporary = Path(stream.name)
                 stream.write(text)
-            # Replacement must retain a regular report's sharing permissions.
-            # A replaced symlink does not donate its referent's permissions.
-            if existing_mode is not None and stat.S_ISREG(existing_mode):
-                temporary.chmod(stat.S_IMODE(existing_mode))
+            # Preserve who can read an existing regular report, not only its mode.
+            # If ownership cannot be retained, fail before replacing the original.
+            # A replaced symlink does not donate its referent's metadata.
+            if existing is not None and stat.S_ISREG(existing.st_mode):
+                if os.name == 'posix':
+                    os.chown(temporary, existing.st_uid, existing.st_gid)
+                # chown may clear permission bits, so restore them afterwards.
+                temporary.chmod(stat.S_IMODE(existing.st_mode))
             self.validate_report_destination(destination)
             os.replace(temporary, destination)
         finally:

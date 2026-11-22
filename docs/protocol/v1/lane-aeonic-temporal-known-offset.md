@@ -133,12 +133,16 @@ and the provider qualification, without treating a bare harness pass as proof.
 the specification input tree, or CTS/runner input directories. The replacement
 entry and its referent are both checked, including parent-directory aliases and
 dangling leaf links. Parent-directory symlinks are resolved before `..`, following
-filesystem traversal rather than lexical path normalization. A link inside an
-input directory cannot be replaced by a
-report even when its referent is outside that directory. It is checked
+filesystem traversal rather than lexical path normalization. The original parent
+path must be traversable: a regular file or missing directory followed by `..`
+is rejected rather than erased. Ordinary missing output-directory suffixes may
+be created. A link inside an input directory cannot be replaced by a report even
+when its referent is outside that directory. It is checked
 before SUT execution and again before an atomic report replacement. Use a separate
 output directory, such as `docs/conformance/` or an external results directory.
-Atomic replacement preserves an existing regular report's permission bits. New
+Atomic replacement preserves an existing regular report's permission bits and,
+on POSIX, its owner and group. Failure to retain that metadata leaves the original
+report untouched and removes the temporary file. New
 reports and replacements of permitted output symlinks use private temporary-file
 permissions; replacing a symlink does not change its referent or copy its mode.
 

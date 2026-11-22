@@ -694,6 +694,54 @@ class KnownOffsetRunnerTests(unittest.TestCase):
             self.assertEqual(result.returncode,2);self.assertIn('overlaps',result.stderr)
             self.assertEqual(protected.read_bytes(),before)
 
+    def test_untraversable_report_paths_reject_before_execution_without_writes(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('existing report')
+            regular=folder/'regular-file';regular.write_text('not a directory')
+            alias=folder/'file-alias';alias.symlink_to(regular)
+            marker=folder/'executed';provider=folder/'provider.py'
+            provider.write_text('from pathlib import Path\nPath('+repr(str(marker))+').write_text("ran")\n')
+            base=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--sut',shlex.join([sys.executable,str(provider)])]
+            paths=[regular/'..'/report.name,alias/'..'/report.name,
+                   regular/'child'/'..'/'..'/report.name,
+                   folder/'missing'/'..'/report.name]
+            for destination in paths:
+                result=subprocess.run([*base,'--report',str(destination)],text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,2,result.stdout);self.assertEqual(result.stdout,'')
+                self.assertFalse(marker.exists());self.assertEqual(report.read_text(),'existing report')
+                self.assertEqual(regular.read_text(),'not a directory');self.assertTrue(alias.is_symlink())
+                self.assertFalse((folder/'missing').exists());self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+            # A normal missing output directory is still created.
+            valid=folder/'new'/'nested'/'report.json'
+            result=subprocess.run([*base[:base.index('--sut')],'--check','--report',str(valid)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual(json.loads(valid.read_text()),json.loads(result.stdout))
+
+    @unittest.skipUnless(os.name == 'posix', 'POSIX file ownership required')
+    def test_atomic_report_preserves_a_distinct_shared_group(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('shared report')
+            groups=(set(os.getgroups())|{os.getegid()})-{folder.stat().st_gid}
+            if not groups:self.skipTest('No second permitted group available')
+            os.chown(report,-1,min(groups));report.chmod(0o640);before=report.stat()
+            result=subprocess.run([sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check','--report',str(report)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr);after=report.stat()
+            self.assertEqual((after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                             (before.st_uid,before.st_gid,0o640))
+            self.assertEqual(json.loads(report.read_text()),json.loads(result.stdout))
+
+    @unittest.skipUnless(os.name == 'posix', 'POSIX file ownership required')
+    def test_ownership_preservation_failure_retains_original_report(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('shared report');report.chmod(0o640)
+            before=report.stat();r=Runner(self.frozen_args())
+            with patch('os.chown',side_effect=PermissionError('Cannot retain ownership')):
+                with self.assertRaises(PermissionError):r.write_report(report,'replacement')
+            after=report.stat();self.assertEqual(report.read_text(),'shared report')
+            self.assertEqual((after.st_ino,after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                             (before.st_ino,before.st_uid,before.st_gid,0o640))
+            self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+
     def test_missing_adapter_launch_reports_attempts_without_protocol_execution(self):
         with tempfile.TemporaryDirectory() as name:
             folder=Path(name);missing=folder/'missing-adapter';report=folder/'report.json'
