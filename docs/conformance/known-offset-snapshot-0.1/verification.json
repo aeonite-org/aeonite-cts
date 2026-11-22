@@ -35,7 +35,7 @@
     "docs/temporal-known-offset.md": "568caa5bacb4e111b4eed115d714fbd9870a83fcb3d4d08cb4e589a4cfe81769"
   },
   "manifest_sha256": "274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b",
-  "runner_sha256": "98bfdb62aa71f05aa6bf48f578823fe791564fb9680661c2a3519153598fba30",
+  "runner_sha256": "8068ec1b2a6c83ebe8a14f568faf20dbe0548ca857bf14a96559948a7b4998f9",
   "specification_source_sha256": "54c089b38b08f25369d88880b0ff4326b097fe058830ed123c3ea2578fe193bb",
   "specification_schema_sha256": "2ec8ff1fe00ad652186d99387edb90d89e37a810bf38e27f3d2ca0d21dbb7fa4",
   "helpers": {
@@ -75,9 +75,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "javascript-all-snapshot-0.1.json": "d0a66c750d823dcf110960f806e282333de344250043e0839918f327cd8298c4",
-          "javascript-conversion-snapshot-0.1.json": "c196f60845130496a00b7ef7681fca333b315d3a4f3ce85e34c165eaad36919b",
-          "javascript-relations-snapshot-0.1.json": "120e435dc02e1d52b6db0a63b3416a27b078665f382bd08ae1055bf00a1c4783"
+          "javascript-all-snapshot-0.1.json": "c5c609578f0056c80a071e486880c8f5225ee37f3c126a07ff7f9799205db996",
+          "javascript-conversion-snapshot-0.1.json": "19da8ca49ab16ea7672e39bcb696d0f8865722767edca77d9c83c55c4ebba942",
+          "javascript-relations-snapshot-0.1.json": "1ecd10854ccd92e5afffd5e8fe1269ab20abd1780e34cb09b98c197a14b3de69"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -102,9 +102,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "python39-all-snapshot-0.1.json": "c6acdb71b9d5cb83ff9d0587ada4c2e9edaa580cf5de1681cfd9c3841e8c0daa",
-          "python39-conversion-snapshot-0.1.json": "612954a2ffc88405e134f480bf5a37941c0a3e86fa6fad3bd0079ed5999f9ac4",
-          "python39-relations-snapshot-0.1.json": "d964f8cfd15caa4606c3aa921363a1475d3ff44dfa480be435bc233989cc38d9"
+          "python39-all-snapshot-0.1.json": "4efc18b48b9d87cae005bd8b2efd6dab6257c864b42c0e79b9a2e958919e54b8",
+          "python39-conversion-snapshot-0.1.json": "90bb2aae390fbc005c55c9f61dee3f291e3baa4c46abfcd05b8fd8f4bbc28da5",
+          "python39-relations-snapshot-0.1.json": "3d2a61a11c1bdc008f9e503efc5e8a2b5e3b7f7a2e5f067a3ac1e3cbaf287425"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -129,9 +129,9 @@
         "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
         "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
         "report_sha256": {
-          "python314-all-snapshot-0.1.json": "c6acdb71b9d5cb83ff9d0587ada4c2e9edaa580cf5de1681cfd9c3841e8c0daa",
-          "python314-conversion-snapshot-0.1.json": "612954a2ffc88405e134f480bf5a37941c0a3e86fa6fad3bd0079ed5999f9ac4",
-          "python314-relations-snapshot-0.1.json": "d964f8cfd15caa4606c3aa921363a1475d3ff44dfa480be435bc233989cc38d9"
+          "python314-all-snapshot-0.1.json": "4efc18b48b9d87cae005bd8b2efd6dab6257c864b42c0e79b9a2e958919e54b8",
+          "python314-conversion-snapshot-0.1.json": "90bb2aae390fbc005c55c9f61dee3f291e3baa4c46abfcd05b8fd8f4bbc28da5",
+          "python314-relations-snapshot-0.1.json": "3d2a61a11c1bdc008f9e503efc5e8a2b5e3b7f7a2e5f067a3ac1e3cbaf287425"
         },
         "semantic_execution": true,
         "stable_conformance_claim": true,
@@ -140,20 +140,20 @@
     }
   },
   "report_sha256": {
-    "javascript-all-snapshot-0.1.json": "d0a66c750d823dcf110960f806e282333de344250043e0839918f327cd8298c4",
-    "javascript-conversion-snapshot-0.1.json": "c196f60845130496a00b7ef7681fca333b315d3a4f3ce85e34c165eaad36919b",
-    "javascript-relations-snapshot-0.1.json": "120e435dc02e1d52b6db0a63b3416a27b078665f382bd08ae1055bf00a1c4783",
-    "javascript-all-next-0.2.json": "0f4e390ca92d37279dc3e16751bbaa607d45b9154b535feac1b01f045c85cd70",
+    "javascript-all-snapshot-0.1.json": "c5c609578f0056c80a071e486880c8f5225ee37f3c126a07ff7f9799205db996",
+    "javascript-conversion-snapshot-0.1.json": "19da8ca49ab16ea7672e39bcb696d0f8865722767edca77d9c83c55c4ebba942",
+    "javascript-relations-snapshot-0.1.json": "1ecd10854ccd92e5afffd5e8fe1269ab20abd1780e34cb09b98c197a14b3de69",
+    "javascript-all-next-0.2.json": "f0e291f2e85ccb6c7018f054d3df694ad3201d1819d1dbdf8f4c8bd4a6391ea0",
     "javascript-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python39-all-snapshot-0.1.json": "c6acdb71b9d5cb83ff9d0587ada4c2e9edaa580cf5de1681cfd9c3841e8c0daa",
-    "python39-conversion-snapshot-0.1.json": "612954a2ffc88405e134f480bf5a37941c0a3e86fa6fad3bd0079ed5999f9ac4",
-    "python39-relations-snapshot-0.1.json": "d964f8cfd15caa4606c3aa921363a1475d3ff44dfa480be435bc233989cc38d9",
-    "python39-all-next-0.2.json": "d13ae1728a4732ea9a61a04f5a0b659b69184a2e24029ca3cafee176c03a4367",
+    "python39-all-snapshot-0.1.json": "4efc18b48b9d87cae005bd8b2efd6dab6257c864b42c0e79b9a2e958919e54b8",
+    "python39-conversion-snapshot-0.1.json": "90bb2aae390fbc005c55c9f61dee3f291e3baa4c46abfcd05b8fd8f4bbc28da5",
+    "python39-relations-snapshot-0.1.json": "3d2a61a11c1bdc008f9e503efc5e8a2b5e3b7f7a2e5f067a3ac1e3cbaf287425",
+    "python39-all-next-0.2.json": "4cc8ea5bd1980a4e15b2766abbe1a5f2d902f57272954447857e41f9bb0e5325",
     "python39-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python314-all-snapshot-0.1.json": "c6acdb71b9d5cb83ff9d0587ada4c2e9edaa580cf5de1681cfd9c3841e8c0daa",
-    "python314-conversion-snapshot-0.1.json": "612954a2ffc88405e134f480bf5a37941c0a3e86fa6fad3bd0079ed5999f9ac4",
-    "python314-relations-snapshot-0.1.json": "d964f8cfd15caa4606c3aa921363a1475d3ff44dfa480be435bc233989cc38d9",
-    "python314-all-next-0.2.json": "d13ae1728a4732ea9a61a04f5a0b659b69184a2e24029ca3cafee176c03a4367",
+    "python314-all-snapshot-0.1.json": "4efc18b48b9d87cae005bd8b2efd6dab6257c864b42c0e79b9a2e958919e54b8",
+    "python314-conversion-snapshot-0.1.json": "90bb2aae390fbc005c55c9f61dee3f291e3baa4c46abfcd05b8fd8f4bbc28da5",
+    "python314-relations-snapshot-0.1.json": "3d2a61a11c1bdc008f9e503efc5e8a2b5e3b7f7a2e5f067a3ac1e3cbaf287425",
+    "python314-all-next-0.2.json": "4cc8ea5bd1980a4e15b2766abbe1a5f2d902f57272954447857e41f9bb0e5325",
     "python314-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91"
   },
   "verification_limits": [
@@ -257,6 +257,30 @@
         "Separate output links can be atomically replaced while external referents remain unchanged.",
         "Missing adapter launch reports attempts, zero returned transports/zero assertions and protocol_execution false.",
         "Reused runner instances report run-local attempts, returned calls and assertions; launch/timeout/nonzero failures do not reuse earlier execution evidence."
+      ],
+      "providers": "Fresh frozen complete/restricted, separate next and 19 default probes per runtime on Node24 and Python3.9/3.14, with reviewed source fingerprints checked before/after actual commands."
+    }
+  },
+  "author_report_compatibility_followup": {
+    "reviewed_head": "1ff1179271b06d14a80268918ad5d05018b5e0c4",
+    "findings": [
+      "QA-2026-0225",
+      "QA-2026-0226"
+    ],
+    "scope": "Author fixes only; independent QA verification remains separate. Existing regular reports preserve permission bits through atomic replacement. Parent-directory symlinks resolve before dot-dot, preserving permitted external destinations while rejecting actual protected entries and referents. Frozen assets, provider code, helper bytes and operation semantics are unchanged.",
+    "verification": {
+      "focused_tests_per_python_version": 55,
+      "all_runner_tests_per_python_version": 238,
+      "python_versions": [
+        "3.9.6",
+        "3.14.3"
+      ],
+      "controls": [
+        "CLI replacement retains 0640, 0644 and 0600 regular-report permissions and leaves no temporary output.",
+        "New reports and permitted symlink-entry replacements retain private permissions; external referent contents and mode stay unchanged.",
+        "Direct, absolute symlink/dot-dot and relative symlink/dot-dot destinations create the same permitted external report.",
+        "Reverse symlink/dot-dot traversal into protected input rejects without replacing its bytes.",
+        "Earlier protected leaf, parent, dangling, hard-link and case-alias controls still pass."
       ],
       "providers": "Fresh frozen complete/restricted, separate next and 19 default probes per runtime on Node24 and Python3.9/3.14, with reviewed source fingerprints checked before/after actual commands."
     }

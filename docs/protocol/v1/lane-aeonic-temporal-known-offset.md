@@ -132,10 +132,15 @@ and the provider qualification, without treating a bare harness pass as proof.
 `--report` may not overlap pinned inputs (including symlink/hard-link aliases),
 the specification input tree, or CTS/runner input directories. The replacement
 entry and its referent are both checked, including parent-directory aliases and
-dangling leaf links. A link inside an input directory cannot be replaced by a
+dangling leaf links. Parent-directory symlinks are resolved before `..`, following
+filesystem traversal rather than lexical path normalization. A link inside an
+input directory cannot be replaced by a
 report even when its referent is outside that directory. It is checked
 before SUT execution and again before an atomic report replacement. Use a separate
 output directory, such as `docs/conformance/` or an external results directory.
+Atomic replacement preserves an existing regular report's permission bits. New
+reports and replacements of permitted output symlinks use private temporary-file
+permissions; replacing a symlink does not change its referent or copy its mode.
 
 Capture-time schema/binding projections and suite hashes are fixed in the capture
 record. CI validates those against frozen artifacts, allowing independently valid

@@ -7,6 +7,7 @@ import itertools
 import json
 import os
 import re
+import stat
 from pathlib import Path
 import sys
 import tempfile
@@ -366,8 +367,9 @@ class Runner(CommonRunner):
     def validate_report_destination(self, destination):
         # replace() changes the leaf entry, not a leaf symlink's referent. Check
         # both, including entry paths reached through parent-directory symlinks.
-        paths = {Path(os.path.abspath(destination)),
-                 destination.parent.resolve() / destination.name, destination.resolve()}
+        # Resolve parent symlinks before '..', as the filesystem does. Lexical
+        # abspath() collapses '..' first and can name a different directory.
+        paths = {destination.parent.resolve() / destination.name, destination.resolve()}
         def inside(path, root):
             if path == root or root in path.parents:
                 return True
@@ -377,9 +379,8 @@ class Runner(CommonRunner):
                                          for parent in (path, *path.parents))
         reserved = [ROOT / 'cts', ROOT / 'runners', self.args.specs_root]
         for root in reserved:
-            for location in {Path(os.path.abspath(root)), root.resolve()}:
-                require(not any(inside(path, location) for path in paths),
-                        'Report destination overlaps an input tree')
+            require(not any(inside(path, root.resolve()) for path in paths),
+                    'Report destination overlaps an input tree')
         for artifact in self.artifacts:
             require(artifact.resolve() not in paths and
                     not (destination.exists() and artifact.exists() and os.path.samefile(destination, artifact)),
@@ -387,13 +388,24 @@ class Runner(CommonRunner):
 
     def write_report(self, destination, text):
         self.validate_report_destination(destination)
+        # Use the same physical parent for temporary-file creation and replace;
+        # tempfile itself may otherwise collapse a symlink/.. path lexically.
+        destination = destination.parent.resolve() / destination.name
         destination.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            existing_mode = destination.lstat().st_mode
+        except FileNotFoundError:
+            existing_mode = None
         temporary = None
         try:
             with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', newline='\n',
                     dir=destination.parent, prefix='.known-offset-report-', delete=False) as stream:
                 temporary = Path(stream.name)
                 stream.write(text)
+            # Replacement must retain a regular report's sharing permissions.
+            # A replaced symlink does not donate its referent's permissions.
+            if existing_mode is not None and stat.S_ISREG(existing_mode):
+                temporary.chmod(stat.S_IMODE(existing_mode))
             self.validate_report_destination(destination)
             os.replace(temporary, destination)
         finally:

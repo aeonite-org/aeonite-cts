@@ -5,6 +5,7 @@ import os
 import hashlib
 import shutil
 import shlex
+import stat
 import sys
 import subprocess
 import tempfile
@@ -638,6 +639,60 @@ class KnownOffsetRunnerTests(unittest.TestCase):
             referent.unlink()
             result=subprocess.run([*base,'--report',str(entry)],text=True,capture_output=True,timeout=20)
             self.assertEqual(result.returncode,2);self.assertTrue(entry.is_symlink());self.assertFalse(referent.exists())
+
+    @unittest.skipUnless(os.name == 'posix', 'POSIX permission bits required')
+    def test_atomic_report_replacement_preserves_existing_regular_file_permissions(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json'
+            base=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check','--report',str(report)]
+            for mode in (0o640,0o644,0o600):
+                report.write_text('old report');report.chmod(mode)
+                result=subprocess.run(base,text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,0,result.stderr)
+                self.assertEqual(stat.S_IMODE(report.stat().st_mode),mode)
+                self.assertEqual(json.loads(report.read_text()),json.loads(result.stdout))
+                self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+            report.unlink()
+            result=subprocess.run(base,text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual(stat.S_IMODE(report.stat().st_mode),0o600)
+            report.unlink();target=folder/'external.json';target.write_text('original');target.chmod(0o640)
+            report.symlink_to(target)
+            result=subprocess.run(base,text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr);self.assertFalse(report.is_symlink())
+            self.assertEqual(target.read_text(),'original');self.assertEqual(stat.S_IMODE(target.stat().st_mode),0o640)
+            self.assertEqual(stat.S_IMODE(report.stat().st_mode),0o600)
+
+    def test_report_parent_symlink_then_dotdot_uses_filesystem_resolution(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);cts=folder/'cts';owner=folder/'owner'
+            shutil.copytree(ROOT,cts,ignore=shutil.ignore_patterns('.git','__pycache__'))
+            r=Runner(self.frozen_args())
+            for key in ('specification_source','specification_schema'):
+                relative=r.manifest['meta'][key];target=owner/relative
+                target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(SPECS/relative,target)
+            external=folder/'external';(external/'child').mkdir(parents=True)
+            alias=cts/'cts'/'external-alias';alias.symlink_to(external/'child',target_is_directory=True)
+            direct=external/'report.json';indirect=alias/'..'/'report.json'
+            self.assertEqual(indirect.parent.resolve()/indirect.name,direct.resolve())
+            base=[sys.executable,str(cts/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(owner),'--check']
+            for destination in (direct,indirect,indirect.relative_to(cts)):
+                direct.unlink(missing_ok=True)
+                result=subprocess.run([*base,'--report',str(destination)],cwd=cts,text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,0,result.stderr)
+                self.assertEqual(json.loads(direct.read_text()),json.loads(result.stdout))
+                self.assertFalse((cts/'cts'/'report.json').exists());self.assertTrue(alias.is_symlink())
+            with patch('tempfile.NamedTemporaryFile',wraps=tempfile.NamedTemporaryFile) as temporary:
+                r.write_report(indirect,'external report')
+            self.assertEqual(temporary.call_args.kwargs['dir'],external.resolve())
+            self.assertEqual(direct.read_text(),'external report')
+            # The reverse traversal actually ends in an input tree and must reject.
+            child=cts/'runners'/'child';child.mkdir()
+            protected_alias=external/'protected-alias';protected_alias.symlink_to(child,target_is_directory=True)
+            protected=cts/'runners'/'run_aeonic_temporal_known_offset.py';before=protected.read_bytes()
+            result=subprocess.run([*base,'--report',str(protected_alias/'..'/protected.name)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,2);self.assertIn('overlaps',result.stderr)
+            self.assertEqual(protected.read_bytes(),before)
 
     def test_missing_adapter_launch_reports_attempts_without_protocol_execution(self):
         with tempfile.TemporaryDirectory() as name:
