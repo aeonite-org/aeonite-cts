@@ -46,9 +46,9 @@ snapshots remain unchanged. No package release, SANSA/Query/Rust adoption, physi
 UTC alignment, timezone/WTC authority or elapsed-time resolution is introduced.
 
 
-All 58 focused snapshot/harness tests pass on Python 3.9 and 3.14, including
+All 61 focused snapshot/harness tests pass on macOS with Python 3.9 and 3.14, including
 manifest mutations, immutable isolation, missing executions, wrong responses,
-artifact-only gates and generator preservation. All 241 runner regressions pass
+artifact-only gates and generator preservation. All 244 runner regressions pass
 in isolated CI-layout fixtures on both runtimes. The older comparison-next unit
 suite receives its separately pinned historical source/schema in that disposable
 fixture; known-offset inputs retain the exact new owning revision. No comparison
@@ -88,3 +88,12 @@ mode is restored; an ownership-preservation failure leaves the report unchanged
 and cleans up the temporary file. Tests exercise a distinct available group and
 an injected ownership failure separately. Independent QA verification remains
 separate from this author verification.
+
+macOS report replacement also retains the full file ACL using the native ACL API.
+Effective-reader checks cover an explicit grant with mode `000` and an explicit
+denial with mode `600`, alongside exact ACL-entry comparison. An absent source ACL
+clears temporary-file inheritance. Injected ACL read/allocation/write failures
+preserve the original inode, contents, ownership, mode and ACL and clean up the
+temporary file. The known-offset CI matrix includes macOS Python 3.14 in addition
+to the two Linux jobs; macOS-only ACL tests are skipped on other platforms.
+Independent QA verification of this correction remains separate.

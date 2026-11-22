@@ -141,8 +141,11 @@ when its referent is outside that directory. It is checked
 before SUT execution and again before an atomic report replacement. Use a separate
 output directory, such as `docs/conformance/` or an external results directory.
 Atomic replacement preserves an existing regular report's permission bits and,
-on POSIX, its owner and group. Failure to retain that metadata leaves the original
-report untouched and removes the temporary file. New
+on POSIX, its owner and group. On macOS it also preserves the complete file ACL,
+including explicit grants/denials and an absent ACL. The ACL is applied after
+ownership and mode restoration, before replacement. Failure to read, allocate or
+apply the ACL leaves the original intact, as do ownership/mode failures; the
+temporary file is removed. New
 reports and replacements of permitted output symlinks use private temporary-file
 permissions; replacing a symlink does not change its referent or copy its mode.
 

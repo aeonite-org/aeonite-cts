@@ -406,6 +406,40 @@ class Runner(CommonRunner):
                     'Report destination overlaps a pinned input')
         return entry
 
+    @staticmethod
+    def preserve_report_acl(source, target):
+        if sys.platform != 'darwin':
+            return
+        # Darwin ACLs are not represented by stat's mode/owner/group fields.
+        # Copy the complete ACL, including an empty ACL, after chmod/chown.
+        import ctypes
+        import errno
+        library = ctypes.CDLL('/usr/lib/libSystem.B.dylib', use_errno=True)
+        library.acl_get_file.argtypes = [ctypes.c_char_p, ctypes.c_int]
+        library.acl_get_file.restype = ctypes.c_void_p
+        library.acl_set_file.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_void_p]
+        library.acl_set_file.restype = ctypes.c_int
+        library.acl_free.argtypes = [ctypes.c_void_p]
+        library.acl_free.restype = ctypes.c_int
+        library.acl_init.argtypes = [ctypes.c_int]
+        library.acl_init.restype = ctypes.c_void_p
+        acl_type_extended = 0x100  # Darwin <sys/acl.h> ACL_TYPE_EXTENDED.
+        acl = library.acl_get_file(os.fsencode(source), acl_type_extended)
+        if not acl and ctypes.get_errno() == errno.ENOENT:
+            # Darwin also uses ENOENT when an existing file has no ACL.
+            # Confirm the file still exists, then explicitly clear inheritance.
+            source.stat()
+            acl = library.acl_init(0)
+        if not acl:
+            error = ctypes.get_errno()
+            raise OSError(error, 'Cannot read report ACL: ' + os.strerror(error), str(source))
+        try:
+            if library.acl_set_file(os.fsencode(target), acl_type_extended, acl) != 0:
+                error = ctypes.get_errno()
+                raise OSError(error, 'Cannot preserve report ACL: ' + os.strerror(error), str(target))
+        finally:
+            library.acl_free(acl)
+
     def write_report(self, destination, text):
         # Use the same physical parent for temporary-file creation and replace;
         # tempfile itself may otherwise collapse a symlink/.. path lexically.
@@ -429,6 +463,7 @@ class Runner(CommonRunner):
                     os.chown(temporary, existing.st_uid, existing.st_gid)
                 # chown may clear permission bits, so restore them afterwards.
                 temporary.chmod(stat.S_IMODE(existing.st_mode))
+                self.preserve_report_acl(destination, temporary)
             self.validate_report_destination(destination)
             os.replace(temporary, destination)
         finally:

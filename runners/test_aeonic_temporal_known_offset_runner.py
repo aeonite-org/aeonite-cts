@@ -13,7 +13,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from run_aeonic_temporal_known_offset import ROOT, LANE, Runner
 from temporal_known_offset_checks import (LIMITS, PROFILE, expected_positive,
@@ -741,6 +741,74 @@ class KnownOffsetRunnerTests(unittest.TestCase):
             self.assertEqual((after.st_ino,after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
                              (before.st_ino,before.st_uid,before.st_gid,0o640))
             self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS file ACLs required')
+    def test_atomic_report_preserves_explicit_acl_and_effective_read_access(self):
+        import pwd
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';reader=pwd.getpwuid(os.getuid()).pw_name
+            base=[sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check','--report',str(report)]
+            def acl():
+                result=subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True)
+                return result.stdout.splitlines()[1:]
+            def assert_readable(expected):
+                result=subprocess.run([sys.executable,'-c','import pathlib,sys; pathlib.Path(sys.argv[1]).read_bytes()',str(report)],capture_output=True)
+                self.assertEqual(result.returncode == 0,expected,result.stderr.decode(errors='replace'))
+            for mode,permission,expected in ((0o000,'allow',True),(0o600,'deny',False)):
+                if report.exists():
+                    subprocess.run(['/bin/chmod','-N',str(report)],check=True)
+                    report.chmod(0o600)
+                report.write_text('existing report');report.chmod(mode)
+                subprocess.run(['/bin/chmod','+a','user:'+reader+' '+permission+' read',str(report)],check=True)
+                before=report.stat();entries=acl();self.assertTrue(entries)
+                assert_readable(expected)
+                result=subprocess.run(base,text=True,capture_output=True,timeout=20)
+                self.assertEqual(result.returncode,0,result.stderr)
+                self.assertEqual(acl(),entries);assert_readable(expected)
+                after=report.stat()
+                self.assertEqual((after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                                 (before.st_uid,before.st_gid,mode))
+            subprocess.run(['/bin/chmod','-N',str(report)],check=True);report.chmod(0o600)
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS file ACLs required')
+    def test_empty_report_acl_replaces_inherited_temporary_acl(self):
+        import pwd
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';reader=pwd.getpwuid(os.getuid()).pw_name
+            subprocess.run(['/bin/chmod','+a','user:'+reader+' allow read,file_inherit',str(folder)],check=True)
+            report.write_text('existing report')
+            subprocess.run(['/bin/chmod','-N',str(report)],check=True);report.chmod(0o000)
+            result=subprocess.run([sys.executable,str(ROOT/'runners/run_aeonic_temporal_known_offset.py'),'--specs-root',str(SPECS),'--check','--report',str(report)],text=True,capture_output=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stderr)
+            listing=subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True)
+            self.assertEqual(listing.stdout.splitlines()[1:],[])
+            denied=subprocess.run([sys.executable,'-c','import pathlib,sys; pathlib.Path(sys.argv[1]).read_bytes()',str(report)],capture_output=True)
+            self.assertNotEqual(denied.returncode,0)
+            report.chmod(0o600);self.assertEqual(json.loads(report.read_text()),json.loads(result.stdout))
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS file ACLs required')
+    def test_acl_preservation_failure_retains_original_report(self):
+        import ctypes
+        import pwd
+        with tempfile.TemporaryDirectory() as name:
+            folder=Path(name);report=folder/'report.json';report.write_text('existing report');report.chmod(0o640)
+            subprocess.run(['/bin/chmod','+a','user:'+pwd.getpwuid(os.getuid()).pw_name+' allow read',str(report)],check=True)
+            acl=subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True).stdout.splitlines()[1:]
+            before=report.stat();r=Runner(self.frozen_args())
+            for failure in ('read','write','allocate'):
+                def rejected(*args):ctypes.set_errno(12 if failure=='allocate' else 13);return -1 if failure=='write' else None
+                def absent(*args):ctypes.set_errno(2);return None
+                library=SimpleNamespace(acl_get_file=Mock(side_effect=absent if failure=='allocate' else rejected) if failure!='write' else Mock(return_value=123),
+                                        acl_set_file=Mock(side_effect=rejected),acl_free=Mock(return_value=0),acl_init=Mock(side_effect=rejected))
+                with patch('ctypes.CDLL',return_value=library):
+                    with self.assertRaises(OSError):r.write_report(report,'replacement')
+                after=report.stat();self.assertEqual(report.read_text(),'existing report')
+                self.assertEqual((after.st_ino,after.st_uid,after.st_gid,stat.S_IMODE(after.st_mode)),
+                                 (before.st_ino,before.st_uid,before.st_gid,0o640))
+                self.assertEqual(list(folder.glob('.known-offset-report-*')),[])
+                self.assertEqual(subprocess.run(['/bin/ls','-le',str(report)],text=True,capture_output=True,check=True).stdout.splitlines()[1:],acl)
+                if failure=='write':library.acl_free.assert_called_once_with(123)
+                else:library.acl_free.assert_not_called()
 
     def test_missing_adapter_launch_reports_attempts_without_protocol_execution(self):
         with tempfile.TemporaryDirectory() as name:
