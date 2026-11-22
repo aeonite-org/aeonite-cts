@@ -35,7 +35,7 @@
     "docs/temporal-known-offset.md": "568caa5bacb4e111b4eed115d714fbd9870a83fcb3d4d08cb4e589a4cfe81769"
   },
   "manifest_sha256": "274d203eb8d24636f135bca290b21f19b2022f6e43c636b950da4248df36226b",
-  "runner_sha256": "d478a85446148273c5be1c9926310f3cb3bab94d6dbbcd82eaaeedac9b5108da",
+  "runner_sha256": "e10e4c8814dd9ebdb6362b5bc9524f7849ecce92d39a1cf929f5c5a77d4686c1",
   "specification_source_sha256": "54c089b38b08f25369d88880b0ff4326b097fe058830ed123c3ea2578fe193bb",
   "specification_schema_sha256": "2ec8ff1fe00ad652186d99387edb90d89e37a810bf38e27f3d2ca0d21dbb7fa4",
   "helpers": {
@@ -65,7 +65,24 @@
         "relations": "javascript-relations-snapshot-0.1.json"
       },
       "mutable_report": "javascript-all-next-0.2.json",
-      "capacity_report": "javascript-defaults.json"
+      "capacity_report": "javascript-defaults.json",
+      "qualification": {
+        "basis": "reviewed-source-and-controlled-provider-execution",
+        "assessment": "author qualification; independent QA of this remediation remains separate",
+        "target": "aeonic-temporal-known-offset-cts-v1-snapshot-0.1",
+        "provider_revision": "a06bf41091c82e21321482682ac4a0870218bf59",
+        "reviewed_provider_revision": "52ddb06e741e20a9462b3805b93881bc7d0774f7",
+        "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
+        "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
+        "report_sha256": {
+          "javascript-all-snapshot-0.1.json": "892191b58352b4947ce499dab5c7cdaef0ab074855ed661e4c0943fad22c1866",
+          "javascript-conversion-snapshot-0.1.json": "97938c72237a910a9344634844808846a307aef9d86ef7bc95e7db70fa2a8291",
+          "javascript-relations-snapshot-0.1.json": "798f945a69e08388b1a5dc5616dea1836721646a4c406f826e8d8c2b073c18ed"
+        },
+        "semantic_execution": true,
+        "stable_conformance_claim": true,
+        "scope": "These genuine source-bound complete frozen runs only. This assessment is not produced by Runner and cannot be established by stored replies or protocol completeness alone."
+      }
     },
     "python39": {
       "runtime": "Python 3.9.6",
@@ -75,7 +92,24 @@
         "relations": "python39-relations-snapshot-0.1.json"
       },
       "mutable_report": "python39-all-next-0.2.json",
-      "capacity_report": "python39-defaults.json"
+      "capacity_report": "python39-defaults.json",
+      "qualification": {
+        "basis": "reviewed-source-and-controlled-provider-execution",
+        "assessment": "author qualification; independent QA of this remediation remains separate",
+        "target": "aeonic-temporal-known-offset-cts-v1-snapshot-0.1",
+        "provider_revision": "a06bf41091c82e21321482682ac4a0870218bf59",
+        "reviewed_provider_revision": "52ddb06e741e20a9462b3805b93881bc7d0774f7",
+        "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
+        "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
+        "report_sha256": {
+          "python39-all-snapshot-0.1.json": "0a8ef1a05becb731f072303c8d73a3b8ac343ec5b0b7bf72da8df71c2df7562f",
+          "python39-conversion-snapshot-0.1.json": "acb2597171ee1c9952316c148006eb117df8c5514de800cac81753e4124ab869",
+          "python39-relations-snapshot-0.1.json": "dce0617d7c35f2206c99c161c3b512a25b5a40c1e21b118cd0351591cfcd8fae"
+        },
+        "semantic_execution": true,
+        "stable_conformance_claim": true,
+        "scope": "These genuine source-bound complete frozen runs only. This assessment is not produced by Runner and cannot be established by stored replies or protocol completeness alone."
+      }
     },
     "python314": {
       "runtime": "Python 3.14.3",
@@ -85,24 +119,41 @@
         "relations": "python314-relations-snapshot-0.1.json"
       },
       "mutable_report": "python314-all-next-0.2.json",
-      "capacity_report": "python314-defaults.json"
+      "capacity_report": "python314-defaults.json",
+      "qualification": {
+        "basis": "reviewed-source-and-controlled-provider-execution",
+        "assessment": "author qualification; independent QA of this remediation remains separate",
+        "target": "aeonic-temporal-known-offset-cts-v1-snapshot-0.1",
+        "provider_revision": "a06bf41091c82e21321482682ac4a0870218bf59",
+        "reviewed_provider_revision": "52ddb06e741e20a9462b3805b93881bc7d0774f7",
+        "provider_tree": "fa903a63462f96e2029cc6c5c6fdd2c0e0ccde62",
+        "source_fingerprints": "implementation_files_sha256 in this record; checked before and after each actual provider command",
+        "report_sha256": {
+          "python314-all-snapshot-0.1.json": "0a8ef1a05becb731f072303c8d73a3b8ac343ec5b0b7bf72da8df71c2df7562f",
+          "python314-conversion-snapshot-0.1.json": "acb2597171ee1c9952316c148006eb117df8c5514de800cac81753e4124ab869",
+          "python314-relations-snapshot-0.1.json": "dce0617d7c35f2206c99c161c3b512a25b5a40c1e21b118cd0351591cfcd8fae"
+        },
+        "semantic_execution": true,
+        "stable_conformance_claim": true,
+        "scope": "These genuine source-bound complete frozen runs only. This assessment is not produced by Runner and cannot be established by stored replies or protocol completeness alone."
+      }
     }
   },
   "report_sha256": {
-    "javascript-all-snapshot-0.1.json": "5d660f847e6a68c9f0cc1d923b4c5fa45649fd39cacc300508169cf9fecd49c9",
-    "javascript-conversion-snapshot-0.1.json": "ae1d8cd96430f14ce7967918f19889766b834254b4aaa55beac8f3af74c9d20f",
-    "javascript-relations-snapshot-0.1.json": "0d3764cc3e745158a8f58b6bbf367ab46bb8e8f3a6eff4fdce2abff3214e9964",
-    "javascript-all-next-0.2.json": "ea4179d391f2e8cd3e9460f50c117ec0d2daec7e77a4f7d7e1a2852c3021e65d",
+    "javascript-all-snapshot-0.1.json": "892191b58352b4947ce499dab5c7cdaef0ab074855ed661e4c0943fad22c1866",
+    "javascript-conversion-snapshot-0.1.json": "97938c72237a910a9344634844808846a307aef9d86ef7bc95e7db70fa2a8291",
+    "javascript-relations-snapshot-0.1.json": "798f945a69e08388b1a5dc5616dea1836721646a4c406f826e8d8c2b073c18ed",
+    "javascript-all-next-0.2.json": "452700db723d90853f20d458eef019c1291d47b08134b240145888e9af75248a",
     "javascript-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python39-all-snapshot-0.1.json": "46e8cf7a0a8730205a7bf6cdc5b86c934dd33bb709d5294d6b4430991a7a6c56",
-    "python39-conversion-snapshot-0.1.json": "1bba4ad162f53a4021a7c208f8cfff061a9de9b5cbee40033fe846becf3021fd",
-    "python39-relations-snapshot-0.1.json": "3ebde5b8ace988bfebb7b4167c754bde4f3f1952efb0fb35b18ca0c6baff2081",
-    "python39-all-next-0.2.json": "facc6f598039d3fc3fdda71b6ab6ce85111830e692af41f1c98292688450cdb7",
+    "python39-all-snapshot-0.1.json": "0a8ef1a05becb731f072303c8d73a3b8ac343ec5b0b7bf72da8df71c2df7562f",
+    "python39-conversion-snapshot-0.1.json": "acb2597171ee1c9952316c148006eb117df8c5514de800cac81753e4124ab869",
+    "python39-relations-snapshot-0.1.json": "dce0617d7c35f2206c99c161c3b512a25b5a40c1e21b118cd0351591cfcd8fae",
+    "python39-all-next-0.2.json": "478fdf0d7451b5429ed41f6ef53ed2ed7091949dee31e7111a5a056813164762",
     "python39-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91",
-    "python314-all-snapshot-0.1.json": "46e8cf7a0a8730205a7bf6cdc5b86c934dd33bb709d5294d6b4430991a7a6c56",
-    "python314-conversion-snapshot-0.1.json": "1bba4ad162f53a4021a7c208f8cfff061a9de9b5cbee40033fe846becf3021fd",
-    "python314-relations-snapshot-0.1.json": "3ebde5b8ace988bfebb7b4167c754bde4f3f1952efb0fb35b18ca0c6baff2081",
-    "python314-all-next-0.2.json": "facc6f598039d3fc3fdda71b6ab6ce85111830e692af41f1c98292688450cdb7",
+    "python314-all-snapshot-0.1.json": "0a8ef1a05becb731f072303c8d73a3b8ac343ec5b0b7bf72da8df71c2df7562f",
+    "python314-conversion-snapshot-0.1.json": "acb2597171ee1c9952316c148006eb117df8c5514de800cac81753e4124ab869",
+    "python314-relations-snapshot-0.1.json": "dce0617d7c35f2206c99c161c3b512a25b5a40c1e21b118cd0351591cfcd8fae",
+    "python314-all-next-0.2.json": "478fdf0d7451b5429ed41f6ef53ed2ed7091949dee31e7111a5a056813164762",
     "python314-defaults.json": "b6ebc0de5182669c7222cdba4810e195ad0957bb226c1888072d5eb0f1c40d91"
   },
   "verification_limits": [
@@ -114,12 +165,76 @@
     "Consumer command defaults, claim files and publication are unchanged by capture. Owning snapshot merge precedes explicit implementation adoption."
   ],
   "harness_verification": {
-    "focused_tests_per_python_version": 45,
-    "full_runner_tests_per_python_version": 228,
+    "focused_tests_per_python_version": 50,
+    "full_runner_tests_per_python_version": 233,
     "python_versions": [
       "3.9.6",
       "3.14.3"
     ],
     "test_fixture_scope": "Full runner regressions use isolated CTS/specs copies, with only the pre-existing comparison-next source/schema matched to its historical d4801c7e4814af1ef6e51951c0af3f3d429f04fb pin. Known-offset resources remain the exact owning snapshot revision. This fixture does not alter authoritative repositories or establish provider conformance."
+  },
+  "capture_semantics": {
+    "mutable_cts_revision": "b3193d464ab8d53826b67b1d3b19ed964db2868d",
+    "owning_revision": "3cf609130fd1f9fea719f7e1c01703c7e2a09271",
+    "schema_projection_sha256": "5067bb92cecf28ff46e6ed81c96df8299d99b4a0a27a46f761a13c799d3f197c",
+    "binding_projection_sha256": "10c4c99697d999ad87f6c92abba18ca20545c63e7abdad868c05a6b2bfdf6bf4",
+    "suite_sha256": {
+      "01-conversion": "9bc5ca2ef2faaba2b92956ed4b6e2f69846e893dd2e352c7a67bcc3045714ef5",
+      "02-relations": "341774f05272868702fb1b48e85d4b097f741f5f6c563c8bb3b2b66ef8061d88",
+      "03-operands": "7e0b9058954a0ef551f0dea4bc75b1ce9127cfafb38570cf6e3aec6217842b06",
+      "04-policy-precedence": "ca1f4c8d85675a588dee4333a68422bb58a494db69ff8ce03c39a01a696a0716",
+      "05-resources-transport": "3f7732c60f677edc1e6cc30abd44bcae86c7b0c18c4130292343ebb7c2e29b76",
+      "06-chains-laws": "27178de6de67f72889978dd3b8af1743930d57b073d223a9db755d16d070197d"
+    },
+    "resource_limits": {
+      "maxRequestBytes": 65536,
+      "maxRequestDepth": 32,
+      "maxTemporalCharacters": 1024,
+      "maxInputPieces": 1024,
+      "maxIntermediatePieces": 1024,
+      "maxOutputPieces": 1024,
+      "maxWork": 2048,
+      "maxFractionDigits": 256,
+      "maxResultBytes": 262144
+    },
+    "helpers": {
+      "runners/run_aeonic_arithmetic.py": "4688056a3753d67dbaa03902d2b39e760b385153869a646cf75c6ae43bcfc5e2",
+      "runners/run_aeonic_rational_arithmetic.py": "e1c74ff3f46d6d6ff9bbefd81eee44d2eddd14a664b97cf62eb983e98d78de90",
+      "runners/temporal_civil_date_checks.py": "ff2f4a00155874eb5c0b546e934fb3320dbf2e4c18c69db89bdba14ec0968489",
+      "runners/temporal_civil_datetime_checks.py": "16eb93eb4664751ede5222286e283e4b4c6c87e6a3bbaa706cff5c8ec00d326f",
+      "runners/temporal_known_offset_checks.py": "9f9c14ed5ea0ec6cff8528443a42bdfbf2b3ef0eeae7748fdd286fab638ab4ae"
+    }
+  },
+  "author_qa_remediation": {
+    "reviewed_head": "c0a1ea87be091cfd44ad53fd8953ed8e0a70fbf8",
+    "findings": [
+      "QA-2026-0190",
+      "QA-2026-0191",
+      "QA-2026-0192",
+      "QA-2026-0193",
+      "QA-2026-0194"
+    ],
+    "scope": "Author fixes; independent QA verification remains separate. Frozen manifest, schema, suites, helper bytes, provider code and resource limits are unchanged. Raw runner reports are regenerated with unqualified protocol-only flags; genuine source-bound qualification is separate.",
+    "verification": {
+      "focused_tests_per_python_version": 50,
+      "all_runner_tests_per_python_version": 233,
+      "python_versions": [
+        "3.9.6",
+        "3.14.3"
+      ],
+      "fixture_replay": {
+        "conversion_protocol_calls": 147,
+        "assertions": 147,
+        "stable_conformance_claim": false,
+        "semantic_execution": false
+      },
+      "controls": [
+        "valid mutable-only fixture addition",
+        "actual Git core.autocrlf=true checkout with unprotected CRLF control",
+        "report/input collision rejection before SUT execution including symlink/hard-link aliases",
+        "README next command rejects invalid mutable target while frozen remains valid"
+      ],
+      "providers": "Fresh complete/restricted frozen, separate next and default-capacity runs on Node24 and Python3.9/3.14; provider revision and all retained source fingerprints checked before/after actual commands."
+    }
   }
 }

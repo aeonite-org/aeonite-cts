@@ -10,8 +10,8 @@ The default target is immutable local snapshot 0.1:
 It retains 224 cases: 221 operation vectors, two actual-result chains and one
 relation-law group. Its exact recognized manifest pins isolated binding/suite and
 owning source/schema copies. Mutable `.next.json` advances independently to 0.2.
-Only complete genuine passing execution against the recognized immutable target
-supports a stable claim. Mutation, failure, missing calls/assertions, filtering,
+Only externally qualified, complete genuine passing execution against the
+recognized immutable target supports a stable claim. Mutation, failure, missing calls/assertions, filtering,
 artifact-only checks and mutable runs cannot establish it. See the
 [capture and provider evidence](../../conformance/known-offset-snapshot-0.1.md). Artifact
 checking validates pinned sources/schema/helpers, expected positive images and
@@ -75,7 +75,7 @@ and now has three strictly ordered extents (four input representations), giving
 two strict-before transitivity witnesses. Removing required coverage rejects the
 target before artifact validity or complete execution can be reported. Combined
 execution requires 274 SUT calls. These requirements apply to both frozen and
-mutable targets; only the exact recognized frozen target can establish a stable claim.
+mutable targets; the exact frozen target is required for external stable-claim qualification.
 
 Positive raw requests are parsed as strict standalone JSON with numerical token
 spellings preserved. Their validated operation counts toward coverage exactly
@@ -102,3 +102,35 @@ cases; combined execution uses 274 calls and 334 assertions. Conformance never
 waives admitted semantics in response to a provider's implementation capacity.
 The retained native default probes establish only their individual dimensions,
 not a combined capacity floor, arbitrary native-object or process quota.
+
+
+## Runner results and external provider qualification
+
+The runner observes requests and replies, not the implementation that produced
+them. A stored-answer subprocess can pass the complete protocol suite. Therefore
+raw reports always set `stable_conformance_claim`, `semantic_execution` and
+`provider_execution_verified` to false. `protocol_execution` records whether a
+SUT command was invoked; `complete_passing_execution` records complete successful
+protocol checking. Those fields do not authenticate genuine computation, even
+for a recognized immutable manifest. There is no CLI flag that upgrades replies
+to a semantic claim.
+
+Genuine-provider qualification is separate evidence: reviewed provider revision,
+tree and source-file fingerprints; controlled commands actually invoking that
+provider; matching input artifacts; and complete passing report fingerprints.
+The capture's `verification.json` records this author qualification separately
+from raw runner outputs. Its independent review status remains separate. A replay
+report alone can never supply the source/execution assessment required for that
+record. Future implementation adoption must retain both the protocol reports
+and the provider qualification, without treating a bare harness pass as proof.
+
+`--report` may not overlap pinned inputs (including symlink/hard-link aliases),
+the specification input tree, or CTS/runner input directories. It is checked
+before SUT execution and again before an atomic report replacement. Use a separate
+output directory, such as `docs/conformance/` or an external results directory.
+
+Capture-time schema/binding projections and suite hashes are fixed in the capture
+record. CI validates those against frozen artifacts, allowing independently valid
+mutable-only cases and schemas to evolve. Checkout attributes preserve all pinned
+helpers, the runner and known-offset assets; CRLF checkout conversion must not
+change their digests. Capacity qualification remains separate from either claim.

@@ -11,9 +11,10 @@ exact pins. Checkout attributes preserve immutable bytes across platforms.
 
 Conversion requires `convert`; Relations requires `equal`, `compare`, `relate`.
 Either complete capability or both can be claimed with explicit profile selection.
-A recognized immutable run is stable only when all mandatory selected cases,
-chain links and law calls execute and assert successfully, with artifact integrity
-preserved. Artifact-only checks, failed/incomplete/filtered execution, mutated
+A stable claim requires external genuine-provider qualification plus successful
+execution and assertions for every mandatory selected case, chain link and law
+call, with artifact integrity preserved. Raw runner reports establish protocol
+execution only and never automatically assert semantic or stable conformance. Artifact-only checks, failed/incomplete/filtered execution, mutated
 manifests and mutable next 0.2 cannot establish that stable claim. Synthetic
 response controls exercise harness sensitivity and never serve as provider evidence.
 
@@ -23,7 +24,9 @@ The user confirms QA passed before merge. JavaScript uses Node 24.22.2; independ
 Python uses 3.9.6 and 3.14.3. Each provider passes frozen combined (274 calls /
 334 assertions), Conversion-only (147 / 147) and Relations-only (135 / 195),
 including two strict-before transitivity witnesses in Relations and combined runs.
-Separate complete mutable-next runs pass without stable claims. Actual returned
+Separate complete mutable-next runs pass without stable claims. Frozen raw reports
+also retain false claim/semantic-verification flags; the source-bound author
+qualification is recorded separately in `verification.json`. Actual returned
 bundles feed subsequent chain operations; expected fixture bundles never replace
 provider results. Reports and exact fingerprints live in
 `known-offset-snapshot-0.1/`; executable/cwd fields are normalized for portability.
@@ -43,10 +46,19 @@ snapshots remain unchanged. No package release, SANSA/Query/Rust adoption, physi
 UTC alignment, timezone/WTC authority or elapsed-time resolution is introduced.
 
 
-All 45 focused snapshot/harness tests pass on Python 3.9 and 3.14, including
+All 50 focused snapshot/harness tests pass on Python 3.9 and 3.14, including
 manifest mutations, immutable isolation, missing executions, wrong responses,
-artifact-only gates and generator preservation. All 228 runner regressions pass
+artifact-only gates and generator preservation. All 233 runner regressions pass
 in isolated CI-layout fixtures on both runtimes. The older comparison-next unit
 suite receives its separately pinned historical source/schema in that disposable
 fixture; known-offset inputs retain the exact new owning revision. No comparison
 authority or source pins are changed by this capture.
+
+
+QA remediation separates protocol passes from externally assessed genuine-provider
+claims. A real stored-answer Conversion subprocess passes 147 protocol checks but
+receives no semantic/stable claim. The author qualification binds reviewed source
+bytes, actual provider commands and the regenerated report hashes; no independent
+QA closure is inferred. Capture-time projections no longer compare frozen assets
+with changing live next fixtures. Report/input aliases reject before execution,
+and a real clean Git CRLF conversion control validates the frozen target.

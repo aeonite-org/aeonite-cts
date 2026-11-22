@@ -5,9 +5,11 @@ import copy
 import hashlib
 import itertools
 import json
+import os
 import re
 from pathlib import Path
 import sys
+import tempfile
 
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
@@ -342,8 +344,11 @@ class Runner(CommonRunner):
         return dict(status='failed' if failures else 'artifacts-validated' if check_only else 'passed',
                     target=self.manifest['meta']['snapshot_id'],
                     target_status='immutable-local' if self.immutable else 'mutable-working',
-                    stable_conformance_claim=self.immutable and complete and not failures,
-                    semantic_execution=not check_only, complete_passing_execution=complete and not failures,
+                    # Replies establish a protocol result, not how the provider
+                    # computed it. Genuine implementation qualification is external.
+                    stable_conformance_claim=False, semantic_execution=False,
+                    protocol_execution=not check_only, provider_execution_verified=False,
+                    complete_passing_execution=complete and not failures,
                     capabilities=sorted(self.selected),
                     excluded_unclaimed_capability_cases=len(self.excluded), **counts,
                     sut_executions=self.executions, assertions=self.assertions,
@@ -353,6 +358,32 @@ class Runner(CommonRunner):
                     specification_schema_sha256=self.manifest['meta']['specification_schema_sha256'],
                     helper_hashes=self.manifest['meta']['helpers'], resource_limits=self.resource_limits,
                     sut=self.args.sut, cwd=str(self.args.cwd.resolve()), failures=failures)
+
+    def validate_report_destination(self, destination):
+        path = destination.resolve()
+        reserved = [ROOT / 'cts', ROOT / 'runners', self.args.specs_root]
+        for root in reserved:
+            root = root.resolve()
+            require(path != root and root not in path.parents, 'Report destination overlaps an input tree')
+        for artifact in self.artifacts:
+            require(path != artifact.resolve() and
+                    not (destination.exists() and artifact.exists() and os.path.samefile(destination, artifact)),
+                    'Report destination overlaps a pinned input')
+
+    def write_report(self, destination, text):
+        self.validate_report_destination(destination)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', newline='\n',
+                    dir=destination.parent, prefix='.known-offset-report-', delete=False) as stream:
+                temporary = Path(stream.name)
+                stream.write(text)
+            self.validate_report_destination(destination)
+            os.replace(temporary, destination)
+        finally:
+            if temporary is not None:
+                temporary.unlink(missing_ok=True)
 
 
 def main():
@@ -366,9 +397,12 @@ def main():
     args = parser.parse_args()
     require(args.check or args.sut, '--sut required unless --check selected')
     require(0 < args.timeout < float('inf'), 'Timeout must be positive and finite')
-    report = Runner(args).run(check_only=args.check); text = json.dumps(report, indent=2) + '\n'
+    runner = Runner(args)
     if args.report:
-        args.report.parent.mkdir(parents=True, exist_ok=True); args.report.write_text(text, encoding='utf-8')
+        runner.validate_report_destination(args.report)
+    report = runner.run(check_only=args.check); text = json.dumps(report, indent=2) + '\n'
+    if args.report:
+        runner.write_report(args.report, text)
     print(text, end=''); return 1 if report['status'] == 'failed' else 0
 
 

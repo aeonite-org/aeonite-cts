@@ -1,0 +1,2 @@
+# Retained report and qualification digests describe exact bytes.
+*.json -text

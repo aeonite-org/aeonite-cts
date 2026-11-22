@@ -1,3 +1,4 @@
 # Preserve exact recognized snapshot bytes across checkout platforms.
-aeonic-temporal-known-offset-cts.v1.snapshot-*.json -text
+*.json -text
+suites/** -text
 snapshots/** -text
