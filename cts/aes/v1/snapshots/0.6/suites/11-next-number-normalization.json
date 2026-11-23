@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "suite_id": "next-number-normalization",
+    "lane": "aes",
+    "profile": "aes.complete.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#4-2-value-kinds",
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#number-2"
+    ]
+  },
+  "id": "next-number-normalization",
+  "title": "Next Portable AES Number Normalization",
+  "tests": [
+    {
+      "id": "aes-number-normalization-001-canonical-finite-text",
+      "description": "Portable NumberLiteral values use canonical finite numeric text, including exponent-family zero",
+      "input": {
+        "source": "plus:number = +5\nleading:number = +.50\ndecimal:number = 10.00\nscientific:number = 1.0E+03\nunderscoredExponent:number = 1e0_1\npositiveZero:number = 0e+01\nnegativeExponentZero:number = 0e-01\nnegativeZero:number = -0e+01\nnegativeZeroNegativeExponent:number = -0e-01\n",
+        "mode": "strict",
+        "options": {
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            { "path": "$.plus", "value_kind": "NumberLiteral", "value": "5" },
+            { "path": "$.leading", "value_kind": "NumberLiteral", "value": "0.5" },
+            { "path": "$.decimal", "value_kind": "NumberLiteral", "value": "10.0" },
+            { "path": "$.scientific", "value_kind": "NumberLiteral", "value": "1e3" },
+            { "path": "$.underscoredExponent", "value_kind": "NumberLiteral", "value": "1e1" },
+            { "path": "$.positiveZero", "value_kind": "NumberLiteral", "value": "0e0" },
+            { "path": "$.negativeExponentZero", "value_kind": "NumberLiteral", "value": "0e0" },
+            { "path": "$.negativeZero", "value_kind": "NumberLiteral", "value": "-0e0" },
+            { "path": "$.negativeZeroNegativeExponent", "value_kind": "NumberLiteral", "value": "-0e0" }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "portable-aes",
+        "numbers",
+        "normalization"
+      ]
+    }
+  ]
+}

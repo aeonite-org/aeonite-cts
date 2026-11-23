@@ -1,0 +1,324 @@
+{
+  "source_revision": "4bc227f0e042c9c4514a0f2d75492cb6634cab60",
+  "specification_revision": "a6948968e4e2741f2342249024b266ca6adbfeb7",
+  "prepared_on": "2026-11-23",
+  "snapshots": [
+    {
+      "lane": "core",
+      "snapshot_id": "core-cts-v1-snapshot-0.6",
+      "manifest": "cts/core/v1/core-cts.v1.snapshot-0.6.json",
+      "manifest_sha256": "d8125efa769565400e530f4c5576bc1f21827babb0251f85aa44c65ef0848d2c",
+      "cases": 657,
+      "previous_snapshot": "core-cts-v1-snapshot-0.5",
+      "previous_manifest": "cts/core/v1/core-cts.v1.snapshot-0.5.json",
+      "source_manifest": "cts/core/v1/core-cts.v1.next.json",
+      "source_manifest_sha256": "8de8e1c906467be5a22418b3bf3e523accbd1c168d6e6f119137dbc280a00a0a",
+      "assets": [
+        {
+          "source": "cts/core/v1/suites/01-baseline.json",
+          "frozen": "cts/core/v1/suites/01-baseline.json",
+          "sha256": "a02f01d20e627015024f2609654021dfae38d519893993926d1ee7cb69b98f04"
+        },
+        {
+          "source": "cts/core/v1/suites/02-addressing-and-syntax.json",
+          "frozen": "cts/core/v1/suites/02-addressing-and-syntax.json",
+          "sha256": "3a55e4cd57a781e27f4d7ba8a6f5c609d2e58ba98a3911fcaa2f0b27540c9638"
+        },
+        {
+          "source": "cts/core/v1/suites/03-attributes-and-references.json",
+          "frozen": "cts/core/v1/suites/03-attributes-and-references.json",
+          "sha256": "d53e86ce3cde752a6b03bb3bae1eaaeab06281509e37e8abd2144f72b51b30b9"
+        },
+        {
+          "source": "cts/core/v1/suites/04-fail-closed-semantics.json",
+          "frozen": "cts/core/v1/suites/04-fail-closed-semantics.json",
+          "sha256": "51fcf321a9ea13e115236c4624535ae1ce39e5d9770efddc7bfee671314626ab"
+        },
+        {
+          "source": "cts/core/v1/suites/05-promoted-edge-rejections.json",
+          "frozen": "cts/core/v1/suites/05-promoted-edge-rejections.json",
+          "sha256": "83b0c826950ad7cf938f279c6521a368c09414deb3d3a83385a839387b4160c4"
+        },
+        {
+          "source": "cts/core/v1/suites/06-promoted-domain-fixtures.json",
+          "frozen": "cts/core/v1/suites/06-promoted-domain-fixtures.json",
+          "sha256": "95a36778b8939113023e13d564d7ed66918eea54bd9c1d521eff7c012bc45459"
+        },
+        {
+          "source": "cts/core/v1/suites/07-promoted-snippet-transport.json",
+          "frozen": "cts/core/v1/suites/07-promoted-snippet-transport.json",
+          "sha256": "15d2ae6650d63a7c3ae54948839418c9a449146ebaf87b25ce622ea6b488d5aa"
+        },
+        {
+          "source": "cts/core/v1/suites/08-promoted-strict-literals.json",
+          "frozen": "cts/core/v1/suites/08-promoted-strict-literals.json",
+          "sha256": "ec5febaeacf642f8d920961fc73a108433ba9aa3c33274e83af0d766f93609c0"
+        },
+        {
+          "source": "cts/core/v1/suites/09-promoted-separator-literals.json",
+          "frozen": "cts/core/v1/suites/09-promoted-separator-literals.json",
+          "sha256": "df2e83749ee2fb8212820a98ba34d879c0d1fc7f6fa0b8f0d6d139e002fbd075"
+        },
+        {
+          "source": "cts/core/v1/suites/10-promoted-numeric-and-encoding-literals.json",
+          "frozen": "cts/core/v1/suites/10-promoted-numeric-and-encoding-literals.json",
+          "sha256": "c46b0c7ad1351dab52c94a1840d348acb92a5c4be406f37667219dc5fb162517"
+        },
+        {
+          "source": "cts/core/v1/suites/11-promoted-custom-literals.json",
+          "frozen": "cts/core/v1/suites/11-promoted-custom-literals.json",
+          "sha256": "a04df7e673c6f37a954e72515fcbeb1d33f5edd1403b17ca0e61deb598c321ff"
+        },
+        {
+          "source": "cts/core/v1/suites/12-promoted-custom-rejections.json",
+          "frozen": "cts/core/v1/suites/12-promoted-custom-rejections.json",
+          "sha256": "555a966cbc8ff28bc252d77100d9aa16c316de22407c92bea75ca3cb03dbecfe"
+        },
+        {
+          "source": "cts/core/v1/suites/13-promoted-whitespace-boundaries.json",
+          "frozen": "cts/core/v1/suites/13-promoted-whitespace-boundaries.json",
+          "sha256": "3e7ff0318432b729f826339b717faf25a8791ad3e17e11c9e37f7fef29148baa"
+        },
+        {
+          "source": "cts/core/v1/suites/14-resource-policy.json",
+          "frozen": "cts/core/v1/suites/14-resource-policy.json",
+          "sha256": "9ba7ed3a693c3ea49cb7d92375af5ba4a3f6151df5121df75aedd29902388640"
+        },
+        {
+          "source": "cts/core/v1/suites/15-structural-identity.json",
+          "frozen": "cts/core/v1/suites/15-structural-identity.json",
+          "sha256": "da9caa298617362c1c8e81be87704a75fab9c4b67885a7f1f8465426e6466577"
+        },
+        {
+          "source": "cts/core/v1/suites/16-aeonic-limit-boundaries.json",
+          "frozen": "cts/core/v1/suites/16-aeonic-limit-boundaries.json",
+          "sha256": "fea3fc1540edefd3cbd0d39a1d0a2c8ddf2b6bd38fa5462a796a1e35a7475d9f"
+        },
+        {
+          "source": "cts/core/v1/suites/17-next-limit-semantics.json",
+          "frozen": "cts/core/v1/suites/17-next-limit-semantics.json",
+          "sha256": "af5a74764590894603eac46c762ef83429407fa189c2ab3551836163e4aa8885"
+        },
+        {
+          "source": "cts/core/v1/suites/18-next-profile-custom-clarifiers.json",
+          "frozen": "cts/core/v1/suites/18-next-profile-custom-clarifiers.json",
+          "sha256": "cacfa757db8c066888b6738d655cc889efb609de43aaeac43e53d666b7603df7"
+        },
+        {
+          "source": "cts/core/v1/suites/19-next-special-number-literals.json",
+          "frozen": "cts/core/v1/suites/19-next-special-number-literals.json",
+          "sha256": "ad2cfd82fa046e450963710b759585c74c38faa22af5204800680c1c4b6de0f5"
+        },
+        {
+          "source": "cts/core/v1/suites/20-next-contextual-datatype-names.json",
+          "frozen": "cts/core/v1/suites/20-next-contextual-datatype-names.json",
+          "sha256": "fc0544db77ca975a3daec467d3ea0bae136d162b8caf0d2b667ef3be2bf2a69f"
+        },
+        {
+          "source": "cts/core/v1/suites/21-temporal-precision-and-boundaries.json",
+          "frozen": "cts/core/v1/suites/21-temporal-precision-and-boundaries.json",
+          "sha256": "90831c295f84ef45eff631dfc5ed226c0d52e315e915e4a40c78b592d6e8fa2b"
+        },
+        {
+          "source": "cts/core/v1/suites/22-next-symbolic-literals.json",
+          "frozen": "cts/core/v1/suites/22-next-symbolic-literals.json",
+          "sha256": "298db0e717bffbaee724bdc3a6a12df89fd164acc62809b60a3e684027bfb868"
+        },
+        {
+          "source": "cts/core/v1/suites/23-next-trimtick-gutters.json",
+          "frozen": "cts/core/v1/suites/23-next-trimtick-gutters.json",
+          "sha256": "5f39646520348e66469a31938fcccf35c1d22268cd95b3459ebf30c1c180d61f"
+        },
+        {
+          "source": "cts/core/v1/suites/24-next-literal-flow-regressions.json",
+          "frozen": "cts/core/v1/snapshots/0.6/suites/24-next-literal-flow-regressions.json",
+          "sha256": "4f67ca3a91aec83a095bbcc03ca22581c40cb877394da6d2db8ba45fc057081a"
+        },
+        {
+          "source": "cts/core/v1/suites/25-next-base64url-validation.json",
+          "frozen": "cts/core/v1/suites/25-next-base64url-validation.json",
+          "sha256": "2f5739778ab1de0ae3388ddf6b203834b12bac7c785cf6c019b364ac9aa90d19"
+        },
+        {
+          "source": "cts/core/v1/suites/26-next-reference-authored-order.json",
+          "frozen": "cts/core/v1/snapshots/0.6/suites/26-next-reference-authored-order.json",
+          "sha256": "d9f5a5f64cfd4b74e8cab81a40519beec1d64f82d142bda73d2b870db5776086"
+        },
+        {
+          "source": "cts/core/v1/suites/27-next-type-only-generics.json",
+          "frozen": "cts/core/v1/snapshots/0.6/suites/27-next-type-only-generics.json",
+          "sha256": "6eb6e00203a7877148913c7388feed190a5cf384fcb406bc0d5555d62e083949"
+        },
+        {
+          "source": "cts/core/v1/suites/28-next-node-binding-generics.json",
+          "frozen": "cts/core/v1/snapshots/0.6/suites/28-next-node-binding-generics.json",
+          "sha256": "bb7cd7d3ee29d34297d484b0468c7c542f36634e403e0c5989e827739fb882a7"
+        },
+        {
+          "source": "cts/core/v1/suites/29-next-empty-keys.json",
+          "frozen": "cts/core/v1/snapshots/0.6/suites/29-next-empty-keys.json",
+          "sha256": "9c98281f7556263308da08158a4773cf3a807872b987cc741c3054a9c0af1f23"
+        },
+        {
+          "source": "cts/core/v1/suites/30-next-block-comment-newlines.json",
+          "frozen": "cts/core/v1/snapshots/0.6/suites/30-next-block-comment-newlines.json",
+          "sha256": "7d665195407e3e6acc7b48caaeab880c0b43c139dd961d7d93295152195faac9"
+        },
+        {
+          "source": "cts/core/v1/suites/31-next-radix16.json",
+          "frozen": "cts/core/v1/snapshots/0.6/suites/31-next-radix16.json",
+          "sha256": "42e7fac97072f673a983efef3ce09abe56f35bc09214b8da3119b19ed56747a2"
+        }
+      ]
+    },
+    {
+      "lane": "aes",
+      "snapshot_id": "aes-cts-v1-snapshot-0.6",
+      "manifest": "cts/aes/v1/aes-cts.v1.snapshot-0.6.json",
+      "manifest_sha256": "ff60ec48f8997388f47cd48c7ff16b76a2eda5da03d46a364d86180b588930bb",
+      "cases": 87,
+      "previous_snapshot": "aes-cts-v1-snapshot-0.4",
+      "previous_manifest": "cts/aes/v1/aes-cts.v1.snapshot-0.4.json",
+      "source_manifest": "cts/aes/v1/aes-cts.v1.next.json",
+      "source_manifest_sha256": "44ba9e7cefcd3378ad5448495ca0dc1b1f114fd2036a417139d3c41daaebc625",
+      "assets": [
+        {
+          "source": "cts/aes/v1/suites/01-baseline.json",
+          "frozen": "cts/aes/v1/suites/01-baseline.json",
+          "sha256": "81486cea9ee00faaaacc90d985afadd645c01a2bb99d90423fbb69f00c62e80d"
+        },
+        {
+          "source": "cts/aes/v1/suites/02-emission-coverage.json",
+          "frozen": "cts/aes/v1/suites/02-emission-coverage.json",
+          "sha256": "85d8bdc6314efef4117df1d768bb1fd982f5b8ca6a2a56333daae7f5adfe46bd"
+        },
+        {
+          "source": "cts/aes/v1/suites/03-attributes-and-references.json",
+          "frozen": "cts/aes/v1/suites/03-attributes-and-references.json",
+          "sha256": "c1aa5b73149a95e7a28fceb339e5ea56449a480f44d45f5dbd78e358626c7f84"
+        },
+        {
+          "source": "cts/aes/v1/suites/04-structural-identity-projection.json",
+          "frozen": "cts/aes/v1/suites/04-structural-identity-projection.json",
+          "sha256": "76d979d20e5474bcfcbaeb55923cf04789fac3a02f02decf7f99c761917d3dea"
+        },
+        {
+          "source": "cts/aes/v1/suites/05-next-limit-semantics.json",
+          "frozen": "cts/aes/v1/suites/05-next-limit-semantics.json",
+          "sha256": "b92f360b3c8b11107c321da27e05dfb1e01132b8f876ff8807957f60571269c0"
+        },
+        {
+          "source": "cts/aes/v1/suites/06-source-provenance-spans.json",
+          "frozen": "cts/aes/v1/suites/06-source-provenance-spans.json",
+          "sha256": "d3f9054756bcce707d1a95afc26996e20fc5ca920f4c1a67099a94cb5f52221a"
+        },
+        {
+          "source": "cts/aes/v1/suites/07-header-projection.json",
+          "frozen": "cts/aes/v1/suites/07-header-projection.json",
+          "sha256": "30b599b4f630284aa707677437e60604f1a68a5165cc685381b276bf1ca00b3d"
+        },
+        {
+          "source": "cts/aes/v1/suites/08-portable-value-payloads.json",
+          "frozen": "cts/aes/v1/suites/08-portable-value-payloads.json",
+          "sha256": "656d1055792d0cf32d27df1c9274865c6d232cee14642e392a844adbd305e4c5"
+        },
+        {
+          "source": "cts/aes/v1/suites/09-symbolic-literals.json",
+          "frozen": "cts/aes/v1/suites/09-symbolic-literals.json",
+          "sha256": "595ca34a94db88860f37db4dba81040c93d58e856c17f7937a7b064f339bb869"
+        },
+        {
+          "source": "cts/aes/v1/suites/10-trimtick-gutters.json",
+          "frozen": "cts/aes/v1/suites/10-trimtick-gutters.json",
+          "sha256": "4964af1816799dfb7873d72db6305cab63c485b6d8d3f6a44625820c7dadf9fe"
+        },
+        {
+          "source": "cts/aes/v1/suites/11-next-number-normalization.json",
+          "frozen": "cts/aes/v1/snapshots/0.6/suites/11-next-number-normalization.json",
+          "sha256": "a276aafb15cf39fb075ab521097103053dcfc4af142721ec85841cc9d2d5acb3"
+        },
+        {
+          "source": "cts/aes/v1/suites/12-next-empty-key-projection.json",
+          "frozen": "cts/aes/v1/snapshots/0.6/suites/12-next-empty-key-projection.json",
+          "sha256": "ec6089043f35be5befbd564b9846d47f138e473cea7c05f73ede7604ae80e864"
+        },
+        {
+          "source": "cts/aes/v1/suites/14-next-radix16.json",
+          "frozen": "cts/aes/v1/snapshots/0.6/suites/14-next-radix16.json",
+          "sha256": "e7d1d83975f462dd183b63efe8536c6420bfb53ff54cfb661734d3fbf102e500"
+        }
+      ]
+    },
+    {
+      "lane": "canonical",
+      "snapshot_id": "canonical-cts-v1-snapshot-0.5",
+      "manifest": "cts/canonical/v1/canonical-cts.v1.snapshot-0.5.json",
+      "manifest_sha256": "7d5edb06276c9a85b37a11b7fe48e12446821cd735e4a587ca852f1a1c9c8402",
+      "cases": 209,
+      "previous_snapshot": "canonical-cts-v1-snapshot-0.4",
+      "previous_manifest": "cts/canonical/v1/canonical-cts.v1.snapshot-0.4.json",
+      "source_manifest": "cts/canonical/v1/canonical-reference-ordering-cts.v1.next.json",
+      "source_manifest_sha256": "53296cc39fad3200183e93ae40a58b24bc8bfb85965ae278d936ae20c4cbed01",
+      "assets": [
+        {
+          "source": "cts/canonical/v1/suites/01-baseline.json",
+          "frozen": "cts/canonical/v1/suites/01-baseline.json",
+          "sha256": "8f8460f082547f985b82ff377f2a338e9417aa3f5f3e6482badefbadf1b3ccb2"
+        },
+        {
+          "source": "cts/canonical/v1/suites/02-node-canonicalization.json",
+          "frozen": "cts/canonical/v1/suites/02-node-canonicalization.json",
+          "sha256": "5c479dd4765f04774ae097dde42f746b8ead40f9f1a93ba102a9fd2afe8fce0b"
+        },
+        {
+          "source": "cts/canonical/v1/suites/03-whitespace-boundary-canonicalization.json",
+          "frozen": "cts/canonical/v1/suites/03-whitespace-boundary-canonicalization.json",
+          "sha256": "07e3b5d618c2f19543d647104849ffe8bfd357ae039dacd89bf92eeafece86e1"
+        },
+        {
+          "source": "cts/canonical/v1/suites/04-structural-identity-canonicalization.json",
+          "frozen": "cts/canonical/v1/suites/04-structural-identity-canonicalization.json",
+          "sha256": "adbe315dd52b41a1d1797f5a0e5d0861ee9eae27d3eab64f769f1e85966c1406"
+        },
+        {
+          "source": "cts/canonical/v1/suites/05-string-escapes.json",
+          "frozen": "cts/canonical/v1/suites/05-string-escapes.json",
+          "sha256": "8ea98a1d6c5f2d6853a0672af697853350ddf95d5558077b2da8ace0ae6b1e43"
+        },
+        {
+          "source": "cts/canonical/v1/suites/06-symbolic-literals.json",
+          "frozen": "cts/canonical/v1/suites/06-symbolic-literals.json",
+          "sha256": "ded2cbcb6d27f16b9b8504c17c800d096d9082baf4c70c47b51a9b045b088e18"
+        },
+        {
+          "source": "cts/canonical/v1/suites/07-temporal-literals.json",
+          "frozen": "cts/canonical/v1/suites/07-temporal-literals.json",
+          "sha256": "77066312bb13f8174463934fe2db3dc4d5c3e342b89dd8d131e973b3b3267e85"
+        },
+        {
+          "source": "cts/canonical/v1/suites/08-next-literal-flow-regressions.json",
+          "frozen": "cts/canonical/v1/suites/08-next-literal-flow-regressions.json",
+          "sha256": "8d20ec0ef1ee13df3585545d8c7416fed1ede0914336052715cc91011378374a"
+        },
+        {
+          "source": "cts/canonical/v1/suites/09-next-reference-ordering.json",
+          "frozen": "cts/canonical/v1/suites/09-next-reference-ordering.json",
+          "sha256": "ba90e21c50f48cb1db65e08f84c836768fe6c0b39129bb93e32bd6cdc8011647"
+        },
+        {
+          "source": "cts/canonical/v1/suites/10-next-type-only-generics.json",
+          "frozen": "cts/canonical/v1/suites/10-next-type-only-generics.json",
+          "sha256": "53f68c4e5c149bc599a89834a00b8a85512ca7914c0f09222794efd42489e675"
+        },
+        {
+          "source": "cts/canonical/v1/suites/11-next-empty-keys.json",
+          "frozen": "cts/canonical/v1/snapshots/0.5/suites/11-next-empty-keys.json",
+          "sha256": "775d55b2e7177b2ad796d0fc47583082aaa13a9b42577aadd92c3c05beb4bf73"
+        }
+      ]
+    }
+  ],
+  "mutable_targets_unchanged": true,
+  "historical_targets_unchanged": true,
+  "release_combination_acceptance": false
+}

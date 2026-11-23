@@ -1,0 +1,5571 @@
+{
+  "meta": {
+    "suite_id": "next-block-comment-newlines",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Physical LF/CRLF inside all block-comment channels supplies a newline separator wherever allowed. Mutable development coverage; no historical target is changed."
+  },
+  "id": "next-block-comment-newlines",
+  "title": "Physical Newlines in Block Comments",
+  "tests": [
+    {
+      "id": "core-comment-newline-plain-document-lf",
+      "description": "plain document lf",
+      "input": {
+        "source": "a = 3e3 /*\n*/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-document-crlf",
+      "description": "plain document crlf",
+      "input": {
+        "source": "a = 3e3 /*\r\n*/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-document-single-line",
+      "description": "plain document single line",
+      "input": {
+        "source": "a = 3e3 /* comment */b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-object-lf",
+      "description": "plain object lf",
+      "input": {
+        "source": "o = {a = 3e3 /*\n*/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-object-crlf",
+      "description": "plain object crlf",
+      "input": {
+        "source": "o = {a = 3e3 /*\r\n*/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-object-single-line",
+      "description": "plain object single line",
+      "input": {
+        "source": "o = {a = 3e3 /* comment */b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-list-lf",
+      "description": "plain list lf",
+      "input": {
+        "source": "v = [3e3 /*\n*/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-list-crlf",
+      "description": "plain list crlf",
+      "input": {
+        "source": "v = [3e3 /*\r\n*/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-list-single-line",
+      "description": "plain list single line",
+      "input": {
+        "source": "v = [3e3 /* comment */399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-tuple-lf",
+      "description": "plain tuple lf",
+      "input": {
+        "source": "v = (3e3 /*\n*/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-tuple-crlf",
+      "description": "plain tuple crlf",
+      "input": {
+        "source": "v = (3e3 /*\r\n*/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-tuple-single-line",
+      "description": "plain tuple single line",
+      "input": {
+        "source": "v = (3e3 /* comment */399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-node-lf",
+      "description": "plain node lf",
+      "input": {
+        "source": "v = <n(3e3 /*\n*/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-node-crlf",
+      "description": "plain node crlf",
+      "input": {
+        "source": "v = <n(3e3 /*\r\n*/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-node-single-line",
+      "description": "plain node single line",
+      "input": {
+        "source": "v = <n(3e3 /* comment */399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-attributes-lf",
+      "description": "plain attributes lf",
+      "input": {
+        "source": "a@{x = 3e3 /*\n*/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-attributes-crlf",
+      "description": "plain attributes crlf",
+      "input": {
+        "source": "a@{x = 3e3 /*\r\n*/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-attributes-single-line",
+      "description": "plain attributes single line",
+      "input": {
+        "source": "a@{x = 3e3 /* comment */y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-header-lf",
+      "description": "plain header lf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /*\n*/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-header-crlf",
+      "description": "plain header crlf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /*\r\n*/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-header-single-line",
+      "description": "plain header single line",
+      "input": {
+        "source": "aeon:version = \"1.0\" /* comment */aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-cr-is-not-newline",
+      "description": "plain cr is not newline",
+      "input": {
+        "source": "a = 3e3 /*\r*/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-escaped-n-is-not-newline",
+      "description": "plain escaped n is not newline",
+      "input": {
+        "source": "a = 3e3 /*\\n*/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-line-separator-is-not-newline",
+      "description": "plain line separator is not newline",
+      "input": {
+        "source": "a = 3e3 /*\u2028*/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-paragraph-separator-is-not-newline",
+      "description": "plain paragraph separator is not newline",
+      "input": {
+        "source": "a = 3e3 /*\u2029*/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-inter-token-layout",
+      "description": "plain inter token layout",
+      "input": {
+        "source": "a /*\n*/ = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-unterminated",
+      "description": "plain unterminated",
+      "input": {
+        "source": "a=1 /*\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_BLOCK_COMMENT"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-plain-first-closer",
+      "description": "plain first closer",
+      "input": {
+        "source": "a=1 /*\n*/ b=2 */",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-document-lf",
+      "description": "doc document lf",
+      "input": {
+        "source": "a = 3e3 /#\n#/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-document-crlf",
+      "description": "doc document crlf",
+      "input": {
+        "source": "a = 3e3 /#\r\n#/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-document-single-line",
+      "description": "doc document single line",
+      "input": {
+        "source": "a = 3e3 /# comment #/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-object-lf",
+      "description": "doc object lf",
+      "input": {
+        "source": "o = {a = 3e3 /#\n#/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-object-crlf",
+      "description": "doc object crlf",
+      "input": {
+        "source": "o = {a = 3e3 /#\r\n#/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-object-single-line",
+      "description": "doc object single line",
+      "input": {
+        "source": "o = {a = 3e3 /# comment #/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-list-lf",
+      "description": "doc list lf",
+      "input": {
+        "source": "v = [3e3 /#\n#/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-list-crlf",
+      "description": "doc list crlf",
+      "input": {
+        "source": "v = [3e3 /#\r\n#/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-list-single-line",
+      "description": "doc list single line",
+      "input": {
+        "source": "v = [3e3 /# comment #/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-tuple-lf",
+      "description": "doc tuple lf",
+      "input": {
+        "source": "v = (3e3 /#\n#/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-tuple-crlf",
+      "description": "doc tuple crlf",
+      "input": {
+        "source": "v = (3e3 /#\r\n#/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-tuple-single-line",
+      "description": "doc tuple single line",
+      "input": {
+        "source": "v = (3e3 /# comment #/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-node-lf",
+      "description": "doc node lf",
+      "input": {
+        "source": "v = <n(3e3 /#\n#/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-node-crlf",
+      "description": "doc node crlf",
+      "input": {
+        "source": "v = <n(3e3 /#\r\n#/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-node-single-line",
+      "description": "doc node single line",
+      "input": {
+        "source": "v = <n(3e3 /# comment #/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-attributes-lf",
+      "description": "doc attributes lf",
+      "input": {
+        "source": "a@{x = 3e3 /#\n#/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-attributes-crlf",
+      "description": "doc attributes crlf",
+      "input": {
+        "source": "a@{x = 3e3 /#\r\n#/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-attributes-single-line",
+      "description": "doc attributes single line",
+      "input": {
+        "source": "a@{x = 3e3 /# comment #/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-header-lf",
+      "description": "doc header lf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /#\n#/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-header-crlf",
+      "description": "doc header crlf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /#\r\n#/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-header-single-line",
+      "description": "doc header single line",
+      "input": {
+        "source": "aeon:version = \"1.0\" /# comment #/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-cr-is-not-newline",
+      "description": "doc cr is not newline",
+      "input": {
+        "source": "a = 3e3 /#\r#/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-escaped-n-is-not-newline",
+      "description": "doc escaped n is not newline",
+      "input": {
+        "source": "a = 3e3 /#\\n#/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-line-separator-is-not-newline",
+      "description": "doc line separator is not newline",
+      "input": {
+        "source": "a = 3e3 /#\u2028#/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-paragraph-separator-is-not-newline",
+      "description": "doc paragraph separator is not newline",
+      "input": {
+        "source": "a = 3e3 /#\u2029#/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-inter-token-layout",
+      "description": "doc inter token layout",
+      "input": {
+        "source": "a /#\n#/ = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-unterminated",
+      "description": "doc unterminated",
+      "input": {
+        "source": "a=1 /#\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_BLOCK_COMMENT"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-doc-first-closer",
+      "description": "doc first closer",
+      "input": {
+        "source": "a=1 /#\n#/ b=2 #/",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-document-lf",
+      "description": "annotation document lf",
+      "input": {
+        "source": "a = 3e3 /@\n@/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-document-crlf",
+      "description": "annotation document crlf",
+      "input": {
+        "source": "a = 3e3 /@\r\n@/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-document-single-line",
+      "description": "annotation document single line",
+      "input": {
+        "source": "a = 3e3 /@ comment @/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-object-lf",
+      "description": "annotation object lf",
+      "input": {
+        "source": "o = {a = 3e3 /@\n@/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-object-crlf",
+      "description": "annotation object crlf",
+      "input": {
+        "source": "o = {a = 3e3 /@\r\n@/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-object-single-line",
+      "description": "annotation object single line",
+      "input": {
+        "source": "o = {a = 3e3 /@ comment @/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-list-lf",
+      "description": "annotation list lf",
+      "input": {
+        "source": "v = [3e3 /@\n@/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-list-crlf",
+      "description": "annotation list crlf",
+      "input": {
+        "source": "v = [3e3 /@\r\n@/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-list-single-line",
+      "description": "annotation list single line",
+      "input": {
+        "source": "v = [3e3 /@ comment @/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-tuple-lf",
+      "description": "annotation tuple lf",
+      "input": {
+        "source": "v = (3e3 /@\n@/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-tuple-crlf",
+      "description": "annotation tuple crlf",
+      "input": {
+        "source": "v = (3e3 /@\r\n@/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-tuple-single-line",
+      "description": "annotation tuple single line",
+      "input": {
+        "source": "v = (3e3 /@ comment @/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-node-lf",
+      "description": "annotation node lf",
+      "input": {
+        "source": "v = <n(3e3 /@\n@/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-node-crlf",
+      "description": "annotation node crlf",
+      "input": {
+        "source": "v = <n(3e3 /@\r\n@/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-node-single-line",
+      "description": "annotation node single line",
+      "input": {
+        "source": "v = <n(3e3 /@ comment @/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-attributes-lf",
+      "description": "annotation attributes lf",
+      "input": {
+        "source": "a@{x = 3e3 /@\n@/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-attributes-crlf",
+      "description": "annotation attributes crlf",
+      "input": {
+        "source": "a@{x = 3e3 /@\r\n@/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-attributes-single-line",
+      "description": "annotation attributes single line",
+      "input": {
+        "source": "a@{x = 3e3 /@ comment @/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-header-lf",
+      "description": "annotation header lf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /@\n@/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-header-crlf",
+      "description": "annotation header crlf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /@\r\n@/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-header-single-line",
+      "description": "annotation header single line",
+      "input": {
+        "source": "aeon:version = \"1.0\" /@ comment @/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-cr-is-not-newline",
+      "description": "annotation cr is not newline",
+      "input": {
+        "source": "a = 3e3 /@\r@/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-escaped-n-is-not-newline",
+      "description": "annotation escaped n is not newline",
+      "input": {
+        "source": "a = 3e3 /@\\n@/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-line-separator-is-not-newline",
+      "description": "annotation line separator is not newline",
+      "input": {
+        "source": "a = 3e3 /@\u2028@/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-paragraph-separator-is-not-newline",
+      "description": "annotation paragraph separator is not newline",
+      "input": {
+        "source": "a = 3e3 /@\u2029@/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-inter-token-layout",
+      "description": "annotation inter token layout",
+      "input": {
+        "source": "a /@\n@/ = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-unterminated",
+      "description": "annotation unterminated",
+      "input": {
+        "source": "a=1 /@\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_BLOCK_COMMENT"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-annotation-first-closer",
+      "description": "annotation first closer",
+      "input": {
+        "source": "a=1 /@\n@/ b=2 @/",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-document-lf",
+      "description": "hint document lf",
+      "input": {
+        "source": "a = 3e3 /?\n?/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-document-crlf",
+      "description": "hint document crlf",
+      "input": {
+        "source": "a = 3e3 /?\r\n?/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-document-single-line",
+      "description": "hint document single line",
+      "input": {
+        "source": "a = 3e3 /? comment ?/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-object-lf",
+      "description": "hint object lf",
+      "input": {
+        "source": "o = {a = 3e3 /?\n?/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-object-crlf",
+      "description": "hint object crlf",
+      "input": {
+        "source": "o = {a = 3e3 /?\r\n?/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-object-single-line",
+      "description": "hint object single line",
+      "input": {
+        "source": "o = {a = 3e3 /? comment ?/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-list-lf",
+      "description": "hint list lf",
+      "input": {
+        "source": "v = [3e3 /?\n?/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-list-crlf",
+      "description": "hint list crlf",
+      "input": {
+        "source": "v = [3e3 /?\r\n?/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-list-single-line",
+      "description": "hint list single line",
+      "input": {
+        "source": "v = [3e3 /? comment ?/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-tuple-lf",
+      "description": "hint tuple lf",
+      "input": {
+        "source": "v = (3e3 /?\n?/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-tuple-crlf",
+      "description": "hint tuple crlf",
+      "input": {
+        "source": "v = (3e3 /?\r\n?/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-tuple-single-line",
+      "description": "hint tuple single line",
+      "input": {
+        "source": "v = (3e3 /? comment ?/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-node-lf",
+      "description": "hint node lf",
+      "input": {
+        "source": "v = <n(3e3 /?\n?/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-node-crlf",
+      "description": "hint node crlf",
+      "input": {
+        "source": "v = <n(3e3 /?\r\n?/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-node-single-line",
+      "description": "hint node single line",
+      "input": {
+        "source": "v = <n(3e3 /? comment ?/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-attributes-lf",
+      "description": "hint attributes lf",
+      "input": {
+        "source": "a@{x = 3e3 /?\n?/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-attributes-crlf",
+      "description": "hint attributes crlf",
+      "input": {
+        "source": "a@{x = 3e3 /?\r\n?/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-attributes-single-line",
+      "description": "hint attributes single line",
+      "input": {
+        "source": "a@{x = 3e3 /? comment ?/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-header-lf",
+      "description": "hint header lf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /?\n?/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-header-crlf",
+      "description": "hint header crlf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /?\r\n?/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-header-single-line",
+      "description": "hint header single line",
+      "input": {
+        "source": "aeon:version = \"1.0\" /? comment ?/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-cr-is-not-newline",
+      "description": "hint cr is not newline",
+      "input": {
+        "source": "a = 3e3 /?\r?/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-escaped-n-is-not-newline",
+      "description": "hint escaped n is not newline",
+      "input": {
+        "source": "a = 3e3 /?\\n?/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-line-separator-is-not-newline",
+      "description": "hint line separator is not newline",
+      "input": {
+        "source": "a = 3e3 /?\u2028?/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-paragraph-separator-is-not-newline",
+      "description": "hint paragraph separator is not newline",
+      "input": {
+        "source": "a = 3e3 /?\u2029?/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-inter-token-layout",
+      "description": "hint inter token layout",
+      "input": {
+        "source": "a /?\n?/ = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-unterminated",
+      "description": "hint unterminated",
+      "input": {
+        "source": "a=1 /?\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_BLOCK_COMMENT"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-hint-first-closer",
+      "description": "hint first closer",
+      "input": {
+        "source": "a=1 /?\n?/ b=2 ?/",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-document-lf",
+      "description": "structure document lf",
+      "input": {
+        "source": "a = 3e3 /{\n}/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-document-crlf",
+      "description": "structure document crlf",
+      "input": {
+        "source": "a = 3e3 /{\r\n}/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-document-single-line",
+      "description": "structure document single line",
+      "input": {
+        "source": "a = 3e3 /{ comment }/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-object-lf",
+      "description": "structure object lf",
+      "input": {
+        "source": "o = {a = 3e3 /{\n}/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-object-crlf",
+      "description": "structure object crlf",
+      "input": {
+        "source": "o = {a = 3e3 /{\r\n}/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-object-single-line",
+      "description": "structure object single line",
+      "input": {
+        "source": "o = {a = 3e3 /{ comment }/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-list-lf",
+      "description": "structure list lf",
+      "input": {
+        "source": "v = [3e3 /{\n}/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-list-crlf",
+      "description": "structure list crlf",
+      "input": {
+        "source": "v = [3e3 /{\r\n}/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-list-single-line",
+      "description": "structure list single line",
+      "input": {
+        "source": "v = [3e3 /{ comment }/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-tuple-lf",
+      "description": "structure tuple lf",
+      "input": {
+        "source": "v = (3e3 /{\n}/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-tuple-crlf",
+      "description": "structure tuple crlf",
+      "input": {
+        "source": "v = (3e3 /{\r\n}/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-tuple-single-line",
+      "description": "structure tuple single line",
+      "input": {
+        "source": "v = (3e3 /{ comment }/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-node-lf",
+      "description": "structure node lf",
+      "input": {
+        "source": "v = <n(3e3 /{\n}/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-node-crlf",
+      "description": "structure node crlf",
+      "input": {
+        "source": "v = <n(3e3 /{\r\n}/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-node-single-line",
+      "description": "structure node single line",
+      "input": {
+        "source": "v = <n(3e3 /{ comment }/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-attributes-lf",
+      "description": "structure attributes lf",
+      "input": {
+        "source": "a@{x = 3e3 /{\n}/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-attributes-crlf",
+      "description": "structure attributes crlf",
+      "input": {
+        "source": "a@{x = 3e3 /{\r\n}/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-attributes-single-line",
+      "description": "structure attributes single line",
+      "input": {
+        "source": "a@{x = 3e3 /{ comment }/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-header-lf",
+      "description": "structure header lf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /{\n}/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-header-crlf",
+      "description": "structure header crlf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /{\r\n}/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-header-single-line",
+      "description": "structure header single line",
+      "input": {
+        "source": "aeon:version = \"1.0\" /{ comment }/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-cr-is-not-newline",
+      "description": "structure cr is not newline",
+      "input": {
+        "source": "a = 3e3 /{\r}/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-escaped-n-is-not-newline",
+      "description": "structure escaped n is not newline",
+      "input": {
+        "source": "a = 3e3 /{\\n}/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-line-separator-is-not-newline",
+      "description": "structure line separator is not newline",
+      "input": {
+        "source": "a = 3e3 /{\u2028}/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-paragraph-separator-is-not-newline",
+      "description": "structure paragraph separator is not newline",
+      "input": {
+        "source": "a = 3e3 /{\u2029}/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-inter-token-layout",
+      "description": "structure inter token layout",
+      "input": {
+        "source": "a /{\n}/ = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-unterminated",
+      "description": "structure unterminated",
+      "input": {
+        "source": "a=1 /{\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_BLOCK_COMMENT"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-structure-first-closer",
+      "description": "structure first closer",
+      "input": {
+        "source": "a=1 /{\n}/ b=2 }/",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-document-lf",
+      "description": "profile document lf",
+      "input": {
+        "source": "a = 3e3 /[\n]/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-document-crlf",
+      "description": "profile document crlf",
+      "input": {
+        "source": "a = 3e3 /[\r\n]/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-document-single-line",
+      "description": "profile document single line",
+      "input": {
+        "source": "a = 3e3 /[ comment ]/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-object-lf",
+      "description": "profile object lf",
+      "input": {
+        "source": "o = {a = 3e3 /[\n]/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-object-crlf",
+      "description": "profile object crlf",
+      "input": {
+        "source": "o = {a = 3e3 /[\r\n]/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-object-single-line",
+      "description": "profile object single line",
+      "input": {
+        "source": "o = {a = 3e3 /[ comment ]/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-list-lf",
+      "description": "profile list lf",
+      "input": {
+        "source": "v = [3e3 /[\n]/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-list-crlf",
+      "description": "profile list crlf",
+      "input": {
+        "source": "v = [3e3 /[\r\n]/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-list-single-line",
+      "description": "profile list single line",
+      "input": {
+        "source": "v = [3e3 /[ comment ]/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-tuple-lf",
+      "description": "profile tuple lf",
+      "input": {
+        "source": "v = (3e3 /[\n]/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-tuple-crlf",
+      "description": "profile tuple crlf",
+      "input": {
+        "source": "v = (3e3 /[\r\n]/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-tuple-single-line",
+      "description": "profile tuple single line",
+      "input": {
+        "source": "v = (3e3 /[ comment ]/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-node-lf",
+      "description": "profile node lf",
+      "input": {
+        "source": "v = <n(3e3 /[\n]/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-node-crlf",
+      "description": "profile node crlf",
+      "input": {
+        "source": "v = <n(3e3 /[\r\n]/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-node-single-line",
+      "description": "profile node single line",
+      "input": {
+        "source": "v = <n(3e3 /[ comment ]/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-attributes-lf",
+      "description": "profile attributes lf",
+      "input": {
+        "source": "a@{x = 3e3 /[\n]/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-attributes-crlf",
+      "description": "profile attributes crlf",
+      "input": {
+        "source": "a@{x = 3e3 /[\r\n]/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-attributes-single-line",
+      "description": "profile attributes single line",
+      "input": {
+        "source": "a@{x = 3e3 /[ comment ]/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-header-lf",
+      "description": "profile header lf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /[\n]/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-header-crlf",
+      "description": "profile header crlf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /[\r\n]/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-header-single-line",
+      "description": "profile header single line",
+      "input": {
+        "source": "aeon:version = \"1.0\" /[ comment ]/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-cr-is-not-newline",
+      "description": "profile cr is not newline",
+      "input": {
+        "source": "a = 3e3 /[\r]/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-escaped-n-is-not-newline",
+      "description": "profile escaped n is not newline",
+      "input": {
+        "source": "a = 3e3 /[\\n]/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-line-separator-is-not-newline",
+      "description": "profile line separator is not newline",
+      "input": {
+        "source": "a = 3e3 /[\u2028]/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-paragraph-separator-is-not-newline",
+      "description": "profile paragraph separator is not newline",
+      "input": {
+        "source": "a = 3e3 /[\u2029]/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-inter-token-layout",
+      "description": "profile inter token layout",
+      "input": {
+        "source": "a /[\n]/ = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-unterminated",
+      "description": "profile unterminated",
+      "input": {
+        "source": "a=1 /[\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_BLOCK_COMMENT"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-profile-first-closer",
+      "description": "profile first closer",
+      "input": {
+        "source": "a=1 /[\n]/ b=2 ]/",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-document-lf",
+      "description": "instructions document lf",
+      "input": {
+        "source": "a = 3e3 /(\n)/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-document-crlf",
+      "description": "instructions document crlf",
+      "input": {
+        "source": "a = 3e3 /(\r\n)/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-document-single-line",
+      "description": "instructions document single line",
+      "input": {
+        "source": "a = 3e3 /( comment )/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-object-lf",
+      "description": "instructions object lf",
+      "input": {
+        "source": "o = {a = 3e3 /(\n)/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-object-crlf",
+      "description": "instructions object crlf",
+      "input": {
+        "source": "o = {a = 3e3 /(\r\n)/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-object-single-line",
+      "description": "instructions object single line",
+      "input": {
+        "source": "o = {a = 3e3 /( comment )/b = 399}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-list-lf",
+      "description": "instructions list lf",
+      "input": {
+        "source": "v = [3e3 /(\n)/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-list-crlf",
+      "description": "instructions list crlf",
+      "input": {
+        "source": "v = [3e3 /(\r\n)/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-list-single-line",
+      "description": "instructions list single line",
+      "input": {
+        "source": "v = [3e3 /( comment )/399]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-tuple-lf",
+      "description": "instructions tuple lf",
+      "input": {
+        "source": "v = (3e3 /(\n)/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-tuple-crlf",
+      "description": "instructions tuple crlf",
+      "input": {
+        "source": "v = (3e3 /(\r\n)/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-tuple-single-line",
+      "description": "instructions tuple single line",
+      "input": {
+        "source": "v = (3e3 /( comment )/399)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-node-lf",
+      "description": "instructions node lf",
+      "input": {
+        "source": "v = <n(3e3 /(\n)/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-node-crlf",
+      "description": "instructions node crlf",
+      "input": {
+        "source": "v = <n(3e3 /(\r\n)/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-node-single-line",
+      "description": "instructions node single line",
+      "input": {
+        "source": "v = <n(3e3 /( comment )/399)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-attributes-lf",
+      "description": "instructions attributes lf",
+      "input": {
+        "source": "a@{x = 3e3 /(\n)/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-attributes-crlf",
+      "description": "instructions attributes crlf",
+      "input": {
+        "source": "a@{x = 3e3 /(\r\n)/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-attributes-single-line",
+      "description": "instructions attributes single line",
+      "input": {
+        "source": "a@{x = 3e3 /( comment )/y = 399} = 0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-header-lf",
+      "description": "instructions header lf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /(\n)/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-header-crlf",
+      "description": "instructions header crlf",
+      "input": {
+        "source": "aeon:version = \"1.0\" /(\r\n)/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-header-single-line",
+      "description": "instructions header single line",
+      "input": {
+        "source": "aeon:version = \"1.0\" /( comment )/aeon:mode = \"transport\"\na = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-cr-is-not-newline",
+      "description": "instructions cr is not newline",
+      "input": {
+        "source": "a = 3e3 /(\r)/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-escaped-n-is-not-newline",
+      "description": "instructions escaped n is not newline",
+      "input": {
+        "source": "a = 3e3 /(\\n)/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-line-separator-is-not-newline",
+      "description": "instructions line separator is not newline",
+      "input": {
+        "source": "a = 3e3 /(\u2028)/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-paragraph-separator-is-not-newline",
+      "description": "instructions paragraph separator is not newline",
+      "input": {
+        "source": "a = 3e3 /(\u2029)/b = 399",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-inter-token-layout",
+      "description": "instructions inter token layout",
+      "input": {
+        "source": "a /(\n)/ = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-unterminated",
+      "description": "instructions unterminated",
+      "input": {
+        "source": "a=1 /(\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_BLOCK_COMMENT"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-instructions-first-closer",
+      "description": "instructions first closer",
+      "input": {
+        "source": "a=1 /(\n)/ b=2 )/",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-strict-typed-document",
+      "description": "strict typed document",
+      "input": {
+        "source": "a:number=3e3 /*\n*/b:number=399",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-strict-typed-attributes",
+      "description": "strict typed attributes",
+      "input": {
+        "source": "a@{x:number=3e3 /*\n*/y:number=399}:number=0",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-custom-typed-document",
+      "description": "custom typed document",
+      "input": {
+        "source": "a:number=3e3 /*\n*/b:number=399",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-custom-typed-attributes",
+      "description": "custom typed attributes",
+      "input": {
+        "source": "a@{x:number=3e3 /*\n*/y:number=399}:number=0",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-raw-string",
+      "description": "raw string",
+      "input": {
+        "source": "a=`/*\n*/` b=2",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-trimtick",
+      "description": "trimtick",
+      "input": {
+        "source": "a=>`/*\n*/` b=2",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-quoted-string",
+      "description": "quoted string",
+      "input": {
+        "source": "a=\"/*\\n*/\" b=2",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-split-keyword",
+      "description": "split keyword",
+      "input": {
+        "source": "a=tr/*\n*/ue",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-split-exponent",
+      "description": "split exponent",
+      "input": {
+        "source": "a=3e/*\n*/3",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-empty",
+      "description": "empty",
+      "input": {
+        "source": "",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    },
+    {
+      "id": "core-comment-newline-comment-only",
+      "description": "comment only",
+      "input": {
+        "source": "/*\n*/",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "block-comments",
+        "physical-newlines",
+        "development"
+      ],
+      "spec_refs": [
+        "aeon/v1/structure-syntax-v1#comments-and-newlines",
+        "aeon/v1/comments-annotations-v1#non-influence-rule"
+      ]
+    }
+  ]
+}

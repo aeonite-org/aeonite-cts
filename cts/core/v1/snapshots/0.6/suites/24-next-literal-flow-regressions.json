@@ -1,0 +1,746 @@
+{
+  "meta": {
+    "suite_id": "next-literal-flow-regressions",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#number-2",
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#string-2",
+      "aeonite-specs/sources/aeon/v1/value-types-v1.aeon#trimtick-2"
+    ]
+  },
+  "id": "next-literal-flow-regressions",
+  "title": "Next Literal Flow Regressions",
+  "tests": [
+    {
+      "id": "core-literal-flow-001-leading-zero-integer",
+      "description": "Underscores do not make a leading-zero mantissa valid: 0_1",
+      "input": {
+        "source": "v = 0_1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-002-leading-zero-zero",
+      "description": "Underscores do not make a leading-zero mantissa valid: 0_0",
+      "input": {
+        "source": "v = 0_0\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-003-leading-zero-signed-decimal",
+      "description": "Underscores do not make a leading-zero mantissa valid: -0_1.2",
+      "input": {
+        "source": "v = -0_1.2\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-004-leading-zero-positive",
+      "description": "Underscores do not make a leading-zero mantissa valid: +0_1",
+      "input": {
+        "source": "v = +0_1\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-005-leading-zero-exponent-mantissa",
+      "description": "Underscores do not make a leading-zero mantissa valid: 0_1e2",
+      "input": {
+        "source": "v = 0_1e2\n",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NUMBER"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-006-exponent-positive",
+      "description": "Exponent digits may have leading zeroes: 0e+01",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:number = 0e+01\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-007-exponent-negative",
+      "description": "Exponent digits may have leading zeroes: 0e-01",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:number = 0e-01\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-008-exponent-unsigned",
+      "description": "Exponent digits may have leading zeroes: 1e01",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:number = 1e01\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-009-exponent-underscored",
+      "description": "Exponent digits may have leading zeroes: 1e0_1",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:number = 1e0_1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-010-exponent-zero",
+      "description": "Exponent digits may have leading zeroes: 1e+00",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:number = 1e+00\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-011-number-controls",
+      "description": "Ordinary underscored nonzero mantissas remain valid",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:number = 1_000\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "number",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-012-prose-rejects-double-quoted",
+      "description": "The reserved prose datatype requires a trimtick literal, not double-quoted content",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:prose = \"text\"\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-013-prose-rejects-single-quoted",
+      "description": "The reserved prose datatype requires a trimtick literal, not single-quoted content",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:prose = 'text'\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-014-prose-rejects-backtick",
+      "description": "The reserved prose datatype requires a trimtick literal, not backtick content",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:prose = `text`\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-015-prose-rejects-symbol",
+      "description": "The reserved prose datatype requires a trimtick literal, not symbol content",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:prose = |text|\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-016-prose-rejects-number",
+      "description": "The reserved prose datatype requires a trimtick literal, not number content",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:prose = 1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-017-prose-rejects-list",
+      "description": "Explicit prose bindings enforce the trimtick family inside a list",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:list = [:prose = \"text\"]\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-018-prose-rejects-tuple",
+      "description": "Explicit prose bindings enforce the trimtick family inside a tuple",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:tuple = (:prose = \"text\",)\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-019-prose-rejects-object",
+      "description": "Explicit prose bindings enforce the trimtick family inside a object",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:object = {x:prose = \"text\"}\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-020-prose-rejects-attribute",
+      "description": "Explicit prose bindings enforce the trimtick family inside a attribute",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv@{x:prose = \"text\"}:number = 1\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-021-prose-compact",
+      "description": "The prose compatibility name accepts compact trimticks",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:prose = >`text`\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "prose",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-022-prose-multiline",
+      "description": "The prose compatibility name accepts multiline trimticks",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:prose = >`\n  first\n  second\n`\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "prose",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-023-double-quoted-raw-cr",
+      "description": "Raw CR is not permitted inside double-quoted strings",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:string = \"a\rb\"\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_STRING"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-024-double-quoted-raw-crlf",
+      "description": "Raw CRLF is not permitted inside double-quoted strings",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:string = \"a\r\nb\"\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_STRING"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-025-double-quoted-escaped-cr",
+      "description": "An escaped carriage return remains valid inside double-quoted strings",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:string = \"a\\rb\"\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "core-literal-flow-026-single-quoted-raw-cr",
+      "description": "Raw CR is not permitted inside single-quoted strings",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:string = 'a\rb'\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_STRING"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-027-single-quoted-raw-crlf",
+      "description": "Raw CRLF is not permitted inside single-quoted strings",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:string = 'a\r\nb'\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "UNTERMINATED_STRING"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "rejection"
+      ]
+    },
+    {
+      "id": "core-literal-flow-028-single-quoted-escaped-cr",
+      "description": "An escaped carriage return remains valid inside single-quoted strings",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nv:string = 'a\\rb'\n",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.v",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "literal-flow",
+        "acceptance"
+      ]
+    }
+  ]
+}

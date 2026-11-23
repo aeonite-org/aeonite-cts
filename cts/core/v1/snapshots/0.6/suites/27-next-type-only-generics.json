@@ -1,0 +1,760 @@
+{
+  "meta": {
+    "suite_id": "next-type-only-generics",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/structure-syntax-v1.aeon#datatype-clarifiers"
+    ]
+  },
+  "id": "next-type-only-generics",
+  "title": "Type-only Generic Arguments",
+  "tests": [
+    {
+      "id": "core-type-generics-001-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<1>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-002-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<1.0>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-003-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<-1>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-004-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<+1>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-005-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<.5>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-006-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<1e3>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-007-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<9007199254740993>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-008-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<\"name\">=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-009-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<int, 2>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-010-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<list<2>>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-011-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x:custom<custom[1.0], 2>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-012-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x={a:custom<2>=[0]}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-013-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x@{a:custom<2>=[0]}=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-014-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x=[:custom<2>=[0]]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-015-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x=(:custom<2>=[0])",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-016-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "x=<tag:node<child<2>>>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-017-reject",
+      "description": "Literal generic arguments are invalid in every source type position",
+      "input": {
+        "source": "aeon:header={x:custom<2>=[0]}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-018-accept",
+      "description": "Type descriptors may retain exact numeric clarifiers",
+      "input": {
+        "source": "x:custom<number>[1.0]=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-019-accept",
+      "description": "Type descriptors may retain exact numeric clarifiers",
+      "input": {
+        "source": "x:list<custom[1.0]>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-020-accept",
+      "description": "Type descriptors may retain exact numeric clarifiers",
+      "input": {
+        "source": "x:custom<_name2>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-021-accept",
+      "description": "Type descriptors may retain exact numeric clarifiers",
+      "input": {
+        "source": "x:custom<list<custom[9007199254740993]>>=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-custom-mode-reject",
+      "description": "Enabling custom datatypes does not enable literal generic arguments",
+      "input": {
+        "source": "x:custom<1.0>=[0]",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "syntax",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-type-generics-object-accept",
+      "description": "Numeric clarifiers on type descriptors remain valid in object positions",
+      "input": {
+        "source": "x={a:custom<number>[1.0]=[0]}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-metadata-accept",
+      "description": "Numeric clarifiers on type descriptors remain valid in metadata positions",
+      "input": {
+        "source": "x@{a:custom<number>[1.0]=[0]}=[0]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-list-accept",
+      "description": "Numeric clarifiers on type descriptors remain valid in list positions",
+      "input": {
+        "source": "x=[:custom<number>[1.0]=[0]]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-tuple-accept",
+      "description": "Numeric clarifiers on type descriptors remain valid in tuple positions",
+      "input": {
+        "source": "x=(:custom<number>[1.0]=[0])",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-node-child-accept",
+      "description": "Numeric clarifiers on type descriptors remain valid in node-child positions",
+      "input": {
+        "source": "x=<tag(:custom<number>[1.0]=[0])>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-node-head-accept",
+      "description": "Numeric clarifiers on type descriptors remain valid in node-head positions",
+      "input": {
+        "source": "x=<tag:node<child[1.0]>>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-type-generics-header-accept",
+      "description": "Numeric clarifiers on type descriptors remain valid in header positions",
+      "input": {
+        "source": "aeon:header={x:custom<number>[1.0]=[0]}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "clarifiers",
+        "accept"
+      ]
+    }
+  ]
+}

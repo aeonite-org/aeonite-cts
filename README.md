@@ -64,7 +64,9 @@ The [empty-key candidate](docs/conformance/empty-keys-candidate.md) adds ordinar
 empty property names to the mutable Core, AES projection/events, canonical,
 Telex, Film and SANSA development targets. Superseded rejection cases are excluded
 only from the evolving selections; released manifests and their suites retain
-their original bytes. No immutable snapshot has been promoted for this amendment.
+their original bytes. The [0.17 preparation](docs/conformance/aeon-0.17-snapshots.md) now freezes the
+Core, AES projection and canonical selections in new immutable targets; other
+development transport/selector targets remain separate.
 
 The Core, AES projection, SANSA Mutate and SANSA Instruction development
 targets cover the reserved base-16 datatype `radix16`. Their next manifests
@@ -83,7 +85,12 @@ boundaries, exact fractional scale, reserved Base64URL decodability and lossless
 prose/trimtick target representability. They do not change released SANSA
 snapshots or assert richer chronology for disjoint date/clock completion sets.
 
-The current released Core target is `core-cts-v1-snapshot-0.5`, exposed by
+The [prepared 0.17 targets](docs/conformance/aeon-0.17-snapshots.md) are
+Core 0.6 (657 vectors), AES projection 0.6 (87) and canonical 0.5 (209), with exact
+specification/source and content hashes. Implementation adoption requires full
+selected-target results; historical targets below remain unchanged.
+
+The prior released Core target is `core-cts-v1-snapshot-0.5`, exposed by
 `cts/core/v1/core-cts.v1.snapshot-0.5.json`. Its 299 vectors retain the 0.4
 surface and require reserved `base64` values to be decodable Base64URL with
 valid padding and zero unused tail bits, while leaving `encoding`, `inline`,
@@ -105,7 +112,7 @@ The Core 0.5, Core 0.4, and AES 0.4 snapshots cover the single-marker trimtick
 grammar and exact space-or-tab gutter normalization. Historical released
 snapshots retain their width-bearing trimtick cases unchanged.
 
-The current released canonical target is
+The prior released canonical target is
 `canonical-cts-v1-snapshot-0.4`, exposed by
 `cts/canonical/v1/canonical-cts.v1.snapshot-0.4.json`. Its 197 selected vectors
 freeze reference-safe smallest-eligible-key ordering, authored Core reference

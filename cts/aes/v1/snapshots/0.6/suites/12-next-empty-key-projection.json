@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "suite_id": "next-empty-key-projection",
+    "lane": "aes",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#6-paths-and-aeon-projection"
+    ]
+  },
+  "id": "next-empty-key-projection",
+  "title": "Empty Property Keys — aes",
+  "tests": [
+    {
+      "id": "aes-empty-key-root",
+      "description": "root",
+      "input": {
+        "source": "\"\" = \"\"",
+        "mode": "transport",
+        "options": {
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.[\"\"]",
+              "value_kind": "StringLiteral",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "aes-empty-key-nested",
+      "description": "nested",
+      "input": {
+        "source": "a = { \"\" = false }",
+        "mode": "transport",
+        "options": {
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.a",
+              "value_kind": "ObjectNode"
+            },
+            {
+              "path": "$.a.[\"\"]",
+              "value_kind": "BooleanLiteral",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "aes-empty-key-attribute",
+      "description": "attribute",
+      "input": {
+        "source": "\"\"@{ \"\" = \"meta\" } = \"\"",
+        "mode": "transport",
+        "options": {
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.[\"\"]",
+              "value_kind": "StringLiteral",
+              "value": ""
+            },
+            {
+              "path": "$.[\"\"].@.[\"\"]",
+              "value_kind": "StringLiteral",
+              "value": "meta"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    },
+    {
+      "id": "aes-empty-key-references",
+      "description": "references",
+      "input": {
+        "source": "\"\" = 1\nclone = ~$.[\"\"]\npointer = ~>$.[\"\"]",
+        "mode": "transport",
+        "options": {
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.[\"\"]",
+              "value_kind": "NumberLiteral",
+              "value": "1"
+            },
+            {
+              "path": "$.clone",
+              "value_kind": "CloneReference",
+              "value": "$.[\"\"]",
+              "reference": "$.[\"\"]"
+            },
+            {
+              "path": "$.pointer",
+              "value_kind": "PointerReference",
+              "value": "$.[\"\"]",
+              "reference": "$.[\"\"]"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "empty-keys"
+      ]
+    }
+  ]
+}
