@@ -1,0 +1,832 @@
+{
+  "meta": {
+    "suite_id": "next-node-binding-generics",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/structure-syntax-v1.aeon#datatype-clarifiers"
+    ]
+  },
+  "id": "next-node-binding-generics",
+  "title": "Binding-side Node Generic Argument Scopes",
+  "tests": [
+    {
+      "id": "core-node-binding-generics-001-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc:node<radix[2.5]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-002-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc:node<symbol[\"state\"]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-003-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc:node<sep[\".\"]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-004-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc:node<string> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-005-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc:node<list<string>> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-006-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc:node<custom, radix[2]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-007-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc:node<radix[2], custom> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-008-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc:node<radix[2]> = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-009-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "target:node=<tag>\ndoc:node<radix[2]> = ~target",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-010-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "target:node=<tag>\ndoc:node<string> = ~>target",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-011-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc={child:node<radix[2]> = <tag>}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-012-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc@{meta:node<radix[2]> = <tag>}=0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-013-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc@{meta:node<string> = <tag>}=0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-014-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc@{meta={child:node<radix[2]> = <tag>}}=0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-015-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc=[:node<radix[2]> = <tag>]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-016-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc=(:node<radix[2]> = <tag>)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-017-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc=<outer(:node<radix[2]> = <tag>)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-018-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "doc=<outer@{meta:node<radix[2]> = <tag>}>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-019-reject",
+      "description": "Reserved non-node binding arguments remain invalid regardless of clarifiers, value spelling, or ownership context",
+      "input": {
+        "source": "aeon:header={note:node<radix[2]> = <tag>}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$",
+            "phase": null
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "reject"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-020-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node<custom[2.00]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-021-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node<Radix[2]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-022-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node<radixish[2]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-023-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node<custom[\"<radix>\"]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-024-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node<node> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-025-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node<node[2]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-026-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node<node<radix[2]>> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-027-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node=<tag:node<radix[2.5]>>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-028-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:node=<tag:node<list<string>>>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-029-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc:list<node<radix[2]>> = [<tag>]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-030-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc@{meta:node<custom[2]> = <tag>}=0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-031-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "doc=[:node<custom[2]> = <tag>]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    },
+    {
+      "id": "core-node-binding-generics-032-accept",
+      "description": "Node/domain binding arguments and node-head child claims retain their context-sensitive meanings",
+      "input": {
+        "source": "a:node=<tag>\nz:node<custom[2]> = ~a",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "experimental",
+        "generics",
+        "nodes",
+        "accept"
+      ]
+    }
+  ]
+}

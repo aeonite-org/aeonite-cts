@@ -378,3 +378,17 @@ CRLF, single-line and non-LF controls, inter-token layout, literal boundaries,
 first closers, strict/custom modes and unterminated comments. See the
 [amendment record](docs/conformance/block-comment-newlines.md). Released
 Core snapshots and suites are unchanged.
+
+
+## Prepared AEON 0.17 immutable targets
+
+[Core 0.6, AES projection 0.6 and canonical 0.5](docs/conformance/aeon-0.17-snapshots.md)
+freeze the exact 657/87/209-vector selections at CTS revision
+4bc227f0e042c9c4514a0f2d75492cb6634cab60, with specification authority
+a6948968e4e2741f2342249024b266ca6adbfeb7. The inventory records source and
+suite hashes, retained exclusions and versioned copies for newly promoted suites.
+No previously retained assertion changes; only the documented four Core/two AES
+superseded rejection selections are replaced. All older target bytes and moving
+development manifests remain unchanged. Other experimental selector/transport
+profiles gain no stable claim. Independent QA and full implementation target runs
+are required before new implementation conformance claims.
