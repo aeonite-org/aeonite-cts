@@ -286,6 +286,45 @@
         "generics",
         "profile-admission"
       ]
+    },
+    {
+      "id": "gp-generic-admission-custom-anonymous-item",
+      "description": "A typed scalar in an otherwise untyped list still requires a collection for its custom generic claim.",
+      "input": {
+        "source": "a = [:rational<symbol<time>> = |1/3|]"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.a[0]"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": ["development", "generics", "profile-admission"]
+    },
+    {
+      "id": "gp-generic-admission-header-like-prose",
+      "description": "A prose line that resembles a profile declaration is body text. The manifest still selects GP.",
+      "input": {
+        "source": "note:prose = >`\naeon:profile = \"set.to.eleven.v1\"\n`\nduration:symbol<time> = |1min|",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "bindings": [
+            {"path": "$.note", "datatype": "prose", "kind": "binding"},
+            {"path": "$.duration", "datatype": "symbol<time>", "kind": "binding"}
+          ]
+        }
+      },
+      "tags": ["development", "generics", "profile-admission"]
     }
   ]
 }

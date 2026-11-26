@@ -1,7 +1,7 @@
 # Profile-owned generic admission candidate
 
 Status as of 26 November 2026 is experimental. The new suites reference the
-[owning proposal](../../../aeonite-specs/sources/aeon/v1/profile-owned-generic-admission.aeon)
+[owning proposal](https://github.com/aeonite-org/aeonite-specs/blob/12ffb2da0b358263dc98da397acc4f35fd3d0ce9/sources/aeon/v1/profile-owned-generic-admission.aeon)
 and pin its exact revision in suite metadata.
 
 - [Core next](../../cts/core/v1/core-cts.v1.next.json) verifies expanded
