@@ -190,6 +190,10 @@
     {
       "id": "next-profile-owned-generic-admission",
       "file": "suites/33-next-profile-owned-generic-admission.json"
+    },
+    {
+      "id": "next-header-value-nesting",
+      "file": "suites/34-next-header-value-nesting.json"
     }
   ]
 }

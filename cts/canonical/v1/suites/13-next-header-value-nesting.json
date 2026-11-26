@@ -1,0 +1,243 @@
+{
+  "meta": {
+    "suite_id": "next-canonical-header-value-nesting",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/AEON-v1-compliance.aeon",
+      "aes/limits/altopelago.aeonic-limits.v1"
+    ]
+  },
+  "id": "next-canonical-header-value-nesting",
+  "title": "Canonical Header Value Nesting and Fixed Points",
+  "tests": [
+    {
+      "id": "canonical-header-depth-default-at-zero",
+      "description": "Format a scalar-only source under a zero-depth cap.",
+      "input": {
+        "source": "x = 0",
+        "options": {
+          "max_value_nesting_depth": 0
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nx = 0\n"
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    },
+    {
+      "id": "canonical-header-depth-default-fixed-point",
+      "description": "Reformat the default header output under the same zero-depth cap.",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nx = 0\n",
+        "options": {
+          "max_value_nesting_depth": 0
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\nx = 0\n"
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    },
+    {
+      "id": "canonical-header-depth-shorthand-at-zero",
+      "description": "Convert a shorthand scalar header to Canonical at depth zero.",
+      "input": {
+        "source": "aeon:mode = \"transport\"\nx = 0",
+        "options": {
+          "max_value_nesting_depth": 0
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"transport\"\n}\nx = 0\n"
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    },
+    {
+      "id": "canonical-header-depth-shorthand-fixed-point",
+      "description": "Reformat that structured header at the same zero-depth cap.",
+      "input": {
+        "source": "aeon:header = {\n  mode = \"transport\"\n}\nx = 0\n",
+        "options": {
+          "max_value_nesting_depth": 0
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  mode = \"transport\"\n}\nx = 0\n"
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    },
+    {
+      "id": "canonical-header-depth-list-at-one",
+      "description": "Convert a shorthand list and preserve a body list at the same one-level cap.",
+      "input": {
+        "source": "aeon:meta = [1]\nx = [2]",
+        "options": {
+          "max_value_nesting_depth": 1
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  meta = [1]\n}\nx = [2]\n"
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    },
+    {
+      "id": "canonical-header-depth-list-fixed-point",
+      "description": "Reformat the structured header and both lists at the same one-level cap.",
+      "input": {
+        "source": "aeon:header = {\n  meta = [1]\n}\nx = [2]\n",
+        "options": {
+          "max_value_nesting_depth": 1
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  meta = [1]\n}\nx = [2]\n"
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    },
+    {
+      "id": "canonical-header-depth-structured-field-over",
+      "description": "Reject an over-limit field value inside an authored structured header.",
+      "input": {
+        "source": "aeon:header = { meta = [1] }\nx = 0",
+        "options": {
+          "max_value_nesting_depth": 0
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "NESTING_DEPTH_EXCEEDED"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    },
+    {
+      "id": "canonical-header-depth-shorthand-field-over",
+      "description": "Reject an over-limit shorthand field value.",
+      "input": {
+        "source": "aeon:meta = [1]\nx = 0",
+        "options": {
+          "max_value_nesting_depth": 0
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "NESTING_DEPTH_EXCEEDED"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    },
+    {
+      "id": "canonical-header-depth-body-over",
+      "description": "Reject an over-limit body value.",
+      "input": {
+        "source": "x = [1]",
+        "options": {
+          "max_value_nesting_depth": 0
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "NESTING_DEPTH_EXCEEDED"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "canonical_text": ""
+        }
+      },
+      "tags": [
+        "development",
+        "limits",
+        "max-value-nesting-depth",
+        "header"
+      ]
+    }
+  ]
+}

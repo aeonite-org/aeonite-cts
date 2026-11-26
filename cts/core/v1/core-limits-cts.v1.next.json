@@ -15,6 +15,10 @@
     {
       "id": "aeonic-limit-boundaries",
       "file": "suites/16-aeonic-limit-boundaries.json"
+    },
+    {
+      "id": "next-header-value-nesting",
+      "file": "suites/34-next-header-value-nesting.json"
     }
   ]
 }
