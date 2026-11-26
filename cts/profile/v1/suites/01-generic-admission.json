@@ -6,7 +6,7 @@
     "spec_refs": [
       "aeonite-specs/sources/aeon/v1/profile-owned-generic-admission.aeon#gp-admission"
     ],
-    "specification_revision": "006f9a0bb2105cd83dd40f33771085732143ef2e"
+    "specification_revision": "12ffb2da0b358263dc98da397acc4f35fd3d0ce9"
   },
   "id": "gp-generic-admission",
   "title": "GP Generic Admission",

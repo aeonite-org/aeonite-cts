@@ -6,7 +6,7 @@
     "spec_refs": [
       "aeonite-specs/sources/aeon/v1/profile-owned-generic-admission.aeon#core-descriptors"
     ],
-    "specification_revision": "006f9a0bb2105cd83dd40f33771085732143ef2e"
+    "specification_revision": "12ffb2da0b358263dc98da397acc4f35fd3d0ce9"
   },
   "id": "next-profile-owned-generic-admission",
   "title": "Core Generic Descriptor Admission",
