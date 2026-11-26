@@ -79,7 +79,14 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": true
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.x",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
         }
       },
       "tags": [
@@ -107,7 +114,14 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": true
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.x",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
         }
       },
       "tags": [
@@ -121,7 +135,7 @@
       "id": "core-header-depth-shorthand-list-at-one",
       "description": "A shorthand header list consumes one level.",
       "input": {
-        "source": "aeon:meta = [1]\nx = 0",
+        "source": "aeon:meta = []\nx = 0",
         "options": {
           "limits": {
             "structure": {
@@ -135,7 +149,14 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": true
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.x",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
         }
       },
       "tags": [
@@ -149,7 +170,7 @@
       "id": "core-header-depth-structured-list-at-one",
       "description": "A structured header list consumes one level.",
       "input": {
-        "source": "aeon:header = { meta = [1] }\nx = 0",
+        "source": "aeon:header = { meta = [] }\nx = 0",
         "options": {
           "limits": {
             "structure": {
@@ -163,7 +184,14 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": true
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.x",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
         }
       },
       "tags": [
