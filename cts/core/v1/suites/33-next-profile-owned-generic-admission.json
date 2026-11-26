@@ -1,0 +1,602 @@
+{
+  "meta": {
+    "suite_id": "next-profile-owned-generic-admission",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/profile-owned-generic-admission.aeon#core-descriptors"
+    ],
+    "specification_revision": "006f9a0bb2105cd83dd40f33771085732143ef2e"
+  },
+  "id": "next-profile-owned-generic-admission",
+  "title": "Core Generic Descriptor Admission",
+  "tests": [
+    {
+      "id": "core-generic-admission-strict-symbol",
+      "description": "A symbolic value can carry a reserved datatype argument in strict mode.",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nduration:symbol<time> = |1min|",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.duration",
+              "datatype": "symbol<time>",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-reserved-scalar-mixed",
+      "description": "Core preserves generic arguments and clarifiers on the same reserved scalar.",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nn:number<string>[9] = 3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.n",
+              "datatype": "number<string>[9]",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-custom-scalar",
+      "description": "A custom generic datatype can carry a symbolic scalar when custom labels are permitted.",
+      "input": {
+        "source": "aeon:mode = \"custom\"\nr:rational<number> = |1/3|",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.r",
+              "datatype": "rational<number>",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-inline-node-mixed",
+      "description": "Core preserves arguments and clarifiers on custom node heads.",
+      "input": {
+        "source": "doc:node = <tag:pair<string>[\"x\"]>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-outer-mismatch",
+      "description": "A generic claim does not override the outer datatype's value kind.",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nn:number<string>[9] = \"3\"",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.n"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-literal-argument",
+      "description": "A numeric value cannot be a generic argument.",
+      "input": {
+        "source": "mask:radix<16> = %1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR",
+            "path": "$"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-depth-limit",
+      "description": "The generic depth limit also applies to scalar datatypes.",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nduration:symbol<list<object<time>>> = |1min|",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "GENERIC_DEPTH_EXCEEDED",
+            "path": "$"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-001",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc:node<radix[2.5]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-002",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc:node<symbol[\"state\"]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-003",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc:node<sep[\".\"]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-004",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc:node<string> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-005",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc:node<list<string>> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-006",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc:node<custom, radix[2]> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-007",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc:node<radix[2], custom> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-008",
+      "description": "A binding-side node claim still requires a node literal or compatible reference.",
+      "input": {
+        "source": "doc:node<radix[2]> = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.doc"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "parse_ok": false
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-009",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "target:node=<tag>\ndoc:node<radix[2]> = ~target",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-010",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "target:node=<tag>\ndoc:node<string> = ~>target",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-011",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc={child:node<radix[2]> = <tag>}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-012",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc@{meta:node<radix[2]> = <tag>}=0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-013",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc@{meta:node<string> = <tag>}=0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-014",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc@{meta={child:node<radix[2]> = <tag>}}=0",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-015",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc=[:node<radix[2]> = <tag>]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-016",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc=(:node<radix[2]> = <tag>)",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-017",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc=<outer(:node<radix[2]> = <tag>)>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-018",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "doc=<outer@{meta:node<radix[2]> = <tag>}>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "core-generic-admission-binding-node-019",
+      "description": "Core admits reserved datatype arguments in this binding-side node context.",
+      "input": {
+        "source": "aeon:header={note:node<radix[2]> = <tag>}",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    }
+  ]
+}

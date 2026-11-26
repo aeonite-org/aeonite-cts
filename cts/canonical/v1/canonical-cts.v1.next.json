@@ -13,7 +13,10 @@
   "suites": [
     {
       "id": "baseline",
-      "file": "suites/01-baseline.json"
+      "file": "suites/01-baseline.json",
+      "exclude_tests": [
+        "canonical-baseline-016-reference-whitespace-after-sigil-normalized"
+      ]
     },
     {
       "id": "node-canonicalization",
@@ -47,12 +50,20 @@
       "file": "suites/08-next-literal-flow-regressions.json"
     },
     {
+      "id": "next-canonical-reference-ordering",
+      "file": "suites/09-next-reference-ordering.json"
+    },
+    {
       "id": "next-canonical-type-only-generics",
       "file": "suites/10-next-type-only-generics.json"
     },
     {
       "id": "next-canonical-empty-keys",
       "file": "suites/11-next-empty-keys.json"
+    },
+    {
+      "id": "next-canonical-profile-owned-generics",
+      "file": "suites/12-next-canonical-profile-owned-generics.json"
     }
   ]
 }

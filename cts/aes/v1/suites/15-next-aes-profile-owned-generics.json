@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "suite_id": "next-aes-profile-owned-generics",
+    "lane": "aes",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/profile-owned-generic-admission.aeon#core-descriptors"
+    ],
+    "specification_revision": "006f9a0bb2105cd83dd40f33771085732143ef2e"
+  },
+  "id": "next-aes-profile-owned-generics",
+  "title": "AES Preservation of Generic Claims",
+  "tests": [
+    {
+      "id": "aes-profile-generics-mixed-symbol",
+      "description": "Retain descriptor and symbolic payload in AES.",
+      "input": {
+        "source": "aeon:mode = \"strict\"\nduration:symbol<time>[\"minutes\"] = |1min|",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.duration",
+              "datatype": "symbol<time>[\"minutes\"]",
+              "value_kind": "SymbolicLiteral"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "aes-profile-generics-custom-symbol",
+      "description": "A custom descriptor preserves its symbolic literal family.",
+      "input": {
+        "source": "aeon:mode = \"custom\"\nr:rational<number> = |1/3|",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.r",
+              "datatype": "rational<number>",
+              "value_kind": "SymbolicLiteral"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    }
+  ]
+}

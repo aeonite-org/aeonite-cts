@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "lane": "profile",
+    "profile": "aeon.gp.profile.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "description": "Development target for profile-owned general-purpose generic admission",
+    "snapshot_id": "gp-profile-next-cts-v1-snapshot-0.1"
+  },
+  "suites": [
+    {
+      "id": "gp-generic-admission",
+      "file": "suites/01-generic-admission.json"
+    }
+  ]
+}

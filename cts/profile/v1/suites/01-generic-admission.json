@@ -1,0 +1,291 @@
+{
+  "meta": {
+    "suite_id": "gp-generic-admission",
+    "lane": "profile",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/profile-owned-generic-admission.aeon#gp-admission"
+    ],
+    "specification_revision": "006f9a0bb2105cd83dd40f33771085732143ef2e"
+  },
+  "id": "gp-generic-admission",
+  "title": "GP Generic Admission",
+  "tests": [
+    {
+      "id": "gp-generic-admission-strict-symbol",
+      "description": "Strict GP admits symbol with a reserved type argument.",
+      "input": {
+        "source": "duration:symbol<time> = |1min|",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "bindings": [
+            {
+              "path": "$.duration",
+              "datatype": "symbol<time>",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-symbol-clarifier",
+      "description": "GP rejects a clarifier on a symbol with a valid generic.",
+      "input": {
+        "source": "duration:symbol<time>[\"minutes\"] = |1min|",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "PROFILE_DATATYPE_CLARIFIER_NOT_ALLOWED",
+            "path": "$.duration"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-reserved-scalar",
+      "description": "GP rejects a generic on a reserved scalar outside its allowed set.",
+      "input": {
+        "source": "n:number<string> = 3",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "PROFILE_DATATYPE_GENERIC_NOT_ALLOWED",
+            "path": "$.n"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-binding-node",
+      "description": "GP rejects a reserved child datatype on a directly bound node.",
+      "input": {
+        "source": "doc:node<string> = <tag>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "PROFILE_DATATYPE_GENERIC_NOT_ALLOWED",
+            "path": "$.doc"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-inline-node",
+      "description": "GP admits the same child datatype on a node head.",
+      "input": {
+        "source": "doc:node = <tag:node<string>>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-inline-custom-node",
+      "description": "GP requires a generic node head to use the node datatype.",
+      "input": {
+        "source": "doc:node = <tag:pair<string>>",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "PROFILE_DATATYPE_GENERIC_NOT_ALLOWED",
+            "path": "$.doc[0]"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-nested-node-argument",
+      "description": "A nested node descriptor uses argument-position rules.",
+      "input": {
+        "source": "doc:list<node<radix[2]>> = [<tag>]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-nested-reserved-scalar",
+      "description": "GP applies datatype admission recursively.",
+      "input": {
+        "source": "xs:list<string<Locale>> = [\"hello\"]",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "PROFILE_DATATYPE_GENERIC_NOT_ALLOWED",
+            "path": "$.xs"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-custom-scalar",
+      "description": "GP requires a parameterized custom value to bind a list or tuple.",
+      "input": {
+        "source": "r:rational<number> = |1/3|",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.r"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-custom-reference",
+      "description": "GP validates the value reached through a reference.",
+      "input": {
+        "source": "a:symbol = |1/3|\nr:rational<number> = ~a",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.r"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-custom-collection",
+      "description": "GP admits parameterized custom labels on collections.",
+      "input": {
+        "source": "values:Series<number> = [1, 2]",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "gp-generic-admission-custom-attribute",
+      "description": "A parameterized custom attribute also requires a list or tuple.",
+      "input": {
+        "source": "a@{meta:rational<number> = |1/3|}:number = 0",
+        "mode": "custom"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DATATYPE_LITERAL_MISMATCH",
+            "path": "$.a.@.meta"
+          }
+        ],
+        "warnings": [],
+        "result": {}
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    }
+  ]
+}
