@@ -18,7 +18,10 @@
       "exclude_tests": [
         "core-baseline-015-strict-stale-radix-alias-reject",
         "core-baseline-016-separator-depth-default-reject",
-        "core-baseline-018-generic-depth-default-reject"
+        "core-baseline-018-generic-depth-default-reject",
+        "core-baseline-026-transport-meaningless-reserved-generic-reject",
+        "core-baseline-029a-transport-reserved-child-datatype-binding-node-reject",
+        "core-baseline-029b-transport-non-node-generic-node-head-reject"
       ]
     },
     {
@@ -78,7 +81,10 @@
     },
     {
       "id": "promoted-custom-rejections",
-      "file": "suites/12-promoted-custom-rejections.json"
+      "file": "suites/12-promoted-custom-rejections.json",
+      "exclude_tests": [
+        "core-custom-reject-005-generic-custom-scalar-binding-rejects"
+      ]
     },
     {
       "id": "promoted-whitespace-boundaries",
@@ -142,7 +148,28 @@
     },
     {
       "id": "next-node-binding-generics",
-      "file": "suites/28-next-node-binding-generics.json"
+      "file": "suites/28-next-node-binding-generics.json",
+      "exclude_tests": [
+        "core-node-binding-generics-001-reject",
+        "core-node-binding-generics-002-reject",
+        "core-node-binding-generics-003-reject",
+        "core-node-binding-generics-004-reject",
+        "core-node-binding-generics-005-reject",
+        "core-node-binding-generics-006-reject",
+        "core-node-binding-generics-007-reject",
+        "core-node-binding-generics-008-reject",
+        "core-node-binding-generics-009-reject",
+        "core-node-binding-generics-010-reject",
+        "core-node-binding-generics-011-reject",
+        "core-node-binding-generics-012-reject",
+        "core-node-binding-generics-013-reject",
+        "core-node-binding-generics-014-reject",
+        "core-node-binding-generics-015-reject",
+        "core-node-binding-generics-016-reject",
+        "core-node-binding-generics-017-reject",
+        "core-node-binding-generics-018-reject",
+        "core-node-binding-generics-019-reject"
+      ]
     },
     {
       "id": "next-empty-keys",
@@ -159,6 +186,10 @@
     {
       "id": "next-typed-attribute-reference-chains",
       "file": "suites/32-next-typed-attribute-reference-chains.json"
+    },
+    {
+      "id": "next-profile-owned-generic-admission",
+      "file": "suites/33-next-profile-owned-generic-admission.json"
     }
   ]
 }

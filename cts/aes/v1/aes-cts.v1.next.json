@@ -72,6 +72,10 @@
     {
       "id": "next-radix16",
       "file": "suites/14-next-radix16.json"
+    },
+    {
+      "id": "next-aes-profile-owned-generics",
+      "file": "suites/15-next-aes-profile-owned-generics.json"
     }
   ]
 }

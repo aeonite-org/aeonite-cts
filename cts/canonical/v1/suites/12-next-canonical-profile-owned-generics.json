@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "suite_id": "next-canonical-profile-owned-generics",
+    "lane": "canonical",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/profile-owned-generic-admission.aeon#core-descriptors"
+    ],
+    "specification_revision": "12ffb2da0b358263dc98da397acc4f35fd3d0ce9"
+  },
+  "id": "next-canonical-profile-owned-generics",
+  "title": "Canonical Preservation of Generic Claims",
+  "tests": [
+    {
+      "id": "canonical-profile-generics-reserved-scalar",
+      "description": "Preserve generic and numeric clarifier on a scalar.",
+      "input": {
+        "source": "aeon:header={}\nn:number<string>[9.00]=3"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nn:number<string>[9.0] = 3\n"
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "canonical-profile-generics-custom-symbol",
+      "description": "Preserve the generic claim and symbolic payload.",
+      "input": {
+        "source": "aeon:header={}\nr:rational<number>=|1/3|"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nr:rational<number> = |1/3|\n"
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    },
+    {
+      "id": "canonical-profile-generics-mixed-symbol",
+      "description": "Preserve the generic claim and string clarifier together.",
+      "input": {
+        "source": "aeon:header={}\nduration:symbol<time>[\"minutes\"] = |1min|"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n}\nduration:symbol<time>[\"minutes\"] = |1min|\n"
+        }
+      },
+      "tags": [
+        "development",
+        "generics",
+        "profile-admission"
+      ]
+    }
+  ]
+}
