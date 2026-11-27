@@ -16,9 +16,24 @@
   "tests": [
     {
       "id": "node-canonical-empty-node",
-      "description": "Both empty spellings canonicalise to the abbreviated node form",
+      "description": "The explicit empty child collection uses the abbreviated canonical node form",
       "input": {
         "source": "<tag()>\n"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "canonical_text": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n<tag>\n"
+        }
+      }
+    },
+    {
+      "id": "node-canonical-empty-fixed-point",
+      "description": "The canonical empty node can be parsed and formatted again without change",
+      "input": {
+        "source": "aeon:header = {\n  encoding = \"utf-8\"\n  mode = \"transport\"\n  profile = \"core\"\n  version = \"1.0\"\n}\n<tag>\n"
       },
       "expected": {
         "ok": true,

@@ -29,7 +29,24 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": true
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.person",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.contacts",
+              "datatype": null,
+              "kind": "binding"
+            },
+            {
+              "path": "$.contacts.group",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
         }
       }
     },
@@ -49,7 +66,14 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": true
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.host",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
         }
       }
     },
@@ -70,7 +94,11 @@
             "code": "FORWARD_REFERENCE"
           }
         ],
-        "warnings": []
+        "warnings": [],
+        "result": {
+          "parse_ok": false,
+          "bindings": []
+        }
       }
     },
     {
@@ -90,7 +118,11 @@
             "code": "DUPLICATE_KEY"
           }
         ],
-        "warnings": []
+        "warnings": [],
+        "result": {
+          "parse_ok": false,
+          "bindings": []
+        }
       }
     },
     {
@@ -110,7 +142,11 @@
             "code": "DUPLICATE_KEY"
           }
         ],
-        "warnings": []
+        "warnings": [],
+        "result": {
+          "parse_ok": false,
+          "bindings": []
+        }
       }
     },
     {
@@ -130,7 +166,11 @@
             "code": "DUPLICATE_STRUCTURAL_IDENTITY"
           }
         ],
-        "warnings": []
+        "warnings": [],
+        "result": {
+          "parse_ok": false,
+          "bindings": []
+        }
       }
     },
     {
@@ -148,7 +188,14 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": true
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.html",
+              "datatype": null,
+              "kind": "binding"
+            }
+          ]
         }
       }
     },
@@ -167,7 +214,14 @@
         "errors": [],
         "warnings": [],
         "result": {
-          "parse_ok": true
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.doc",
+              "datatype": "html",
+              "kind": "binding"
+            }
+          ]
         }
       }
     },
@@ -188,7 +242,11 @@
             "code": "INVALID_NODE_DATATYPE"
           }
         ],
-        "warnings": []
+        "warnings": [],
+        "result": {
+          "parse_ok": false,
+          "bindings": []
+        }
       }
     },
     {
@@ -208,7 +266,11 @@
             "code": "SYNTAX_ERROR"
           }
         ],
-        "warnings": []
+        "warnings": [],
+        "result": {
+          "parse_ok": false,
+          "bindings": []
+        }
       }
     },
     {
@@ -228,7 +290,11 @@
             "code": "SYNTAX_ERROR"
           }
         ],
-        "warnings": []
+        "warnings": [],
+        "result": {
+          "parse_ok": false,
+          "bindings": []
+        }
       }
     },
     {
@@ -248,7 +314,11 @@
             "code": "SYNTAX_ERROR"
           }
         ],
-        "warnings": []
+        "warnings": [],
+        "result": {
+          "parse_ok": false,
+          "bindings": []
+        }
       }
     }
   ]
