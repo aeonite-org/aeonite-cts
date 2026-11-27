@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "lane": "sansa-resolve",
+    "capability": "SANSA.Resolve",
+    "profile": "resolve",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "suite_id": "sansa-node-model-revision",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/node-model-revision-candidate.aeon"
+    ]
+  },
+  "id": "sansa-node-model-revision",
+  "title": "SANSA Navigation of Revised Node Bindings",
+  "fixtures": {
+    "namespaces": [
+      {
+        "id": "sansa-node-model-revision",
+        "supportsParentTraversal": true,
+        "root": {
+          "address": "$",
+          "representationKind": "ObjectNode",
+          "children": [
+            {
+              "address": "$.tag",
+              "representationKind": "NodeLiteral",
+              "name": "tag",
+              "children": [
+                {
+                  "address": "$.tag[0]",
+                  "representationKind": "StringLiteral",
+                  "index": 0,
+                  "value": "Hello"
+                },
+                {
+                  "address": "$.tag[1]",
+                  "representationKind": "StringLiteral",
+                  "index": 1,
+                  "value": "World"
+                }
+              ]
+            },
+            {
+              "address": "$.host",
+              "representationKind": "NumberLiteral",
+              "name": "host",
+              "value": "1",
+              "attributeSpace": {
+                "address": "$.host.@",
+                "representationKind": "ObjectNode",
+                "children": [
+                  {
+                    "address": "$.host.@.glyph",
+                    "representationKind": "NodeLiteral",
+                    "name": "glyph",
+                    "attributeSpace": {
+                      "address": "$.host.@.glyph.@",
+                      "representationKind": "ObjectNode",
+                      "children": [
+                        {
+                          "address": "$.host.@.glyph.@.size",
+                          "representationKind": "NumberLiteral",
+                          "name": "size",
+                          "value": "1"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "tests": [
+    {
+      "id": "node-sansa-first-child",
+      "description": "Index zero selects the first content child directly",
+      "input": {
+        "namespace": "sansa-node-model-revision",
+        "source": "$.tag[0]"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.tag[0]"
+        ]
+      }
+    },
+    {
+      "id": "node-sansa-second-child",
+      "description": "Index one selects the second content child directly",
+      "input": {
+        "namespace": "sansa-node-model-revision",
+        "source": "$.tag[1]"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.tag[1]"
+        ]
+      }
+    },
+    {
+      "id": "node-sansa-old-child-path",
+      "description": "A former two-step child path resolves to an empty set",
+      "input": {
+        "namespace": "sansa-node-model-revision",
+        "source": "$.tag[0][0]"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": []
+      }
+    },
+    {
+      "id": "node-sansa-children",
+      "description": "Wildcard enumeration visits the ordered content children",
+      "input": {
+        "namespace": "sansa-node-model-revision",
+        "source": "$.tag.*"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.tag[0]",
+          "$.tag[1]"
+        ]
+      }
+    },
+    {
+      "id": "node-sansa-own-attribute",
+      "description": "Attribute traversal reaches a named node and its attribute",
+      "input": {
+        "namespace": "sansa-node-model-revision",
+        "source": "$.host.@.glyph.@.size"
+      },
+      "expected": {
+        "ok": true,
+        "addresses": [
+          "$.host.@.glyph.@.size"
+        ]
+      }
+    }
+  ]
+}

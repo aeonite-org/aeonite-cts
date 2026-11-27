@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "lane": "inspect-json",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "suite_id": "aes-node-model-revision",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/node-model-revision-candidate.aeon"
+    ]
+  },
+  "id": "aes-node-model-revision",
+  "title": "Revised Node Portable Projection and Reference Targets",
+  "tests": [
+    {
+      "id": "node-aes-path-parity",
+      "description": "No synthetic head or extra path step appears in records or clone and pointer target payloads",
+      "input": {
+        "source": "<tag(\"Hello\", \"World\")>\nfirst = ~tag[0]\nsecond = ~>tag[1]\ncopy:node = ~tag\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport",
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.tag",
+              "tag": "tag",
+              "kind": "NodeLiteral"
+            },
+            {
+              "path": "$.tag[0]",
+              "value": "Hello",
+              "kind": "StringLiteral"
+            },
+            {
+              "path": "$.tag[1]",
+              "value": "World",
+              "kind": "StringLiteral"
+            },
+            {
+              "path": "$.first",
+              "kind": "CloneReference",
+              "value": "$.tag[0]"
+            },
+            {
+              "path": "$.second",
+              "kind": "PointerReference",
+              "value": "$.tag[1]"
+            },
+            {
+              "path": "$.copy",
+              "datatype": "node",
+              "kind": "CloneReference",
+              "value": "$.tag"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-aes-attribute-subtree",
+      "description": "A node can occupy an attribute entry and owns its own attributes and child records",
+      "input": {
+        "source": "host@{<glyph\\g\\@{size = 1}(~host.@.glyph.@.size)>} = 1\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport",
+          "max_attribute_depth": 8,
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.host",
+              "value": "1",
+              "kind": "NumberLiteral"
+            },
+            {
+              "path": "$.host.@.glyph",
+              "tag": "glyph",
+              "identity": "g",
+              "kind": "NodeLiteral"
+            },
+            {
+              "path": "$.host.@.glyph.@.size",
+              "value": "1",
+              "kind": "NumberLiteral"
+            },
+            {
+              "path": "$.host.@.glyph[0]",
+              "kind": "CloneReference",
+              "value": "$.host.@.glyph.@.size"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-aes-indexed-clone",
+      "description": "The list clone uses one slot and the second slot holds a new empty node with the same tag",
+      "input": {
+        "source": "<tag>\nlist = [~tag, <tag>]\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport",
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.tag",
+              "tag": "tag",
+              "kind": "NodeLiteral"
+            },
+            {
+              "path": "$.list",
+              "kind": "ListNode"
+            },
+            {
+              "path": "$.list[0]",
+              "kind": "CloneReference",
+              "value": "$.tag"
+            },
+            {
+              "path": "$.list[1]",
+              "tag": "tag",
+              "kind": "NodeLiteral"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-aes-quoted-root",
+      "description": "The XML declaration and element expose same-named attributes at two different named root bindings",
+      "input": {
+        "source": "<\"?xml\" @{version=\"1.0\"}>\n<person @{version=\"2\"}>\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport",
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.[\"?xml\"]",
+              "tag": "?xml",
+              "kind": "NodeLiteral"
+            },
+            {
+              "path": "$.[\"?xml\"].@.version",
+              "value": "1.0",
+              "kind": "StringLiteral"
+            },
+            {
+              "path": "$.person",
+              "tag": "person",
+              "kind": "NodeLiteral"
+            },
+            {
+              "path": "$.person.@.version",
+              "value": "2",
+              "kind": "StringLiteral"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-aes-existing-indexed-syntax",
+      "description": "An indexed node with unchanged source syntax still changes the portable content path",
+      "input": {
+        "source": "items = [<tag(\"Hello\")>]\ncopy = ~items[0][0]\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport",
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "events": [
+            {
+              "path": "$.items",
+              "kind": "ListNode"
+            },
+            {
+              "path": "$.items[0]",
+              "kind": "NodeLiteral",
+              "tag": "tag"
+            },
+            {
+              "path": "$.items[0][0]",
+              "kind": "StringLiteral",
+              "value": "Hello"
+            },
+            {
+              "path": "$.copy",
+              "kind": "CloneReference",
+              "value": "$.items[0][0]"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

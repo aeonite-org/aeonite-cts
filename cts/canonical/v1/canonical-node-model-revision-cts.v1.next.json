@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "lane": "canonical",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "version": "0.1.0",
+    "snapshot_id": "canonical-node-model-revision-cts-v1-snapshot-0.1",
+    "description": "Experimental canonical source for tagged node bindings"
+  },
+  "suites": [
+    {
+      "id": "canonical-node-model-revision",
+      "file": "suites/node-model-revision.json"
+    }
+  ]
+}

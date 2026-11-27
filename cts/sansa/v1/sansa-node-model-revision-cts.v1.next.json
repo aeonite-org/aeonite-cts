@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "lane": "sansa-resolve",
+    "capability": "SANSA.Resolve",
+    "profile": "resolve",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "version": "0.1.0",
+    "snapshot_id": "sansa-node-model-revision-cts-v1-snapshot-0.1",
+    "description": "Experimental SANSA traversal over the revised tagged node topology"
+  },
+  "suites": [
+    {
+      "id": "sansa-node-model-revision",
+      "file": "suites/node-model-revision.json"
+    }
+  ]
+}

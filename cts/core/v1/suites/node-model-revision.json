@@ -1,0 +1,255 @@
+{
+  "meta": {
+    "lane": "core",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "sut_protocol": "cts.protocol.v1",
+    "suite_id": "core-node-model-revision",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/node-model-revision-candidate.aeon"
+    ]
+  },
+  "id": "core-node-model-revision",
+  "title": "Revised AEON Node Bindings",
+  "tests": [
+    {
+      "id": "node-core-named-and-indexed",
+      "description": "Root and object nodes use their tag as key and an indexed scope allows repeated tags",
+      "input": {
+        "source": "<person(\"Alice\")>\ncontacts = {\n  <group(<person(\"Bob\")>, <person(\"Eve\")>)>\n}\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      }
+    },
+    {
+      "id": "node-core-attrs-and-reference",
+      "description": "An attribute entry can be a node, and its child can reference an attribute already available on that node",
+      "input": {
+        "source": "host@{<glyph@{size = 1}(~host.@.glyph.@.size)>} = 1\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport",
+          "max_attribute_depth": 8
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      }
+    },
+    {
+      "id": "node-core-forward-attribute",
+      "description": "A reference to a later sibling attribute fails under normal availability rules",
+      "input": {
+        "source": "<doc@{copy = ~doc.@.title, title = \"Hello\"}>\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE"
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "node-core-root-duplicate",
+      "description": "Quoted and bare tag spellings share the ordinary root key namespace",
+      "input": {
+        "source": "person = 1\n<\"person\">\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_KEY"
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "node-core-attribute-duplicate",
+      "description": "Node declarations and ordinary bindings share one key namespace inside an attribute block",
+      "input": {
+        "source": "host@{glyph = 1, <glyph>} = 1\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_KEY"
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "node-core-identity-duplicate",
+      "description": "A node identity shares the document-wide namespace with ordinary bindings",
+      "input": {
+        "source": "a\\who\\ = 1\n<person\\who\\>\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "DUPLICATE_STRUCTURAL_IDENTITY"
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "node-core-strict-implicit-node-kind",
+      "description": "Angle-bracket syntax supplies the node kind in strict mode",
+      "input": {
+        "source": "<html>\n",
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      }
+    },
+    {
+      "id": "node-core-transport-inline-custom-type",
+      "description": "Transport can admit an inline custom datatype on a node",
+      "input": {
+        "source": "<doc:html>\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true
+        }
+      }
+    },
+    {
+      "id": "node-core-strict-inline-custom-type-reject",
+      "description": "Strict mode restricts inline node datatypes to node",
+      "input": {
+        "source": "<doc:html>\n",
+        "mode": "strict",
+        "options": {
+          "effective_mode": "strict"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "INVALID_NODE_DATATYPE"
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "node-core-external-binding-reject",
+      "description": "A node literal uses its intrinsic tag as its named binding key",
+      "input": {
+        "source": "page:node = <page>\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "node-core-reference-bare-child-reject",
+      "description": "An identifier by itself does not refer to an existing node at a value slot",
+      "input": {
+        "source": "list = [tag, <tag>]\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "id": "node-core-reference-selector-reject",
+      "description": "The clone form accepts fixed paths and rejects wildcard selectors",
+      "input": {
+        "source": "tag = [\"Hello\"]\ncopy = ~tag.*\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport"
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "SYNTAX_ERROR"
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ]
+}
