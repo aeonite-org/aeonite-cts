@@ -14,6 +14,11 @@ Rules:
 
 - `source` required (string).
 - No mode/policy fields are required; canonicalization is parse-driven.
+- Draft header nesting fixtures may set `options.max_value_nesting_depth` to a
+  non-negative integer within the formatter's supported range. Apply the same
+  limit to authored input and rendered output. The braces of a structured
+  document header group metadata fields. Each header field and body value
+  starts at depth zero.
 - Canonical snapshot 0.4 and the opt-in reference-ordering target require Core
   reference legality in the authored input order before sorting or adding a
   default header. This does not require schema approval, reference evaluation,

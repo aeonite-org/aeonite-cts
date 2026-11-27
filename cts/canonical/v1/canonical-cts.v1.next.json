@@ -64,6 +64,10 @@
     {
       "id": "next-canonical-profile-owned-generics",
       "file": "suites/12-next-canonical-profile-owned-generics.json"
+    },
+    {
+      "id": "next-canonical-header-value-nesting",
+      "file": "suites/13-next-header-value-nesting.json"
     }
   ]
 }
