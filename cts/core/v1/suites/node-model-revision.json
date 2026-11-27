@@ -96,8 +96,7 @@
         ],
         "warnings": [],
         "result": {
-          "parse_ok": false,
-          "bindings": []
+          "parse_ok": false
         }
       }
     },
@@ -120,8 +119,7 @@
         ],
         "warnings": [],
         "result": {
-          "parse_ok": false,
-          "bindings": []
+          "parse_ok": false
         }
       }
     },
@@ -144,8 +142,7 @@
         ],
         "warnings": [],
         "result": {
-          "parse_ok": false,
-          "bindings": []
+          "parse_ok": false
         }
       }
     },
@@ -168,8 +165,7 @@
         ],
         "warnings": [],
         "result": {
-          "parse_ok": false,
-          "bindings": []
+          "parse_ok": false
         }
       }
     },
@@ -244,8 +240,7 @@
         ],
         "warnings": [],
         "result": {
-          "parse_ok": false,
-          "bindings": []
+          "parse_ok": false
         }
       }
     },
@@ -268,8 +263,7 @@
         ],
         "warnings": [],
         "result": {
-          "parse_ok": false,
-          "bindings": []
+          "parse_ok": false
         }
       }
     },
@@ -292,8 +286,7 @@
         ],
         "warnings": [],
         "result": {
-          "parse_ok": false,
-          "bindings": []
+          "parse_ok": false
         }
       }
     },
@@ -316,8 +309,7 @@
         ],
         "warnings": [],
         "result": {
-          "parse_ok": false,
-          "bindings": []
+          "parse_ok": false
         }
       }
     }

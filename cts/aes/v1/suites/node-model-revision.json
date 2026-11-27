@@ -229,6 +229,30 @@
           ]
         }
       }
+    },
+    {
+      "id": "node-aes-forward-attribute-rejects-publication",
+      "description": "A rejected node attribute reference publishes no portable records",
+      "input": {
+        "source": "<doc@{copy = ~doc.@.title, title = \"Hello\"}>\n",
+        "mode": "transport",
+        "options": {
+          "effective_mode": "transport",
+          "portable_aes": true
+        }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [
+          {
+            "code": "FORWARD_REFERENCE"
+          }
+        ],
+        "warnings": [],
+        "result": {
+          "events": []
+        }
+      }
     }
   ]
 }
