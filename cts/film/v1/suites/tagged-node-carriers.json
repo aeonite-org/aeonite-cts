@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "suite_id": "tagged-node-carriers",
+    "lane": "aes-film",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/node-model-revision-candidate.aeon#portable-records",
+      "aeonite-specs/sources/aes/v1/film-aes-v1.aeon#tagged-node-development-mapping"
+    ],
+    "format_version": "1"
+  },
+  "id": "tagged-node-carriers",
+  "title": "Revised tagged node Film mapping",
+  "tests": [
+    {
+      "id": "film-tagged-node-empty-golden",
+      "description": "Decode the minimal tagged node using the candidate kind byte.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff01000c001905242e74616703746167"
+      },
+      "expected": {
+        "ok": true,
+        "stream": {
+          "profile": "aes.complete.v1",
+          "profile_explicit": false,
+          "projection": null,
+          "projection_explicit": false,
+          "records": [
+            {
+              "path": "$.tag",
+              "kind": "NodeLiteral",
+              "tag": "tag"
+            }
+          ]
+        },
+        "canonical_hex": "4f5f5fff01000c001905242e74616703746167"
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-direct-children",
+      "description": "Retain the identity, intrinsic Unicode tag, direct attributes, nested indices, and clone path.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff010013041905242e746167067461672d6964037461671800010c242e7461672e402e6e6f7465086d6574616461746110001908242e7461675b305d04f09f8c8a1400010b242e7461675b305d5b305d056368696c6412001606242e636f707908242e7461675b305d"
+      },
+      "expected": {
+        "ok": true,
+        "stream": {
+          "profile": "aes.complete.v1",
+          "profile_explicit": false,
+          "projection": null,
+          "projection_explicit": false,
+          "records": [
+            {
+              "path": "$.tag",
+              "kind": "NodeLiteral",
+              "tag": "tag",
+              "identity": "tag-id"
+            },
+            {
+              "path": "$.tag.@.note",
+              "kind": "StringLiteral",
+              "value": "metadata"
+            },
+            {
+              "path": "$.tag[0]",
+              "kind": "NodeLiteral",
+              "tag": "🌊"
+            },
+            {
+              "path": "$.tag[0][0]",
+              "kind": "StringLiteral",
+              "value": "child"
+            },
+            {
+              "path": "$.copy",
+              "kind": "CloneReference",
+              "value": "$.tag[0]"
+            }
+          ]
+        },
+        "canonical_hex": "4f5f5fff010013041905242e746167067461672d6964037461671800010c242e7461672e402e6e6f7465086d6574616461746110001908242e7461675b305d04f09f8c8a1400010b242e7461675b305d5b305d056368696c6412001606242e636f707908242e7461675b305d"
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-telex-transcode",
+      "description": "Round-trip canonical tagged node values through both v1 carriers.",
+      "operation": "transcode",
+      "input": {
+        "telex": "telex.aes=1\n\npath=$.tag\nkind=NodeLiteral\ntag=tag\nidentity=tag-id\n\npath=$.tag.@.note\nkind=StringLiteral\nvalue=metadata\n\npath=$.tag[0]\nkind=NodeLiteral\ntag=🌊\n\npath=$.tag[0][0]\nkind=StringLiteral\nvalue=child\n\npath=$.copy\nkind=CloneReference\nvalue=$.tag[0]\n"
+      },
+      "expected": {
+        "ok": true,
+        "film_hex": "4f5f5fff010013041905242e746167067461672d6964037461671800010c242e7461672e402e6e6f7465086d6574616461746110001908242e7461675b305d04f09f8c8a1400010b242e7461675b305d5b305d056368696c6412001606242e636f707908242e7461675b305d",
+        "telex": "telex.aes=1\n\npath=$.tag\nkind=NodeLiteral\ntag=tag\nidentity=tag-id\n\npath=$.tag.@.note\nkind=StringLiteral\nvalue=metadata\n\npath=$.tag[0]\nkind=NodeLiteral\ntag=🌊\n\npath=$.tag[0][0]\nkind=StringLiteral\nvalue=child\n\npath=$.copy\nkind=CloneReference\nvalue=$.tag[0]\n"
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-former-container-rejected",
+      "description": "Reject the former valueless node container code at its kind byte.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff010008001405242e746167"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "FILM_INVALID_KIND",
+          "offset": 8
+        }
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-former-head-rejected",
+      "description": "Reject the former synthetic node-head code at its kind byte.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff01000f001508242e7461675b305d03746167"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "FILM_INVALID_KIND",
+          "offset": 8
+        }
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-empty-payload",
+      "description": "Reject an empty tag after Film syntax decoding.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff010009001905242e74616700"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "stage": "aes",
+          "diagnostic_codes": [
+            "AES_INVALID_TAG"
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-named-tag-mismatch",
+      "description": "Reject a named node with mismatched path key and intrinsic tag.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff01000e001905242e746167056f74686572"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "stage": "aes",
+          "diagnostic_codes": [
+            "AES_INVALID_TAG"
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-truncated-slot",
+      "description": "A tagged kind requires a physically present counted string.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff010008001905242e746167"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "FILM_TRUNCATED",
+          "component": "tag"
+        }
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-invalid-utf8",
+      "description": "Report malformed tag UTF-8 before portable AES validation.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff01000a001905242e74616701ff"
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "FILM_INVALID_UTF8",
+          "component": "tag"
+        }
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-field-byte-limit",
+      "description": "Film limits the encoded tag by bytes before logical admission.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff010006001203242e7812001906242e785b305d08f09f8c8af09f8c8a",
+        "limits": {
+          "max_field_bytes": 7
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "code": "FILM_LIMIT_EXCEEDED",
+          "component": "tag"
+        }
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "film-tagged-node-unicode-codepoint-limit",
+      "description": "With enough Film bytes, logical validation counts the decoded tag scalars.",
+      "operation": "decode",
+      "input": {
+        "film_hex": "4f5f5fff010006001203242e7812001906242e785b305d08f09f8c8af09f8c8a",
+        "limits": {
+          "max_field_bytes": 8,
+          "max_key_segment_codepoints": 1
+        }
+      },
+      "expected": {
+        "ok": false,
+        "error": {
+          "stage": "aes",
+          "diagnostic_codes": [
+            "AES_LIMIT_EXCEEDED"
+          ]
+        }
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    }
+  ]
+}

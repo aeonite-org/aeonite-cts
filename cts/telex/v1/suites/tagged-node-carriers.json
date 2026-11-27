@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "suite_id": "tagged-node-carriers",
+    "lane": "aes-telex",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/node-model-revision-candidate.aeon#portable-records",
+      "aeonite-specs/sources/aes/v1/film-aes-v1.aeon#tagged-node-development-mapping"
+    ],
+    "format_version": "1"
+  },
+  "id": "tagged-node-carriers",
+  "title": "Revised tagged node Telex records",
+  "tests": [
+    {
+      "id": "telex-tagged-nodes-direct-records",
+      "description": "Decode direct tagged-node paths and preserve the Unicode tag.",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=1\n\npath=$.tag\nkind=NodeLiteral\ntag=tag\nidentity=tag-id\n\npath=$.tag.@.note\nkind=StringLiteral\nvalue=metadata\n\npath=$.tag[0]\nkind=NodeLiteral\ntag=🌊\n\npath=$.tag[0][0]\nkind=StringLiteral\nvalue=child\n\npath=$.copy\nkind=CloneReference\nvalue=$.tag[0]\n"
+      },
+      "expected": {
+        "profile": "aes.complete.v1",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "records": [
+          {
+            "path": "$.tag",
+            "kind": "NodeLiteral",
+            "tag": "tag",
+            "identity": "tag-id"
+          },
+          {
+            "path": "$.tag.@.note",
+            "kind": "StringLiteral",
+            "value": "metadata"
+          },
+          {
+            "path": "$.tag[0]",
+            "kind": "NodeLiteral",
+            "tag": "🌊"
+          },
+          {
+            "path": "$.tag[0][0]",
+            "kind": "StringLiteral",
+            "value": "child"
+          },
+          {
+            "path": "$.copy",
+            "kind": "CloneReference",
+            "value": "$.tag[0]"
+          }
+        ],
+        "ok": true,
+        "version": "1",
+        "canonical": true
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "telex-tagged-node-canonical-order",
+      "description": "Canonical Telex places the tag immediately after kind.",
+      "operation": "canonicalize",
+      "input": {
+        "telex": "telex.aes=1\n\nidentity=ID\nkind=NodeLiteral\npath=$.tag\ntag=tag\n"
+      },
+      "expected": {
+        "ok": true,
+        "telex": "telex.aes=1\n\npath=$.tag\nkind=NodeLiteral\ntag=tag\nidentity=ID\n"
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "telex-tagged-node-payload-escaping",
+      "description": "Use ordinary Telex escaping for tag payloads.",
+      "operation": "parse",
+      "input": {
+        "telex": "telex.aes=1\n\npath=$.items\nkind=ListNode\n\npath=$.items[0]\nkind=NodeLiteral\ntag=a\\n🌊=b\n"
+      },
+      "expected": {
+        "profile": "aes.complete.v1",
+        "profile_explicit": false,
+        "projection": null,
+        "projection_explicit": false,
+        "records": [
+          {
+            "path": "$.items",
+            "kind": "ListNode"
+          },
+          {
+            "path": "$.items[0]",
+            "kind": "NodeLiteral",
+            "tag": "a\n🌊=b"
+          }
+        ],
+        "ok": true,
+        "version": "1",
+        "canonical": true
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    }
+  ]
+}
