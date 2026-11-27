@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "status": "experimental",
+    "lane": "aes-film",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Revised tagged node Film mapping",
+    "snapshot_id": "film-tagged-node-carrier-cts-v1-snapshot-0.1",
+    "specification_revision": "e352d29daf23d1ab81c3d9645aa9df7062f862ce",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "expected_test_count": 11,
+    "format": "film.aes",
+    "format_version": "1",
+    "byte_encoding": "lowercase-hex"
+  },
+  "suites": [
+    {
+      "id": "tagged-node-carriers",
+      "file": "suites/tagged-node-carriers.json",
+      "content_sha256": "8159031f7186a71ea6ee41b77a7ae661f804f9f6519f32e201177a1f9b8ad3a0"
+    }
+  ]
+}

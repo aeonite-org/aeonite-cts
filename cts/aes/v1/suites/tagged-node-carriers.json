@@ -1,0 +1,276 @@
+{
+  "meta": {
+    "suite_id": "tagged-node-carriers",
+    "lane": "aes-events",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/node-model-revision-candidate.aeon#portable-records",
+      "aeonite-specs/sources/aes/v1/film-aes-v1.aeon#tagged-node-development-mapping"
+    ]
+  },
+  "id": "tagged-node-carriers",
+  "title": "Revised tagged node portable events",
+  "tests": [
+    {
+      "id": "aes-events-tagged-node-direct-paths",
+      "description": "Accept direct node attributes, indexed children, and references.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.tag",
+            "kind": "NodeLiteral",
+            "tag": "tag",
+            "identity": "tag-id"
+          },
+          {
+            "path": "$.tag.@.note",
+            "kind": "StringLiteral",
+            "value": "metadata"
+          },
+          {
+            "path": "$.tag[0]",
+            "kind": "NodeLiteral",
+            "tag": "🌊"
+          },
+          {
+            "path": "$.tag[0][0]",
+            "kind": "StringLiteral",
+            "value": "child"
+          },
+          {
+            "path": "$.copy",
+            "kind": "CloneReference",
+            "value": "$.tag[0]"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": []
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "aes-events-tagged-node-decoded-named-key",
+      "description": "Match the decoded name with the tag.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.[\"🌊\"]",
+            "kind": "NodeLiteral",
+            "tag": "🌊"
+          }
+        ]
+      },
+      "expected": {
+        "valid": true,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": []
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "aes-events-tagged-node-missing-tag",
+      "description": "Reject a missing tag.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.tag",
+            "kind": "NodeLiteral"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": [
+          "AES_INVALID_TAG"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "aes-events-tagged-node-empty-tag",
+      "description": "Reject an empty tag.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.tag",
+            "kind": "NodeLiteral",
+            "tag": ""
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": [
+          "AES_INVALID_TAG"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "aes-events-tagged-node-named-mismatch",
+      "description": "Apply named-key equality even in a partial stream.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.tag",
+            "kind": "NodeLiteral",
+            "tag": "other"
+          }
+        ],
+        "profile": "aes.partial.v1"
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.partial.v1",
+        "diagnostic_codes": [
+          "AES_INVALID_TAG"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "aes-events-tagged-node-retired-head",
+      "description": "Reject the removed NodeHead kind.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.tag",
+            "kind": "NodeLiteral",
+            "tag": "tag"
+          },
+          {
+            "path": "$.tag[0]",
+            "kind": "NodeHead",
+            "value": "tag"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": [
+          "AES_UNKNOWN_KIND"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "aes-events-tagged-node-other-kind-tag",
+      "description": "Reject a node tag on another known kind.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.tag",
+            "kind": "StringLiteral",
+            "value": "tag",
+            "tag": "tag"
+          }
+        ]
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": [
+          "AES_UNEXPECTED_TAG"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "aes-events-tagged-node-unicode-at-limit",
+      "description": "Count Unicode code points for positional tags.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.x",
+            "kind": "ListNode"
+          },
+          {
+            "path": "$.x[0]",
+            "kind": "NodeLiteral",
+            "tag": "🌊"
+          }
+        ],
+        "limits": {
+          "max_key_segment_codepoints": 1
+        }
+      },
+      "expected": {
+        "valid": true,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": []
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    },
+    {
+      "id": "aes-events-tagged-node-unicode-over-limit",
+      "description": "Enforce the existing decoded key budget on an indexed node tag.",
+      "operation": "validate",
+      "input": {
+        "records": [
+          {
+            "path": "$.x",
+            "kind": "ListNode"
+          },
+          {
+            "path": "$.x[0]",
+            "kind": "NodeLiteral",
+            "tag": "🌊🌊"
+          }
+        ],
+        "limits": {
+          "max_key_segment_codepoints": 1
+        }
+      },
+      "expected": {
+        "valid": false,
+        "profile": "aes.complete.v1",
+        "diagnostic_codes": [
+          "AES_LIMIT_EXCEEDED"
+        ]
+      },
+      "tags": [
+        "experimental",
+        "tagged-node"
+      ]
+    }
+  ]
+}

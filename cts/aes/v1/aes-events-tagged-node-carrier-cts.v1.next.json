@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "status": "experimental",
+    "lane": "aes-events",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Revised tagged node portable events",
+    "snapshot_id": "aes-events-tagged-node-carrier-cts-v1-snapshot-0.1",
+    "specification_revision": "e352d29daf23d1ab81c3d9645aa9df7062f862ce",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "expected_test_count": 9,
+    "profile": "aes.complete.v1"
+  },
+  "suites": [
+    {
+      "id": "tagged-node-carriers",
+      "file": "suites/tagged-node-carriers.json",
+      "content_sha256": "b8082ef7857bb71a20b31b59f73c606ce8ff80b3f717968edb444bc85929d928"
+    }
+  ]
+}

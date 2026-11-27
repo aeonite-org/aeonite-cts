@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "status": "experimental",
+    "lane": "aes-telex",
+    "event_contract": "aes.events.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "description": "Revised tagged node Telex records",
+    "snapshot_id": "telex-tagged-node-carrier-cts-v1-snapshot-0.1",
+    "specification_revision": "e352d29daf23d1ab81c3d9645aa9df7062f862ce",
+    "conformance": {
+      "surface": "experimental",
+      "experimental_default": "exclude"
+    },
+    "expected_test_count": 3,
+    "format": "telex.aes",
+    "format_version": "1"
+  },
+  "suites": [
+    {
+      "id": "tagged-node-carriers",
+      "file": "suites/tagged-node-carriers.json",
+      "content_sha256": "2017c6c54ffffdd8d4cf8535e76519b0e43063b27de830e3c1b76aafaae51cdd"
+    }
+  ]
+}
