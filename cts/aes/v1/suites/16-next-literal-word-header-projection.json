@@ -7,7 +7,7 @@
     "sut_protocol": "cts.protocol.v1",
     "spec_refs": [
       "aeonite-specs/sources/aeon/v1/structure-syntax-v1.aeon",
-      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#header-control-plane"
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#10-optional-aeon-document-projection"
     ]
   },
   "id": "next-literal-word-header-projection",
@@ -39,6 +39,38 @@
         }
       },
       "tags": ["experimental", "portable-aes", "header", "shorthand", "document-projection"]
+    },
+    {
+      "id": "aes-header-literal-words-002-mixed-forms-emit-no-events",
+      "description": "Mixing structured and literal-word shorthand headers rejects the document before projecting any events.",
+      "input": {
+        "source": "aeon:header = { version = \"1\" }\naeon:true = \"value\"\nbody = 1",
+        "mode": "transport",
+        "options": { "effective_mode": "transport", "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "HEADER_CONFLICT", "path": "$" }],
+        "warnings": [],
+        "result": { "events": [] }
+      },
+      "tags": ["experimental", "portable-aes", "header", "shorthand", "fail-closed"]
+    },
+    {
+      "id": "aes-header-literal-words-003-duplicate-shorthand-emits-no-events",
+      "description": "A duplicate literal-word shorthand field rejects the document before projecting any events.",
+      "input": {
+        "source": "aeon:yes = \"one\"\naeon:yes = \"two\"\nbody = 1",
+        "mode": "transport",
+        "options": { "effective_mode": "transport", "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "DUPLICATE_KEY" }],
+        "warnings": [],
+        "result": { "events": [] }
+      },
+      "tags": ["experimental", "portable-aes", "header", "shorthand", "fail-closed"]
     }
   ]
 }
