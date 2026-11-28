@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "suite_id": "next-literal-word-header-projection",
+    "lane": "aes",
+    "profile": "aes.complete.v1",
+    "projection": "aeon.document.v1",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/structure-syntax-v1.aeon",
+      "aeonite-specs/sources/aes/v1/aes-events-v1.aeon#10-optional-aeon-document-projection"
+    ]
+  },
+  "id": "next-literal-word-header-projection",
+  "title": "Literal-Word Header Field Projection",
+  "tests": [
+    {
+      "id": "aes-header-literal-words-001-document-projection",
+      "description": "The explicit document projection retains all six literal-word shorthand fields and a same-name body binding in their source planes.",
+      "input": {
+        "source": "aeon:yes = \"yes\"\naeon:no = yes\naeon:on = off\naeon:off = on\naeon:true = false\naeon:false = true\n\"aeon:yes\":string = \"body\"",
+        "mode": "strict",
+        "options": { "effective_mode": "strict", "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "projection": "aeon.document.v1",
+          "events": [
+            { "header": "$.[\"aeon:yes\"]", "path": null, "value_kind": "StringLiteral", "value": "yes" },
+            { "header": "$.[\"aeon:no\"]", "path": null, "value_kind": "ToggleLiteral", "value": "yes" },
+            { "header": "$.[\"aeon:on\"]", "path": null, "value_kind": "ToggleLiteral", "value": "off" },
+            { "header": "$.[\"aeon:off\"]", "path": null, "value_kind": "ToggleLiteral", "value": "on" },
+            { "header": "$.[\"aeon:true\"]", "path": null, "value_kind": "BooleanLiteral", "value": "false" },
+            { "header": "$.[\"aeon:false\"]", "path": null, "value_kind": "BooleanLiteral", "value": "true" },
+            { "header": null, "path": "$.[\"aeon:yes\"]", "value_kind": "StringLiteral", "value": "body", "datatype": "string" }
+          ]
+        }
+      },
+      "tags": ["experimental", "portable-aes", "header", "shorthand", "document-projection"]
+    },
+    {
+      "id": "aes-header-literal-words-002-mixed-forms-emit-no-events",
+      "description": "Mixing structured and literal-word shorthand headers rejects the document before projecting any events.",
+      "input": {
+        "source": "aeon:header = { version = \"1\" }\naeon:true = \"value\"\nbody = 1",
+        "mode": "transport",
+        "options": { "effective_mode": "transport", "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "HEADER_CONFLICT", "path": "$" }],
+        "warnings": [],
+        "result": { "events": [] }
+      },
+      "tags": ["experimental", "portable-aes", "header", "shorthand", "fail-closed"]
+    },
+    {
+      "id": "aes-header-literal-words-003-duplicate-shorthand-emits-no-events",
+      "description": "A duplicate literal-word shorthand field rejects the document before projecting any events.",
+      "input": {
+        "source": "aeon:yes = \"one\"\naeon:yes = \"two\"\nbody = 1",
+        "mode": "transport",
+        "options": { "effective_mode": "transport", "portable_aes": true, "include_headers": true }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "DUPLICATE_KEY" }],
+        "warnings": [],
+        "result": { "events": [] }
+      },
+      "tags": ["experimental", "portable-aes", "header", "shorthand", "fail-closed"]
+    }
+  ]
+}

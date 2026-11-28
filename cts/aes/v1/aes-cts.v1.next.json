@@ -76,6 +76,10 @@
     {
       "id": "next-aes-profile-owned-generics",
       "file": "suites/15-next-aes-profile-owned-generics.json"
+    },
+    {
+      "id": "next-literal-word-header-projection",
+      "file": "suites/16-next-literal-word-header-projection.json"
     }
   ]
 }

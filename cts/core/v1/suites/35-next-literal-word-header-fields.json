@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "suite_id": "next-literal-word-header-fields",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/AEON-v1-compliance.aeon#syntax-and-key-requirements",
+      "aeonite-specs/sources/aeon/v1/structure-syntax-v1.aeon"
+    ]
+  },
+  "id": "next-literal-word-header-fields",
+  "title": "Literal Words as Shorthand Header Field Names",
+  "tests": [
+    {
+      "id": "core-header-literal-words-001-shorthand-fields",
+      "description": "Boolean and toggle words are valid shorthand field names, including when a body key matches the qualified name.",
+      "input": {
+        "source": "aeon:yes = \"yes\"\naeon:no = yes\naeon:on = off\naeon:off = on\naeon:true = false\naeon:false = true\n\"aeon:yes\":string = \"body\"",
+        "mode": "strict",
+        "options": { "effective_mode": "strict" }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"aeon:yes\"]",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["header", "shorthand", "contextual-keywords"]
+    },
+    {
+      "id": "core-header-literal-words-002-mixed-forms-conflict",
+      "description": "A literal-word shorthand field conflicts with a structured header.",
+      "input": {
+        "source": "aeon:header = { version = \"1\" }\naeon:true = \"value\"\nbody = 1",
+        "mode": "transport",
+        "options": { "effective_mode": "transport" }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "HEADER_CONFLICT", "path": "$" }],
+        "warnings": [],
+        "result": { "parse_ok": false, "bindings": [] }
+      },
+      "tags": ["header", "shorthand", "fail-closed"]
+    },
+    {
+      "id": "core-header-literal-words-003-body-and-object-members",
+      "description": "After the initial header block, aeon followed by a literal-word datatype is an ordinary binding, including inside an object.",
+      "input": {
+        "source": "aeon:header = { version = \"1\" }\nobj = { aeon:yes = \"nested\" }\naeon:yes = \"late\"",
+        "mode": "transport",
+        "options": { "effective_mode": "transport", "datatype_policy": "allow_custom" }
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            { "path": "$.obj", "datatype": null, "kind": "binding" },
+            { "path": "$.obj.aeon", "datatype": "yes", "kind": "binding" },
+            { "path": "$.aeon", "datatype": "yes", "kind": "binding" }
+          ]
+        }
+      },
+      "tags": ["header", "body", "contextual-keywords"]
+    },
+    {
+      "id": "core-header-literal-words-004-duplicate-shorthand",
+      "description": "Repeating a literal-word shorthand header key fails with a duplicate-key diagnostic.",
+      "input": {
+        "source": "aeon:yes = \"one\"\naeon:yes = \"two\"\nbody = 1",
+        "mode": "transport",
+        "options": { "effective_mode": "transport" }
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "DUPLICATE_KEY" }],
+        "warnings": [],
+        "result": { "parse_ok": false, "bindings": [] }
+      },
+      "tags": ["header", "shorthand", "fail-closed"]
+    }
+  ]
+}

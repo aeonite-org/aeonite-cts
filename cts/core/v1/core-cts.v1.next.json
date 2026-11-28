@@ -194,6 +194,10 @@
     {
       "id": "next-header-value-nesting",
       "file": "suites/34-next-header-value-nesting.json"
+    },
+    {
+      "id": "next-literal-word-header-fields",
+      "file": "suites/35-next-literal-word-header-fields.json"
     }
   ]
 }
