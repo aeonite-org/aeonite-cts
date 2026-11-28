@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "suite_id": "next-literal-word-header-fields",
+    "lane": "core",
+    "sut_protocol": "cts.protocol.v1",
+    "spec_refs": [
+      "aeonite-specs/sources/aeon/v1/AEON-v1-compliance.aeon#syntax-and-key-requirements",
+      "aeonite-specs/sources/aeon/v1/structure-syntax-v1.aeon"
+    ]
+  },
+  "id": "next-literal-word-header-fields",
+  "title": "Literal Words as Shorthand Header Field Names",
+  "tests": [
+    {
+      "id": "core-header-literal-words-001-shorthand-fields",
+      "description": "Boolean and toggle words are valid shorthand field names, including when a body key matches the qualified name.",
+      "input": {
+        "source": "aeon:yes = \"yes\"\naeon:no = yes\naeon:on = off\naeon:off = on\naeon:true = false\naeon:false = true\n\"aeon:yes\":string = \"body\"",
+        "mode": "strict"
+      },
+      "expected": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "result": {
+          "parse_ok": true,
+          "bindings": [
+            {
+              "path": "$.[\"aeon:yes\"]",
+              "datatype": "string",
+              "kind": "binding"
+            }
+          ]
+        }
+      },
+      "tags": ["header", "shorthand", "contextual-keywords"]
+    },
+    {
+      "id": "core-header-literal-words-002-mixed-forms-conflict",
+      "description": "A literal-word shorthand field conflicts with a structured header.",
+      "input": {
+        "source": "aeon:header = { version = \"1\" }\naeon:true = \"value\"\nbody = 1",
+        "mode": "transport"
+      },
+      "expected": {
+        "ok": false,
+        "errors": [{ "code": "HEADER_CONFLICT", "path": "$" }],
+        "warnings": [],
+        "result": { "parse_ok": false }
+      },
+      "tags": ["header", "shorthand", "fail-closed"]
+    }
+  ]
+}
